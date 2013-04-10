@@ -1,4 +1,4 @@
-////package com.maxmind.geoip2;
+package com.maxmind.geoip2;
 
 import java.lang.*;
 import java.util.*;
