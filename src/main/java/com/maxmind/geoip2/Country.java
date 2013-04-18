@@ -10,28 +10,28 @@ import org.json.*;
 //import record.Continent;
 public class Country
 {
-  private com.maxmind.geoip2.record.Country country;
-  private com.maxmind.geoip2.record.Country registered_country;
-  private com.maxmind.geoip2.record.Continent continent;
+  private CountryRecord country;
+  private CountryRecord registered_country;
+  private ContinentRecord continent;
   Country(JSONObject json) {
     try {
       JSONObject jcontinent = json.getJSONObject("continent");
-      continent = new com.maxmind.geoip2.record.Continent(jcontinent);
+      continent = new ContinentRecord(jcontinent);
       JSONObject jcountry = json.getJSONObject("country");
-      country = new com.maxmind.geoip2.record.Country(jcountry);
+      country = new CountryRecord(jcountry);
       jcountry = json.getJSONObject("registered_country");
-      registered_country = new com.maxmind.geoip2.record.Country(jcountry);
+      registered_country = new CountryRecord(jcountry);
     } catch (JSONException e) {
       e.printStackTrace();
     }
   }
-  public com.maxmind.geoip2.record.Country get_country() {
+  public CountryRecord get_country() {
     return country;
   }
-  public com.maxmind.geoip2.record.Country get_registered_country() {
+  public CountryRecord get_registered_country() {
     return registered_country;
   }
-  public com.maxmind.geoip2.record.Continent get_continent() {
+  public ContinentRecord get_continent() {
     return continent;
   }
 }

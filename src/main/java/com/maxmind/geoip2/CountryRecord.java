@@ -1,16 +1,16 @@
-package com.maxmind.geoip2.record;
+package com.maxmind.geoip2;
 
 import java.lang.*;
 import java.util.*;
 import java.io.*;
 import org.json.*;
 
-public class Country
+public class CountryRecord
 {
   private String iso_code;
   private HashMap<String,String> names;
   private int geoname_id;
-  public Country(JSONObject jcountry) throws JSONException {
+  public CountryRecord(JSONObject jcountry) throws JSONException {
     geoname_id = jcountry.getInt("geoname_id");
     iso_code = jcountry.getString("iso_code");
     JSONObject jnames = jcountry.getJSONObject("names");
