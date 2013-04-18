@@ -19,8 +19,15 @@ public class App
       String license_key = args[1];
       String ip_address = args[2];
       Client cl = new Client(user_id,license_key);
-      Country c = cl.Country(ip_address);
-      System.out.println(c.get_country_name("en"));
+      Country c = null;
+      try {
+        c = cl.Country(ip_address);
+        System.out.println(c.get_country_name("en"));
+      } catch (WebServiceException e) {
+        System.out.println(e.getMessage());
+      } catch (HTTPException e) {
+        System.out.println(e.getMessage());
+      }
   }
 }
 
