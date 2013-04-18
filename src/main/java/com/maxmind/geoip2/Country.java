@@ -11,23 +11,20 @@ public class Country
   private int continent_geoname_id;
   private HashMap<String,String> continent_name;
 
-  private String iso_3166_1_alpha_2;
-  private String iso_3166_1_alpha_3;
+  private String iso_code;
   private int country_geoname_id;
   private HashMap<String,String> country_name;
 
-  private String registered_iso_3166_1_alpha_2;
-  private String registered_iso_3166_1_alpha_3;
+  private String registered_iso_code;
   private int registered_country_geoname_id;
   private HashMap<String,String> registered_country_name;
   
-  Country(String s) {
+  Country(JSONObject json) {
     try {
-      JSONObject json = new JSONObject(s);
       JSONObject jcontinent = json.getJSONObject("continent");
       String continent_code = jcontinent.getString("continent_code");
       int continent_geoname_id = jcontinent.getInt("geoname_id");
-      JSONObject jnames = jcontinent.getJSONObject("name");
+      JSONObject jnames = jcontinent.getJSONObject("names");
       continent_name = new HashMap<String,String>();
       for (Iterator<String> i = jnames.keys(); i.hasNext();) {
         String key = i.next();
@@ -36,9 +33,8 @@ public class Country
       }
       JSONObject jcountry = json.getJSONObject("country");
       country_geoname_id = jcountry.getInt("geoname_id");
-      iso_3166_1_alpha_2 = jcountry.getString("iso_3166_1_alpha_2");
-      iso_3166_1_alpha_3 = jcountry.getString("iso_3166_1_alpha_3");
-      jnames = jcountry.getJSONObject("name");
+      iso_code = jcountry.getString("iso_code");
+      jnames = jcountry.getJSONObject("names");
       country_name = new HashMap<String,String>();
       for (Iterator<String> i = jnames.keys(); i.hasNext();) {
         String key = i.next();
@@ -47,9 +43,8 @@ public class Country
       }
       jcountry = json.getJSONObject("registered_country");
       registered_country_geoname_id = jcountry.getInt("geoname_id");
-      registered_iso_3166_1_alpha_2 = jcountry.getString("iso_3166_1_alpha_2");
-      registered_iso_3166_1_alpha_3 = jcountry.getString("iso_3166_1_alpha_3");
-      jnames = jcountry.getJSONObject("name");
+      registered_iso_code = jcountry.getString("iso_code");
+      jnames = jcountry.getJSONObject("names");
       registered_country_name = new HashMap<String,String>();
       for (Iterator<String> i = jnames.keys(); i.hasNext();) {
         String key = i.next();
@@ -79,17 +74,12 @@ public class Country
   int get_country_geoname_id() {
     return country_geoname_id;
   }
-  String get_iso_3166_1_alpha_2() {
-    return iso_3166_1_alpha_2;
+  String get_iso_code() {
+    return iso_code;
   }
-  String get_iso_3166_1_alpha_3() {
-    return iso_3166_1_alpha_3;
+  String get_registered_iso_code() {
+    return registered_iso_code;
   }
-  String get_registered_iso_3166_1_alpha_2() {
-    return registered_iso_3166_1_alpha_2;
-  }
-  String get_registered_iso_3166_1_alpha_3() {
-    return registered_iso_3166_1_alpha_3;
-  }
+
 }
 
