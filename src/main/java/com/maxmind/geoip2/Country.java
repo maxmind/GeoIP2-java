@@ -11,7 +11,7 @@ import org.json.*;
 public class Country
 {
   private CountryRecord country;
-  private CountryRecord registered_country;
+  private CountryRecord registeredCountry;
   private ContinentRecord continent;
   private TraitsRecord traits;
   Country(JSONObject json) {
@@ -21,23 +21,23 @@ public class Country
       JSONObject jcountry = json.getJSONObject("country");
       country = new CountryRecord(jcountry);
       jcountry = json.getJSONObject("registered_country");
-      registered_country = new CountryRecord(jcountry);
+      registeredCountry = new CountryRecord(jcountry);
       JSONObject jtraits = json.getJSONObject("traits");
       traits = new TraitsRecord(jtraits);
     } catch (JSONException e) {
       e.printStackTrace();
     }
   }
-  public CountryRecord get_country() {
+  public CountryRecord getCountry() {
     return country;
   }
-  public CountryRecord get_registered_country() {
-    return registered_country;
+  public CountryRecord getRegisteredCountry() {
+    return registeredCountry;
   }
-  public ContinentRecord get_continent() {
+  public ContinentRecord getContinent() {
     return continent;
   }
-  public TraitsRecord get_traits() {
+  public TraitsRecord getTraits() {
     return traits;
   }
 }
