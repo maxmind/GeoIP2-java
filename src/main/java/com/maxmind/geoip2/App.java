@@ -23,9 +23,7 @@ public class App
       try {
         c = cl.Country(ip_address);
         System.out.println(c.get_country().get_name("en"));
-      } catch (WebServiceException e) {
-        System.out.println(e.getMessage());
-      } catch (HTTPException e) {
+      } catch (GenericException e) {
         System.out.println(e.getMessage());
       }
   }

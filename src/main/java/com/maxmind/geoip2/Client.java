@@ -54,9 +54,10 @@ public class Client
     JSONObject json = null;
     try {
       String c = get_content(response);
+      System.out.println(c);
       json = new JSONObject(c);
     } catch (JSONException e) {
-      throw new RuntimeException("Received a 200 response for "+uri+" but could not decode the response as JSON ",e);
+      throw new GenericException("Received a 200 response for "+uri+" but could not decode the response as JSON: \n" + e.getMessage(),e);
     }
     return json;
   }
@@ -77,9 +78,10 @@ public class Client
         body = new JSONObject(content);
       } catch (JSONException e) {
         throw new HTTPException(
-           "Received a " + status + " error for " + uri + " but it did not include the expected JSON body",
-           status,
-           uri
+           "Received a " + status + " error for " + uri + " but it did not include the expected JSON body: \n" + e.getMessage(),
+             e,
+            status,
+            uri
         );
       }
     } else {
