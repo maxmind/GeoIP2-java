@@ -19,9 +19,24 @@ public class Client
     this.license_key = license_key;
   }
   Country Country(String ip_address) {
+    JSONObject j = response_for("country",ip_address);
+    if (j != null) {
+      return new Country(j);
+    }
+    return null;
+  }
+  City City(String ip_address) {
+    JSONObject j = response_for("city",ip_address);
+    if (j != null) {
+      return new City(j);
+    }
+    return null;
+  }
+
+  private JSONObject response_for(String path,String ip_address) {
     DefaultHttpClient httpclient = new DefaultHttpClient();
     try {
-      String uri = "https://geoip.maxmind.com/geoip/country/" + ip_address;
+      String uri = "https://geoip.maxmind.com/geoip/" + path + "/" + ip_address;
       HttpGet httpget = new HttpGet(uri);
       httpget.addHeader("Accept","application/json");
       httpget.addHeader(BasicScheme.authenticate(
@@ -29,7 +44,7 @@ public class Client
       HttpResponse response = httpclient.execute(httpget);
       int status = response.getStatusLine().getStatusCode();
       if (status == 200) {
-        return new Country(handle_success(response, uri));
+        return handle_success(response, uri);
       } else {
         handle_error_status(response, status, uri);
       }
@@ -40,6 +55,7 @@ public class Client
     }
     return null;
   }
+  
   private String get_content(HttpResponse response) throws IOException {
     HttpEntity entity = response.getEntity(); 
     if (entity == null) {return "";}
@@ -54,7 +70,7 @@ public class Client
     JSONObject json = null;
     try {
       String c = get_content(response);
-      System.out.println(c);
+      //System.out.println(c);
       json = new JSONObject(c);
     } catch (JSONException e) {
       throw new GenericException("Received a 200 response for "+uri+" but could not decode the response as JSON: \n" + e.getMessage(),e);
