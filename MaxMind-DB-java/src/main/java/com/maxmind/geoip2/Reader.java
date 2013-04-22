@@ -8,7 +8,6 @@ import java.math.*;
 import java.net.*;
 
 class Reader {
-  private Decoder d;
   private static byte MetadataStartMarker[] = {(byte) 0xab,(byte) 0xcd,
   (byte) 0xef,'M','a','x','M','i','n','d','.','c','o','m'};
   private int node_count;
