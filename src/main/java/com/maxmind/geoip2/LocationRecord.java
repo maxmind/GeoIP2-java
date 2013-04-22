@@ -7,11 +7,11 @@ import org.json.*;
 
 public class LocationRecord
 {
-  double longitude;
-  double latitude;
-  String postalCode;
-  String timeZone;
-  int metroCode;
+  private double longitude;
+  private double latitude;
+  private String postalCode;
+  private String timeZone;
+  private int metroCode;
   LocationRecord(JSONObject json) {
     try {
       postalCode = json.getString("postal_code");
@@ -23,19 +23,19 @@ public class LocationRecord
       e.printStackTrace();
     }  
   }
-  String getPostalCode() {
+  public String getPostalCode() {
     return postalCode;
   }
-  String getTimeZone() {
+  public String getTimeZone() {
     return timeZone;
   }
-  double getLongitude() {
+  public double getLongitude() {
     return longitude;
   }
-  double getLatitude() {
+  public double getLatitude() {
     return latitude;
   }
-  int getMetroCode() {
+  public int getMetroCode() {
     return metroCode;
   }
 }
