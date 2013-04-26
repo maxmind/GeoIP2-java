@@ -18,11 +18,11 @@ public class App
       String user_id = args[0];
       String license_key = args[1];
       String ip_address = args[2];
-      Client cl = new Client(user_id,license_key);
-      Country c = null;
+      Client client = new Client(user_id,license_key);
+      Country country = null;
       try {
-        c = cl.Country(ip_address);
-        System.out.println(c.get_country().get_name("en"));
+        country = client.Country(ip_address);
+        System.out.println(country.getCountry().getName("en"));
       } catch (GenericException e) {
         System.out.println(e.getMessage());
       }

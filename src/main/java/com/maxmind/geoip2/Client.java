@@ -19,16 +19,16 @@ public class Client
     this.license_key = license_key;
   }
   Country Country(String ip_address) {
-    JSONObject j = response_for("country",ip_address);
-    if (j != null) {
-      return new Country(j);
+    JSONObject json = response_for("country",ip_address);
+    if (json != null) {
+      return new Country(json);
     }
     return null;
   }
   City City(String ip_address) {
-    JSONObject j = response_for("city",ip_address);
-    if (j != null) {
-      return new City(j);
+    JSONObject json = response_for("city",ip_address);
+    if (json != null) {
+      return new City(json);
     }
     return null;
   }
@@ -36,6 +36,7 @@ public class Client
   private JSONObject response_for(String path,String ip_address) {
     DefaultHttpClient httpclient = new DefaultHttpClient();
     try {
+      //String uri = "https://ct4-test.maxmind.com/geoip/" + path + "/" + ip_address;
       String uri = "https://geoip.maxmind.com/geoip/" + path + "/" + ip_address;
       HttpGet httpget = new HttpGet(uri);
       httpget.addHeader("Accept","application/json");
@@ -69,9 +70,9 @@ public class Client
   private JSONObject handle_success(HttpResponse response, String uri) throws IOException {
     JSONObject json = null;
     try {
-      String c = get_content(response);
-      //System.out.println(c);
-      json = new JSONObject(c);
+      String content = get_content(response);
+      System.out.println(content);
+      json = new JSONObject(content);
     } catch (JSONException e) {
       throw new GenericException("Received a 200 response for "+uri+" but could not decode the response as JSON: \n" + e.getMessage(),e);
     }
