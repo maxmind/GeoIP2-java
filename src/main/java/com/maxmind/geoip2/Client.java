@@ -37,7 +37,7 @@ public class Client
     DefaultHttpClient httpclient = new DefaultHttpClient();
     try {
       //String uri = "https://ct4-test.maxmind.com/geoip/" + path + "/" + ip_address;
-      String uri = "https://geoip.maxmind.com/geoip/" + path + "/" + ip_address;
+      String uri = "https://geoip.maxmind.com/geoip/v2.0/" + path + "/" + ip_address;
       HttpGet httpget = new HttpGet(uri);
       httpget.addHeader("Accept","application/json");
       httpget.addHeader(BasicScheme.authenticate(
