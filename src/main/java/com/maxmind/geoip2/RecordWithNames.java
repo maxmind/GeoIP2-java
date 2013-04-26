@@ -29,7 +29,7 @@ public abstract class RecordWithNames {
   public int getGeoNameId() {
     return geoNameId;
   }
-  public int getConfidence() {
+  public Integer getConfidence() {
     return confidence;
   }
 }
