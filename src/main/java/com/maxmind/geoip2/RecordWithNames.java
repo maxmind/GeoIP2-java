@@ -9,7 +9,7 @@ public abstract class RecordWithNames {
 
   private HashMap<String,String> names;
   private int geoNameId;
-  private int confidence;
+  private Integer confidence;
   protected RecordWithNames(JSONObject json) throws JSONException {
     geoNameId = json.getInt("geoname_id");
     JSONObject jnames = json.getJSONObject("names");
@@ -20,9 +20,7 @@ public abstract class RecordWithNames {
       names.put(key,value);
     }        
     if (json.has("confidence")) {
-      confidence = json.getInt("confidence");
-    } else {
-      confidence = -1;
+      confidence = new Integer(json.getInt("confidence"));
     }
   }
   public String getName(String l) {
