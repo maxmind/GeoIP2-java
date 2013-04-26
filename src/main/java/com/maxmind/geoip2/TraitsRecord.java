@@ -17,11 +17,11 @@ public class TraitsRecord
   
   public TraitsRecord(JSONObject json) throws JSONException {
     ipAddress = json.getString("ip_address");
-      autonomousSystemNumber = json.optInt("autonomous_system_number");
-      domain = json.optString("domain");
-      isp = json.optString("isp");
-      organization = json.optString("organization");
-      userType = json.optString("user_type");
+    autonomousSystemNumber = json.optInt("autonomous_system_number");
+    domain = json.optString("domain");
+    isp = json.optString("isp");
+    organization = json.optString("organization");
+    userType = json.optString("user_type");
   }
   public String getIpAddress() {
     return ipAddress;
