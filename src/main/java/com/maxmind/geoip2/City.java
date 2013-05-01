@@ -10,7 +10,8 @@ public class City extends Country
 {
   private CityRecord city;
   private LocationRecord location;
-  private RegionRecord region;
+  private RepresentedCountry representedCountry;
+  private Vector<SubDivision> subDivisionsList;
   City(JSONObject json) {
     super(json);
     try {
@@ -18,8 +19,17 @@ public class City extends Country
       city = new CityRecord(jcity);      
       JSONObject jlocation = json.getJSONObject("location");
       location = new LocationRecord(jlocation);
-      JSONObject jregion = json.getJSONObject("region");
-      region = new RegionRecord(jregion);
+      if (json.has("represented_country")) {
+        JSONObject rcountry = json.getJSONObject("represented_country");
+        representedCountry = new RepresentedCountry(rcountry);
+      }
+      subDivisionsList = new Vector<SubDivision>();
+      JSONArray subDivisionsArray = json.getJSONArray("subdivisions");
+      int length = subDivisionsArray.length();
+      for (int i = 0;i < length;i++) {
+        JSONObject jsubDivision = subDivisionsArray.get(i);
+        subDivisionsList.add(new SubDivision(jsubDivision));
+      }
     } catch (JSONException e) {
       e.printStackTrace();
     }  
@@ -30,8 +40,11 @@ public class City extends Country
   public LocationRecord getLocation() {
     return location;
   }
-  public RegionRecord getRegion() {
-    return region;
-  } 
+  public RepresentedCountry getRepresentedCountry() {
+    return representedCountry;
+  }
+  public Vector<SubDivision> getSubDivisionList() {
+    return subDivisionList;
+  }
 }
 

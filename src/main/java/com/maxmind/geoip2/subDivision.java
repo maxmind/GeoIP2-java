@@ -5,11 +5,11 @@ import java.util.*;
 import java.io.*;
 import org.json.*;
 
-public class RegionRecord extends RecordWithNames
+public class subDivision extends RecordWithNames
 {
   private String isoCode;
   private HashMap<String,String> names;
-  public RegionRecord(JSONObject jcountry) throws JSONException {
+  public subDivision(JSONObject jcountry) throws JSONException {
     super(jcountry);
     isoCode = jcountry.getString("iso_code");
   }
