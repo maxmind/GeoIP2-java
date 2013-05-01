@@ -27,7 +27,7 @@ public class City extends Country
       JSONArray subDivisionsArray = json.getJSONArray("subdivisions");
       int length = subDivisionsArray.length();
       for (int i = 0;i < length;i++) {
-        JSONObject jsubDivision = subDivisionsArray.get(i);
+        JSONObject jsubDivision = subDivisionsArray.getJSONObject(i);
         subDivisionsList.add(new SubDivision(jsubDivision));
       }
     } catch (JSONException e) {
@@ -43,8 +43,8 @@ public class City extends Country
   public RepresentedCountry getRepresentedCountry() {
     return representedCountry;
   }
-  public Vector<SubDivision> getSubDivisionList() {
-    return subDivisionList;
+  public Vector<SubDivision> getSubDivisionsList() {
+    return subDivisionsList;
   }
 }
 
