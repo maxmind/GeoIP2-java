@@ -7,21 +7,41 @@ import org.json.*;
 
 public class LocationRecord
 {
-  private double longitude;
-  private double latitude;
+  private Double longitude;
+  private Double latitude;
   private String postalCode;
+  private Integer postalConfidence;
   private String timeZone;
-  private int metroCode;
+  private Integer metroCode;
+  private Integer accuracyRadius;
   LocationRecord(JSONObject json) {
     try {
-      postalCode = json.getString("postal_code");
-      timeZone = json.getString("time_zone");
-      longitude = json.getDouble("longitude");
-      latitude = json.getDouble("latitude");
-      metroCode = json.getInt("metro_code");
+      postalCode = json.optString("postal_code",null);
+      if (json.has("postal_confidence")) {
+        postalConfidence = new Integer(json.getInt("postal_confidence"));        
+      }
+      timeZone = json.optString("time_zone",null);
+      if (json.has("longitude")) {
+        longitude = new Double(json.getDouble("longitude"));
+      }
+      if (json.has("latitude")) {
+        latitude = new Double(json.getDouble("latitude"));
+      }
+      if (json.has("metro_code")) {
+        metroCode = new Integer(json.getInt("metro_code"));
+      }
+      if (json.has("accuracy_radius")) {
+        accuracyRadius = new Integer(json.getInt("accuracy_radius"));
+      }
     } catch (JSONException e) {
       e.printStackTrace();
     }  
+  }
+  public Integer getAccuracyRadius() {
+    return accuracyRadius;
+  }
+  public Integer getPostalConfidence() {
+    return postalConfidence;
   }
   public String getPostalCode() {
     return postalCode;
@@ -29,13 +49,13 @@ public class LocationRecord
   public String getTimeZone() {
     return timeZone;
   }
-  public double getLongitude() {
+  public Double getLongitude() {
     return longitude;
   }
-  public double getLatitude() {
+  public Double getLatitude() {
     return latitude;
   }
-  public int getMetroCode() {
+  public Integer getMetroCode() {
     return metroCode;
   }
 }
