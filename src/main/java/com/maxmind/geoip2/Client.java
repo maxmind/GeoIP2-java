@@ -32,6 +32,21 @@ public class Client
     }
     return null;
   }
+  Omni Omni(String ip_address) {
+    JSONObject json = response_for("omni",ip_address);
+    if (json != null) {
+      return new Omni(json);
+    }
+    return null;
+  }
+  CityISPOrg CityISPOrg(String ip_address) {
+    JSONObject json = response_for("city_isp_org",ip_address);
+    if (json != null) {
+      return new CityISPOrg(json);
+    }
+    return null;
+  }
+
 
   private JSONObject response_for(String path,String ip_address) {
     DefaultHttpClient httpclient = new DefaultHttpClient();
@@ -89,6 +104,7 @@ public class Client
   }
   private void handle_4xx_status(HttpResponse response, int status, String uri) throws IOException {
     String content = get_content(response);
+    System.out.println(content);
     JSONObject body;
     if (content.equals("") == false) {
       try {
