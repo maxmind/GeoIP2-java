@@ -20,6 +20,9 @@ public class TraitsRecord
     if (json.has("autonomous_system_number")) {
       autonomousSystemNumber = new Integer(json.getInt("autonomous_system_number"));
     }
+    if (json.has("autonomous_system_organization")) {
+      autonomousSystemOrganization = new Integer(json.getInt("autonomous_system_organization"));
+    }
     domain = json.optString("domain",null);
     isp = json.optString("isp",null);
     organization = json.optString("organization",null);
