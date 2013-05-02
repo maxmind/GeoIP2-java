@@ -11,7 +11,7 @@ public class City extends Country
   private CityRecord city;
   private LocationRecord location;
   private RepresentedCountry representedCountry;
-  private Vector<SubDivision> subDivisionsList;
+  private ArrayList<Subdivision> subdivisionsList;
   City(JSONObject json) {
     super(json);
     try {
@@ -23,12 +23,12 @@ public class City extends Country
         JSONObject rcountry = json.getJSONObject("represented_country");
         representedCountry = new RepresentedCountry(rcountry);
       }
-      subDivisionsList = new Vector<SubDivision>();
-      JSONArray subDivisionsArray = json.getJSONArray("subdivisions");
-      int length = subDivisionsArray.length();
+      subdivisionsList = new ArrayList<Subdivision>();
+      JSONArray subdivisionsArray = json.getJSONArray("subdivisions");
+      int length = subdivisionsArray.length();
       for (int i = 0;i < length;i++) {
-        JSONObject jsubDivision = subDivisionsArray.getJSONObject(i);
-        subDivisionsList.add(new SubDivision(jsubDivision));
+        JSONObject jsubdivision = subdivisionsArray.getJSONObject(i);
+        subdivisionsList.add(new Subdivision(jsubdivision));
       }
     } catch (JSONException e) {
       e.printStackTrace();
@@ -43,8 +43,8 @@ public class City extends Country
   public RepresentedCountry getRepresentedCountry() {
     return representedCountry;
   }
-  public Vector<SubDivision> getSubDivisionsList() {
-    return subDivisionsList;
+  public ArrayList<Subdivision> getSubdivisionsList() {
+    return subdivisionsList;
   }
 }
 
