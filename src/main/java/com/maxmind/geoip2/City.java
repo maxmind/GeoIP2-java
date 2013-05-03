@@ -15,20 +15,26 @@ public class City extends Country
   City(JSONObject json) {
     super(json);
     try {
-      JSONObject jcity = json.getJSONObject("city");
-      city = new CityRecord(jcity);      
-      JSONObject jlocation = json.getJSONObject("location");
-      location = new LocationRecord(jlocation);
+      if (json.has("city")) {
+        JSONObject jcity = json.getJSONObject("city");
+        city = new CityRecord(jcity);      
+      }
+      if (json.has("location")) {
+        JSONObject jlocation = json.getJSONObject("location");
+        location = new LocationRecord(jlocation);
+      }
       if (json.has("represented_country")) {
         JSONObject rcountry = json.getJSONObject("represented_country");
         representedCountry = new RepresentedCountry(rcountry);
       }
       subdivisionsList = new ArrayList<Subdivision>();
-      JSONArray subdivisionsArray = json.getJSONArray("subdivisions");
-      int length = subdivisionsArray.length();
-      for (int i = 0;i < length;i++) {
-        JSONObject jsubdivision = subdivisionsArray.getJSONObject(i);
-        subdivisionsList.add(new Subdivision(jsubdivision));
+      if (json.has("subdivisions")) {
+        JSONArray subdivisionsArray = json.getJSONArray("subdivisions");
+        int length = subdivisionsArray.length();
+        for (int i = 0;i < length;i++) {
+          JSONObject jsubdivision = subdivisionsArray.getJSONObject(i);
+          subdivisionsList.add(new Subdivision(jsubdivision));
+        }
       }
     } catch (JSONException e) {
       e.printStackTrace();
