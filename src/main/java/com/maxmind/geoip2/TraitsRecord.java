@@ -15,8 +15,6 @@ public class TraitsRecord
   private String organization;
   private String userType;
   private boolean anonymousProxy;
-  private boolean transparentProxy;
-  private boolean usMilitary;
   
   public TraitsRecord(JSONObject json) throws JSONException {
     ipAddress = json.getString("ip_address");
@@ -29,8 +27,6 @@ public class TraitsRecord
     organization = json.optString("organization",null);
     userType = json.optString("user_type",null);
     anonymousProxy = json.optBoolean("is_anonymous_proxy");
-    transparentProxy = json.optBoolean("is_transparent_proxy");
-    usMilitary = json.optBoolean("is_us_military");
 
   }
   public String getIpAddress() {
@@ -56,12 +52,6 @@ public class TraitsRecord
   }
   public boolean isAnonymousProxy() {
     return anonymousProxy;
-  }
-  public boolean isTransparentProxy() {
-    return transparentProxy;
-  }
-  public boolean isUsMilitary() {
-    return usMilitary;
   }
 
 }
