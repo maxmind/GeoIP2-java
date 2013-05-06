@@ -33,6 +33,7 @@ public class CountryTest
       sb.append("\"country\":{");
       sb.append("\"geoname_id\":1,");
       sb.append("\"iso_code\":\"US\",");
+      sb.append("\"confidence\":56,");
       sb.append("\"names\":{\"en\":\"United States\"}");
       sb.append("},");
       sb.append("\"registered_country\":{");
@@ -75,8 +76,10 @@ public class CountryTest
          "US");
       assertEquals(
         "country.getCountry().getGeoNameId() does not return 1",
-         country.getCountry().getGeoNameId(),
-         1);
+         country.getCountry().getGeoNameId(),1);
+      assertEquals(
+        "country.getCountry().getConfidence() does not return 56",
+         country.getCountry().getConfidence(),new Integer(56));
       assertEquals(
 "country.getCountry().getName(\"en\") does not return United States",
          country.getCountry().getName("en"),
