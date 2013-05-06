@@ -23,6 +23,9 @@ public abstract class RecordWithNames {
       confidence = new Integer(json.getInt("confidence"));
     }
   }
+  protected RecordWithNames() {
+    names = new HashMap<String,String>();
+  }
   public String getName(String l) {
     return names.get(l);
   }

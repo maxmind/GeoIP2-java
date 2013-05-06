@@ -37,6 +37,8 @@ public class LocationRecord
       e.printStackTrace();
     }  
   }
+  LocationRecord() {
+  }
   public Integer getAccuracyRadius() {
     return accuracyRadius;
   }

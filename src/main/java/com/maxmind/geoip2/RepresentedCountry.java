@@ -12,6 +12,10 @@ public class RepresentedCountry extends CountryRecord
     super(jcountry);
     type = jcountry.getString("type");
   }
+  public RepresentedCountry() {
+    super();
+    type = "";
+  }
   String getType() {
     return type;
   }

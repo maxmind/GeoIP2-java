@@ -10,4 +10,8 @@ public class CityRecord extends RecordWithNames
   public CityRecord(JSONObject jcountry) throws JSONException {
     super(jcountry);
   }
+  public CityRecord() {
+    super();
+  }
 }
+
