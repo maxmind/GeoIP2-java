@@ -18,14 +18,20 @@ public class City extends Country
       if (json.has("city")) {
         JSONObject jcity = json.getJSONObject("city");
         city = new CityRecord(jcity);      
+      } else {
+        city = new CityRecord();
       }
       if (json.has("location")) {
         JSONObject jlocation = json.getJSONObject("location");
         location = new LocationRecord(jlocation);
+      } else {
+        location = new LocationRecord();
       }
       if (json.has("represented_country")) {
         JSONObject rcountry = json.getJSONObject("represented_country");
         representedCountry = new RepresentedCountry(rcountry);
+      } else {
+        representedCountry = new RepresentedCountry();
       }
       subdivisionsList = new ArrayList<Subdivision>();
       if (json.has("subdivisions")) {
