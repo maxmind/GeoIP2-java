@@ -12,11 +12,13 @@ import org.apache.http.auth.*;
 import org.json.*;
 public class Client 
 {
-  String user_id;
-  String license_key;
+  private String user_id;
+  private String license_key;
+  private String host;
   Client(String user_id, String license_key) {
     this.user_id = user_id;
     this.license_key = license_key;
+    this.host = "geoip.maxmind.com";
   }
   Country Country(String ip_address) {
     JSONObject json = response_for("country",ip_address);
@@ -48,11 +50,18 @@ public class Client
   }
 
 
+  public void setHost(String host) {
+    this.host = host;
+  }
   private JSONObject response_for(String path,String ip_address) {
     DefaultHttpClient httpclient = new DefaultHttpClient();
     try {
       //String uri = "https://ct4-test.maxmind.com/geoip/" + path + "/" + ip_address;
-      String uri = "https://geoip.maxmind.com/geoip/v2.0/" + path + "/" + ip_address;
+      String uri = "https://" + host;
+      if (host.startsWith("localhost")) {
+        uri = "http://" + host;
+      }
+      uri = uri + "/geoip/v2.0/" + path + "/" + ip_address;
       HttpGet httpget = new HttpGet(uri);
       httpget.addHeader("Accept","application/json");
       httpget.addHeader(BasicScheme.authenticate(
