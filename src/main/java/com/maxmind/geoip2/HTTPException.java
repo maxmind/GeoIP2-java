@@ -6,18 +6,18 @@ public class HTTPException extends GenericException {
 
   HTTPException(String message,int http_status,String uri) {
     super(message);
-    http_status = this.http_status;
-    uri = this.uri;
+    this.http_status = http_status;
+    this.uri = uri;
   }
   HTTPException(String message,Throwable cause,int http_status,String uri) {
     super(message,cause);
-    http_status = this.http_status;
-    uri = this.uri;
+    this.http_status = http_status;
+    this.uri = uri;
   }
-  int get_http_status() {
+  int getHttpStatus() {
     return http_status;
   }
-  String get_uri() {
+  String getUri() {
     return uri;
   }
 }
