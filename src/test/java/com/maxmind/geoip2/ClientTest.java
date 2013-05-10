@@ -3,6 +3,7 @@ package com.maxmind.geoip2;
 import java.lang.*;
 import java.util.*;
 import java.io.*;
+import java.net.*;
 import org.json.*;
 
 
@@ -93,20 +94,55 @@ public class ClientTest
     {
         return new TestSuite( ClientTest.class );
     }
+    public static boolean available(int port) {
+      if (port < 0 || port > 65535) {
+        throw new IllegalArgumentException("Invalid start port: " + port);
+      }
 
-    Connection setup_mock_server() throws Exception {
+      ServerSocket ss = null;
+      DatagramSocket ds = null;
+      try {
+        ss = new ServerSocket(port);
+        ss.setReuseAddress(true);
+        ds = new DatagramSocket(port);
+        ds.setReuseAddress(true);
+        return true;
+      } catch (IOException e) {
+        } finally {
+          if (ds != null) {
+            ds.close();
+          }
+
+          if (ss != null) {
+            try {
+                ss.close();
+            } catch (IOException e) {
+                fail(e.getMessage());
+            }
+          }
+      }
+
+      return false;
+    }
+    Connection setup_mock_server(int port) throws Exception {
       Container container = new MockServer();
       Server server = new ContainerServer(container);
       Connection connection = new SocketConnection(server);
-      SocketAddress address = new InetSocketAddress(8080);
+      SocketAddress address = new InetSocketAddress(port);
       connection.connect(address);
       return connection;
     }
     public void testClient() {
       try {
-        Connection connection = setup_mock_server();
+        int port = 30000;
+        Random rand = new Random();
+        for (int i = 0;i < 256;i++) {
+          port = 30000 + rand.nextInt(35000);
+          if (available(port) == true) {break;}
+        }
+        Connection connection = setup_mock_server(port);
         Client client = new Client("42","abcdef123456");
-        client.setHost("localhost:8080");
+        client.setHost("localhost:" + port);
         Country country = client.Country("1.2.3.4");
 
         assertEquals(
