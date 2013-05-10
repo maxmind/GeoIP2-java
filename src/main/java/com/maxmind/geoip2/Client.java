@@ -95,6 +95,7 @@ public class Client
     JSONObject json = null;
     try {
       String content = get_content(response);
+      if (content == null) {content = "";}
       System.out.println(content);
       json = new JSONObject(content);
     } catch (JSONException e) {
@@ -112,19 +113,28 @@ public class Client
     }
   }
   private void handle_4xx_status(HttpResponse response, int status, String uri) throws IOException {
+    String JSON_Message = "Received a " + status + " error for " + uri + " but it did not include the expected JSON body: ";
     String content = get_content(response);
+    if (content == null) {content = "";}
     System.out.println(content);
     JSONObject body;
     if (content.equals("") == false) {
-      try {
-        body = new JSONObject(content);
-      } catch (JSONException e) {
-        throw new HTTPException(
-           "Received a " + status + " error for " + uri + " but it did not include the expected JSON body: \n" + e.getMessage(),
+      String contentType = response.getEntity().getContentType().getValue();
+      if (contentType.indexOf("json") != -1) { 
+        try {
+          body = new JSONObject(content);
+        } catch (JSONException e) {
+          throw new HTTPException(
+            JSON_Message + e.getMessage(),
              e,
             status,
             uri
-        );
+          );
+        }
+      } else {
+        throw new HTTPException(
+        "Received a " + status + " error for " + uri + "with the following body: " +
+        content,status,uri);
       }
     } else {
        throw new HTTPException(
@@ -143,7 +153,7 @@ public class Client
       }
     } else {
         throw new HTTPException(
-           "Response contains JSON but it does not specify code or error keys",
+           JSON_Message + "Response contains JSON but it does not specify code or error keys",
            status,
            uri
         );
@@ -159,7 +169,7 @@ public class Client
   }
   private void handle_non_200_status(HttpResponse response, int status, String uri) {
     throw new HTTPException(
-       "Received a server error (" + status + ") for " + uri,
+       "Received a very surprising HTTP status (" + status + ") for " + uri,
        status,
        uri
     );    
