@@ -10,8 +10,6 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 
-//it is finish except there is no namesTest.java
-
 public class NamesTest 
     extends TestCase
 {
