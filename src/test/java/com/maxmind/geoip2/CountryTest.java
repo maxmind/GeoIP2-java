@@ -23,7 +23,6 @@ public class CountryTest
         return new TestSuite( CountryTest.class );
     }
     private JSONObject createJSONCountry() {
-
       StringBuilder sb = new StringBuilder();
       sb.append("{\"continent\":{");
       sb.append("\"continent_code\":\"NA\",");
@@ -59,48 +58,60 @@ public class CountryTest
       Country country = new Country(jcountry);
       assertEquals(
         "country.getContinent().getCode() does not return NA",
-         country.getContinent().getCode(),
-         "NA");
+         "NA",
+         country.getContinent().getCode()
+      );
       assertEquals(
         "country.getContinent().getGeoNameId() does not return 42",
-         country.getContinent().getGeoNameId(),
-         42);
+         42,
+         country.getContinent().getGeoNameId()
+      );
       assertEquals(
 "country.getContinent().getName(\"en\") does not return North America",
-         country.getContinent().getName("en"),
-         "North America");
-
+         "North America",
+         country.getContinent().getName("en")
+      );
       assertEquals(
         "country.getCountry().getCode() does not return US",
-         country.getCountry().getCode(),
-         "US");
+         "US",
+         country.getCountry().getCode()
+      );
       assertEquals(
         "country.getCountry().getGeoNameId() does not return 1",
-         country.getCountry().getGeoNameId(),1);
+         1,
+         country.getCountry().getGeoNameId()
+      );
       assertEquals(
         "country.getCountry().getConfidence() does not return 56",
-         country.getCountry().getConfidence(),new Integer(56));
+        new Integer(56),
+        country.getCountry().getConfidence()
+      );
       assertEquals(
 "country.getCountry().getName(\"en\") does not return United States",
-         country.getCountry().getName("en"),
-         "United States");
+         "United States",
+         country.getCountry().getName("en")
+       );
 
       assertEquals(
         "country.getRegisteredCountry().getCode() does not return CA",
-         country.getRegisteredCountry().getCode(),
-         "CA");
+        "CA",
+         country.getRegisteredCountry().getCode()
+      );
       assertEquals(
         "country.getRegisteredCountry().getGeoNameId() does not return 2",
-         country.getRegisteredCountry().getGeoNameId(),
-         2);
+         2,
+         country.getRegisteredCountry().getGeoNameId()
+      );
       assertEquals(
 "country.getRegisteredCountry().getName(\"en\") does not return United States",
-         country.getRegisteredCountry().getName("en"),
-         "Canada");
+         "Canada",
+         country.getRegisteredCountry().getName("en")
+      );
       assertEquals(
         "country.getTraits().getIpAddress does not return 1.2.3.4",
-         country.getTraits().getIpAddress(),
-         "1.2.3.4");
+        "1.2.3.4", 
+         country.getTraits().getIpAddress()
+      );
 
     }
 
