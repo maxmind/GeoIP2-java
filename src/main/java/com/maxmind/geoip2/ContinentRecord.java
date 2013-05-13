@@ -12,6 +12,9 @@ public class ContinentRecord extends RecordWithNames
     super(jcontinent);
     continentCode = jcontinent.getString("continent_code");
   }
+  public ContinentRecord() {
+    super();
+  }
   public String getCode() {
     return continentCode;
   }
