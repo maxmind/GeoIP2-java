@@ -12,13 +12,15 @@ public abstract class RecordWithNames {
   private Integer confidence;
   protected RecordWithNames(JSONObject json) throws JSONException {
     geoNameId = json.getInt("geoname_id");
-    JSONObject jnames = json.getJSONObject("names");
     names = new HashMap<String,String>();
-    for (Iterator<String> i = jnames.keys(); i.hasNext();) {
-      String key = i.next();
-      String value = jnames.getString(key);
-      names.put(key,value);
-    }        
+    if (json.has("names")) {
+      JSONObject jnames = json.getJSONObject("names");
+      for (Iterator<String> i = jnames.keys(); i.hasNext();) {
+        String key = i.next();
+        String value = jnames.getString(key);
+        names.put(key,value);
+      }
+    }
     if (json.has("confidence")) {
       confidence = new Integer(json.getInt("confidence"));
     }
