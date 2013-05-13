@@ -16,12 +16,24 @@ public class Country
   private TraitsRecord traits;
   Country(JSONObject json) {
     try {
-      JSONObject jcontinent = json.getJSONObject("continent");
-      continent = new ContinentRecord(jcontinent);
-      JSONObject jcountry = json.getJSONObject("country");
-      country = new CountryRecord(jcountry);
-      jcountry = json.getJSONObject("registered_country");
-      registeredCountry = new CountryRecord(jcountry);
+      if (json.has("continent")) {
+        JSONObject jcontinent = json.getJSONObject("continent");
+        continent = new ContinentRecord(jcontinent);
+      } else {
+        continent = new ContinentRecord();
+      }
+      if (json.has("country")) {
+        JSONObject jcountry = json.getJSONObject("country");
+        country = new CountryRecord(jcountry);
+      } else {
+        country = new CountryRecord();
+      }
+      if (json.has("registered_country")) {
+        JSONObject jcountry = json.getJSONObject("registered_country");
+        registeredCountry = new CountryRecord(jcountry);
+      } else {
+        registeredCountry = new CountryRecord();
+      }
       JSONObject jtraits = json.getJSONObject("traits");
       traits = new TraitsRecord(jtraits);
     } catch (JSONException e) {
