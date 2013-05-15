@@ -23,78 +23,38 @@ public class OmniTest extends TestCase {
     }
 
     private JSONObject createJSONCity() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{");
-        sb.append("\"city\":{");
-        sb.append("\"confidence\":76,");
-        sb.append("\"geoname_id\":9876,");
-        sb.append("\"names\":{");
-        sb.append("\"en\":\"Minneapolis\"");
-        sb.append("}");
-        sb.append("},");
+        String str = "{" + "\"city\":{" + "\"confidence\":76,"
+                + "\"geoname_id\":9876," + "\"names\":{"
+                + "\"en\":\"Minneapolis\"" + "}" + "}," +
 
-        sb.append("\"continent\":{");
-        sb.append("\"continent_code\":\"NA\",");
-        sb.append("\"geoname_id\":42,");
-        sb.append("\"names\":{");
-        sb.append("\"en\":\"North America\"");
-        sb.append("}");
-        sb.append("},");
+                "\"continent\":{" + "\"continent_code\":\"NA\","
+                + "\"geoname_id\":42," + "\"names\":{"
+                + "\"en\":\"North America\"" + "}" + "}," +
 
-        sb.append("\"country\":{");
-        sb.append("\"confidence\":99,");
-        sb.append("\"iso_code\":\"US\",");
-        sb.append("\"geoname_id\":1,");
-        sb.append("\"names\":{");
-        sb.append("\"en\":\"United States of America\"");
-        sb.append("}");
-        sb.append("},");
+                "\"country\":{" + "\"confidence\":99," + "\"iso_code\":\"US\","
+                + "\"geoname_id\":1," + "\"names\":{"
+                + "\"en\":\"United States of America\"" + "}" + "}," +
 
-        sb.append("\"location\":{");
-        sb.append("\"accuracy_radius\":1500,");
-        sb.append("\"latitude\":44.98,");
-        sb.append("\"longitude\":93.2636,");
-        sb.append("\"metro_code\":765,");
-        sb.append("\"postal_code\":\"55401\",");
-        sb.append("\"postal_confidence\":33,");
-        sb.append("\"time_zone\":\"America/Chicago\"");
-        sb.append("},");
-        sb.append("\"registered_country\":{");
-        sb.append("\"geoname_id\":2,");
-        sb.append("\"iso_code\":\"CA\",");
-        sb.append("\"names\":{");
-        sb.append("\"en\":\"Canada\"");
-        sb.append("}");
-        sb.append("},");
-        sb.append("\"represented_country\":{");
-        sb.append("\"geoname_id\":3,");
-        sb.append("\"iso_code\":\"GB\",");
-        sb.append("\"names\":{");
-        sb.append("\"en\":\"United Kingdom\"");
-        sb.append("},");
-        sb.append("\"type\":\"C<military>\"");
-        sb.append("},");
-        sb.append("\"subdivisions\":[{");
-        sb.append("\"confidence\":88,");
-        sb.append("\"geoname_id\":574635,");
-        sb.append("\"iso_code\":\"MN\",");
-        sb.append("\"names\":{");
-        sb.append("\"en\":\"Minnesota\"");
-        sb.append("}");
-        sb.append("}");
-        sb.append("],");
-        sb.append("\"traits\":{");
-        sb.append("\"autonomous_system_number\":1234,");
-        sb.append("\"autonomous_system_organization\":\"AS Organization\",");
-        sb.append("\"domain\":\"example.com\",");
-        sb.append("\"ip_address\":\"1.2.3.4\",");
-        sb.append("\"is_anonymous_proxy\":true,");
-        sb.append("\"isp\":\"Comcast\",");
-        sb.append("\"organization\":\"Blorg\",");
-        sb.append("\"user_type\":\"college\"");
-        sb.append("}");
-        sb.append("}");
-        String str = sb.toString();
+                "\"location\":{" + "\"accuracy_radius\":1500,"
+                + "\"latitude\":44.98," + "\"longitude\":93.2636,"
+                + "\"metro_code\":765," + "\"postal_code\":\"55401\","
+                + "\"postal_confidence\":33,"
+                + "\"time_zone\":\"America/Chicago\"" + "},"
+                + "\"registered_country\":{" + "\"geoname_id\":2,"
+                + "\"iso_code\":\"CA\"," + "\"names\":{" + "\"en\":\"Canada\""
+                + "}" + "}," + "\"represented_country\":{"
+                + "\"geoname_id\":3," + "\"iso_code\":\"GB\"," + "\"names\":{"
+                + "\"en\":\"United Kingdom\"" + "},"
+                + "\"type\":\"C<military>\"" + "}," + "\"subdivisions\":[{"
+                + "\"confidence\":88," + "\"geoname_id\":574635,"
+                + "\"iso_code\":\"MN\"," + "\"names\":{"
+                + "\"en\":\"Minnesota\"" + "}" + "}" + "]," + "\"traits\":{"
+                + "\"autonomous_system_number\":1234,"
+                + "\"autonomous_system_organization\":\"AS Organization\","
+                + "\"domain\":\"example.com\"," + "\"ip_address\":\"1.2.3.4\","
+                + "\"is_anonymous_proxy\":true," + "\"isp\":\"Comcast\","
+                + "\"organization\":\"Blorg\"," + "\"user_type\":\"college\""
+                + "}" + "}";
         try {
             return new JSONObject(str);
         } catch (JSONException e) {

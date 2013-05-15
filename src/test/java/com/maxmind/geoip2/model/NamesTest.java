@@ -16,35 +16,17 @@ public class NamesTest extends TestCase {
     }
 
     private JSONObject createJSONCountry() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{\"continent\":{");
-        sb.append("\"continent_code\":\"NA\",");
-        sb.append("\"geoname_id\":42,");
-        sb.append("\"names\":{");
-        sb.append("\"en\":\"North America\",");
-        sb.append("\"zh-CN\":\"北美洲\"");
-        sb.append("}");
-        sb.append("},");
-        sb.append("\"country\":{");
-        sb.append("\"geoname_id\":1,");
-        sb.append("\"iso_code\":\"US\",");
-        sb.append("\"confidence\":56,");
-        sb.append("\"names\":{");
-        sb.append("\"en\":\"United States\",");
-        sb.append("\"ru\":\"объединяет государства\",");
-        sb.append("\"zh-CN\":\"美国\"");
-        sb.append("}");
-        sb.append("},");
-        sb.append("\"registered_country\":{");
-        sb.append("\"geoname_id\":2,");
-        sb.append("\"iso_code\":\"CA\",");
-        sb.append("\"names\":{\"en\":\"Canada\"}");
-        sb.append("},");
-        sb.append("\"traits\":{");
-        sb.append("\"ip_address\":\"1.2.3.4\",");
-        sb.append("}}");
+        String str = "{\"continent\":{" + "\"continent_code\":\"NA\","
+                + "\"geoname_id\":42," + "\"names\":{"
+                + "\"en\":\"North America\"," + "\"zh-CN\":\"北美洲\"" + "}"
+                + "}," + "\"country\":{" + "\"geoname_id\":1,"
+                + "\"iso_code\":\"US\"," + "\"confidence\":56," + "\"names\":{"
+                + "\"en\":\"United States\","
+                + "\"ru\":\"объединяет государства\"," + "\"zh-CN\":\"美国\""
+                + "}" + "}," + "\"registered_country\":{" + "\"geoname_id\":2,"
+                + "\"iso_code\":\"CA\"," + "\"names\":{\"en\":\"Canada\"}"
+                + "}," + "\"traits\":{" + "\"ip_address\":\"1.2.3.4\"," + "}}";
 
-        String str = sb.toString();
         try {
             return new JSONObject(str);
         } catch (JSONException e) {
