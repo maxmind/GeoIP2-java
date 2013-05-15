@@ -28,6 +28,10 @@ public class Traits {
 
     }
 
+    public Traits() {
+        // Empty traits object
+    }
+
     public String getIpAddress() {
         return ipAddress;
     }

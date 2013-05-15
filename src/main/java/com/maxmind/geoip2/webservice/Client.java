@@ -23,34 +23,22 @@ public class Client {
 
     public Country Country(String ipAddress) throws GeoIP2Exception {
         JSONObject json = responseFor("country", ipAddress);
-        if (json != null) {
-            return new Country(json);
-        }
-        return null;
+        return new Country(json);
     }
 
     public City City(String ipAddress) throws GeoIP2Exception {
         JSONObject json = responseFor("city", ipAddress);
-        if (json != null) {
-            return new City(json);
-        }
-        return null;
+        return new City(json);
     }
 
     public Omni Omni(String ipAddress) throws GeoIP2Exception {
         JSONObject json = responseFor("omni", ipAddress);
-        if (json != null) {
-            return new Omni(json);
-        }
-        return null;
+        return new Omni(json);
     }
 
     public CityISPOrg CityISPOrg(String ipAddress) throws GeoIP2Exception {
         JSONObject json = responseFor("city_isp_org", ipAddress);
-        if (json != null) {
-            return new CityISPOrg(json);
-        }
-        return null;
+        return new CityISPOrg(json);
     }
 
     public void setHost(String host) {
@@ -60,30 +48,30 @@ public class Client {
     private JSONObject responseFor(String path, String ip_address)
             throws GeoIP2Exception {
         DefaultHttpClient httpclient = new DefaultHttpClient();
+        String uri = "https://" + host;
+        if (host.startsWith("localhost")) {
+            uri = "http://" + host;
+        }
+        uri = uri + "/geoip/v2.0/" + path + "/" + ip_address;
+        HttpGet httpget = new HttpGet(uri);
+        httpget.addHeader("Accept", "application/json");
+        httpget.addHeader(BasicScheme.authenticate(
+                new UsernamePasswordCredentials(userId, licenseKey), "UTF-8",
+                false));
+        HttpResponse response = null;
         try {
-            // String uri = "https://ct4-test.maxmind.com/geoip/" + path + "/" +
-            // ip_address;
-            String uri = "https://" + host;
-            if (host.startsWith("localhost")) {
-                uri = "http://" + host;
-            }
-            uri = uri + "/geoip/v2.0/" + path + "/" + ip_address;
-            HttpGet httpget = new HttpGet(uri);
-            httpget.addHeader("Accept", "application/json");
-            httpget.addHeader(BasicScheme.authenticate(
-                    new UsernamePasswordCredentials(userId, licenseKey),
-                    "UTF-8", false));
-            HttpResponse response = httpclient.execute(httpget);
-            int status = response.getStatusLine().getStatusCode();
-            if (status == 200) {
-                return handleSuccess(response, uri);
-            } else {
-                handleErrorStatus(response, status, uri);
-            }
+            response = httpclient.execute(httpget);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             httpclient.getConnectionManager().shutdown();
+        }
+
+        int status = response.getStatusLine().getStatusCode();
+        if (status == 200) {
+            return handleSuccess(response, uri);
+        } else {
+            handleErrorStatus(response, status, uri);
         }
         return null;
     }
@@ -91,7 +79,7 @@ public class Client {
     private String getContent(HttpResponse response) throws IOException {
         HttpEntity entity = response.getEntity();
         if (entity == null) {
-            return "";
+            return null;
         }
         InputStream instream = entity.getContent();
         BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -102,14 +90,23 @@ public class Client {
     }
 
     private JSONObject handleSuccess(HttpResponse response, String uri)
-            throws IOException, GeoIP2Exception {
+            throws GeoIP2Exception {
         JSONObject json = null;
+        String content;
         try {
-            String content = getContent(response);
-            if (content == null) {
-                content = "";
-            }
-            System.out.println(content);
+            content = getContent(response);
+        } catch (IOException e) {
+            throw new GeoIP2Exception("Received a 200 response for " + uri
+                    + " but could not parse the message content: \n"
+                    + e.getMessage(), e);
+        }
+
+        if (content == null) {
+            throw new GeoIP2Exception("Received a 200 response for " + uri
+                    + " but there was no message body.");
+        }
+
+        try {
             json = new JSONObject(content);
         } catch (JSONException e) {
             throw new GeoIP2Exception("Received a 200 response for " + uri
@@ -119,8 +116,8 @@ public class Client {
         return json;
     }
 
-    private void handleErrorStatus(HttpResponse response, int status,
-            String uri) throws IOException, GeoIP2Exception {
+    private void handleErrorStatus(HttpResponse response, int status, String uri)
+            throws GeoIP2Exception {
         if ((status >= 400) && (status < 500)) {
             handle4xxStatus(response, status, uri);
         } else if ((status >= 500) && (status < 600)) {
@@ -131,43 +128,42 @@ public class Client {
     }
 
     private void handle4xxStatus(HttpResponse response, int status, String uri)
-            throws IOException, HTTPException {
+            throws GeoIP2Exception {
         String JSON_Message = "Received a " + status + " error for " + uri
                 + " but it did not include the expected JSON body: ";
-        String content = getContent(response);
-        if (content == null) {
-            content = "";
+        String content = "";
+        try {
+            content = getContent(response);
+        } catch (IOException e) {
+            throw new GeoIP2Exception("Received a " + status + " response for "
+                    + uri + " but could not parse the message content: \n"
+                    + e.getMessage(), e);
         }
-        System.out.println(content);
-        JSONObject body;
-        if (content.equals("") == false) {
-            String contentType = response.getEntity().getContentType()
-                    .getValue();
-            if (contentType.indexOf("json") != -1) {
-                try {
-                    body = new JSONObject(content);
-                } catch (JSONException e) {
-                    throw new HTTPException(JSON_Message + e.getMessage(), e,
-                            status, uri);
-                }
-            } else {
-                throw new HTTPException("Received a " + status + " error for "
-                        + uri + "with the following body: " + content, status,
-                        uri);
-            }
-        } else {
+
+        if (content == null) {
             throw new HTTPException("Received a " + status + " error for "
                     + uri + " with no body", status, uri);
         }
-        if (body.has("code") & body.has("error")) {
+
+        JSONObject body;
+        String contentType = response.getEntity().getContentType().getValue();
+        if (contentType.indexOf("json") != -1) {
             try {
-                String code = body.getString("code");
-                String error = body.getString("error");
-                throw new WebServiceException(error, code, status, uri);
+                body = new JSONObject(content);
             } catch (JSONException e) {
-                e.printStackTrace();
+                throw new HTTPException(JSON_Message + e.getMessage(), e,
+                        status, uri);
             }
         } else {
+            throw new HTTPException("Received a " + status + " error for "
+                    + uri + "with the following body: " + content, status, uri);
+        }
+
+        try{
+            String code = body.getString("code");
+            String error = body.getString("error");
+            throw new WebServiceException(error, code, status, uri);
+        } catch (JSONException e) {
             throw new HTTPException(
                     JSON_Message
                             + "Response contains JSON but it does not specify code or error keys",

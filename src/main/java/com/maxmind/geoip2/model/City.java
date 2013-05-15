@@ -13,36 +13,36 @@ public class City extends Country {
     public City(JSONObject json) {
         super(json);
         try {
-            if (json.has("city")) {
-                JSONObject jcity = json.getJSONObject("city");
-                city = new com.maxmind.geoip2.record.City(jcity);
-            } else {
-                city = new com.maxmind.geoip2.record.City();
-            }
-            if (json.has("location")) {
-                JSONObject jlocation = json.getJSONObject("location");
-                location = new Location(jlocation);
-            } else {
-                location = new Location();
-            }
-            if (json.has("represented_country")) {
-                JSONObject rcountry = json.getJSONObject("represented_country");
-                representedCountry = new RepresentedCountry(rcountry);
-            } else {
-                representedCountry = new RepresentedCountry();
-            }
-            subdivisionsList = new ArrayList<Subdivision>();
-            if (json.has("subdivisions")) {
-                JSONArray subdivisionsArray = json.getJSONArray("subdivisions");
-                int length = subdivisionsArray.length();
-                for (int i = 0; i < length; i++) {
-                    JSONObject jsubdivision = subdivisionsArray
-                            .getJSONObject(i);
-                    subdivisionsList.add(new Subdivision(jsubdivision));
-                }
+            JSONObject jcity = json.getJSONObject("city");
+            city = new com.maxmind.geoip2.record.City(jcity);
+        } catch (JSONException e) {
+            city = new com.maxmind.geoip2.record.City();
+        }
+
+        try {
+            JSONObject jlocation = json.getJSONObject("location");
+            location = new Location(jlocation);
+        } catch (JSONException e) {
+            location = new Location();
+        }
+
+        try {
+            JSONObject rcountry = json.getJSONObject("represented_country");
+            representedCountry = new RepresentedCountry(rcountry);
+        } catch (JSONException e) {
+            representedCountry = new RepresentedCountry();
+        }
+        subdivisionsList = new ArrayList<Subdivision>();
+
+        try {
+            JSONArray subdivisionsArray = json.getJSONArray("subdivisions");
+            int length = subdivisionsArray.length();
+            for (int i = 0; i < length; i++) {
+                JSONObject jsubdivision = subdivisionsArray.getJSONObject(i);
+                subdivisionsList.add(new Subdivision(jsubdivision));
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            // Do nothing as we already gave the array
         }
     }
 

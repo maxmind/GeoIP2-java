@@ -233,7 +233,7 @@ public class ClientTest
         //System.out.println(e.getMessage());
         //e.printStackTrace();
         String json = "could not decode the response as JSON";
-        if (e.getMessage().indexOf(json) == -1) {
+        if (e.getMessage().indexOf("message body") == -1) {
           fail("1.2.3.5 error does not contain expected text");
         }
       }
