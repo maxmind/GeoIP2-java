@@ -14,8 +14,9 @@ public abstract class RecordWithNames {
         names = new HashMap<String, String>();
         if (json.has("names")) {
             JSONObject jnames = json.getJSONObject("names");
-            for (Iterator<String> i = jnames.keys(); i.hasNext();) {
-                String key = i.next();
+            Iterator<?> i = jnames.keys();
+            while (i.hasNext()){
+                String key = (String) i.next();
                 String value = jnames.getString(key);
                 names.put(key, value);
             }
