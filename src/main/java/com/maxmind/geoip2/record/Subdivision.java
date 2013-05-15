@@ -10,7 +10,7 @@ public class Subdivision extends RecordWithNames {
         isoCode = jcountry.getString("iso_code");
     }
 
-    public String getCode() {
+    public String getIsoCode() {
         return isoCode;
     }
 }

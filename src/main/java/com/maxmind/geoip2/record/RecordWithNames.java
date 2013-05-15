@@ -6,7 +6,7 @@ import org.json.*;
 public abstract class RecordWithNames {
 
     private HashMap<String, String> names;
-    private int geoNameId;
+    private Integer geoNameId;
     private Integer confidence;
 
     protected RecordWithNames(JSONObject json) throws JSONException {

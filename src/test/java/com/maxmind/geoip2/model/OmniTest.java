@@ -118,12 +118,12 @@ public class OmniTest
       assertEquals(
         "subdivision.getGeoNameId() does not return 574635",
          574635,
-         subdivision.getGeoNameId()
+         (int) subdivision.getGeoNameId()
       );
       assertEquals(
         "subdivision.getCode() does not return MN",
         "MN",
-        subdivision.getCode()
+        subdivision.getIsoCode()
       );
     }
     public void testTraits() {

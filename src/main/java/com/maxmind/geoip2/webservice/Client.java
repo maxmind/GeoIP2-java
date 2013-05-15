@@ -159,7 +159,7 @@ public class Client {
                     + uri + "with the following body: " + content, status, uri);
         }
 
-        try{
+        try {
             String code = body.getString("code");
             String error = body.getString("error");
             throw new WebServiceException(error, code, status, uri);

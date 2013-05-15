@@ -196,7 +196,7 @@ public class ClientTest
         assertEquals(
           "country.getContinent().getGeoNameId() does not return 42",
            42,
-           country.getContinent().getGeoNameId()
+           (int) country.getContinent().getGeoNameId()
         );
         assertEquals(
 "country.getContinent().getName(\"en\") does not return North America",
@@ -206,12 +206,12 @@ public class ClientTest
         assertEquals(
         "country.getCountry().getCode() does not return US",
          "US",
-         country.getCountry().getCode()
+         country.getCountry().getIsoCode()
         );
         assertEquals(
         "country.getCountry().getGeoNameId() does not return 1",
          1,
-         country.getCountry().getGeoNameId()
+         (int) country.getCountry().getGeoNameId()
         );
         assertEquals(
 "country.getCountry().getName(\"en\") does not return United States",
@@ -223,6 +223,7 @@ public class ClientTest
         fail(e.getMessage());
       }
     }
+    @SuppressWarnings("unused")
     public void testClientExceptions() {
       Client client = new Client("42","abcdef123456");
       client.setHost("localhost:" + port);

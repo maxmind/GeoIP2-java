@@ -14,7 +14,7 @@ public class Country extends RecordWithNames {
         super();
     }
 
-    public String getCode() {
+    public String getIsoCode() {
         return isoCode;
     }
 }

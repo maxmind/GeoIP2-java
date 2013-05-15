@@ -62,7 +62,7 @@ public class CountryTest
       assertEquals(
         "country.getContinent().getGeoNameId() does not return 42",
          42,
-         country.getContinent().getGeoNameId()
+         (int) country.getContinent().getGeoNameId()
       );
       assertEquals(
 "country.getContinent().getName(\"en\") does not return North America",
@@ -72,12 +72,12 @@ public class CountryTest
       assertEquals(
         "country.getCountry().getCode() does not return US",
          "US",
-         country.getCountry().getCode()
+         country.getCountry().getIsoCode()
       );
       assertEquals(
         "country.getCountry().getGeoNameId() does not return 1",
          1,
-         country.getCountry().getGeoNameId()
+         (int) country.getCountry().getGeoNameId()
       );
       assertEquals(
         "country.getCountry().getConfidence() does not return 56",
@@ -93,12 +93,12 @@ public class CountryTest
       assertEquals(
         "country.getRegisteredCountry().getCode() does not return CA",
         "CA",
-         country.getRegisteredCountry().getCode()
+         country.getRegisteredCountry().getIsoCode()
       );
       assertEquals(
         "country.getRegisteredCountry().getGeoNameId() does not return 2",
          2,
-         country.getRegisteredCountry().getGeoNameId()
+         (int) country.getRegisteredCountry().getGeoNameId()
       );
       assertEquals(
 "country.getRegisteredCountry().getName(\"en\") does not return United States",
