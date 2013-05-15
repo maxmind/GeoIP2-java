@@ -1,5 +1,6 @@
 package com.maxmind.geoip2;
 
+import com.maxmind.geoip2.model.*;
 import java.lang.*;
 import java.util.*;
 import java.io.*;
@@ -10,7 +11,8 @@ import org.apache.http.impl.client.*;
 import org.apache.http.impl.auth.*;
 import org.apache.http.auth.*;
 import org.json.*;
-public class Client 
+
+public class Client
 {
   private String user_id;
   private String license_key;
@@ -80,9 +82,9 @@ public class Client
     }
     return null;
   }
-  
+
   private String get_content(HttpResponse response) throws IOException {
-    HttpEntity entity = response.getEntity(); 
+    HttpEntity entity = response.getEntity();
     if (entity == null) {return "";}
     InputStream instream = entity.getContent();
     BufferedReader reader = new BufferedReader(
@@ -105,11 +107,11 @@ public class Client
   }
   private void handle_error_status(HttpResponse response, int status, String uri) throws IOException {
     if ((status >= 400) && (status < 500)) {
-      handle_4xx_status(response,status,uri);      
+      handle_4xx_status(response,status,uri);
     } else if ((status >= 500) && (status < 600)) {
       handle_5xx_status(response,status,uri);
     } else {
-      handle_non_200_status(response,status,uri);      
+      handle_non_200_status(response,status,uri);
     }
   }
   private void handle_4xx_status(HttpResponse response, int status, String uri) throws IOException {
@@ -120,7 +122,7 @@ public class Client
     JSONObject body;
     if (content.equals("") == false) {
       String contentType = response.getEntity().getContentType().getValue();
-      if (contentType.indexOf("json") != -1) { 
+      if (contentType.indexOf("json") != -1) {
         try {
           body = new JSONObject(content);
         } catch (JSONException e) {
@@ -138,7 +140,7 @@ public class Client
       }
     } else {
        throw new HTTPException(
-           "Received a " + status + " error for " + uri + " with no body",      
+           "Received a " + status + " error for " + uri + " with no body",
            status,
            uri
        );
@@ -165,14 +167,13 @@ public class Client
        status,
        uri
     );
-       
+
   }
   private void handle_non_200_status(HttpResponse response, int status, String uri) {
     throw new HTTPException(
        "Received a very surprising HTTP status (" + status + ") for " + uri,
        status,
        uri
-    );    
+    );
   }
 }
-

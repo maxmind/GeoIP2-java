@@ -1,5 +1,6 @@
-package com.maxmind.geoip2.record;
+package com.maxmind.geoip2.model;
 
+import com.maxmind.geoip2.record.*;
 import java.lang.*;
 import java.util.*;
 import java.io.*;
@@ -12,12 +13,12 @@ import junit.framework.TestSuite;
 public class OmniTest
     extends TestCase
 {
-    com.maxmind.geoip2.Omni city;
+    Omni city;
     public OmniTest( String testName )
     {
         super( testName );
         JSONObject jcity = createJSONCity();
-        city = new com.maxmind.geoip2.Omni(jcity);
+        city = new Omni(jcity);
 
     }
     public static Test suite()

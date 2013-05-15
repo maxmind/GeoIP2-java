@@ -1,4 +1,4 @@
-package com.maxmind.geoip2;
+package com.maxmind.geoip2.model;
 
 
 import java.lang.*;
@@ -8,7 +8,7 @@ import org.json.*;
 
 public class CityISPOrg extends City
 {
-  CityISPOrg(JSONObject json) {
+  public CityISPOrg(JSONObject json) {
     super(json);
 
   }

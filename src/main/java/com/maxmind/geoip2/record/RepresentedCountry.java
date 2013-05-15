@@ -16,7 +16,7 @@ public class RepresentedCountry extends Country
     super();
     type = "";
   }
-  String getType() {
+  public String getType() {
     return type;
   }
 }

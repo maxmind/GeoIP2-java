@@ -1,4 +1,4 @@
-package com.maxmind.geoip2;
+package com.maxmind.geoip2.model;
 
 import java.lang.*;
 import java.util.*;
@@ -13,7 +13,7 @@ public class City extends Country
   private RepresentedCountry representedCountry;
   private ArrayList<Subdivision> subdivisionsList;
 
-  City(JSONObject json) {
+  public City(JSONObject json) {
     super(json);
     try {
       if (json.has("city")) {

@@ -1,4 +1,4 @@
-package com.maxmind.geoip2;
+package com.maxmind.geoip2.model;
 
 
 import java.lang.*;
@@ -13,7 +13,7 @@ public class Country
   private com.maxmind.geoip2.record.Country registeredCountry;
   private Continent continent;
   private Traits traits;
-  Country(JSONObject json) {
+  public Country(JSONObject json) {
     try {
       if (json.has("continent")) {
         JSONObject jcontinent = json.getJSONObject("continent");
