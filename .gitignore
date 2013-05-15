@@ -4,6 +4,9 @@
 *.war
 *.ear
 *.swp
+.classpath
+.project
+.settings
 hs_err*.log
 target
 reports

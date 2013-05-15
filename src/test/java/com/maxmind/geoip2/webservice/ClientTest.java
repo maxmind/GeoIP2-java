@@ -2,11 +2,9 @@ package com.maxmind.geoip2.webservice;
 
 import com.maxmind.geoip2.exception.*;
 import com.maxmind.geoip2.model.*;
-import java.lang.*;
 import java.util.*;
 import java.io.*;
 import java.net.*;
-import org.json.*;
 
 
 import junit.framework.Test;

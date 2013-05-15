@@ -1,9 +1,6 @@
 package com.maxmind.geoip2;
 
 import com.maxmind.geoip2.model.*;
-import java.lang.*;
-import java.util.*;
-import java.io.*;
 import org.json.*;
 
 import junit.framework.Test;

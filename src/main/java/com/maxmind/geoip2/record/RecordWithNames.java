@@ -1,8 +1,6 @@
 package com.maxmind.geoip2.record;
 
-import java.lang.*;
 import java.util.*;
-import java.io.*;
 import org.json.*;
 
 public abstract class RecordWithNames {

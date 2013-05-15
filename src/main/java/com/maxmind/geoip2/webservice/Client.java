@@ -2,11 +2,8 @@ package com.maxmind.geoip2.webservice;
 
 import com.maxmind.geoip2.exception.*;
 import com.maxmind.geoip2.model.*;
-import java.lang.*;
-import java.util.*;
 import java.io.*;
 import org.apache.http.*;
-import org.apache.http.client.*;
 import org.apache.http.client.methods.*;
 import org.apache.http.impl.client.*;
 import org.apache.http.impl.auth.*;
