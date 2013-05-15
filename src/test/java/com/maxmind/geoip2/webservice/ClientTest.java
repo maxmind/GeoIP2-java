@@ -229,7 +229,7 @@ public class ClientTest
       try {
         Country country = client.Country("1.2.3.5");
         fail("no exception thrown when response status is 200 but body is not valid JSON");
-      } catch (GenericException e) {
+      } catch (GeoIP2Exception e) {
         //System.out.println(e.getMessage());
         //e.printStackTrace();
         String json = "could not decode the response as JSON";
@@ -253,7 +253,7 @@ public class ClientTest
         if (e.getMessage().indexOf(msg) == -1) {
           fail("1.2.3.6 error does not contain expected text");
         }
-      } catch (GenericException e) {
+      } catch (GeoIP2Exception e) {
           fail("Wrong exception typ thrown");
       }
       try {
@@ -266,7 +266,7 @@ public class ClientTest
         if (e.getMessage().indexOf("with no body") == -1) {
           fail("1.2.3.7 error does not contain expected text");
         }
-      } catch (GenericException e) {
+      } catch (GeoIP2Exception e) {
           fail("Wrong exception typ thrown");
       }
       try {
@@ -278,7 +278,7 @@ public class ClientTest
         if (e.getMessage().indexOf(msg) == -1) {
           fail("1.2.3.8 error does not contain expected text");
         }
-      } catch (GenericException e) {
+      } catch (GeoIP2Exception e) {
           fail("Wrong exception typ thrown");
       }
       try {
@@ -289,7 +289,7 @@ public class ClientTest
         if (e.getMessage().indexOf(msg) == -1) {
           fail("1.2.3.9 error does not contain expected text");
         }
-      } catch (GenericException e) {
+      } catch (GeoIP2Exception e) {
           fail("Wrong exception typ thrown");
       }
       try {
@@ -300,7 +300,7 @@ public class ClientTest
         if (e.getMessage().indexOf(msg) == -1) {
           fail("1.2.3.10 error does not contain expected text");
         }
-      } catch (GenericException e) {
+      } catch (GeoIP2Exception e) {
           fail("Wrong exception typ thrown");
       }
       try {
@@ -311,7 +311,7 @@ public class ClientTest
         if (e.getMessage().indexOf(msg) == -1) {
           fail("1.2.3.11 error does not contain expected text");
         }
-      } catch (GenericException e) {
+      } catch (GeoIP2Exception e) {
           fail("Wrong exception typ thrown");
       }
       try {
@@ -322,7 +322,7 @@ public class ClientTest
         if (e.getMessage().indexOf(msg) == -1) {
           fail("1.2.3.12 error does not contain expected text");
         }
-      } catch (GenericException e) {
+      } catch (GeoIP2Exception e) {
           fail("Wrong exception typ thrown");
       }
     }

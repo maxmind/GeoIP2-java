@@ -11,42 +11,42 @@ import org.apache.http.auth.*;
 import org.json.*;
 
 public class Client {
-    private String user_id;
-    private String license_key;
+    private String userId;
+    private String licenseKey;
     private String host;
 
-    public Client(String user_id, String license_key) {
-        this.user_id = user_id;
-        this.license_key = license_key;
+    public Client(String user_id, String licenseKey) {
+        this.userId = user_id;
+        this.licenseKey = licenseKey;
         this.host = "geoip.maxmind.com";
     }
 
-    public Country Country(String ip_address) throws GenericException {
-        JSONObject json = response_for("country", ip_address);
+    public Country Country(String ipAddress) throws GeoIP2Exception {
+        JSONObject json = responseFor("country", ipAddress);
         if (json != null) {
             return new Country(json);
         }
         return null;
     }
 
-    public City City(String ip_address) throws GenericException {
-        JSONObject json = response_for("city", ip_address);
+    public City City(String ipAddress) throws GeoIP2Exception {
+        JSONObject json = responseFor("city", ipAddress);
         if (json != null) {
             return new City(json);
         }
         return null;
     }
 
-    public Omni Omni(String ip_address) throws GenericException {
-        JSONObject json = response_for("omni", ip_address);
+    public Omni Omni(String ipAddress) throws GeoIP2Exception {
+        JSONObject json = responseFor("omni", ipAddress);
         if (json != null) {
             return new Omni(json);
         }
         return null;
     }
 
-    public CityISPOrg CityISPOrg(String ip_address) throws GenericException {
-        JSONObject json = response_for("city_isp_org", ip_address);
+    public CityISPOrg CityISPOrg(String ipAddress) throws GeoIP2Exception {
+        JSONObject json = responseFor("city_isp_org", ipAddress);
         if (json != null) {
             return new CityISPOrg(json);
         }
@@ -57,8 +57,8 @@ public class Client {
         this.host = host;
     }
 
-    private JSONObject response_for(String path, String ip_address)
-            throws GenericException {
+    private JSONObject responseFor(String path, String ip_address)
+            throws GeoIP2Exception {
         DefaultHttpClient httpclient = new DefaultHttpClient();
         try {
             // String uri = "https://ct4-test.maxmind.com/geoip/" + path + "/" +
@@ -71,14 +71,14 @@ public class Client {
             HttpGet httpget = new HttpGet(uri);
             httpget.addHeader("Accept", "application/json");
             httpget.addHeader(BasicScheme.authenticate(
-                    new UsernamePasswordCredentials(user_id, license_key),
+                    new UsernamePasswordCredentials(userId, licenseKey),
                     "UTF-8", false));
             HttpResponse response = httpclient.execute(httpget);
             int status = response.getStatusLine().getStatusCode();
             if (status == 200) {
-                return handle_success(response, uri);
+                return handleSuccess(response, uri);
             } else {
-                handle_error_status(response, status, uri);
+                handleErrorStatus(response, status, uri);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,7 +88,7 @@ public class Client {
         return null;
     }
 
-    private String get_content(HttpResponse response) throws IOException {
+    private String getContent(HttpResponse response) throws IOException {
         HttpEntity entity = response.getEntity();
         if (entity == null) {
             return "";
@@ -101,40 +101,40 @@ public class Client {
         return content;
     }
 
-    private JSONObject handle_success(HttpResponse response, String uri)
-            throws IOException, GenericException {
+    private JSONObject handleSuccess(HttpResponse response, String uri)
+            throws IOException, GeoIP2Exception {
         JSONObject json = null;
         try {
-            String content = get_content(response);
+            String content = getContent(response);
             if (content == null) {
                 content = "";
             }
             System.out.println(content);
             json = new JSONObject(content);
         } catch (JSONException e) {
-            throw new GenericException("Received a 200 response for " + uri
+            throw new GeoIP2Exception("Received a 200 response for " + uri
                     + " but could not decode the response as JSON: \n"
                     + e.getMessage(), e);
         }
         return json;
     }
 
-    private void handle_error_status(HttpResponse response, int status,
-            String uri) throws IOException, GenericException {
+    private void handleErrorStatus(HttpResponse response, int status,
+            String uri) throws IOException, GeoIP2Exception {
         if ((status >= 400) && (status < 500)) {
-            handle_4xx_status(response, status, uri);
+            handle4xxStatus(response, status, uri);
         } else if ((status >= 500) && (status < 600)) {
-            handle_5xx_status(response, status, uri);
+            handle5xxStatus(response, status, uri);
         } else {
-            handle_non_200_status(response, status, uri);
+            handleNon200Status(response, status, uri);
         }
     }
 
-    private void handle_4xx_status(HttpResponse response, int status, String uri)
+    private void handle4xxStatus(HttpResponse response, int status, String uri)
             throws IOException, HTTPException {
         String JSON_Message = "Received a " + status + " error for " + uri
                 + " but it did not include the expected JSON body: ";
-        String content = get_content(response);
+        String content = getContent(response);
         if (content == null) {
             content = "";
         }
@@ -175,14 +175,14 @@ public class Client {
         }
     }
 
-    private void handle_5xx_status(HttpResponse response, int status, String uri)
+    private void handle5xxStatus(HttpResponse response, int status, String uri)
             throws HTTPException {
         throw new HTTPException("Received a server error (" + status + ") for "
                 + uri, status, uri);
 
     }
 
-    private void handle_non_200_status(HttpResponse response, int status,
+    private void handleNon200Status(HttpResponse response, int status,
             String uri) throws HTTPException {
         throw new HTTPException("Received a very surprising HTTP status ("
                 + status + ") for " + uri, status, uri);
