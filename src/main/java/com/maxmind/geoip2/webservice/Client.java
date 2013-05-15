@@ -15,8 +15,8 @@ public class Client {
     private String licenseKey;
     private String host;
 
-    public Client(String user_id, String licenseKey) {
-        this.userId = user_id;
+    public Client(String userId, String licenseKey) {
+        this.userId = userId;
         this.licenseKey = licenseKey;
         this.host = "geoip.maxmind.com";
     }
@@ -62,7 +62,7 @@ public class Client {
         try {
             response = httpclient.execute(httpget);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new GeoIP2Exception("Unknown error when connecting to web service.", e);
         } finally {
             httpclient.getConnectionManager().shutdown();
         }
