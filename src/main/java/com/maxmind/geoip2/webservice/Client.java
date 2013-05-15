@@ -1,5 +1,6 @@
-package com.maxmind.geoip2;
+package com.maxmind.geoip2.webservice;
 
+import com.maxmind.geoip2.exception.*;
 import com.maxmind.geoip2.model.*;
 import java.lang.*;
 import java.util.*;
@@ -17,33 +18,33 @@ public class Client
   private String user_id;
   private String license_key;
   private String host;
-  Client(String user_id, String license_key) {
+  public Client(String user_id, String license_key) {
     this.user_id = user_id;
     this.license_key = license_key;
     this.host = "geoip.maxmind.com";
   }
-  Country Country(String ip_address) {
+  public Country Country(String ip_address) {
     JSONObject json = response_for("country",ip_address);
     if (json != null) {
       return new Country(json);
     }
     return null;
   }
-  City City(String ip_address) {
+  public City City(String ip_address) {
     JSONObject json = response_for("city",ip_address);
     if (json != null) {
       return new City(json);
     }
     return null;
   }
-  Omni Omni(String ip_address) {
+  public Omni Omni(String ip_address) {
     JSONObject json = response_for("omni",ip_address);
     if (json != null) {
       return new Omni(json);
     }
     return null;
   }
-  CityISPOrg CityISPOrg(String ip_address) {
+  public CityISPOrg CityISPOrg(String ip_address) {
     JSONObject json = response_for("city_isp_org",ip_address);
     if (json != null) {
       return new CityISPOrg(json);

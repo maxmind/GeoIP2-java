@@ -1,8 +1,8 @@
-package com.maxmind.geoip2;
+package com.maxmind.geoip2.exception;
 
 public class WebServiceException extends HTTPException {
   private String code;
-  WebServiceException(String message,String code,int http_status,String uri) {
+  public WebServiceException(String message,String code,int http_status,String uri) {
     super(message,http_status,uri);
     this.code = code;
   }

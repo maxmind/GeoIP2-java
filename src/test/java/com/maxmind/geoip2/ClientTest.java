@@ -1,5 +1,6 @@
-package com.maxmind.geoip2;
+package com.maxmind.geoip2.webservice;
 
+import com.maxmind.geoip2.exception.*;
 import com.maxmind.geoip2.model.*;
 import java.lang.*;
 import java.util.*;
