@@ -1,11 +1,11 @@
-package com.maxmind.geoip2;
+package com.maxmind.geoip2.record;
 
 import java.lang.*;
 import java.util.*;
 import java.io.*;
 import org.json.*;
 
-public class LocationRecord
+public class Location
 {
   private Double longitude;
   private Double latitude;
@@ -14,7 +14,7 @@ public class LocationRecord
   private String timeZone;
   private Integer metroCode;
   private Integer accuracyRadius;
-  LocationRecord(JSONObject json) {
+  public Location(JSONObject json) {
     try {
       postalCode = json.optString("postal_code",null);
       if (json.has("postal_confidence")) {
@@ -37,7 +37,7 @@ public class LocationRecord
       e.printStackTrace();
     }  
   }
-  LocationRecord() {
+  public Location() {
   }
   public Integer getAccuracyRadius() {
     return accuracyRadius;

@@ -1,23 +1,21 @@
-package com.maxmind.geoip2;
+package com.maxmind.geoip2.record;
 
 import java.lang.*;
 import java.util.*;
 import java.io.*;
 import org.json.*;
 
-public class ContinentRecord extends RecordWithNames
+public class Continent extends RecordWithNames
 {
   private String continentCode;
-  public ContinentRecord(JSONObject jcontinent) throws JSONException {
+  public Continent(JSONObject jcontinent) throws JSONException {
     super(jcontinent);
     continentCode = jcontinent.getString("continent_code");
   }
-  public ContinentRecord() {
+  public Continent() {
     super();
   }
   public String getCode() {
     return continentCode;
   }
 }
-
-

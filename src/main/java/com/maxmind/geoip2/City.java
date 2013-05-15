@@ -1,31 +1,32 @@
 package com.maxmind.geoip2;
 
-
 import java.lang.*;
 import java.util.*;
 import java.io.*;
 import org.json.*;
+import com.maxmind.geoip2.record.*;
 
 public class City extends Country
 {
-  private CityRecord city;
-  private LocationRecord location;
+  private com.maxmind.geoip2.record.City city;
+  private Location location;
   private RepresentedCountry representedCountry;
   private ArrayList<Subdivision> subdivisionsList;
+
   City(JSONObject json) {
     super(json);
     try {
       if (json.has("city")) {
         JSONObject jcity = json.getJSONObject("city");
-        city = new CityRecord(jcity);      
+        city = new com.maxmind.geoip2.record.City(jcity);
       } else {
-        city = new CityRecord();
+        city = new com.maxmind.geoip2.record.City();
       }
       if (json.has("location")) {
         JSONObject jlocation = json.getJSONObject("location");
-        location = new LocationRecord(jlocation);
+        location = new Location(jlocation);
       } else {
-        location = new LocationRecord();
+        location = new Location();
       }
       if (json.has("represented_country")) {
         JSONObject rcountry = json.getJSONObject("represented_country");
@@ -44,12 +45,12 @@ public class City extends Country
       }
     } catch (JSONException e) {
       e.printStackTrace();
-    }  
+    }
   }
-  public CityRecord getCity() {
+  public com.maxmind.geoip2.record.City getCity() {
     return city;
   }
-  public LocationRecord getLocation() {
+  public Location getLocation() {
     return location;
   }
   public RepresentedCountry getRepresentedCountry() {
@@ -59,4 +60,3 @@ public class City extends Country
     return subdivisionsList;
   }
 }
-

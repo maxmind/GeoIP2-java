@@ -1,4 +1,4 @@
-package com.maxmind.geoip2;
+package com.maxmind.geoip2.record;
 
 import java.lang.*;
 import java.util.*;
@@ -9,15 +9,15 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-public class OmniTest 
+public class OmniTest
     extends TestCase
 {
-    Omni city;
+    com.maxmind.geoip2.Omni city;
     public OmniTest( String testName )
     {
         super( testName );
         JSONObject jcity = createJSONCity();
-        city = new Omni(jcity);
+        city = new com.maxmind.geoip2.Omni(jcity);
 
     }
     public static Test suite()
@@ -28,32 +28,32 @@ public class OmniTest
       StringBuilder sb = new StringBuilder();
       sb.append("{");
       sb.append("\"city\":{");
-      sb.append("\"confidence\":76,"); 
-      sb.append("\"geoname_id\":9876,"); 
-      sb.append("\"names\":{"); 
-      sb.append("\"en\":\"Minneapolis\""); 
-      sb.append("}");     
-      sb.append("},");     
+      sb.append("\"confidence\":76,");
+      sb.append("\"geoname_id\":9876,");
+      sb.append("\"names\":{");
+      sb.append("\"en\":\"Minneapolis\"");
+      sb.append("}");
+      sb.append("},");
 
       sb.append("\"continent\":{");
-      sb.append("\"continent_code\":\"NA\","); 
-      sb.append("\"geoname_id\":42,"); 
-      sb.append("\"names\":{"); 
-      sb.append("\"en\":\"North America\""); 
-      sb.append("}");     
-      sb.append("},");     
+      sb.append("\"continent_code\":\"NA\",");
+      sb.append("\"geoname_id\":42,");
+      sb.append("\"names\":{");
+      sb.append("\"en\":\"North America\"");
+      sb.append("}");
+      sb.append("},");
 
       sb.append("\"country\":{");
-      sb.append("\"confidence\":99,"); 
-      sb.append("\"iso_code\":\"US\","); 
-      sb.append("\"geoname_id\":1,"); 
-      sb.append("\"names\":{"); 
-      sb.append("\"en\":\"United States of America\""); 
-      sb.append("}");     
-      sb.append("},");     
+      sb.append("\"confidence\":99,");
+      sb.append("\"iso_code\":\"US\",");
+      sb.append("\"geoname_id\":1,");
+      sb.append("\"names\":{");
+      sb.append("\"en\":\"United States of America\"");
+      sb.append("}");
+      sb.append("},");
 
       sb.append("\"location\":{");
-      sb.append("\"accuracy_radius\":1500,"); 
+      sb.append("\"accuracy_radius\":1500,");
       sb.append("\"latitude\":44.98,");
       sb.append("\"longitude\":93.2636,");
       sb.append("\"metro_code\":765,");
@@ -64,27 +64,27 @@ public class OmniTest
       sb.append("\"registered_country\":{");
       sb.append("\"geoname_id\":2,");
       sb.append("\"iso_code\":\"CA\",");
-      sb.append("\"names\":{"); 
-      sb.append("\"en\":\"Canada\""); 
-      sb.append("}");     
-      sb.append("},"); 
+      sb.append("\"names\":{");
+      sb.append("\"en\":\"Canada\"");
+      sb.append("}");
+      sb.append("},");
       sb.append("\"represented_country\":{");
       sb.append("\"geoname_id\":3,");
       sb.append("\"iso_code\":\"GB\",");
-      sb.append("\"names\":{"); 
-      sb.append("\"en\":\"United Kingdom\""); 
-      sb.append("},");     
+      sb.append("\"names\":{");
+      sb.append("\"en\":\"United Kingdom\"");
+      sb.append("},");
       sb.append("\"type\":\"C<military>\"");
-      sb.append("},"); 
+      sb.append("},");
       sb.append("\"subdivisions\":[{");
-      sb.append("\"confidence\":88,"); 
-      sb.append("\"geoname_id\":574635,"); 
-      sb.append("\"iso_code\":\"MN\","); 
-      sb.append("\"names\":{"); 
-      sb.append("\"en\":\"Minnesota\""); 
-      sb.append("}");     
-      sb.append("}");     
-      sb.append("],");     
+      sb.append("\"confidence\":88,");
+      sb.append("\"geoname_id\":574635,");
+      sb.append("\"iso_code\":\"MN\",");
+      sb.append("\"names\":{");
+      sb.append("\"en\":\"Minnesota\"");
+      sb.append("}");
+      sb.append("}");
+      sb.append("],");
       sb.append("\"traits\":{");
       sb.append("\"autonomous_system_number\":1234,");
       sb.append("\"autonomous_system_organization\":\"AS Organization\",");
@@ -94,7 +94,7 @@ public class OmniTest
       sb.append("\"isp\":\"Comcast\",");
       sb.append("\"organization\":\"Blorg\",");
       sb.append("\"user_type\":\"college\"");
-      sb.append("}");     
+      sb.append("}");
       sb.append("}");
       String str = sb.toString();
       try {
@@ -128,7 +128,7 @@ public class OmniTest
       );
     }
     public void testTraits() {
-      TraitsRecord traits = city.getTraits();
+      Traits traits = city.getTraits();
 
       assertNotNull("city.getTraits() returns null",traits);
       assertEquals(
@@ -174,7 +174,7 @@ public class OmniTest
     }
     public void testLocation() {
 
-      LocationRecord location = city.getLocation();
+      Location location = city.getLocation();
 
       assertNotNull("city.getLocation() returns null",location);
 
@@ -224,9 +224,8 @@ public class OmniTest
          city.getRepresentedCountry());
 
       assertEquals(
-        "city.getRepresentedCountry().getType() does not return C<military>", 
+        "city.getRepresentedCountry().getType() does not return C<military>",
         "C<military>",
          city.getRepresentedCountry().getType());
    }
 }
-

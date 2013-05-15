@@ -5,52 +5,50 @@ import java.lang.*;
 import java.util.*;
 import java.io.*;
 import org.json.*;
+import com.maxmind.geoip2.record.*;
 
-//import record.Country;
-//import record.Continent;
 public class Country
 {
-  private CountryRecord country;
-  private CountryRecord registeredCountry;
-  private ContinentRecord continent;
-  private TraitsRecord traits;
+  private com.maxmind.geoip2.record.Country country;
+  private com.maxmind.geoip2.record.Country registeredCountry;
+  private Continent continent;
+  private Traits traits;
   Country(JSONObject json) {
     try {
       if (json.has("continent")) {
         JSONObject jcontinent = json.getJSONObject("continent");
-        continent = new ContinentRecord(jcontinent);
+        continent = new Continent(jcontinent);
       } else {
-        continent = new ContinentRecord();
+        continent = new Continent();
       }
       if (json.has("country")) {
         JSONObject jcountry = json.getJSONObject("country");
-        country = new CountryRecord(jcountry);
+        country = new com.maxmind.geoip2.record.Country(jcountry);
       } else {
-        country = new CountryRecord();
+        country = new com.maxmind.geoip2.record.Country();
       }
       if (json.has("registered_country")) {
         JSONObject jcountry = json.getJSONObject("registered_country");
-        registeredCountry = new CountryRecord(jcountry);
+        registeredCountry = new com.maxmind.geoip2.record.Country(jcountry);
       } else {
-        registeredCountry = new CountryRecord();
+        registeredCountry = new com.maxmind.geoip2.record.Country();
       }
       JSONObject jtraits = json.getJSONObject("traits");
-      traits = new TraitsRecord(jtraits);
+      traits = new Traits(jtraits);
     } catch (JSONException e) {
       e.printStackTrace();
     }
   }
-  public CountryRecord getCountry() {
+  public com.maxmind.geoip2.record.Country getCountry() {
     return country;
   }
-  public CountryRecord getRegisteredCountry() {
+  public com.maxmind.geoip2.record.Country getRegisteredCountry() {
     return registeredCountry;
   }
-  public ContinentRecord getContinent() {
+  public Continent getContinent() {
     return continent;
   }
-  public TraitsRecord getTraits() {
+  public Traits getTraits() {
     return traits;
   }
 }
-

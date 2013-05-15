@@ -1,11 +1,11 @@
-package com.maxmind.geoip2;
+package com.maxmind.geoip2.record;
 
 import java.lang.*;
 import java.util.*;
 import java.io.*;
 import org.json.*;
 
-public class TraitsRecord
+public class Traits
 {
   private String ipAddress;
   private Integer autonomousSystemNumber;
@@ -15,8 +15,8 @@ public class TraitsRecord
   private String organization;
   private String userType;
   private boolean anonymousProxy;
-  
-  public TraitsRecord(JSONObject json) throws JSONException {
+
+  public Traits(JSONObject json) throws JSONException {
     ipAddress = json.getString("ip_address");
     if (json.has("autonomous_system_number")) {
       autonomousSystemNumber = new Integer(json.getInt("autonomous_system_number"));
@@ -55,5 +55,3 @@ public class TraitsRecord
   }
 
 }
-
-

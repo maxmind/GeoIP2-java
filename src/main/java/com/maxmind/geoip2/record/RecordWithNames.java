@@ -1,4 +1,4 @@
-package com.maxmind.geoip2;
+package com.maxmind.geoip2.record;
 
 import java.lang.*;
 import java.util.*;
@@ -38,4 +38,3 @@ public abstract class RecordWithNames {
     return confidence;
   }
 }
-

@@ -1,19 +1,17 @@
-package com.maxmind.geoip2;
+package com.maxmind.geoip2.record;
 
 import java.lang.*;
 import java.util.*;
 import java.io.*;
 import org.json.*;
 
-public class CountryRecord extends RecordWithNames
+public class Subdivision extends RecordWithNames
 {
   private String isoCode;
-  public CountryRecord(JSONObject jcountry) throws JSONException {
+  private HashMap<String,String> names;
+  public Subdivision(JSONObject jcountry) throws JSONException {
     super(jcountry);
     isoCode = jcountry.getString("iso_code");
-  }
-  public CountryRecord() {
-    super();
   }
   public String getCode() {
     return isoCode;

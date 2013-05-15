@@ -1,11 +1,11 @@
-package com.maxmind.geoip2;
+package com.maxmind.geoip2.record;
 
 import java.lang.*;
 import java.util.*;
 import java.io.*;
 import org.json.*;
 
-public class RepresentedCountry extends CountryRecord
+public class RepresentedCountry extends Country
 {
   private String type;
   public RepresentedCountry(JSONObject jcountry) throws JSONException {
@@ -20,4 +20,3 @@ public class RepresentedCountry extends CountryRecord
     return type;
   }
 }
-
