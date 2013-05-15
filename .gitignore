@@ -1,10 +1,9 @@
 *.class
 *~
-
-# Package Files #
 *.jar
 *.war
 *.ear
-
+*.swp
+hs_err*.log
 target
 reports
