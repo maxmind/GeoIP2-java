@@ -30,7 +30,7 @@ import org.simpleframework.transport.connect.SocketConnection;
 /**
  * Unit test for simple App.
  */
-public class ClientTest 
+public class ClientTest
     extends TestCase
 {
     Connection connection;
@@ -118,7 +118,7 @@ public class ClientTest
         if (content_type != null) {
           response.setValue("Content-Type", content_type);
         } else {
-          response.setValue("Content-Type", 
+          response.setValue("Content-Type",
            "application/vnd.maxmind.com-" +
            endpoint + "+json; charset=UTF-8; version=1.0");
         }
@@ -237,7 +237,7 @@ public class ClientTest
         String json = "could not decode the response as JSON";
         if (e.getMessage().indexOf(json) == -1) {
           fail("1.2.3.5 error does not contain expected text");
-        }        
+        }
       }
       try {
         Country country = client.Country("1.2.3.6");
@@ -255,6 +255,8 @@ public class ClientTest
         if (e.getMessage().indexOf(msg) == -1) {
           fail("1.2.3.6 error does not contain expected text");
         }
+      } catch (GenericException e) {
+          fail("Wrong exception typ thrown");
       }
       try {
         Country country = client.Country("1.2.3.7");
@@ -265,7 +267,9 @@ public class ClientTest
         }
         if (e.getMessage().indexOf("with no body") == -1) {
           fail("1.2.3.7 error does not contain expected text");
-        }        
+        }
+      } catch (GenericException e) {
+          fail("Wrong exception typ thrown");
       }
       try {
         Country country = client.Country("1.2.3.8");
@@ -276,6 +280,8 @@ public class ClientTest
         if (e.getMessage().indexOf(msg) == -1) {
           fail("1.2.3.8 error does not contain expected text");
         }
+      } catch (GenericException e) {
+          fail("Wrong exception typ thrown");
       }
       try {
         Country country = client.Country("1.2.3.9");
@@ -285,6 +291,8 @@ public class ClientTest
         if (e.getMessage().indexOf(msg) == -1) {
           fail("1.2.3.9 error does not contain expected text");
         }
+      } catch (GenericException e) {
+          fail("Wrong exception typ thrown");
       }
       try {
         Country country = client.Country("1.2.3.10");
@@ -294,6 +302,8 @@ public class ClientTest
         if (e.getMessage().indexOf(msg) == -1) {
           fail("1.2.3.10 error does not contain expected text");
         }
+      } catch (GenericException e) {
+          fail("Wrong exception typ thrown");
       }
       try {
         Country country = client.Country("1.2.3.11");
@@ -303,6 +313,8 @@ public class ClientTest
         if (e.getMessage().indexOf(msg) == -1) {
           fail("1.2.3.11 error does not contain expected text");
         }
+      } catch (GenericException e) {
+          fail("Wrong exception typ thrown");
       }
       try {
         Country country = client.Country("1.2.3.12");
@@ -312,7 +324,8 @@ public class ClientTest
         if (e.getMessage().indexOf(msg) == -1) {
           fail("1.2.3.12 error does not contain expected text");
         }
+      } catch (GenericException e) {
+          fail("Wrong exception typ thrown");
       }
     }
 }
-

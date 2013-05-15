@@ -23,28 +23,28 @@ public class Client
     this.license_key = license_key;
     this.host = "geoip.maxmind.com";
   }
-  public Country Country(String ip_address) {
+  public Country Country(String ip_address) throws GenericException {
     JSONObject json = response_for("country",ip_address);
     if (json != null) {
       return new Country(json);
     }
     return null;
   }
-  public City City(String ip_address) {
+  public City City(String ip_address) throws GenericException {
     JSONObject json = response_for("city",ip_address);
     if (json != null) {
       return new City(json);
     }
     return null;
   }
-  public Omni Omni(String ip_address) {
+  public Omni Omni(String ip_address) throws GenericException {
     JSONObject json = response_for("omni",ip_address);
     if (json != null) {
       return new Omni(json);
     }
     return null;
   }
-  public CityISPOrg CityISPOrg(String ip_address) {
+  public CityISPOrg CityISPOrg(String ip_address) throws GenericException {
     JSONObject json = response_for("city_isp_org",ip_address);
     if (json != null) {
       return new CityISPOrg(json);
@@ -56,7 +56,7 @@ public class Client
   public void setHost(String host) {
     this.host = host;
   }
-  private JSONObject response_for(String path,String ip_address) {
+  private JSONObject response_for(String path,String ip_address) throws GenericException {
     DefaultHttpClient httpclient = new DefaultHttpClient();
     try {
       //String uri = "https://ct4-test.maxmind.com/geoip/" + path + "/" + ip_address;
@@ -94,7 +94,7 @@ public class Client
     instream.close();
     return content;
   }
-  private JSONObject handle_success(HttpResponse response, String uri) throws IOException {
+    private JSONObject handle_success(HttpResponse response, String uri) throws IOException, GenericException {
     JSONObject json = null;
     try {
       String content = get_content(response);
@@ -106,7 +106,7 @@ public class Client
     }
     return json;
   }
-  private void handle_error_status(HttpResponse response, int status, String uri) throws IOException {
+    private void handle_error_status(HttpResponse response, int status, String uri) throws IOException, GenericException {
     if ((status >= 400) && (status < 500)) {
       handle_4xx_status(response,status,uri);
     } else if ((status >= 500) && (status < 600)) {
@@ -115,7 +115,7 @@ public class Client
       handle_non_200_status(response,status,uri);
     }
   }
-  private void handle_4xx_status(HttpResponse response, int status, String uri) throws IOException {
+    private void handle_4xx_status(HttpResponse response, int status, String uri) throws IOException, HTTPException {
     String JSON_Message = "Received a " + status + " error for " + uri + " but it did not include the expected JSON body: ";
     String content = get_content(response);
     if (content == null) {content = "";}
@@ -162,7 +162,7 @@ public class Client
         );
     }
   }
-  private void handle_5xx_status(HttpResponse response, int status, String uri) {
+  private void handle_5xx_status(HttpResponse response, int status, String uri)  throws HTTPException {
     throw new HTTPException(
        "Received a server error (" + status + ") for " + uri,
        status,
@@ -170,7 +170,7 @@ public class Client
     );
 
   }
-  private void handle_non_200_status(HttpResponse response, int status, String uri) {
+  private void handle_non_200_status(HttpResponse response, int status, String uri) throws HTTPException {
     throw new HTTPException(
        "Received a very surprising HTTP status (" + status + ") for " + uri,
        status,
