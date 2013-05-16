@@ -3,8 +3,8 @@
 *.jar
 *.war
 *.ear
-*.swp
-.classpath
+*.sw?
+*.classpath
 .project
 .settings
 hs_err*.log

@@ -1,44 +1,20 @@
 package com.maxmind.geoip2.model;
 
-import org.json.*;
 import com.maxmind.geoip2.record.*;
+import com.google.api.client.util.Key;
 
 public class Country {
+    @Key
     private com.maxmind.geoip2.record.Country country;
+    @Key("registered_country")
     private com.maxmind.geoip2.record.Country registeredCountry;
+    @Key
     private Continent continent;
+    @Key
     private Traits traits;
 
-    public Country(JSONObject json) {
-        try {
-            JSONObject jcontinent = json.getJSONObject("continent");
-            continent = new Continent(jcontinent);
-        } catch (JSONException e) {
-            continent = new Continent();
-        }
-
-        try {
-            JSONObject jcountry = json.getJSONObject("country");
-            country = new com.maxmind.geoip2.record.Country(jcountry);
-        } catch (JSONException e) {
-            country = new com.maxmind.geoip2.record.Country();
-        }
-
-        try {
-            JSONObject jcountry = json.getJSONObject("registered_country");
-            registeredCountry = new com.maxmind.geoip2.record.Country(jcountry);
-        } catch (JSONException e) {
-            registeredCountry = new com.maxmind.geoip2.record.Country();
-        }
-
-        try {
-            JSONObject jtraits = json.getJSONObject("traits");
-            traits = new Traits(jtraits);
-        } catch (JSONException e) {
-            traits = new Traits();
-        }
-    }
-
+    public Country(){}
+  
     public com.maxmind.geoip2.record.Country getCountry() {
         return country;
     }

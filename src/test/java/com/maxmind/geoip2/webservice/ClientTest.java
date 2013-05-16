@@ -6,13 +6,12 @@ import java.util.*;
 import java.io.*;
 import java.net.*;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.*;
+import static org.junit.Assert.*;
 
-import java.io.PrintStream;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+
 
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
@@ -25,7 +24,7 @@ import org.simpleframework.transport.connect.SocketConnection;
 /**
  * Unit test for simple App.
  */
-public class ClientTest extends TestCase {
+public class ClientTest {
     Connection connection;
     int port;
 
@@ -55,42 +54,33 @@ public class ClientTest extends TestCase {
             sb.append("\"names\":{\"en\":\"Canada\"}");
             sb.append("},");
             sb.append("\"traits\":{");
-            sb.append("\"ip_address\":\"1.2.3.4\",");
+            sb.append("\"ip_address\":\"1.2.3.4\"");
             sb.append("}}");
             json_String = sb.toString();
         }
 
         public void handle(Request request, Response response) {
-            try {
                 String path = request.getPath().toString();
                 String ipAddress = path.substring(path.lastIndexOf('/') + 1);
-                PrintStream body = response.getPrintStream();
                 if (ipAddress.equals("1.2.3.4")) {
-                    setResponse(response, "country", 200);
-                    body.print(json_String);
+                    setResponse(response, "country", 200, "application/json", json_String);
                 }
                 if (ipAddress.equals("1.2.3.5")) {
                     setResponse(response, "country", 200);
                 }
                 if (ipAddress.equals("1.2.3.6")) {
-                    setResponse(response, "error", 400);
-                    body.print("{");
-                    body.print("\"code\":\"IP_ADDRESS_INVALID\",");
-                    body.print("\"error\":\"The value 1.2.3 is not a valid ip address\"");
-                    body.print("}");
+                    String body = "{\"code\":\"IP_ADDRESS_INVALID\"," +
+                        "\"error\":\"The value 1.2.3 is not a valid ip address\"}";
+                    setResponse(response, "error", 400, "application/json", body);
                 }
                 if (ipAddress.equals("1.2.3.7")) {
                     setResponse(response, "error", 400);
                 }
                 if (ipAddress.equals("1.2.3.8")) {
-                    setResponse(response, "error", 400);
-                    body.print("{");
-                    body.print("\"weird\":42");
-                    body.print("}");
+                    setResponse(response, "error", 400, "application/json", "{\"weird\":42}");
                 }
                 if (ipAddress.equals("1.2.3.9")) {
-                    setResponse(response, "error", 400);
-                    body.print("{ invalid: }");
+                    setResponse(response, "error", 400, "application/json", "{ invalid: }");
                 }
                 if (ipAddress.equals("1.2.3.10")) {
                     setResponse(response, "", 500);
@@ -99,21 +89,16 @@ public class ClientTest extends TestCase {
                     setResponse(response, "", 300);
                 }
                 if (ipAddress.equals("1.2.3.12")) {
-                    setResponse(response, "error", 406, "text/plain");
-                    body.print("Cannot satisfy your Accept-Charset requirements");
+                    setResponse(response, "error", 406, "text/plain",  "Cannot satisfy your Accept-Charset requirements");
                 }
-                body.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
         private void setResponse(Response response, String endpoint, int status) {
-            setResponse(response, endpoint, status, null);
+            setResponse(response, endpoint, status, null, "");
         }
 
         private void setResponse(Response response, String endpoint,
-                int status, String content_type) {
+                int status, String content_type, String body) {
             if (content_type != null) {
                 response.setValue("Content-Type", content_type);
             } else {
@@ -122,16 +107,16 @@ public class ClientTest extends TestCase {
                                 + "+json; charset=UTF-8; version=1.0");
             }
             response.setCode(status);
+            response.setContentLength(body.length());
+            try {
+                response.getPrintStream().print(body);
+                response.getPrintStream().close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
 
-    }
-
-    public ClientTest(String testName) {
-        super(testName);
-    }
-
-    public static Test suite() {
-        return new TestSuite(ClientTest.class);
     }
 
     public static boolean available(int port) {
@@ -165,7 +150,8 @@ public class ClientTest extends TestCase {
         return false;
     }
 
-    public void setUp() throws java.lang.Exception {
+    @Before
+    public void setUp() {
         Random rand = new Random();
         for (int i = 0; i < 256; i++) {
             port = 30000 + rand.nextInt(35000);
@@ -173,12 +159,22 @@ public class ClientTest extends TestCase {
                 break;
             }
         }
-        connection = setup_mock_server(port);
-
+            try {
+                connection = setup_mock_server(port);
+            } catch (Exception e) {
+                e.printStackTrace();
+                fail("Error setting up tests");
+            }
     }
 
-    public void tearDown() throws java.lang.Exception {
-        connection.close();
+    @After
+    public void tearDown() {
+        try {
+            connection.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail("Error tearing down tests");
+        }
     }
 
     Connection setup_mock_server(int port) throws Exception {
@@ -190,12 +186,12 @@ public class ClientTest extends TestCase {
         return connection;
     }
 
+    @Test
     public void testCountry() {
         try {
-            Client client = new Client("42", "abcdef123456");
+            Client client = new Client(42, "abcdef123456");
             client.setHost("localhost:" + port);
-            Country country = client.Country("1.2.3.4");
-
+            Country country = client.country("1.2.3.4");
             assertEquals("country.getContinent().getCode() does not return NA",
                     "NA", country.getContinent().getCode());
             assertEquals(
@@ -213,28 +209,26 @@ public class ClientTest extends TestCase {
                     "country.getCountry().getName(\"en\") does not return United States",
                     "United States", country.getCountry().getName("en"));
 
-        } catch (Exception e) {
-            fail(e.getMessage());
+        } catch (GeoIP2Exception e) {
+            fail(e.toString() + "\n" + e.getMessage());
         }
     }
 
+    @Test
     @SuppressWarnings("unused")
     public void testClientExceptions() {
-        Client client = new Client("42", "abcdef123456");
+        Client client = new Client(42, "abcdef123456");
         client.setHost("localhost:" + port);
         try {
-            Country country = client.Country("1.2.3.5");
+            Country country = client.country("1.2.3.5");
             fail("no exception thrown when response status is 200 but body is not valid JSON");
         } catch (GeoIP2Exception e) {
-            // System.out.println(e.getMessage());
-            // e.printStackTrace();
-            String json = "could not decode the response as JSON";
             if (e.getMessage().indexOf("message body") == -1) {
-                fail("1.2.3.5 error does not contain expected text");
+                fail("1.2.3.5 error does not contain expected text:" + e.getMessage());
             }
         }
         try {
-            Country country = client.Country("1.2.3.6");
+            Country country = client.country("1.2.3.6");
             fail("no WebServiceException thrown when webservice returns a 4xx error");
         } catch (WebServiceException e) {
             assertEquals("exception object does not contain expected code",
@@ -247,12 +241,12 @@ public class ClientTest extends TestCase {
                 fail("1.2.3.6 error does not contain expected text");
             }
         } catch (GeoIP2Exception e) {
-            fail("Wrong exception typ thrown");
+            fail("Wrong exception type thrown: " + e + " " + e.getMessage());
         }
         try {
-            Country country = client.Country("1.2.3.7");
-            fail("no HTTPException thrown when webservice returns a 4xx error without a body");
-        } catch (HTTPException e) {
+            Country country = client.country("1.2.3.7");
+            fail("no HttpException thrown when webservice returns a 4xx error without a body");
+        } catch (HttpException e) {
             if (e.getMessage().indexOf("Received a 400 error for") == -1) {
                 fail("1.2.3.7 error does not contain expected text");
             }
@@ -260,63 +254,62 @@ public class ClientTest extends TestCase {
                 fail("1.2.3.7 error does not contain expected text");
             }
         } catch (GeoIP2Exception e) {
-            fail("Wrong exception typ thrown");
+            fail("Wrong exception type thrown: " + e + " " + e.getMessage());
         }
         try {
-            Country country = client.Country("1.2.3.8");
-            fail("no HTTPException thrown when webservice returns a 4xx error with a JSON body but no code and error keys");
-        } catch (HTTPException e) {
-            String msg = "it did not include the expected JSON body: Response contains JSON but it does not specify code or error keys";
-            System.out.println(e.getMessage());
+            Country country = client.country("1.2.3.8");
+            fail("no HttpException thrown when webservice returns a 4xx error with a JSON body but no code and error keys");
+        } catch (HttpException e) {
+            String msg = "Response contains JSON but it does not specify code or error keys";
             if (e.getMessage().indexOf(msg) == -1) {
                 fail("1.2.3.8 error does not contain expected text");
             }
         } catch (GeoIP2Exception e) {
-            fail("Wrong exception typ thrown");
+            fail("Wrong exception type thrown: " + e + " " + e.getMessage());
         }
         try {
-            Country country = client.Country("1.2.3.9");
-            fail("no HTTPException thrown when webservice returns a 4xx error with a non-JSON body");
-        } catch (HTTPException e) {
+            Country country = client.country("1.2.3.9");
+            fail("no HttpException thrown when webservice returns a 4xx error with a non-JSON body");
+        } catch (HttpException e) {
             String msg = "it did not include the expected JSON body:";
             if (e.getMessage().indexOf(msg) == -1) {
                 fail("1.2.3.9 error does not contain expected text");
             }
         } catch (GeoIP2Exception e) {
-            fail("Wrong exception typ thrown");
+            fail("Wrong exception type thrown: " + e + " " + e.getMessage());
         }
         try {
-            Country country = client.Country("1.2.3.10");
-            fail("no HTTPException thrown when webservice returns a 5xx error");
-        } catch (HTTPException e) {
+            Country country = client.country("1.2.3.10");
+            fail("no HttpException thrown when webservice returns a 5xx error");
+        } catch (HttpException e) {
             String msg = "Received a server error (500) for";
             if (e.getMessage().indexOf(msg) == -1) {
                 fail("1.2.3.10 error does not contain expected text");
             }
         } catch (GeoIP2Exception e) {
-            fail("Wrong exception typ thrown");
+            fail("Wrong exception type thrown: " + e.getMessage() );
         }
         try {
-            Country country = client.Country("1.2.3.11");
-            fail("no HTTPException thrown when webservice returns a 3xx error");
-        } catch (HTTPException e) {
+            Country country = client.country("1.2.3.11");
+            fail("no HttpException thrown when webservice returns a 3xx error");
+        } catch (HttpException e) {
             String msg = "Received a very surprising HTTP status (300) for";
             if (e.getMessage().indexOf(msg) == -1) {
                 fail("1.2.3.11 error does not contain expected text");
             }
         } catch (GeoIP2Exception e) {
-            fail("Wrong exception typ thrown");
+            fail("Wrong exception type thrown: " + e + " " + e.getMessage() );
         }
         try {
-            Country country = client.Country("1.2.3.12");
-            fail("no HTTPException thrown when webservice returns a 406 error");
-        } catch (HTTPException e) {
+            Country country = client.country("1.2.3.12");
+            fail("no HttpException thrown when webservice returns a 406 error");
+        } catch (HttpException e) {
             String msg = "Cannot satisfy your Accept-Charset requirements";
             if (e.getMessage().indexOf(msg) == -1) {
                 fail("1.2.3.12 error does not contain expected text");
             }
         } catch (GeoIP2Exception e) {
-            fail("Wrong exception typ thrown");
+            fail("Wrong exception type thrown: " + e + " " + e.getMessage() );
         }
     }
 }

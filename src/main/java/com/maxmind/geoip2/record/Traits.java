@@ -1,32 +1,24 @@
 package com.maxmind.geoip2.record;
 
-import org.json.*;
+import com.google.api.client.util.Key;
 
 public class Traits {
+    @Key("ip_address")
     private String ipAddress;
+    @Key("autonomous_system_number")
     private Integer autonomousSystemNumber;
+    @Key("autonomous_system_organization")
     private String autonomousSystemOrganization;
+    @Key
     private String domain;
+    @Key
     private String isp;
+    @Key
     private String organization;
+    @Key("user_type")
     private String userType;
+    @Key("is_anonymous_proxy")
     private boolean anonymousProxy;
-
-    public Traits(JSONObject json) throws JSONException {
-        ipAddress = json.getString("ip_address");
-        if (json.has("autonomous_system_number")) {
-            autonomousSystemNumber = new Integer(
-                    json.getInt("autonomous_system_number"));
-        }
-        autonomousSystemOrganization = json.optString(
-                "autonomous_system_organization", null);
-        domain = json.optString("domain", null);
-        isp = json.optString("isp", null);
-        organization = json.optString("organization", null);
-        userType = json.optString("user_type", null);
-        anonymousProxy = json.optBoolean("is_anonymous_proxy");
-
-    }
 
     public Traits() {
         // Empty traits object

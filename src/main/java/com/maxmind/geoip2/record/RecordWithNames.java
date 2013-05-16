@@ -1,30 +1,15 @@
 package com.maxmind.geoip2.record;
 
-import java.util.*;
-import org.json.*;
+import java.util.HashMap;
+import com.google.api.client.util.Key;
 
 public abstract class RecordWithNames {
-
+    @Key
     private HashMap<String, String> names;
+    @Key("geoname_id")
     private Integer geoNameId;
+    @Key
     private Integer confidence;
-
-    protected RecordWithNames(JSONObject json) throws JSONException {
-        geoNameId = json.getInt("geoname_id");
-        names = new HashMap<String, String>();
-        if (json.has("names")) {
-            JSONObject jnames = json.getJSONObject("names");
-            Iterator<?> i = jnames.keys();
-            while (i.hasNext()){
-                String key = (String) i.next();
-                String value = jnames.getString(key);
-                names.put(key, value);
-            }
-        }
-        if (json.has("confidence")) {
-            confidence = new Integer(json.getInt("confidence"));
-        }
-    }
 
     protected RecordWithNames() {
         names = new HashMap<String, String>();

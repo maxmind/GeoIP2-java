@@ -1,14 +1,10 @@
 package com.maxmind.geoip2.record;
 
-import org.json.*;
+import com.google.api.client.util.Key;
 
 public class RepresentedCountry extends Country {
+    @Key
     private String type;
-
-    public RepresentedCountry(JSONObject jcountry) throws JSONException {
-        super(jcountry);
-        type = jcountry.getString("type");
-    }
 
     public RepresentedCountry() {
         super();

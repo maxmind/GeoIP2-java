@@ -1,42 +1,61 @@
-package com.maxmind.geoip2.model;
+package com.maxmind.geoip2.webservice;
 
-import org.json.*;
+import java.io.IOException;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Before;
+import org.junit.Test;
 
-public class CountryTest extends TestCase {
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.LowLevelHttpRequest;
+import com.google.api.client.http.LowLevelHttpResponse;
+import com.google.api.client.testing.http.MockHttpTransport;
+import com.google.api.client.testing.http.MockLowLevelHttpRequest;
+import com.google.api.client.testing.http.MockLowLevelHttpResponse;
+import static org.junit.Assert.*;
 
-    public CountryTest(String testName) {
-        super(testName);
-    }
+import com.maxmind.geoip2.exception.GeoIP2Exception;
+import com.maxmind.geoip2.model.Country;
+import com.maxmind.geoip2.webservice.Client;
 
-    public static Test suite() {
-        return new TestSuite(CountryTest.class);
-    }
 
-    private JSONObject createJSONCountry() {
-        String str = "{\"continent\":{" + "\"continent_code\":\"NA\","
+public class CountryTest{
+    Country country;
+
+    @Before
+    public void setUp() throws GeoIP2Exception {
+        final String body = "{\"continent\":{" + "\"continent_code\":\"NA\","
                 + "\"geoname_id\":42," + "\"names\":{\"en\":\"North America\"}"
                 + "}," + "\"country\":{" + "\"geoname_id\":1,"
                 + "\"iso_code\":\"US\"," + "\"confidence\":56,"
                 + "\"names\":{\"en\":\"United States\"}" + "},"
                 + "\"registered_country\":{" + "\"geoname_id\":2,"
                 + "\"iso_code\":\"CA\"," + "\"names\":{\"en\":\"Canada\"}"
-                + "}," + "\"traits\":{" + "\"ip_address\":\"1.2.3.4\"," + "}}";
-        try {
-            return new JSONObject(str);
-        } catch (JSONException e) {
-            fail(e.getMessage());
-            return null;
-        }
-
+                + "}," + "\"traits\":{" + "\"ip_address\":\"1.2.3.4\"" + "}}";
+        
+        HttpTransport transport = new MockHttpTransport() {
+            @Override
+            public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+              return new MockLowLevelHttpRequest() {
+                @Override
+                public LowLevelHttpResponse execute() throws IOException {
+                  MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
+                  response.addHeader("Content-Length", String.valueOf(body.length()));
+                  response.setStatusCode(200);
+                  response.setContentType("application/vnd.maxmind.com-country"
+                          + "+json; charset=UTF-8; version=1.0);");
+                  response.setContent(body);
+                  return response;
+                }
+              };
+            }
+          };
+          Client client = new Client(42, "012345689", transport);
+          
+          country = client.country("1.1.1.1");
     }
 
+    @Test
     public void testCountry() {
-        JSONObject jcountry = createJSONCountry();
-        Country country = new Country(jcountry);
         assertEquals("country.getContinent().getCode() does not return NA",
                 "NA", country.getContinent().getCode());
         assertEquals(

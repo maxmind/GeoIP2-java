@@ -1,14 +1,12 @@
 package com.maxmind.geoip2.record;
 
-import org.json.*;
+import com.google.api.client.util.Key;
 
 public class Subdivision extends RecordWithNames {
+    @Key("iso_code")
     private String isoCode;
-
-    public Subdivision(JSONObject jcountry) throws JSONException {
-        super(jcountry);
-        isoCode = jcountry.getString("iso_code");
-    }
+    
+    public Subdivision() {}
 
     public String getIsoCode() {
         return isoCode;

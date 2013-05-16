@@ -1,39 +1,22 @@
 package com.maxmind.geoip2.record;
 
-import org.json.*;
+import com.google.api.client.util.Key;
 
 public class Location {
+    @Key
     private Double longitude;
+    @Key
     private Double latitude;
+    @Key("postal_code")
     private String postalCode;
+    @Key("postal_confidence")
     private Integer postalConfidence;
+    @Key("time_zone")
     private String timeZone;
+    @Key("metro_code")
     private Integer metroCode;
+    @Key("accuracy_radius")
     private Integer accuracyRadius;
-
-    public Location(JSONObject json) {
-        try {
-            postalCode = json.optString("postal_code", null);
-            if (json.has("postal_confidence")) {
-                postalConfidence = new Integer(json.getInt("postal_confidence"));
-            }
-            timeZone = json.optString("time_zone", null);
-            if (json.has("longitude")) {
-                longitude = new Double(json.getDouble("longitude"));
-            }
-            if (json.has("latitude")) {
-                latitude = new Double(json.getDouble("latitude"));
-            }
-            if (json.has("metro_code")) {
-                metroCode = new Integer(json.getInt("metro_code"));
-            }
-            if (json.has("accuracy_radius")) {
-                accuracyRadius = new Integer(json.getInt("accuracy_radius"));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     public Location() {
     }

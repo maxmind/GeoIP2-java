@@ -1,14 +1,10 @@
 package com.maxmind.geoip2.record;
 
-import org.json.*;
+import com.google.api.client.util.Key;
 
 public class Country extends RecordWithNames {
+    @Key("iso_code")
     private String isoCode;
-
-    public Country(JSONObject jcountry) throws JSONException {
-        super(jcountry);
-        isoCode = jcountry.getString("iso_code");
-    }
 
     public Country() {
         super();

@@ -1,29 +1,32 @@
-package com.maxmind.geoip2.model;
+package com.maxmind.geoip2.webservice;
 
-import com.maxmind.geoip2.record.*;
-import java.util.*;
-import org.json.*;
+import java.io.IOException;
+import java.util.ArrayList;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Before;
+import org.junit.Test;
 
-public class OmniTest extends TestCase {
-    Omni city;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.LowLevelHttpRequest;
+import com.google.api.client.http.LowLevelHttpResponse;
+import com.google.api.client.testing.http.MockHttpTransport;
+import com.google.api.client.testing.http.MockLowLevelHttpRequest;
+import com.google.api.client.testing.http.MockLowLevelHttpResponse;
+import static org.junit.Assert.*;
 
-    public OmniTest(String testName) {
-        super(testName);
-        JSONObject jcity = createJSONCity();
-        city = new Omni(jcity);
+import com.maxmind.geoip2.exception.GeoIP2Exception;
+import com.maxmind.geoip2.model.Omni;
+import com.maxmind.geoip2.record.Location;
+import com.maxmind.geoip2.record.Subdivision;
+import com.maxmind.geoip2.record.Traits;
+import com.maxmind.geoip2.webservice.Client;
 
-    }
+public class OmniTest {
+    Omni omni;
 
-    public static Test suite() {
-        return new TestSuite(OmniTest.class);
-    }
-
-    private JSONObject createJSONCity() {
-        String str = "{" + "\"city\":{" + "\"confidence\":76,"
+    @Before
+    public void setUp() throws GeoIP2Exception {
+        final String body = "{" + "\"city\":{" + "\"confidence\":76,"
                 + "\"geoname_id\":9876," + "\"names\":{"
                 + "\"en\":\"Minneapolis\"" + "}" + "}," +
 
@@ -55,16 +58,33 @@ public class OmniTest extends TestCase {
                 + "\"is_anonymous_proxy\":true," + "\"isp\":\"Comcast\","
                 + "\"organization\":\"Blorg\"," + "\"user_type\":\"college\""
                 + "}" + "}";
-        try {
-            return new JSONObject(str);
-        } catch (JSONException e) {
-            fail(e.getMessage());
-            return null;
-        }
+        
+        // Move this to shared code    
+        HttpTransport transport = new MockHttpTransport() {
+            @Override
+            public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+              return new MockLowLevelHttpRequest() {
+                @Override
+                public LowLevelHttpResponse execute() throws IOException {
+                  MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
+                  response.addHeader("Content-Length", String.valueOf(body.length()));
+                  response.setStatusCode(200);
+                  response.setContentType("application/vnd.maxmind.com-country"
+                          + "+json; charset=UTF-8; version=1.0);");
+                  response.setContent(body);
+                  return response;
+                }
+              };
+            }
+          };
+          Client client = new Client(42, "012345689", transport);
+          
+          omni = client.omni("1.1.1.1");
     }
-
+    
+    @Test
     public void testSubdivisionsList() {
-        ArrayList<Subdivision> subdivisionsList = city.getSubdivisionsList();
+        ArrayList<Subdivision> subdivisionsList = omni.getSubdivisionsList();
         assertNotNull("city.getSubdivisionsList returns null", subdivisionsList);
         if (subdivisionsList.size() == 0) {
             fail("subdivisionsList is empty");
@@ -78,8 +98,9 @@ public class OmniTest extends TestCase {
                 subdivision.getIsoCode());
     }
 
+    @Test
     public void testTraits() {
-        Traits traits = city.getTraits();
+        Traits traits = omni.getTraits();
 
         assertNotNull("city.getTraits() returns null", traits);
         assertEquals("traits.getAutonomousSystemNumber() does not return 1234",
@@ -102,9 +123,10 @@ public class OmniTest extends TestCase {
                 "college", traits.getUserType());
     }
 
+    @Test
     public void testLocation() {
 
-        Location location = city.getLocation();
+        Location location = omni.getLocation();
 
         assertNotNull("city.getLocation() returns null", location);
 
@@ -128,12 +150,13 @@ public class OmniTest extends TestCase {
                 "America/Chicago", location.getTimeZone());
     }
 
+    @Test
     public void testRepresentedCountry() {
         assertNotNull("city.getRepresentedCountry() returns null",
-                city.getRepresentedCountry());
+                omni.getRepresentedCountry());
 
         assertEquals(
                 "city.getRepresentedCountry().getType() does not return C<military>",
-                "C<military>", city.getRepresentedCountry().getType());
+                "C<military>", omni.getRepresentedCountry().getType());
     }
 }

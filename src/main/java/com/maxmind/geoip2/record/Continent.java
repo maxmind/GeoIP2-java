@@ -1,14 +1,10 @@
 package com.maxmind.geoip2.record;
 
-import org.json.*;
+import com.google.api.client.util.Key;
 
 public class Continent extends RecordWithNames {
+    @Key("continent_code")
     private String continentCode;
-
-    public Continent(JSONObject jcontinent) throws JSONException {
-        super(jcontinent);
-        continentCode = jcontinent.getString("continent_code");
-    }
 
     public Continent() {
         super();
