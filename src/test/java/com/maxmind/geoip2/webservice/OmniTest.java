@@ -1,5 +1,9 @@
 package com.maxmind.geoip2.webservice;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -12,14 +16,11 @@ import com.google.api.client.http.LowLevelHttpResponse;
 import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
-import static org.junit.Assert.*;
-
 import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.model.Omni;
 import com.maxmind.geoip2.record.Location;
 import com.maxmind.geoip2.record.Subdivision;
 import com.maxmind.geoip2.record.Traits;
-import com.maxmind.geoip2.webservice.Client;
 
 public class OmniTest {
     Omni omni;
@@ -58,30 +59,32 @@ public class OmniTest {
                 + "\"is_anonymous_proxy\":true," + "\"isp\":\"Comcast\","
                 + "\"organization\":\"Blorg\"," + "\"user_type\":\"college\""
                 + "}" + "}";
-        
-        // Move this to shared code    
+
+        // Move this to shared code
         HttpTransport transport = new MockHttpTransport() {
             @Override
-            public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
-              return new MockLowLevelHttpRequest() {
-                @Override
-                public LowLevelHttpResponse execute() throws IOException {
-                  MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
-                  response.addHeader("Content-Length", String.valueOf(body.length()));
-                  response.setStatusCode(200);
-                  response.setContentType("application/vnd.maxmind.com-country"
-                          + "+json; charset=UTF-8; version=1.0);");
-                  response.setContent(body);
-                  return response;
-                }
-              };
+            public LowLevelHttpRequest buildRequest(String method, String url)
+                    throws IOException {
+                return new MockLowLevelHttpRequest() {
+                    @Override
+                    public LowLevelHttpResponse execute() throws IOException {
+                        MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
+                        response.addHeader("Content-Length",
+                                String.valueOf(body.length()));
+                        response.setStatusCode(200);
+                        response.setContentType("application/vnd.maxmind.com-country"
+                                + "+json; charset=UTF-8; version=1.0);");
+                        response.setContent(body);
+                        return response;
+                    }
+                };
             }
-          };
-          Client client = new Client(42, "012345689", transport);
-          
-          omni = client.omni("1.1.1.1");
+        };
+        Client client = new Client(42, "012345689", transport);
+
+        omni = client.omni("1.1.1.1");
     }
-    
+
     @Test
     public void testSubdivisionsList() {
         ArrayList<Subdivision> subdivisionsList = omni.getSubdivisionsList();
@@ -93,7 +96,7 @@ public class OmniTest {
         assertEquals("subdivision.getConfidence() does not return 88",
                 new Integer(88), subdivision.getConfidence());
         assertEquals("subdivision.getGeoNameId() does not return 574635",
-                574635, (int) subdivision.getGeoNameId());
+                574635, subdivision.getGeoNameId());
         assertEquals("subdivision.getCode() does not return MN", "MN",
                 subdivision.getIsoCode());
     }

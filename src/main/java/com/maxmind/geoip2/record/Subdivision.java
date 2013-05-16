@@ -5,8 +5,9 @@ import com.google.api.client.util.Key;
 public class Subdivision extends RecordWithNames {
     @Key("iso_code")
     private String isoCode;
-    
-    public Subdivision() {}
+
+    public Subdivision() {
+    }
 
     public String getIsoCode() {
         return isoCode;

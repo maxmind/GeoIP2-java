@@ -1,7 +1,8 @@
 package com.maxmind.geoip2.model;
 
-import com.maxmind.geoip2.record.*;
 import com.google.api.client.util.Key;
+import com.maxmind.geoip2.record.Continent;
+import com.maxmind.geoip2.record.Traits;
 
 public class Country {
     @Key
@@ -13,8 +14,9 @@ public class Country {
     @Key
     private Traits traits;
 
-    public Country(){}
-  
+    public Country() {
+    }
+
     public com.maxmind.geoip2.record.Country getCountry() {
         return country;
     }

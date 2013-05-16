@@ -1,5 +1,7 @@
 package com.maxmind.geoip2.webservice;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 
 import org.junit.Before;
@@ -11,8 +13,6 @@ import com.google.api.client.http.LowLevelHttpResponse;
 import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
-import static org.junit.Assert.*;
-
 import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.model.CityIspOrg;
 

@@ -1,6 +1,7 @@
 package com.maxmind.geoip2.record;
 
 import java.util.HashMap;
+
 import com.google.api.client.util.Key;
 
 public abstract class RecordWithNames {

@@ -1,8 +1,11 @@
 package com.maxmind.geoip2.model;
 
 import java.util.ArrayList;
+
 import com.google.api.client.util.Key;
-import com.maxmind.geoip2.record.*;
+import com.maxmind.geoip2.record.Location;
+import com.maxmind.geoip2.record.RepresentedCountry;
+import com.maxmind.geoip2.record.Subdivision;
 
 public class City extends Country {
     private com.maxmind.geoip2.record.City city;
@@ -13,8 +16,8 @@ public class City extends Country {
     @Key("subdivisions")
     private ArrayList<Subdivision> subdivisionsList;
 
-    public City(){}
-    
+    public City() {
+    }
 
     public com.maxmind.geoip2.record.City getCity() {
         return city;

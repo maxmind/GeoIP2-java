@@ -1,18 +1,18 @@
 package com.maxmind.geoip2.webservice;
 
-import com.maxmind.geoip2.exception.*;
-import com.maxmind.geoip2.model.*;
-import java.util.*;
-import java.io.*;
-import java.net.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
-import org.junit.*;
-import static org.junit.Assert.*;
-
+import java.io.IOException;
+import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
+import java.net.ServerSocket;
 import java.net.SocketAddress;
+import java.util.Random;
 
-
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.simpleframework.http.Request;
 import org.simpleframework.http.Response;
 import org.simpleframework.http.core.Container;
@@ -20,6 +20,11 @@ import org.simpleframework.http.core.ContainerServer;
 import org.simpleframework.transport.Server;
 import org.simpleframework.transport.connect.Connection;
 import org.simpleframework.transport.connect.SocketConnection;
+
+import com.maxmind.geoip2.exception.GeoIP2Exception;
+import com.maxmind.geoip2.exception.HttpException;
+import com.maxmind.geoip2.exception.WebServiceException;
+import com.maxmind.geoip2.model.Country;
 
 /**
  * Unit test for simple App.
@@ -59,38 +64,43 @@ public class ClientTest {
             json_String = sb.toString();
         }
 
+        @Override
         public void handle(Request request, Response response) {
-                String path = request.getPath().toString();
-                String ipAddress = path.substring(path.lastIndexOf('/') + 1);
-                if (ipAddress.equals("1.2.3.4")) {
-                    setResponse(response, "country", 200, "application/json", json_String);
-                }
-                if (ipAddress.equals("1.2.3.5")) {
-                    setResponse(response, "country", 200);
-                }
-                if (ipAddress.equals("1.2.3.6")) {
-                    String body = "{\"code\":\"IP_ADDRESS_INVALID\"," +
-                        "\"error\":\"The value 1.2.3 is not a valid ip address\"}";
-                    setResponse(response, "error", 400, "application/json", body);
-                }
-                if (ipAddress.equals("1.2.3.7")) {
-                    setResponse(response, "error", 400);
-                }
-                if (ipAddress.equals("1.2.3.8")) {
-                    setResponse(response, "error", 400, "application/json", "{\"weird\":42}");
-                }
-                if (ipAddress.equals("1.2.3.9")) {
-                    setResponse(response, "error", 400, "application/json", "{ invalid: }");
-                }
-                if (ipAddress.equals("1.2.3.10")) {
-                    setResponse(response, "", 500);
-                }
-                if (ipAddress.equals("1.2.3.11")) {
-                    setResponse(response, "", 300);
-                }
-                if (ipAddress.equals("1.2.3.12")) {
-                    setResponse(response, "error", 406, "text/plain",  "Cannot satisfy your Accept-Charset requirements");
-                }
+            String path = request.getPath().toString();
+            String ipAddress = path.substring(path.lastIndexOf('/') + 1);
+            if (ipAddress.equals("1.2.3.4")) {
+                setResponse(response, "country", 200, "application/json",
+                        json_String);
+            }
+            if (ipAddress.equals("1.2.3.5")) {
+                setResponse(response, "country", 200);
+            }
+            if (ipAddress.equals("1.2.3.6")) {
+                String body = "{\"code\":\"IP_ADDRESS_INVALID\","
+                        + "\"error\":\"The value 1.2.3 is not a valid ip address\"}";
+                setResponse(response, "error", 400, "application/json", body);
+            }
+            if (ipAddress.equals("1.2.3.7")) {
+                setResponse(response, "error", 400);
+            }
+            if (ipAddress.equals("1.2.3.8")) {
+                setResponse(response, "error", 400, "application/json",
+                        "{\"weird\":42}");
+            }
+            if (ipAddress.equals("1.2.3.9")) {
+                setResponse(response, "error", 400, "application/json",
+                        "{ invalid: }");
+            }
+            if (ipAddress.equals("1.2.3.10")) {
+                setResponse(response, "", 500);
+            }
+            if (ipAddress.equals("1.2.3.11")) {
+                setResponse(response, "", 300);
+            }
+            if (ipAddress.equals("1.2.3.12")) {
+                setResponse(response, "error", 406, "text/plain",
+                        "Cannot satisfy your Accept-Charset requirements");
+            }
         }
 
         private void setResponse(Response response, String endpoint, int status) {
@@ -159,12 +169,12 @@ public class ClientTest {
                 break;
             }
         }
-            try {
-                connection = setup_mock_server(port);
-            } catch (Exception e) {
-                e.printStackTrace();
-                fail("Error setting up tests");
-            }
+        try {
+            connection = setup_mock_server(port);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Error setting up tests");
+        }
     }
 
     @After
@@ -196,7 +206,7 @@ public class ClientTest {
                     "NA", country.getContinent().getCode());
             assertEquals(
                     "country.getContinent().getGeoNameId() does not return 42",
-                    42, (int) country.getContinent().getGeoNameId());
+                    42, country.getContinent().getGeoNameId());
             assertEquals(
                     "country.getContinent().getName(\"en\") does not return North America",
                     "North America", country.getContinent().getName("en"));
@@ -204,7 +214,7 @@ public class ClientTest {
                     "US", country.getCountry().getIsoCode());
             assertEquals(
                     "country.getCountry().getGeoNameId() does not return 1", 1,
-                    (int) country.getCountry().getGeoNameId());
+                    country.getCountry().getGeoNameId());
             assertEquals(
                     "country.getCountry().getName(\"en\") does not return United States",
                     "United States", country.getCountry().getName("en"));
@@ -224,7 +234,8 @@ public class ClientTest {
             fail("no exception thrown when response status is 200 but body is not valid JSON");
         } catch (GeoIP2Exception e) {
             if (e.getMessage().indexOf("message body") == -1) {
-                fail("1.2.3.5 error does not contain expected text:" + e.getMessage());
+                fail("1.2.3.5 error does not contain expected text:"
+                        + e.getMessage());
             }
         }
         try {
@@ -287,7 +298,7 @@ public class ClientTest {
                 fail("1.2.3.10 error does not contain expected text");
             }
         } catch (GeoIP2Exception e) {
-            fail("Wrong exception type thrown: " + e.getMessage() );
+            fail("Wrong exception type thrown: " + e.getMessage());
         }
         try {
             Country country = client.country("1.2.3.11");
@@ -298,7 +309,7 @@ public class ClientTest {
                 fail("1.2.3.11 error does not contain expected text");
             }
         } catch (GeoIP2Exception e) {
-            fail("Wrong exception type thrown: " + e + " " + e.getMessage() );
+            fail("Wrong exception type thrown: " + e + " " + e.getMessage());
         }
         try {
             Country country = client.country("1.2.3.12");
@@ -309,7 +320,7 @@ public class ClientTest {
                 fail("1.2.3.12 error does not contain expected text");
             }
         } catch (GeoIP2Exception e) {
-            fail("Wrong exception type thrown: " + e + " " + e.getMessage() );
+            fail("Wrong exception type thrown: " + e + " " + e.getMessage());
         }
     }
 }
