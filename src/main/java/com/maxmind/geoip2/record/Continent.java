@@ -11,6 +11,6 @@ public class Continent extends RecordWithNames {
     }
 
     public String getCode() {
-        return continentCode;
+        return this.continentCode;
     }
 }

@@ -22,30 +22,30 @@ public class Location {
     }
 
     public Integer getAccuracyRadius() {
-        return accuracyRadius;
+        return this.accuracyRadius;
     }
 
     public Integer getPostalConfidence() {
-        return postalConfidence;
+        return this.postalConfidence;
     }
 
     public String getPostalCode() {
-        return postalCode;
+        return this.postalCode;
     }
 
     public String getTimeZone() {
-        return timeZone;
+        return this.timeZone;
     }
 
     public Double getLongitude() {
-        return longitude;
+        return this.longitude;
     }
 
     public Double getLatitude() {
-        return latitude;
+        return this.latitude;
     }
 
     public Integer getMetroCode() {
-        return metroCode;
+        return this.metroCode;
     }
 }

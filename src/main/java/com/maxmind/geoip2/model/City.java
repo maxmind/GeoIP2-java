@@ -20,18 +20,18 @@ public class City extends Country {
     }
 
     public com.maxmind.geoip2.record.City getCity() {
-        return city;
+        return this.city;
     }
 
     public Location getLocation() {
-        return location;
+        return this.location;
     }
 
     public RepresentedCountry getRepresentedCountry() {
-        return representedCountry;
+        return this.representedCountry;
     }
 
     public ArrayList<Subdivision> getSubdivisionsList() {
-        return subdivisionsList;
+        return this.subdivisionsList;
     }
 }

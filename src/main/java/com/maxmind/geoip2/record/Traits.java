@@ -25,35 +25,35 @@ public class Traits {
     }
 
     public String getIpAddress() {
-        return ipAddress;
+        return this.ipAddress;
     }
 
     public Integer getAutonomousSystemNumber() {
-        return autonomousSystemNumber;
+        return this.autonomousSystemNumber;
     }
 
     public String getAutonomousSystemOrganization() {
-        return autonomousSystemOrganization;
+        return this.autonomousSystemOrganization;
     }
 
     public String getDomain() {
-        return domain;
+        return this.domain;
     }
 
     public String getIsp() {
-        return isp;
+        return this.isp;
     }
 
     public String getOrganization() {
-        return organization;
+        return this.organization;
     }
 
     public String getUserType() {
-        return userType;
+        return this.userType;
     }
 
     public boolean isAnonymousProxy() {
-        return anonymousProxy;
+        return this.anonymousProxy;
     }
 
 }

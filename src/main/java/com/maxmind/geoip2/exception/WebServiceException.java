@@ -11,6 +11,6 @@ public class WebServiceException extends HttpException {
     }
 
     public String getCode() {
-        return code;
+        return this.code;
     }
 }

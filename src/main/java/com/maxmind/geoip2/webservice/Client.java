@@ -26,7 +26,7 @@ import com.maxmind.geoip2.model.Omni;
 
 public class Client {
     private HttpTransport transport;
-    static final private JsonFactory JSON_FACTORY = new JacksonFactory();
+    static final JsonFactory JSON_FACTORY = new JacksonFactory();
     private int userId;
     private String licenseKey;
     private String host = "geoip.maxmind.com";
@@ -34,7 +34,7 @@ public class Client {
     public Client(int userId, String licenseKey) {
         this.userId = userId;
         this.licenseKey = licenseKey;
-        transport = new NetHttpTransport();
+        this.transport = new NetHttpTransport();
     }
 
     public Client(int userId, String licenseKey, HttpTransport transport) {
@@ -43,120 +43,71 @@ public class Client {
         this.transport = transport;
     }
 
-    // FIXME - combined the below into one method, maybe using generics
     public Country country(String ipAddress) throws GeoIP2Exception {
-        HttpResponse response = responseFor("country", ipAddress);
-        try {
-            return response.parseAs(Country.class);
-        } catch (IOException e) {
-            throw new GeoIP2Exception(
-                    "Received a 200 response but not decode it as JSON: "
-                            + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            throw new GeoIP2Exception(
-                    "Received a 200 response but not decode it as JSON: "
-                            + e.getMessage());
-        }
+        return this.responseFor("country", ipAddress, Country.class);
     }
 
     public City city(String ipAddress) throws GeoIP2Exception {
-        HttpResponse response = responseFor("city", ipAddress);
-        try {
-            return response.parseAs(City.class);
-        } catch (IOException e) {
-            throw new GeoIP2Exception(
-                    "Received a 200 response but not decode it as JSON: "
-                            + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            throw new GeoIP2Exception(
-                    "Received a 200 response but not decode it as JSON: "
-                            + e.getMessage());
-        }
+        return this.responseFor("city", ipAddress, City.class);
     }
 
     public Omni omni(String ipAddress) throws GeoIP2Exception {
-        HttpResponse response = responseFor("omni", ipAddress);
-        try {
-            return response.parseAs(Omni.class);
-        } catch (IOException e) {
-            throw new GeoIP2Exception(
-                    "Received a 200 response but not decode it as JSON: "
-                            + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            throw new GeoIP2Exception(
-                    "Received a 200 response but not decode it as JSON: "
-                            + e.getMessage());
-        }
+        return this.responseFor("omni", ipAddress, Omni.class);
     }
 
     public CityIspOrg cityIspOrg(String ipAddress) throws GeoIP2Exception {
-        HttpResponse response = responseFor("city_isp_org", ipAddress);
-        try {
-            return response.parseAs(CityIspOrg.class);
-        } catch (IOException e) {
-            throw new GeoIP2Exception(
-                    "Received a 200 response but not decode it as JSON: "
-                            + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            throw new GeoIP2Exception(
-                    "Received a 200 response but not decode it as JSON: "
-                            + e.getMessage());
-        }
+        return this.responseFor("city_isp_org", ipAddress, CityIspOrg.class);
     }
 
     public void setHost(String host) {
         this.host = host;
     }
 
-    private HttpResponse responseFor(String path, String ip_address)
-            throws GeoIP2Exception {
-        HttpRequestFactory requestFactory = transport
+    private <T extends Country> T responseFor(String path, String ip_address,
+            Class<T> cls) throws GeoIP2Exception {
+        HttpRequestFactory requestFactory = this.transport
                 .createRequestFactory(new HttpRequestInitializer() {
                     @Override
                     public void initialize(HttpRequest request) {
                         request.setParser(new JsonObjectParser(JSON_FACTORY));
                     }
                 });
-        String uri = "https://" + host;
-        if (host.startsWith("localhost")) {
-            uri = "http://" + host;
+        String uri = "https://" + this.host;
+        if (this.host.startsWith("localhost")) {
+            uri = "http://" + this.host;
         }
         uri = uri + "/geoip/v2.0/" + path + "/" + ip_address;
         // XXX - fix up urls
-        GenericUrl queryUrl = new GenericUrl(uri);
         HttpRequest request;
         try {
-            request = requestFactory.buildGetRequest(queryUrl);
+            request = requestFactory.buildGetRequest(new GenericUrl(uri));
         } catch (IOException e) {
             throw new GeoIP2Exception("Error building request", e);
         }
         request.getHeaders().setAccept("application/json");
-        request.getHeaders().setBasicAuthentication(String.valueOf(userId),
-                licenseKey);
+        request.getHeaders().setBasicAuthentication(
+                String.valueOf(this.userId), this.licenseKey);
 
-        HttpResponse response = null;
+        HttpResponse response;
         try {
             response = request.execute();
         } catch (HttpResponseException e) {
-            handleErrorStatus(e.getContent(), e.getStatusCode(), uri);
-
-            throw new GeoIP2Exception(
-                    "Known error when connecting to web service: "
-                            + e.getMessage(), e);
+            throw Client.handleErrorStatus(e.getContent(), e.getStatusCode(),
+                    uri);
         } catch (IOException e) {
             throw new GeoIP2Exception(
                     "Unknown error when connecting to web service: "
                             + e.getMessage(), e);
         }
 
-        return handleSuccess(response, uri);
+        return Client.handleSuccess(response, uri, cls);
     }
 
-    private HttpResponse handleSuccess(HttpResponse response, String uri)
-            throws GeoIP2Exception {
+    private static <T extends Country> T handleSuccess(HttpResponse response,
+            String uri, Class<T> cls) throws GeoIP2Exception {
         Long content_length = response.getHeaders().getContentLength();
 
-        if (content_length == null || content_length <= 0) {
+        if (content_length == null || content_length.longValue() <= 0) {
             throw new GeoIP2Exception("Received a 200 response for " + uri
                     + " but there was no message body.");
         }
@@ -175,25 +126,35 @@ public class Client {
             }
         }
 
-        return response;
-    }
-
-    private void handleErrorStatus(String content, int status, String uri)
-            throws GeoIP2Exception {
-        if ((status >= 400) && (status < 500)) {
-            handle4xxStatus(content, status, uri);
-        } else if ((status >= 500) && (status < 600)) {
-            handle5xxStatus(status, uri);
-        } else {
-            handleNon200Status(status, uri);
+        try {
+            return response.parseAs(cls);
+        } catch (IOException e) {
+            throw new GeoIP2Exception(
+                    "Received a 200 response but not decode it as JSON: "
+                            + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            throw new GeoIP2Exception(
+                    "Received a 200 response but not decode it as JSON: "
+                            + e.getMessage());
         }
     }
 
-    private void handle4xxStatus(String body, int status, String uri)
-            throws GeoIP2Exception {
+    private static HttpException handleErrorStatus(String content, int status,
+            String uri) {
+        if ((status >= 400) && (status < 500)) {
+            return Client.handle4xxStatus(content, status, uri);
+        } else if ((status >= 500) && (status < 600)) {
+            return Client.handle5xxStatus(status, uri);
+        } else {
+            return Client.handleNon200Status(status, uri);
+        }
+    }
+
+    private static HttpException handle4xxStatus(String body, int status,
+            String uri) {
 
         if (body == null) {
-            throw new HttpException("Received a " + status + " error for "
+            return new HttpException("Received a " + status + " error for "
                     + uri + " with no body", status, uri);
         }
 
@@ -202,7 +163,7 @@ public class Client {
             ObjectMapper mapper = new ObjectMapper();
             content = mapper.readValue(body, HashMap.class);
         } catch (IOException e) {
-            throw new HttpException(
+            return new HttpException(
                     "Received a $status error for "
                             + uri
                             + " but it did not include the expected JSON body: "
@@ -213,23 +174,22 @@ public class Client {
         String code = content.get("code");
 
         if (error == null || code == null) {
-            throw new HttpException(
+            return new HttpException(
                     "Response contains JSON but it does not specify code or error keys: "
                             + body, status, uri);
         }
 
-        throw new WebServiceException(content.get("error"),
+        return new WebServiceException(content.get("error"),
                 content.get("code"), status, uri);
     }
 
-    private void handle5xxStatus(int status, String uri) throws HttpException {
-        throw new HttpException("Received a server error (" + status + ") for "
-                + uri, status, uri);
+    private static HttpException handle5xxStatus(int status, String uri) {
+        return new HttpException("Received a server error (" + status
+                + ") for " + uri, status, uri);
     }
 
-    private void handleNon200Status(int status, String uri)
-            throws HttpException {
-        throw new HttpException("Received a very surprising HTTP status ("
+    private static HttpException handleNon200Status(int status, String uri) {
+        return new HttpException("Received a very surprising HTTP status ("
                 + status + ") for " + uri, status, uri);
     }
 }

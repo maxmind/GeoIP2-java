@@ -10,6 +10,6 @@ public class Subdivision extends RecordWithNames {
     }
 
     public String getIsoCode() {
-        return isoCode;
+        return this.isoCode;
     }
 }

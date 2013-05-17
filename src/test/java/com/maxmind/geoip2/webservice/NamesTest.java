@@ -54,19 +54,19 @@ public class NamesTest {
         };
         Client client = new Client(42, "012345689", transport);
 
-        cio = client.cityIspOrg("1.1.1.1");
+        this.cio = client.cityIspOrg("1.1.1.1");
     }
 
     @Test
     public void testNames() {
         assertEquals(
                 "country.getContinent().getName(\"zh-CN\") does not return 北美洲",
-                "北美洲", cio.getContinent().getName("zh-CN"));
+                "北美洲", this.cio.getContinent().getName("zh-CN"));
         assertEquals(
                 "country.getCountry().getName(\"ru\") does not return объединяет государства",
-                "объединяет государства", cio.getCountry().getName("ru"));
+                "объединяет государства", this.cio.getCountry().getName("ru"));
         assertEquals(
                 "country.getCountry().getName(\"zh-CN\") does not return 美国",
-                "美国", cio.getCountry().getName("zh-CN"));
+                "美国", this.cio.getCountry().getName("zh-CN"));
     }
 }

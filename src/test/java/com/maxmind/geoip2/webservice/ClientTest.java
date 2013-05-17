@@ -37,7 +37,7 @@ public class ClientTest {
         private String json_String;
 
         public MockServer() {
-            initJsonString();
+            this.initJsonString();
         }
 
         void initJsonString() {
@@ -61,7 +61,7 @@ public class ClientTest {
             sb.append("\"traits\":{");
             sb.append("\"ip_address\":\"1.2.3.4\"");
             sb.append("}}");
-            json_String = sb.toString();
+            this.json_String = sb.toString();
         }
 
         @Override
@@ -69,42 +69,43 @@ public class ClientTest {
             String path = request.getPath().toString();
             String ipAddress = path.substring(path.lastIndexOf('/') + 1);
             if (ipAddress.equals("1.2.3.4")) {
-                setResponse(response, "country", 200, "application/json",
-                        json_String);
+                this.setResponse(response, "country", 200, "application/json",
+                        this.json_String);
             }
             if (ipAddress.equals("1.2.3.5")) {
-                setResponse(response, "country", 200);
+                this.setResponse(response, "country", 200);
             }
             if (ipAddress.equals("1.2.3.6")) {
                 String body = "{\"code\":\"IP_ADDRESS_INVALID\","
                         + "\"error\":\"The value 1.2.3 is not a valid ip address\"}";
-                setResponse(response, "error", 400, "application/json", body);
+                this.setResponse(response, "error", 400, "application/json",
+                        body);
             }
             if (ipAddress.equals("1.2.3.7")) {
-                setResponse(response, "error", 400);
+                this.setResponse(response, "error", 400);
             }
             if (ipAddress.equals("1.2.3.8")) {
-                setResponse(response, "error", 400, "application/json",
+                this.setResponse(response, "error", 400, "application/json",
                         "{\"weird\":42}");
             }
             if (ipAddress.equals("1.2.3.9")) {
-                setResponse(response, "error", 400, "application/json",
+                this.setResponse(response, "error", 400, "application/json",
                         "{ invalid: }");
             }
             if (ipAddress.equals("1.2.3.10")) {
-                setResponse(response, "", 500);
+                this.setResponse(response, "", 500);
             }
             if (ipAddress.equals("1.2.3.11")) {
-                setResponse(response, "", 300);
+                this.setResponse(response, "", 300);
             }
             if (ipAddress.equals("1.2.3.12")) {
-                setResponse(response, "error", 406, "text/plain",
+                this.setResponse(response, "error", 406, "text/plain",
                         "Cannot satisfy your Accept-Charset requirements");
             }
         }
 
         private void setResponse(Response response, String endpoint, int status) {
-            setResponse(response, endpoint, status, null, "");
+            this.setResponse(response, endpoint, status, null, "");
         }
 
         private void setResponse(Response response, String endpoint,
@@ -164,13 +165,13 @@ public class ClientTest {
     public void setUp() {
         Random rand = new Random();
         for (int i = 0; i < 256; i++) {
-            port = 30000 + rand.nextInt(35000);
-            if (available(port) == true) {
+            this.port = 30000 + rand.nextInt(35000);
+            if (available(this.port) == true) {
                 break;
             }
         }
         try {
-            connection = setup_mock_server(port);
+            this.connection = this.setup_mock_server(this.port);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Error setting up tests");
@@ -180,7 +181,7 @@ public class ClientTest {
     @After
     public void tearDown() {
         try {
-            connection.close();
+            this.connection.close();
         } catch (IOException e) {
             e.printStackTrace();
             fail("Error tearing down tests");
@@ -196,17 +197,18 @@ public class ClientTest {
         return connection;
     }
 
+    @SuppressWarnings("boxing")
     @Test
     public void testCountry() {
         try {
             Client client = new Client(42, "abcdef123456");
-            client.setHost("localhost:" + port);
+            client.setHost("localhost:" + this.port);
             Country country = client.country("1.2.3.4");
             assertEquals("country.getContinent().getCode() does not return NA",
                     "NA", country.getContinent().getCode());
             assertEquals(
                     "country.getContinent().getGeoNameId() does not return 42",
-                    42, country.getContinent().getGeoNameId());
+                    42, (int) country.getContinent().getGeoNameId());
             assertEquals(
                     "country.getContinent().getName(\"en\") does not return North America",
                     "North America", country.getContinent().getName("en"));
@@ -214,7 +216,7 @@ public class ClientTest {
                     "US", country.getCountry().getIsoCode());
             assertEquals(
                     "country.getCountry().getGeoNameId() does not return 1", 1,
-                    country.getCountry().getGeoNameId());
+                    (int) country.getCountry().getGeoNameId());
             assertEquals(
                     "country.getCountry().getName(\"en\") does not return United States",
                     "United States", country.getCountry().getName("en"));
@@ -228,7 +230,7 @@ public class ClientTest {
     @SuppressWarnings("unused")
     public void testClientExceptions() {
         Client client = new Client(42, "abcdef123456");
-        client.setHost("localhost:" + port);
+        client.setHost("localhost:" + this.port);
         try {
             Country country = client.country("1.2.3.5");
             fail("no exception thrown when response status is 200 but body is not valid JSON");

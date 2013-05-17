@@ -8,10 +8,9 @@ public class RepresentedCountry extends Country {
 
     public RepresentedCountry() {
         super();
-        type = "";
     }
 
     public String getType() {
-        return type;
+        return this.type;
     }
 }

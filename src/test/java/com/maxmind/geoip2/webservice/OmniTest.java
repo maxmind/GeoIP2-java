@@ -82,12 +82,14 @@ public class OmniTest {
         };
         Client client = new Client(42, "012345689", transport);
 
-        omni = client.omni("1.1.1.1");
+        this.omni = client.omni("1.1.1.1");
     }
 
+    @SuppressWarnings("boxing")
     @Test
     public void testSubdivisionsList() {
-        ArrayList<Subdivision> subdivisionsList = omni.getSubdivisionsList();
+        ArrayList<Subdivision> subdivisionsList = this.omni
+                .getSubdivisionsList();
         assertNotNull("city.getSubdivisionsList returns null", subdivisionsList);
         if (subdivisionsList.size() == 0) {
             fail("subdivisionsList is empty");
@@ -96,14 +98,15 @@ public class OmniTest {
         assertEquals("subdivision.getConfidence() does not return 88",
                 new Integer(88), subdivision.getConfidence());
         assertEquals("subdivision.getGeoNameId() does not return 574635",
-                574635, subdivision.getGeoNameId());
+                574635, (int) subdivision.getGeoNameId());
         assertEquals("subdivision.getCode() does not return MN", "MN",
                 subdivision.getIsoCode());
     }
 
+    @SuppressWarnings("boxing")
     @Test
     public void testTraits() {
-        Traits traits = omni.getTraits();
+        Traits traits = this.omni.getTraits();
 
         assertNotNull("city.getTraits() returns null", traits);
         assertEquals("traits.getAutonomousSystemNumber() does not return 1234",
@@ -126,10 +129,11 @@ public class OmniTest {
                 "college", traits.getUserType());
     }
 
+    @SuppressWarnings("boxing")
     @Test
     public void testLocation() {
 
-        Location location = omni.getLocation();
+        Location location = this.omni.getLocation();
 
         assertNotNull("city.getLocation() returns null", location);
 
@@ -156,10 +160,10 @@ public class OmniTest {
     @Test
     public void testRepresentedCountry() {
         assertNotNull("city.getRepresentedCountry() returns null",
-                omni.getRepresentedCountry());
+                this.omni.getRepresentedCountry());
 
         assertEquals(
                 "city.getRepresentedCountry().getType() does not return C<military>",
-                "C<military>", omni.getRepresentedCountry().getType());
+                "C<military>", this.omni.getRepresentedCountry().getType());
     }
 }

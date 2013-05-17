@@ -19,10 +19,10 @@ public class HttpException extends GeoIP2Exception {
     }
 
     public int getHttpStatus() {
-        return http_status;
+        return this.http_status;
     }
 
     public String getUri() {
-        return uri;
+        return this.uri;
     }
 }

@@ -18,18 +18,18 @@ public class Country {
     }
 
     public com.maxmind.geoip2.record.Country getCountry() {
-        return country;
+        return this.country;
     }
 
     public com.maxmind.geoip2.record.Country getRegisteredCountry() {
-        return registeredCountry;
+        return this.registeredCountry;
     }
 
     public Continent getContinent() {
-        return continent;
+        return this.continent;
     }
 
     public Traits getTraits() {
-        return traits;
+        return this.traits;
     }
 }

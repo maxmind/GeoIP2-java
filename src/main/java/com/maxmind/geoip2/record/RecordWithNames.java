@@ -13,18 +13,18 @@ public abstract class RecordWithNames {
     private Integer confidence;
 
     protected RecordWithNames() {
-        names = new HashMap<String, String>();
+        this.names = new HashMap<String, String>();
     }
 
     public String getName(String l) {
-        return names.get(l);
+        return this.names.get(l);
     }
 
-    public int getGeoNameId() {
-        return geoNameId;
+    public Integer getGeoNameId() {
+        return this.geoNameId;
     }
 
     public Integer getConfidence() {
-        return confidence;
+        return this.confidence;
     }
 }
