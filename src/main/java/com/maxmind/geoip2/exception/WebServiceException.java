@@ -10,6 +10,12 @@ public class WebServiceException extends HttpException {
         this.code = code;
     }
 
+    public WebServiceException(String message, String code, int http_status,
+            String uri, Exception e) {
+        super(message, http_status, uri, e);
+        this.code = code;
+    }
+
     public String getCode() {
         return this.code;
     }
