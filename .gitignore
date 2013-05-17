@@ -5,6 +5,7 @@
 *.ear
 *.sw?
 *.classpath
+.pmd
 .project
 .settings
 hs_err*.log
