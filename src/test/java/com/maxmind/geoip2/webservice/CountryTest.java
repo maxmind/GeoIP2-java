@@ -53,7 +53,8 @@ public class CountryTest {
                 };
             }
         };
-        Client client = new Client(42, "012345689", transport);
+        Client client = new Client(42, "012345689", "geoip.maxmind.com",
+                transport);
 
         this.country = client.country("1.1.1.1");
     }

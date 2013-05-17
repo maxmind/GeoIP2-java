@@ -81,7 +81,8 @@ public class OmniTest {
                 };
             }
         };
-        Client client = new Client(42, "012345689", transport);
+        Client client = new Client(42, "012345689", "geoip.maxmind.com",
+                transport);
 
         this.omni = client.omni("1.1.1.1");
     }

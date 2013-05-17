@@ -201,8 +201,8 @@ public class ClientTest {
     @Test
     public void testCountry() {
         try {
-            Client client = new Client(42, "abcdef123456");
-            client.setHost("localhost:" + this.port);
+            Client client = new Client(42, "abcdef123456", "localhost:"
+                    + this.port);
             CountryResponse country = client.country("1.2.3.4");
             assertEquals("country.getContinent().getCode() does not return NA",
                     "NA", country.getContinent().getCode());
@@ -229,8 +229,7 @@ public class ClientTest {
     @Test
     @SuppressWarnings("unused")
     public void testClientExceptions() {
-        Client client = new Client(42, "abcdef123456");
-        client.setHost("localhost:" + this.port);
+        Client client = new Client(42, "abcdef123456", "localhost:" + this.port);
         try {
             CountryResponse country = client.country("1.2.3.5");
             fail("no exception thrown when response status is 200 but body is not valid JSON");

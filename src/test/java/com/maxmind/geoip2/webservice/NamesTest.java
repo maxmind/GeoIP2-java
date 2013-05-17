@@ -52,7 +52,8 @@ public class NamesTest {
                 };
             }
         };
-        Client client = new Client(42, "012345689", transport);
+        Client client = new Client(42, "012345689", "geoip.maxmind.com",
+                transport);
 
         this.cio = client.cityIspOrg("1.1.1.1");
     }
