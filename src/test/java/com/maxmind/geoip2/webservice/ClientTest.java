@@ -108,7 +108,6 @@ public class ClientTest {
 
     Client client = new Client(42, "abcdef123456", this.transport);
 
-    @SuppressWarnings("boxing")
     @Test
     public void testCountry() throws GeoIP2Exception {
         CountryResponse country = this.client.country("1.2.3.4");
@@ -116,14 +115,14 @@ public class ClientTest {
                 "NA", country.getContinent().getCode());
         assertEquals(
                 "country.getContinent().getGeoNameId() does not return 42", 42,
-                (int) country.getContinent().getGeoNameId());
+                country.getContinent().getGeoNameId().intValue());
         assertEquals(
                 "country.getContinent().getName(\"en\") does not return North America",
                 "North America", country.getContinent().getName("en"));
         assertEquals("country.getCountry().getCode() does not return US", "US",
                 country.getCountry().getIsoCode());
         assertEquals("country.getCountry().getGeoNameId() does not return 1",
-                1, (int) country.getCountry().getGeoNameId());
+                1, country.getCountry().getGeoNameId().intValue());
         assertEquals(
                 "country.getCountry().getName(\"en\") does not return United States",
                 "United States", country.getCountry().getName("en"));
