@@ -14,11 +14,11 @@ public abstract class RecordWithNames {
     protected RecordWithNames() {
     }
 
-    public String getName(String language) {
-        return this.names.get(language);
-    }
+    public String getName(String... languages) {
+        if (languages.length == 0) {
+            return this.names.get("en");
+        }
 
-    public String getName(String[] languages) {
         for (String lang : languages) {
             if (this.names.containsKey(lang)) {
                 return this.names.get(lang);

@@ -35,7 +35,8 @@ public class Client {
         this(userId, licenseKey, null, null);
     }
 
-    protected Client(int userId, String licenseKey, HttpTransport transport) {
+    /* package-private as this is just for unit testing */
+    Client(int userId, String licenseKey, HttpTransport transport) {
         this(userId, licenseKey, null, transport);
     }
 
@@ -43,8 +44,8 @@ public class Client {
         this(userId, licenseKey, host, null);
     }
 
-    protected Client(int userId, String licenseKey, String host,
-            HttpTransport transport) {
+    /* package-private as we only need to specify a transport for unit testing */
+    Client(int userId, String licenseKey, String host, HttpTransport transport) {
         this.userId = userId;
         this.licenseKey = licenseKey;
         if (host != null) {

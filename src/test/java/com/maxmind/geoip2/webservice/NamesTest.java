@@ -76,10 +76,12 @@ public class NamesTest {
     @Test
     public void testFallback() {
         assertEquals("en is returned when pt is missing", this.cio
-                .getContinent().getName(new String[] { "pt", "en", "zh-CN" }),
-                "North America");
+                .getContinent().getName("pt", "en", "zh-CN"), "North America");
         assertNull("null is returned when language is not available", this.cio
-                .getContinent().getName(new String[] { "pt", "ru", "de" }));
+                .getContinent().getName("pt", "ru", "de"));
+        assertEquals("en is returned when no languages are specified", this.cio
+                .getContinent().getName(), "North America");
+
     }
 
     @Test
