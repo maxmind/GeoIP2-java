@@ -1,11 +1,13 @@
 package com.maxmind.geoip2.webservice;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.simpleframework.transport.connect.Connection;
 
 import com.google.api.client.http.HttpTransport;
@@ -17,6 +19,8 @@ import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.exception.HttpException;
 import com.maxmind.geoip2.exception.WebServiceException;
+import com.maxmind.geoip2.matchers.CodeMatcher;
+import com.maxmind.geoip2.matchers.HttpStatusMatcher;
 import com.maxmind.geoip2.model.CountryResponse;
 
 /**
@@ -102,130 +106,101 @@ public class ClientTest {
         }
     };
 
+    Client client = new Client(42, "abcdef123456", this.transport);
+
     @SuppressWarnings("boxing")
     @Test
-    public void testCountry() {
-        try {
-            Client client = new Client(42, "abcdef123456", this.transport);
-            CountryResponse country = client.country("1.2.3.4");
-            assertEquals("country.getContinent().getCode() does not return NA",
-                    "NA", country.getContinent().getCode());
-            assertEquals(
-                    "country.getContinent().getGeoNameId() does not return 42",
-                    42, (int) country.getContinent().getGeoNameId());
-            assertEquals(
-                    "country.getContinent().getName(\"en\") does not return North America",
-                    "North America", country.getContinent().getName("en"));
-            assertEquals("country.getCountry().getCode() does not return US",
-                    "US", country.getCountry().getIsoCode());
-            assertEquals(
-                    "country.getCountry().getGeoNameId() does not return 1", 1,
-                    (int) country.getCountry().getGeoNameId());
-            assertEquals(
-                    "country.getCountry().getName(\"en\") does not return United States",
-                    "United States", country.getCountry().getName("en"));
+    public void testCountry() throws GeoIP2Exception {
+        CountryResponse country = this.client.country("1.2.3.4");
+        assertEquals("country.getContinent().getCode() does not return NA",
+                "NA", country.getContinent().getCode());
+        assertEquals(
+                "country.getContinent().getGeoNameId() does not return 42", 42,
+                (int) country.getContinent().getGeoNameId());
+        assertEquals(
+                "country.getContinent().getName(\"en\") does not return North America",
+                "North America", country.getContinent().getName("en"));
+        assertEquals("country.getCountry().getCode() does not return US", "US",
+                country.getCountry().getIsoCode());
+        assertEquals("country.getCountry().getGeoNameId() does not return 1",
+                1, (int) country.getCountry().getGeoNameId());
+        assertEquals(
+                "country.getCountry().getName(\"en\") does not return United States",
+                "United States", country.getCountry().getName("en"));
 
-        } catch (GeoIP2Exception e) {
-            fail(e.toString() + "\n" + e.getMessage());
-        }
+    }
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+
+    @Test
+    public void noBody() throws GeoIP2Exception {
+        this.exception.expect(GeoIP2Exception.class);
+        this.exception.expectMessage(containsString("message body"));
+
+        this.client.country("1.2.3.5");
     }
 
     @Test
-    @SuppressWarnings("unused")
-    public void testClientExceptions() {
-        Client client = new Client(42, "abcdef123456", this.transport);
-        try {
-            CountryResponse country = client.country("1.2.3.5");
-            fail("no exception thrown when response status is 200 but body is not valid JSON");
-        } catch (GeoIP2Exception e) {
-            if (e.getMessage().indexOf("message body") == -1) {
-                fail("1.2.3.5 error does not contain expected text:"
-                        + e.getMessage());
-            }
-        }
-        try {
-            CountryResponse country = client.country("1.2.3.6");
-            fail("no WebServiceException thrown when webservice returns a 4xx error");
-        } catch (WebServiceException e) {
-            assertEquals("exception object does not contain expected code",
-                    "IP_ADDRESS_INVALID", e.getCode());
-            assertEquals(
-                    "exception object does not contain expected http_status",
-                    400, e.getHttpStatus());
-            String msg = "The value 1.2.3 is not a valid ip address";
-            if (e.getMessage().indexOf(msg) == -1) {
-                fail("1.2.3.6 error does not contain expected text");
-            }
-        } catch (GeoIP2Exception e) {
-            fail("Wrong exception type thrown: " + e + " " + e.getMessage());
-        }
-        try {
-            CountryResponse country = client.country("1.2.3.7");
-            fail("no HttpException thrown when webservice returns a 4xx error without a body");
-        } catch (HttpException e) {
-            if (e.getMessage().indexOf("Received a 400 error for") == -1) {
-                fail("1.2.3.7 error does not contain expected text");
-            }
-            if (e.getMessage().indexOf("with no body") == -1) {
-                fail("1.2.3.7 error does not contain expected text");
-            }
-        } catch (GeoIP2Exception e) {
-            fail("Wrong exception type thrown: " + e + " " + e.getMessage());
-        }
-        try {
-            CountryResponse country = client.country("1.2.3.8");
-            fail("no HttpException thrown when webservice returns a 4xx error with a JSON body but no code and error keys");
-        } catch (HttpException e) {
-            String msg = "Response contains JSON but it does not specify code or error keys";
-            if (e.getMessage().indexOf(msg) == -1) {
-                fail("1.2.3.8 error does not contain expected text");
-            }
-        } catch (GeoIP2Exception e) {
-            fail("Wrong exception type thrown: " + e + " " + e.getMessage());
-        }
-        try {
-            CountryResponse country = client.country("1.2.3.9");
-            fail("no HttpException thrown when webservice returns a 4xx error with a non-JSON body");
-        } catch (HttpException e) {
-            String msg = "it did not include the expected JSON body:";
-            if (e.getMessage().indexOf(msg) == -1) {
-                fail("1.2.3.9 error does not contain expected text");
-            }
-        } catch (GeoIP2Exception e) {
-            fail("Wrong exception type thrown: " + e + " " + e.getMessage());
-        }
-        try {
-            CountryResponse country = client.country("1.2.3.10");
-            fail("no HttpException thrown when webservice returns a 5xx error");
-        } catch (HttpException e) {
-            String msg = "Received a server error (500) for";
-            if (e.getMessage().indexOf(msg) == -1) {
-                fail("1.2.3.10 error does not contain expected text");
-            }
-        } catch (GeoIP2Exception e) {
-            fail("Wrong exception type thrown: " + e.getMessage());
-        }
-        try {
-            CountryResponse country = client.country("1.2.3.11");
-            fail("no HttpException thrown when webservice returns a 3xx error");
-        } catch (HttpException e) {
-            String msg = "Received a very surprising HTTP status (300) for";
-            if (e.getMessage().indexOf(msg) == -1) {
-                fail("1.2.3.11 error does not contain expected text");
-            }
-        } catch (GeoIP2Exception e) {
-            fail("Wrong exception type thrown: " + e + " " + e.getMessage());
-        }
-        try {
-            CountryResponse country = client.country("1.2.3.12");
-            fail("no HttpException thrown when webservice returns a 406 error");
-        } catch (HttpException e) {
-            String msg = "Cannot satisfy your Accept-Charset requirements";
-            if (e.getMessage().indexOf(msg) == -1) {
-                fail("1.2.3.12 error does not contain expected text");
-            }
-        } catch (GeoIP2Exception e) {
-            fail("Wrong exception type thrown: " + e + " " + e.getMessage());
-        }
+    public void webServiceError() throws GeoIP2Exception {
+        this.exception.expect(WebServiceException.class);
+        this.exception.expect(CodeMatcher.hasCode("IP_ADDRESS_INVALID"));
+        this.exception.expect(HttpStatusMatcher.hasStatus(400));
+        this.exception
+                .expectMessage(containsString("The value 1.2.3 is not a valid ip address"));
+
+        this.client.country("1.2.3.6");
+    }
+
+    @Test
+    public void noErrorBody() throws GeoIP2Exception {
+        this.exception.expect(HttpException.class);
+        this.exception
+                .expectMessage(containsString("Received a 400 error for https://geoip.maxmind.com/geoip/v2.0/country/1.2.3.7 with no body"));
+
+        this.client.country("1.2.3.7");
+    }
+
+    @Test
+    public void weirdErrorBody() throws GeoIP2Exception {
+        this.exception.expect(HttpException.class);
+        this.exception
+                .expectMessage(containsString("Response contains JSON but it does not specify code or error keys"));
+
+        this.client.country("1.2.3.8");
+    }
+
+    @Test
+    public void unexpectedErrorBody() throws GeoIP2Exception {
+        this.exception.expect(HttpException.class);
+        this.exception
+                .expectMessage(containsString("it did not include the expected JSON body:"));
+
+        this.client.country("1.2.3.9");
+    }
+
+    @Test
+    public void internalServerError() throws GeoIP2Exception {
+        this.exception.expect(HttpException.class);
+        this.exception
+                .expectMessage(containsString("Received a server error (500) for"));
+        this.client.country("1.2.3.10");
+    }
+
+    @Test
+    public void surprisingStatus() throws GeoIP2Exception {
+        this.exception.expect(HttpException.class);
+        this.exception
+                .expectMessage(containsString("Received a very surprising HTTP status (300) for"));
+
+        this.client.country("1.2.3.11");
+    }
+
+    @Test
+    public void cannotAccept() throws GeoIP2Exception {
+        this.exception.expect(HttpException.class);
+        this.exception
+                .expectMessage(containsString("Cannot satisfy your Accept-Charset requirements"));
+        this.client.country("1.2.3.12");
     }
 }
