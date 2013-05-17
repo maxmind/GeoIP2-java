@@ -84,12 +84,9 @@ public class Client {
                         request.setParser(new JsonObjectParser(JSON_FACTORY));
                     }
                 });
-        String uri = "https://" + this.host;
-        if (this.host.startsWith("localhost")) {
-            uri = "http://" + this.host;
-        }
-        uri = uri + "/geoip/v2.0/" + path + "/" + ip_address;
-        // XXX - fix up urls
+        String uri = "https://" + this.host + "/geoip/v2.0/" + path + "/"
+                + ip_address;
+
         HttpRequest request;
         try {
             request = requestFactory.buildGetRequest(new GenericUrl(uri));
