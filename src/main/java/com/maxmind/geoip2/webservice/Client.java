@@ -19,10 +19,10 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.exception.HttpException;
 import com.maxmind.geoip2.exception.WebServiceException;
-import com.maxmind.geoip2.model.City;
-import com.maxmind.geoip2.model.CityIspOrg;
-import com.maxmind.geoip2.model.Country;
-import com.maxmind.geoip2.model.Omni;
+import com.maxmind.geoip2.model.CityResponse;
+import com.maxmind.geoip2.model.CityIspOrgResponse;
+import com.maxmind.geoip2.model.CountryResponse;
+import com.maxmind.geoip2.model.OmniResponse;
 
 public class Client {
     private HttpTransport transport;
@@ -43,27 +43,27 @@ public class Client {
         this.transport = transport;
     }
 
-    public Country country(String ipAddress) throws GeoIP2Exception {
-        return this.responseFor("country", ipAddress, Country.class);
+    public CountryResponse country(String ipAddress) throws GeoIP2Exception {
+        return this.responseFor("country", ipAddress, CountryResponse.class);
     }
 
-    public City city(String ipAddress) throws GeoIP2Exception {
-        return this.responseFor("city", ipAddress, City.class);
+    public CityResponse city(String ipAddress) throws GeoIP2Exception {
+        return this.responseFor("city", ipAddress, CityResponse.class);
     }
 
-    public Omni omni(String ipAddress) throws GeoIP2Exception {
-        return this.responseFor("omni", ipAddress, Omni.class);
+    public OmniResponse omni(String ipAddress) throws GeoIP2Exception {
+        return this.responseFor("omni", ipAddress, OmniResponse.class);
     }
 
-    public CityIspOrg cityIspOrg(String ipAddress) throws GeoIP2Exception {
-        return this.responseFor("city_isp_org", ipAddress, CityIspOrg.class);
+    public CityIspOrgResponse cityIspOrg(String ipAddress) throws GeoIP2Exception {
+        return this.responseFor("city_isp_org", ipAddress, CityIspOrgResponse.class);
     }
 
     public void setHost(String host) {
         this.host = host;
     }
 
-    private <T extends Country> T responseFor(String path, String ip_address,
+    private <T extends CountryResponse> T responseFor(String path, String ip_address,
             Class<T> cls) throws GeoIP2Exception {
         HttpRequestFactory requestFactory = this.transport
                 .createRequestFactory(new HttpRequestInitializer() {
@@ -103,7 +103,7 @@ public class Client {
         return Client.handleSuccess(response, uri, cls);
     }
 
-    private static <T extends Country> T handleSuccess(HttpResponse response,
+    private static <T extends CountryResponse> T handleSuccess(HttpResponse response,
             String uri, Class<T> cls) throws GeoIP2Exception {
         Long content_length = response.getHeaders().getContentLength();
 

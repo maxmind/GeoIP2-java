@@ -7,7 +7,7 @@ import com.maxmind.geoip2.record.Location;
 import com.maxmind.geoip2.record.RepresentedCountry;
 import com.maxmind.geoip2.record.Subdivision;
 
-public class City extends Country {
+public class CityResponse extends CountryResponse {
     private com.maxmind.geoip2.record.City city;
     @Key
     private Location location;
@@ -16,7 +16,7 @@ public class City extends Country {
     @Key("subdivisions")
     private ArrayList<Subdivision> subdivisionsList;
 
-    public City() {
+    public CityResponse() {
     }
 
     public com.maxmind.geoip2.record.City getCity() {

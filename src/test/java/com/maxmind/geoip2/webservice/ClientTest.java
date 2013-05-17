@@ -24,7 +24,7 @@ import org.simpleframework.transport.connect.SocketConnection;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.exception.HttpException;
 import com.maxmind.geoip2.exception.WebServiceException;
-import com.maxmind.geoip2.model.Country;
+import com.maxmind.geoip2.model.CountryResponse;
 
 /**
  * Unit test for simple App.
@@ -203,7 +203,7 @@ public class ClientTest {
         try {
             Client client = new Client(42, "abcdef123456");
             client.setHost("localhost:" + this.port);
-            Country country = client.country("1.2.3.4");
+            CountryResponse country = client.country("1.2.3.4");
             assertEquals("country.getContinent().getCode() does not return NA",
                     "NA", country.getContinent().getCode());
             assertEquals(
@@ -232,7 +232,7 @@ public class ClientTest {
         Client client = new Client(42, "abcdef123456");
         client.setHost("localhost:" + this.port);
         try {
-            Country country = client.country("1.2.3.5");
+            CountryResponse country = client.country("1.2.3.5");
             fail("no exception thrown when response status is 200 but body is not valid JSON");
         } catch (GeoIP2Exception e) {
             if (e.getMessage().indexOf("message body") == -1) {
@@ -241,7 +241,7 @@ public class ClientTest {
             }
         }
         try {
-            Country country = client.country("1.2.3.6");
+            CountryResponse country = client.country("1.2.3.6");
             fail("no WebServiceException thrown when webservice returns a 4xx error");
         } catch (WebServiceException e) {
             assertEquals("exception object does not contain expected code",
@@ -257,7 +257,7 @@ public class ClientTest {
             fail("Wrong exception type thrown: " + e + " " + e.getMessage());
         }
         try {
-            Country country = client.country("1.2.3.7");
+            CountryResponse country = client.country("1.2.3.7");
             fail("no HttpException thrown when webservice returns a 4xx error without a body");
         } catch (HttpException e) {
             if (e.getMessage().indexOf("Received a 400 error for") == -1) {
@@ -270,7 +270,7 @@ public class ClientTest {
             fail("Wrong exception type thrown: " + e + " " + e.getMessage());
         }
         try {
-            Country country = client.country("1.2.3.8");
+            CountryResponse country = client.country("1.2.3.8");
             fail("no HttpException thrown when webservice returns a 4xx error with a JSON body but no code and error keys");
         } catch (HttpException e) {
             String msg = "Response contains JSON but it does not specify code or error keys";
@@ -281,7 +281,7 @@ public class ClientTest {
             fail("Wrong exception type thrown: " + e + " " + e.getMessage());
         }
         try {
-            Country country = client.country("1.2.3.9");
+            CountryResponse country = client.country("1.2.3.9");
             fail("no HttpException thrown when webservice returns a 4xx error with a non-JSON body");
         } catch (HttpException e) {
             String msg = "it did not include the expected JSON body:";
@@ -292,7 +292,7 @@ public class ClientTest {
             fail("Wrong exception type thrown: " + e + " " + e.getMessage());
         }
         try {
-            Country country = client.country("1.2.3.10");
+            CountryResponse country = client.country("1.2.3.10");
             fail("no HttpException thrown when webservice returns a 5xx error");
         } catch (HttpException e) {
             String msg = "Received a server error (500) for";
@@ -303,7 +303,7 @@ public class ClientTest {
             fail("Wrong exception type thrown: " + e.getMessage());
         }
         try {
-            Country country = client.country("1.2.3.11");
+            CountryResponse country = client.country("1.2.3.11");
             fail("no HttpException thrown when webservice returns a 3xx error");
         } catch (HttpException e) {
             String msg = "Received a very surprising HTTP status (300) for";
@@ -314,7 +314,7 @@ public class ClientTest {
             fail("Wrong exception type thrown: " + e + " " + e.getMessage());
         }
         try {
-            Country country = client.country("1.2.3.12");
+            CountryResponse country = client.country("1.2.3.12");
             fail("no HttpException thrown when webservice returns a 406 error");
         } catch (HttpException e) {
             String msg = "Cannot satisfy your Accept-Charset requirements";

@@ -4,7 +4,7 @@ import com.google.api.client.util.Key;
 import com.maxmind.geoip2.record.Continent;
 import com.maxmind.geoip2.record.Traits;
 
-public class Country {
+public class CountryResponse {
     @Key
     private com.maxmind.geoip2.record.Country country;
     @Key("registered_country")
@@ -14,7 +14,7 @@ public class Country {
     @Key
     private Traits traits;
 
-    public Country() {
+    public CountryResponse() {
     }
 
     public com.maxmind.geoip2.record.Country getCountry() {

@@ -17,13 +17,13 @@ import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
-import com.maxmind.geoip2.model.Omni;
+import com.maxmind.geoip2.model.OmniResponse;
 import com.maxmind.geoip2.record.Location;
 import com.maxmind.geoip2.record.Subdivision;
 import com.maxmind.geoip2.record.Traits;
 
 public class OmniTest {
-    Omni omni;
+    OmniResponse omni;
 
     @Before
     public void setUp() throws GeoIP2Exception {

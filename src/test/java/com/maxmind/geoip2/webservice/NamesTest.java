@@ -14,10 +14,10 @@ import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
-import com.maxmind.geoip2.model.CityIspOrg;
+import com.maxmind.geoip2.model.CityIspOrgResponse;
 
 public class NamesTest {
-    CityIspOrg cio;
+    CityIspOrgResponse cio;
 
     @Before
     public void setUp() throws GeoIP2Exception {

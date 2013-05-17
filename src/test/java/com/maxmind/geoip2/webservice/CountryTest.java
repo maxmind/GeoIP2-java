@@ -14,10 +14,10 @@ import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
-import com.maxmind.geoip2.model.Country;
+import com.maxmind.geoip2.model.CountryResponse;
 
 public class CountryTest {
-    Country country;
+    CountryResponse country;
 
     @Before
     public void setUp() throws GeoIP2Exception {
