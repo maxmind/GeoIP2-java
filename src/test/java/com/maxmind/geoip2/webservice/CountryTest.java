@@ -27,8 +27,12 @@ public class CountryTest {
                 + "\"iso_code\":\"US\"," + "\"confidence\":56,"
                 + "\"names\":{\"en\":\"United States\"}" + "},"
                 + "\"registered_country\":{" + "\"geoname_id\":2,"
-                + "\"iso_code\":\"CA\"," + "\"names\":{\"en\":\"Canada\"}"
-                + "}," + "\"traits\":{" + "\"ip_address\":\"1.2.3.4\"" + "}}";
+                + "\"iso_code\":\"CA\"," + "\"names\":{\"en\":\"Canada\"}},"
+                + "\"represented_country\":{" + "\"geoname_id\":4,"
+                + "\"iso_code\":\"GB\","
+                + "\"names\":{\"en\":\"United Kingdom\"},"
+                + "\"type\":\"military\"}," + "\"traits\":{"
+                + "\"ip_address\":\"1.2.3.4\"" + "}}";
 
         HttpTransport transport = new MockHttpTransport() {
             @Override
@@ -56,7 +60,7 @@ public class CountryTest {
 
     @SuppressWarnings("boxing")
     @Test
-    public void testCountry() {
+    public void testContinent() {
         assertEquals("country.getContinent().getCode() does not return NA",
                 "NA", this.country.getContinent().getCode());
         assertEquals(
@@ -65,6 +69,12 @@ public class CountryTest {
         assertEquals(
                 "country.getContinent().getName(\"en\") does not return North America",
                 "North America", this.country.getContinent().getName("en"));
+    }
+
+    @SuppressWarnings("boxing")
+    @Test
+    public void testCountryt() {
+
         assertEquals("country.getCountry().getCode() does not return US", "US",
                 this.country.getCountry().getIsoCode());
         assertEquals("country.getCountry().getGeoNameId() does not return 1",
@@ -74,7 +84,11 @@ public class CountryTest {
         assertEquals(
                 "country.getCountry().getName(\"en\") does not return United States",
                 "United States", this.country.getCountry().getName("en"));
+    }
 
+    @SuppressWarnings("boxing")
+    @Test
+    public void testRegisteredCountry() {
         assertEquals(
                 "country.getRegisteredCountry().getCode() does not return CA",
                 "CA", this.country.getRegisteredCountry().getIsoCode());
@@ -84,6 +98,29 @@ public class CountryTest {
         assertEquals(
                 "country.getRegisteredCountry().getName(\"en\") does not return United States",
                 "Canada", this.country.getRegisteredCountry().getName("en"));
+    }
+
+    @SuppressWarnings("boxing")
+    @Test
+    public void testRepresentedCountry() {
+        assertEquals(
+                "country.getRepresentedCountry().getCode() does not return GA",
+                "GB", this.country.getRepresentedCountry().getIsoCode());
+        assertEquals(
+                "country.getRepresentedCountry().getGeoNameId() does not return 4",
+                4, (int) this.country.getRepresentedCountry().getGeoNameId());
+        assertEquals(
+                "country.getRepresentedCountry().getName(\"en\") does not return United Kingdom",
+                "United Kingdom",
+                this.country.getRepresentedCountry().getName("en"));
+        assertEquals(
+                "country.getRepresentedCountry().getType() does not return military",
+                "military", this.country.getRepresentedCountry().getType());
+    }
+
+    @Test
+    public void testTraits() {
+
         assertEquals(
                 "country.getTraits().getIpAddress does not return 1.2.3.4",
                 "1.2.3.4", this.country.getTraits().getIpAddress());
