@@ -4,23 +4,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
-import java.net.DatagramSocket;
-import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.SocketAddress;
-import java.util.Random;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.simpleframework.http.Request;
-import org.simpleframework.http.Response;
-import org.simpleframework.http.core.Container;
-import org.simpleframework.http.core.ContainerServer;
-import org.simpleframework.transport.Server;
 import org.simpleframework.transport.connect.Connection;
-import org.simpleframework.transport.connect.SocketConnection;
 
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.LowLevelHttpRequest;
+import com.google.api.client.http.LowLevelHttpResponse;
+import com.google.api.client.testing.http.MockHttpTransport;
+import com.google.api.client.testing.http.MockLowLevelHttpRequest;
+import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.exception.HttpException;
 import com.maxmind.geoip2.exception.WebServiceException;
@@ -33,176 +26,93 @@ public class ClientTest {
     Connection connection;
     int port;
 
-    private class MockServer implements Container {
-        private String json_String;
+    final static private String countryResponse = "{\"continent\":{"
+            + "\"continent_code\":\"NA\"," + "\"geoname_id\":42,"
+            + "\"names\":{\"en\":\"North America\"}" + "}," + "\"country\":{"
+            + "\"geoname_id\":1," + "\"iso_code\":\"US\","
+            + "\"confidence\":56," + "\"names\":{\"en\":\"United States\"}"
+            + "}," + "\"registered_country\":{" + "\"geoname_id\":2,"
+            + "\"iso_code\":\"CA\"," + "\"names\":{\"en\":\"Canada\"}" + "},"
+            + "\"traits\":{" + "\"ip_address\":\"1.2.3.4\"" + "}}";
 
-        public MockServer() {
-            this.initJsonString();
-        }
-
-        void initJsonString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("{\"continent\":{");
-            sb.append("\"continent_code\":\"NA\",");
-            sb.append("\"geoname_id\":42,");
-            sb.append("\"names\":{\"en\":\"North America\"}");
-            sb.append("},");
-            sb.append("\"country\":{");
-            sb.append("\"geoname_id\":1,");
-            sb.append("\"iso_code\":\"US\",");
-            sb.append("\"confidence\":56,");
-            sb.append("\"names\":{\"en\":\"United States\"}");
-            sb.append("},");
-            sb.append("\"registered_country\":{");
-            sb.append("\"geoname_id\":2,");
-            sb.append("\"iso_code\":\"CA\",");
-            sb.append("\"names\":{\"en\":\"Canada\"}");
-            sb.append("},");
-            sb.append("\"traits\":{");
-            sb.append("\"ip_address\":\"1.2.3.4\"");
-            sb.append("}}");
-            this.json_String = sb.toString();
-        }
-
+    HttpTransport transport = new MockHttpTransport() {
         @Override
-        public void handle(Request request, Response response) {
-            String path = request.getPath().toString();
-            String ipAddress = path.substring(path.lastIndexOf('/') + 1);
-            if (ipAddress.equals("1.2.3.4")) {
-                this.setResponse(response, "country", 200, "application/json",
-                        this.json_String);
-            }
-            if (ipAddress.equals("1.2.3.5")) {
-                this.setResponse(response, "country", 200);
-            }
-            if (ipAddress.equals("1.2.3.6")) {
-                String body = "{\"code\":\"IP_ADDRESS_INVALID\","
-                        + "\"error\":\"The value 1.2.3 is not a valid ip address\"}";
-                this.setResponse(response, "error", 400, "application/json",
-                        body);
-            }
-            if (ipAddress.equals("1.2.3.7")) {
-                this.setResponse(response, "error", 400);
-            }
-            if (ipAddress.equals("1.2.3.8")) {
-                this.setResponse(response, "error", 400, "application/json",
-                        "{\"weird\":42}");
-            }
-            if (ipAddress.equals("1.2.3.9")) {
-                this.setResponse(response, "error", 400, "application/json",
-                        "{ invalid: }");
-            }
-            if (ipAddress.equals("1.2.3.10")) {
-                this.setResponse(response, "", 500);
-            }
-            if (ipAddress.equals("1.2.3.11")) {
-                this.setResponse(response, "", 300);
-            }
-            if (ipAddress.equals("1.2.3.12")) {
-                this.setResponse(response, "error", 406, "text/plain",
-                        "Cannot satisfy your Accept-Charset requirements");
-            }
-        }
-
-        private void setResponse(Response response, String endpoint, int status) {
-            this.setResponse(response, endpoint, status, null, "");
-        }
-
-        private void setResponse(Response response, String endpoint,
-                int status, String content_type, String body) {
-            if (content_type != null) {
-                response.setValue("Content-Type", content_type);
-            } else {
-                response.setValue("Content-Type",
-                        "application/vnd.maxmind.com-" + endpoint
-                                + "+json; charset=UTF-8; version=1.0");
-            }
-            response.setCode(status);
-            response.setContentLength(body.length());
-            try {
-                response.getPrintStream().print(body);
-                response.getPrintStream().close();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-
-    }
-
-    public static boolean available(int port) {
-        if (port < 0 || port > 65535) {
-            throw new IllegalArgumentException("Invalid start port: " + port);
-        }
-
-        ServerSocket ss = null;
-        DatagramSocket ds = null;
-        try {
-            ss = new ServerSocket(port);
-            ss.setReuseAddress(true);
-            ds = new DatagramSocket(port);
-            ds.setReuseAddress(true);
-            return true;
-        } catch (IOException e) {
-        } finally {
-            if (ds != null) {
-                ds.close();
-            }
-
-            if (ss != null) {
-                try {
-                    ss.close();
-                } catch (IOException e) {
-                    fail(e.getMessage());
+        public LowLevelHttpRequest buildRequest(String method, final String url)
+                throws IOException {
+            return new MockLowLevelHttpRequest() {
+                @Override
+                public LowLevelHttpResponse execute() throws IOException {
+                    String ipAddress = url.substring(url.lastIndexOf('/') + 1);
+                    if (ipAddress.equals("1.2.3.4")) {
+                        return this.getResponse("country", 200,
+                                "application/json", countryResponse);
+                    }
+                    if (ipAddress.equals("1.2.3.5")) {
+                        return this.getResponse("country", 200);
+                    }
+                    if (ipAddress.equals("1.2.3.6")) {
+                        String body = "{\"code\":\"IP_ADDRESS_INVALID\","
+                                + "\"error\":\"The value 1.2.3 is not a valid ip address\"}";
+                        return this.getResponse("error", 400,
+                                "application/json", body);
+                    }
+                    if (ipAddress.equals("1.2.3.7")) {
+                        return this.getResponse("error", 400);
+                    }
+                    if (ipAddress.equals("1.2.3.8")) {
+                        return this.getResponse("error", 400,
+                                "application/json", "{\"weird\":42}");
+                    }
+                    if (ipAddress.equals("1.2.3.9")) {
+                        return this.getResponse("error", 400,
+                                "application/json", "{ invalid: }");
+                    }
+                    if (ipAddress.equals("1.2.3.10")) {
+                        return this.getResponse("", 500);
+                    }
+                    if (ipAddress.equals("1.2.3.11")) {
+                        return this.getResponse("", 300);
+                    }
+                    if (ipAddress.equals("1.2.3.12")) {
+                        return this
+                                .getResponse("error", 406, "text/plain",
+                                        "Cannot satisfy your Accept-Charset requirements");
+                    }
+                    return this.getResponse("", 500);
                 }
-            }
-        }
 
-        return false;
-    }
+                private LowLevelHttpResponse getResponse(String endpoint,
+                        int status) {
+                    return this.getResponse(endpoint, status, null, "");
+                }
 
-    @Before
-    public void setUp() {
-        Random rand = new Random();
-        for (int i = 0; i < 256; i++) {
-            this.port = 30000 + rand.nextInt(35000);
-            if (available(this.port) == true) {
-                break;
-            }
-        }
-        try {
-            this.connection = this.setup_mock_server(this.port);
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("Error setting up tests");
-        }
-    }
+                private LowLevelHttpResponse getResponse(String endpoint,
+                        int status, String content_type, String body) {
+                    MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
+                    response.addHeader("Content-Length",
+                            String.valueOf(body.length()));
+                    response.setStatusCode(status);
 
-    @After
-    public void tearDown() {
-        try {
-            this.connection.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            fail("Error tearing down tests");
-        }
-    }
+                    if (content_type != null) {
+                        response.setContentType(content_type);
+                    } else {
+                        response.setContentType("application/vnd.maxmind.com-"
+                                + endpoint
+                                + "+json; charset=UTF-8; version=1.0");
+                    }
 
-    Connection setup_mock_server(int port) throws Exception {
-        Container container = new MockServer();
-        Server server = new ContainerServer(container);
-        Connection connection = new SocketConnection(server);
-        SocketAddress address = new InetSocketAddress(port);
-        connection.connect(address);
-        return connection;
-    }
+                    response.setContent(body);
+                    return response;
+                }
+            };
+        }
+    };
 
     @SuppressWarnings("boxing")
     @Test
     public void testCountry() {
         try {
-            Client client = new Client(42, "abcdef123456", "localhost:"
-                    + this.port);
+            Client client = new Client(42, "abcdef123456", this.transport);
             CountryResponse country = client.country("1.2.3.4");
             assertEquals("country.getContinent().getCode() does not return NA",
                     "NA", country.getContinent().getCode());
@@ -229,7 +139,7 @@ public class ClientTest {
     @Test
     @SuppressWarnings("unused")
     public void testClientExceptions() {
-        Client client = new Client(42, "abcdef123456", "localhost:" + this.port);
+        Client client = new Client(42, "abcdef123456", this.transport);
         try {
             CountryResponse country = client.country("1.2.3.5");
             fail("no exception thrown when response status is 200 but body is not valid JSON");

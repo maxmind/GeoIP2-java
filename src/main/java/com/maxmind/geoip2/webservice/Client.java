@@ -32,19 +32,29 @@ public class Client {
     private String host = "geoip.maxmind.com";
 
     public Client(int userId, String licenseKey) {
-        this(userId, licenseKey, "geoip.maxmind.com");
+        this(userId, licenseKey, null, null);
+    }
+
+    public Client(int userId, String licenseKey, HttpTransport transport) {
+        this(userId, licenseKey, null, transport);
     }
 
     public Client(int userId, String licenseKey, String host) {
-        this(userId, licenseKey, host, new NetHttpTransport());
+        this(userId, licenseKey, host, null);
     }
 
     public Client(int userId, String licenseKey, String host,
             HttpTransport transport) {
         this.userId = userId;
         this.licenseKey = licenseKey;
-        this.host = host;
-        this.transport = transport;
+        if (host != null) {
+            this.host = host;
+        }
+        if (transport == null) {
+            this.transport = new NetHttpTransport();
+        } else {
+            this.transport = transport;
+        }
     }
 
     public CountryResponse country(String ipAddress) throws GeoIP2Exception {
