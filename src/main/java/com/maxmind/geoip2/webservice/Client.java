@@ -35,7 +35,7 @@ public class Client {
         this(userId, licenseKey, null, null);
     }
 
-    public Client(int userId, String licenseKey, HttpTransport transport) {
+    protected Client(int userId, String licenseKey, HttpTransport transport) {
         this(userId, licenseKey, null, transport);
     }
 
@@ -43,7 +43,7 @@ public class Client {
         this(userId, licenseKey, host, null);
     }
 
-    public Client(int userId, String licenseKey, String host,
+    protected Client(int userId, String licenseKey, String host,
             HttpTransport transport) {
         this.userId = userId;
         this.licenseKey = licenseKey;
