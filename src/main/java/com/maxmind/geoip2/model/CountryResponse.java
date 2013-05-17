@@ -8,19 +8,19 @@ import com.maxmind.geoip2.record.Traits;
 
 public class CountryResponse {
     @Key
-    private Continent continent;
+    private Continent continent = new Continent();
 
     @Key
-    private com.maxmind.geoip2.record.Country country;
+    private Country country = new Country();
 
     @Key("registered_country")
-    private com.maxmind.geoip2.record.Country registeredCountry;
+    private com.maxmind.geoip2.record.Country registeredCountry = new Country();
 
     @Key("represented_country")
-    private RepresentedCountry representedCountry;
+    private RepresentedCountry representedCountry = new RepresentedCountry();
 
     @Key
-    private Traits traits;
+    private Traits traits = new Traits();
 
     public CountryResponse() {
     }

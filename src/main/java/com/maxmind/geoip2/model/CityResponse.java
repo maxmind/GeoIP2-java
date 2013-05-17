@@ -10,14 +10,14 @@ import com.maxmind.geoip2.record.Subdivision;
 
 public class CityResponse extends CountryResponse {
     @Key
-    private City city;
+    private City city = new City();
     @Key
-    private Location location;
+    private Location location = new Location();
     @Key
-    private Postal postal;
+    private Postal postal = new Postal();
 
     @Key("subdivisions")
-    private ArrayList<Subdivision> subdivisionsList;
+    private ArrayList<Subdivision> subdivisions = new ArrayList<Subdivision>();
 
     public CityResponse() {
     }
@@ -38,6 +38,13 @@ public class CityResponse extends CountryResponse {
     }
 
     public ArrayList<Subdivision> getSubdivisionsList() {
-        return this.subdivisionsList;
+        return this.subdivisions;
+    }
+
+    public Subdivision getMostSpecificSubdivision() {
+        if (this.subdivisions.isEmpty()) {
+            return new Subdivision();
+        }
+        return this.subdivisions.get(this.subdivisions.size() - 1);
     }
 }

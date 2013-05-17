@@ -2,8 +2,13 @@ package com.maxmind.geoip2.webservice;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,6 +27,14 @@ import com.maxmind.geoip2.exception.WebServiceException;
 import com.maxmind.geoip2.matchers.CodeMatcher;
 import com.maxmind.geoip2.matchers.HttpStatusMatcher;
 import com.maxmind.geoip2.model.CountryResponse;
+import com.maxmind.geoip2.model.OmniResponse;
+import com.maxmind.geoip2.record.City;
+import com.maxmind.geoip2.record.Continent;
+import com.maxmind.geoip2.record.Country;
+import com.maxmind.geoip2.record.RecordWithNames;
+import com.maxmind.geoip2.record.RepresentedCountry;
+import com.maxmind.geoip2.record.Subdivision;
+import com.maxmind.geoip2.record.Traits;
 
 /**
  * Unit test for simple App.
@@ -50,30 +63,34 @@ public class ClientTest {
                     switch (ipAddress) {
                         case "1.2.3.4":
                             return this.getResponse("country", 200,
-                                    "application/json", countryResponse);
+                                    countryResponse);
                         case "1.2.3.5":
                             return this.getResponse("country", 200);
                         case "1.2.3.6":
                             String body = "{\"code\":\"IP_ADDRESS_INVALID\","
                                     + "\"error\":\"The value 1.2.3 is not a valid ip address\"}";
-                            return this.getResponse("error", 400,
-                                    "application/json", body);
+                            return this.getResponse("error", 400, body);
                         case "1.2.3.7":
                             return this.getResponse("error", 400);
                         case "1.2.3.8":
                             return this.getResponse("error", 400,
-                                    "application/json", "{\"weird\":42}");
+                                    "{\"weird\":42}");
                         case "1.2.3.9":
                             return this.getResponse("error", 400,
-                                    "application/json", "{ invalid: }");
+                                    "{ invalid: }");
                         case "1.2.3.10":
                             return this.getResponse("", 500);
                         case "1.2.3.11":
                             return this.getResponse("", 300);
                         case "1.2.3.12":
                             return this
-                                    .getResponse("error", 406, "text/plain",
-                                            "Cannot satisfy your Accept-Charset requirements");
+                                    .getResponse(
+                                            "error",
+                                            406,
+                                            "Cannot satisfy your Accept-Charset requirements",
+                                            "text/plain");
+                        case "1.2.3.13":
+                            return this.getResponse("omni", 200, "{}");
                         default:
                             return this.getResponse("", 404);
                     }
@@ -81,11 +98,16 @@ public class ClientTest {
 
                 private LowLevelHttpResponse getResponse(String endpoint,
                         int status) {
-                    return this.getResponse(endpoint, status, null, "");
+                    return this.getResponse(endpoint, status, "", null);
                 }
 
                 private LowLevelHttpResponse getResponse(String endpoint,
-                        int status, String content_type, String body) {
+                        int status, String body) {
+                    return this.getResponse(endpoint, status, body, null);
+                }
+
+                private LowLevelHttpResponse getResponse(String endpoint,
+                        int status, String body, String content_type) {
                     MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
                     response.addHeader("Content-Length",
                             String.valueOf(body.length()));
@@ -201,5 +223,67 @@ public class ClientTest {
         this.exception
                 .expectMessage(containsString("Cannot satisfy your Accept-Charset requirements"));
         this.client.country("1.2.3.12");
+    }
+
+    @Test
+    public void testDefaults() throws GeoIP2Exception {
+        OmniResponse omni = this.client.omni("1.2.3.13");
+
+        City city = omni.getCity();
+        assertNotNull(city);
+        assertNull(city.getConfidence());
+
+        Continent continent = omni.getContinent();
+        assertNotNull(continent);
+        assertNull(continent.getCode());
+
+        Country country = omni.getCountry();
+        assertNotNull(country);
+
+        assertNotNull(omni.getLocation());
+
+        assertNotNull(omni.getPostal());
+
+        Country registeredCountry = omni.getRegisteredCountry();
+        assertNotNull(registeredCountry);
+
+        RepresentedCountry representedCountry = omni.getRepresentedCountry();
+        assertNotNull(representedCountry);
+        assertNull(representedCountry.getType());
+
+        List<Subdivision> subdivisions = omni.getSubdivisionsList();
+        assertNotNull(subdivisions);
+        assertTrue(subdivisions.isEmpty());
+
+        Subdivision subdiv = omni.getMostSpecificSubdivision();
+        assertNotNull(subdiv);
+        assertNull(subdiv.getIsoCode());
+        assertNull(subdiv.getConfidence());
+
+        Traits traits = omni.getTraits();
+        assertNotNull(traits);
+        assertNull(traits.getAutonomousSystemNumber());
+        assertNull(traits.getAutonomousSystemOrganization());
+        assertNull(traits.getDomain());
+        assertNull(traits.getIpAddress());
+        assertNull(traits.getIsp());
+        assertNull(traits.getOrganization());
+        assertNull(traits.getUserType());
+        assertFalse(traits.isAnonymousProxy());
+        assertFalse(traits.isSatelliteProvider());
+
+        for (Country c : new Country[] { country, registeredCountry,
+                representedCountry }) {
+            assertNull(c.getConfidence());
+            assertNull(c.getIsoCode());
+        }
+
+        for (RecordWithNames r : new RecordWithNames[] { city, continent,
+                country, registeredCountry, representedCountry, subdiv }) {
+            assertNull(r.getGeoNameId());
+            assertNull(r.getName("en"));
+            assertNull(r.getName(new String[] { "en", "pt" }));
+            assertTrue(r.getNames().isEmpty());
+        }
     }
 }

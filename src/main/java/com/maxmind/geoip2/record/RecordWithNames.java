@@ -1,21 +1,34 @@
 package com.maxmind.geoip2.record;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.google.api.client.util.Key;
 
 public abstract class RecordWithNames {
     @Key
-    private HashMap<String, String> names;
+    private HashMap<String, String> names = new HashMap<String, String>();
     @Key("geoname_id")
     private Integer geoNameId;
 
     protected RecordWithNames() {
-        this.names = new HashMap<String, String>();
     }
 
-    public String getName(String l) {
-        return this.names.get(l);
+    public String getName(String language) {
+        return this.names.get(language);
+    }
+
+    public String getName(String[] languages) {
+        for (String lang : languages) {
+            if (this.names.containsKey(lang)) {
+                return this.names.get(lang);
+            }
+        }
+        return null;
+    }
+
+    public Map<String, String> getNames() {
+        return (Map<String, String>) this.names.clone();
     }
 
     public Integer getGeoNameId() {

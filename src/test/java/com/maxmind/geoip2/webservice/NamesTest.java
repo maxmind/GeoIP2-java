@@ -1,6 +1,8 @@
 package com.maxmind.geoip2.webservice;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
 
@@ -69,5 +71,21 @@ public class NamesTest {
         assertEquals(
                 "country.getCountry().getName(\"zh-CN\") does not return 美国",
                 "美国", this.cio.getCountry().getName("zh-CN"));
+    }
+
+    @Test
+    public void testFallback() {
+        assertEquals("en is returned when pt is missing", this.cio
+                .getContinent().getName(new String[] { "pt", "en", "zh-CN" }),
+                "North America");
+        assertNull("null is returned when language is not available", this.cio
+                .getContinent().getName(new String[] { "pt", "ru", "de" }));
+    }
+
+    @Test
+    public void testMissing() {
+        assertNotNull(this.cio.getCity());
+        assertNull("null is returned when names object is missing", this.cio
+                .getCity().getName("en"));
     }
 }
