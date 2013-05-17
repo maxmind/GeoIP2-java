@@ -19,6 +19,7 @@ import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.model.OmniResponse;
 import com.maxmind.geoip2.record.Location;
+import com.maxmind.geoip2.record.Postal;
 import com.maxmind.geoip2.record.Subdivision;
 import com.maxmind.geoip2.record.Traits;
 
@@ -41,9 +42,8 @@ public class OmniTest {
 
                 "\"location\":{" + "\"accuracy_radius\":1500,"
                 + "\"latitude\":44.98," + "\"longitude\":93.2636,"
-                + "\"metro_code\":765," + "\"postal_code\":\"55401\","
-                + "\"postal_confidence\":33,"
-                + "\"time_zone\":\"America/Chicago\"" + "},"
+                + "\"metro_code\":765," + "\"time_zone\":\"America/Chicago\""
+                + "}," + "\"postal\":{\"confidence\": 33, \"code\":\"55401\"},"
                 + "\"registered_country\":{" + "\"geoname_id\":2,"
                 + "\"iso_code\":\"CA\"," + "\"names\":{" + "\"en\":\"Canada\""
                 + "}" + "}," + "\"represented_country\":{"
@@ -148,13 +148,20 @@ public class OmniTest {
                 93.2636, longitude, 0.1);
         assertEquals("location.getMetroCode() does not return 765",
                 new Integer(765), location.getMetroCode());
-
-        assertEquals("location.getPostalCode() does not return 55401", "55401",
-                location.getPostalCode());
-        assertEquals("location.getPostalConfidence() does not return 33",
-                new Integer(33), location.getPostalConfidence());
         assertEquals("location.getTimeZone() does not return America/Chicago",
                 "America/Chicago", location.getTimeZone());
+    }
+
+    @Test
+    public void testPostal() {
+
+        Postal location = this.omni.getPostal();
+
+        assertEquals("postal.getCode() does not return 55401", "55401",
+                location.getCode());
+        assertEquals("postal.getConfidence() does not return 33", new Integer(
+                33), location.getConfidence());
+
     }
 
     @Test

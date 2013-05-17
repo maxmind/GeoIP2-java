@@ -7,10 +7,6 @@ public class Location {
     private Double longitude;
     @Key
     private Double latitude;
-    @Key("postal_code")
-    private String postalCode;
-    @Key("postal_confidence")
-    private Integer postalConfidence;
     @Key("time_zone")
     private String timeZone;
     @Key("metro_code")
@@ -23,14 +19,6 @@ public class Location {
 
     public Integer getAccuracyRadius() {
         return this.accuracyRadius;
-    }
-
-    public Integer getPostalConfidence() {
-        return this.postalConfidence;
-    }
-
-    public String getPostalCode() {
-        return this.postalCode;
     }
 
     public String getTimeZone() {
