@@ -43,42 +43,36 @@ public class ClientTest {
                 @Override
                 public LowLevelHttpResponse execute() throws IOException {
                     String ipAddress = url.substring(url.lastIndexOf('/') + 1);
-                    if (ipAddress.equals("1.2.3.4")) {
-                        return this.getResponse("country", 200,
-                                "application/json", countryResponse);
+                    switch (ipAddress) {
+                        case "1.2.3.4":
+                            return this.getResponse("country", 200,
+                                    "application/json", countryResponse);
+                        case "1.2.3.5":
+                            return this.getResponse("country", 200);
+                        case "1.2.3.6":
+                            String body = "{\"code\":\"IP_ADDRESS_INVALID\","
+                                    + "\"error\":\"The value 1.2.3 is not a valid ip address\"}";
+                            return this.getResponse("error", 400,
+                                    "application/json", body);
+                        case "1.2.3.7":
+                            return this.getResponse("error", 400);
+                        case "1.2.3.8":
+                            return this.getResponse("error", 400,
+                                    "application/json", "{\"weird\":42}");
+                        case "1.2.3.9":
+                            return this.getResponse("error", 400,
+                                    "application/json", "{ invalid: }");
+                        case "1.2.3.10":
+                            return this.getResponse("", 500);
+                        case "1.2.3.11":
+                            return this.getResponse("", 300);
+                        case "1.2.3.12":
+                            return this
+                                    .getResponse("error", 406, "text/plain",
+                                            "Cannot satisfy your Accept-Charset requirements");
+                        default:
+                            return this.getResponse("", 404);
                     }
-                    if (ipAddress.equals("1.2.3.5")) {
-                        return this.getResponse("country", 200);
-                    }
-                    if (ipAddress.equals("1.2.3.6")) {
-                        String body = "{\"code\":\"IP_ADDRESS_INVALID\","
-                                + "\"error\":\"The value 1.2.3 is not a valid ip address\"}";
-                        return this.getResponse("error", 400,
-                                "application/json", body);
-                    }
-                    if (ipAddress.equals("1.2.3.7")) {
-                        return this.getResponse("error", 400);
-                    }
-                    if (ipAddress.equals("1.2.3.8")) {
-                        return this.getResponse("error", 400,
-                                "application/json", "{\"weird\":42}");
-                    }
-                    if (ipAddress.equals("1.2.3.9")) {
-                        return this.getResponse("error", 400,
-                                "application/json", "{ invalid: }");
-                    }
-                    if (ipAddress.equals("1.2.3.10")) {
-                        return this.getResponse("", 500);
-                    }
-                    if (ipAddress.equals("1.2.3.11")) {
-                        return this.getResponse("", 300);
-                    }
-                    if (ipAddress.equals("1.2.3.12")) {
-                        return this
-                                .getResponse("error", 406, "text/plain",
-                                        "Cannot satisfy your Accept-Charset requirements");
-                    }
-                    return this.getResponse("", 500);
                 }
 
                 private LowLevelHttpResponse getResponse(String endpoint,
