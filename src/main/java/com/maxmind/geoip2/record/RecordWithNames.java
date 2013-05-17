@@ -9,8 +9,6 @@ public abstract class RecordWithNames {
     private HashMap<String, String> names;
     @Key("geoname_id")
     private Integer geoNameId;
-    @Key
-    private Integer confidence;
 
     protected RecordWithNames() {
         this.names = new HashMap<String, String>();
@@ -22,9 +20,5 @@ public abstract class RecordWithNames {
 
     public Integer getGeoNameId() {
         return this.geoNameId;
-    }
-
-    public Integer getConfidence() {
-        return this.confidence;
     }
 }

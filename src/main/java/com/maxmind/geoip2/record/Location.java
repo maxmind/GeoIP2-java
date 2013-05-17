@@ -3,16 +3,20 @@ package com.maxmind.geoip2.record;
 import com.google.api.client.util.Key;
 
 public class Location {
-    @Key
-    private Double longitude;
-    @Key
-    private Double latitude;
-    @Key("time_zone")
-    private String timeZone;
-    @Key("metro_code")
-    private Integer metroCode;
     @Key("accuracy_radius")
     private Integer accuracyRadius;
+
+    @Key
+    private Double latitude;
+
+    @Key
+    private Double longitude;
+
+    @Key("metro_code")
+    private Integer metroCode;
+
+    @Key("time_zone")
+    private String timeZone;
 
     public Location() {
     }
@@ -21,19 +25,19 @@ public class Location {
         return this.accuracyRadius;
     }
 
-    public String getTimeZone() {
-        return this.timeZone;
+    public Double getLatitude() {
+        return this.latitude;
     }
 
     public Double getLongitude() {
         return this.longitude;
     }
 
-    public Double getLatitude() {
-        return this.latitude;
-    }
-
     public Integer getMetroCode() {
         return this.metroCode;
+    }
+
+    public String getTimeZone() {
+        return this.timeZone;
     }
 }

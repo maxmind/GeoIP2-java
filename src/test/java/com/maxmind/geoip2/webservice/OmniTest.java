@@ -56,7 +56,8 @@ public class OmniTest {
                 + "\"autonomous_system_number\":1234,"
                 + "\"autonomous_system_organization\":\"AS Organization\","
                 + "\"domain\":\"example.com\"," + "\"ip_address\":\"1.2.3.4\","
-                + "\"is_anonymous_proxy\":true," + "\"isp\":\"Comcast\","
+                + "\"is_anonymous_proxy\":true,"
+                + "\"is_satellite_provider\":true," + "\"isp\":\"Comcast\","
                 + "\"organization\":\"Blorg\"," + "\"user_type\":\"college\""
                 + "}" + "}";
 
@@ -119,8 +120,10 @@ public class OmniTest {
                 "example.com", traits.getDomain());
         assertEquals("traits.getIpAddress() does not return 1.2.3.4",
                 "1.2.3.4", traits.getIpAddress());
-        assertEquals("traits.isAnonymousProxy() returns false", true,
+        assertEquals("traits.isAnonymousProxy() returns true", true,
                 traits.isAnonymousProxy());
+        assertEquals("traits.isSatelliteProvider() returns true", true,
+                traits.isSatelliteProvider());
         assertEquals("traits.getIsp() does not return Comcast", "Comcast",
                 traits.getIsp());
         assertEquals("traits.getOrganization() does not return Blorg", "Blorg",

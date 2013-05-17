@@ -3,29 +3,35 @@ package com.maxmind.geoip2.record;
 import com.google.api.client.util.Key;
 
 public class Traits {
-    @Key("ip_address")
-    private String ipAddress;
     @Key("autonomous_system_number")
     private Integer autonomousSystemNumber;
+
     @Key("autonomous_system_organization")
     private String autonomousSystemOrganization;
+
     @Key
     private String domain;
-    @Key
-    private String isp;
-    @Key
-    private String organization;
-    @Key("user_type")
-    private String userType;
+
+    @Key("ip_address")
+    private String ipAddress;
+
     @Key("is_anonymous_proxy")
     private boolean anonymousProxy;
 
+    @Key("is_satellite_provider")
+    private boolean satelliteProvider;
+
+    @Key
+    private String isp;
+
+    @Key
+    private String organization;
+
+    @Key("user_type")
+    private String userType;
+
     public Traits() {
         // Empty traits object
-    }
-
-    public String getIpAddress() {
-        return this.ipAddress;
     }
 
     public Integer getAutonomousSystemNumber() {
@@ -38,6 +44,10 @@ public class Traits {
 
     public String getDomain() {
         return this.domain;
+    }
+
+    public String getIpAddress() {
+        return this.ipAddress;
     }
 
     public String getIsp() {
@@ -56,4 +66,7 @@ public class Traits {
         return this.anonymousProxy;
     }
 
+    public boolean isSatelliteProvider() {
+        return this.satelliteProvider;
+    }
 }
