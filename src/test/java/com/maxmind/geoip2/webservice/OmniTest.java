@@ -48,6 +48,12 @@ public class OmniTest {
                 subdivision.getIsoCode());
     }
 
+    @Test
+    public void mostSpecificSubdivision() {
+        assertEquals("Most specific subdivision returns last subdivision",
+                "TT", this.omni.getMostSpecificSubdivision().getIsoCode());
+    }
+
     @SuppressWarnings("boxing")
     @Test
     public void testTraits() {
