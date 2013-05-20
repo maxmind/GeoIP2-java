@@ -12,14 +12,7 @@ public class HttpException extends GeoIP2Exception {
     }
 
     public HttpException(String message, int http_status, String uri,
-            Exception e) {
-        super(message, e);
-        this.http_status = http_status;
-        this.uri = uri;
-    }
-
-    public HttpException(String message, Throwable cause, int http_status,
-            String uri) {
+            Throwable cause) {
         super(message, cause);
         this.http_status = http_status;
         this.uri = uri;

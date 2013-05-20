@@ -115,6 +115,16 @@ public final class TestTransport extends MockHttpTransport {
                             "text/plain");
                 } else if (path.equals("omni/1.2.3.13")) {
                     return this.getResponse("omni", 200, "{}");
+                } else if (path.equals("omni/1.2.3.14")) {
+                    return this.getResponse("omni", 200, clientBody,
+                            "bad/content-type");
+                } else if (path.equals("city_isp_org/1.2.3.15")) {
+                    return this.getResponse("omni", 200, "{\"invalid\":yes}");
+                } else if (path
+                        .equals("https://blah.com/geoip/v2.0/omni/128.101.101.101")) {
+                    return this
+                            .getResponse("omni", 200,
+                                    "{\"traits\":{\"ip_address\": \"128.101.101.101\"}}");
                 } else if (path.endsWith("me")) {
                     return this.getResponse("omni", 200,
                             "{\"traits\":{\"ip_address\": \"24.24.24.24\"}}");
@@ -135,6 +145,7 @@ public final class TestTransport extends MockHttpTransport {
             private LowLevelHttpResponse getResponse(String endpoint,
                     int status, String body, String content_type) {
                 MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
+
                 response.addHeader("Content-Length",
                         String.valueOf(body.length()));
                 response.setStatusCode(status);

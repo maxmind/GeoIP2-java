@@ -80,8 +80,7 @@ public class Client {
         return this.country(null);
     }
 
-    public CountryLookup country(InetAddress ipAddress)
-            throws GeoIP2Exception {
+    public CountryLookup country(InetAddress ipAddress) throws GeoIP2Exception {
         return this.responseFor("country", ipAddress, CountryLookup.class);
     }
 
@@ -151,27 +150,19 @@ public class Client {
                     + " but there was no message body.");
         }
 
-        if (response.getContentType() == null
-                || !response.getContentType().contains("json")) {
-            try {
-                throw new GeoIP2Exception("Received a 200 response for " + uri
-                        + " but it does not appear to be JSON:\n"
-                        + response.parseAsString());
-            } catch (IOException e) {
-                throw new GeoIP2Exception(
-                        "Received a 200 response for "
-                                + uri
-                                + " but it does not appear to be JSON and could not parse body.");
-            }
-        }
-
-        String jsonBody;
+        String body;
         try {
-            jsonBody = response.parseAsString();
+            body = response.parseAsString();
         } catch (IOException e) {
             throw new GeoIP2Exception(
                     "Received a 200 response but not decode message body: "
                             + e.getMessage());
+        }
+
+        if (response.getContentType() == null
+                || !response.getContentType().contains("json")) {
+            throw new GeoIP2Exception("Received a 200 response for " + uri
+                    + " but it does not appear to be JSON:\n" + body);
         }
 
         InjectableValues inject = new InjectableValues.Std().addValue(
@@ -181,11 +172,11 @@ public class Client {
                 false);
 
         try {
-            return mapper.reader(cls).with(inject).readValue(jsonBody);
+            return mapper.reader(cls).with(inject).readValue(body);
         } catch (IOException e) {
             throw new GeoIP2Exception(
                     "Received a 200 response but not decode it as JSON: "
-                            + jsonBody);
+                            + body);
         }
     }
 

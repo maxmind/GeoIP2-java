@@ -124,4 +124,20 @@ public class ClientTest {
                 .expectMessage(containsString("Cannot satisfy your Accept-Charset requirements"));
         this.client.country(InetAddress.getByName("1.2.3.12"));
     }
+
+    @Test
+    public void badContentType() throws GeoIP2Exception, UnknownHostException {
+        this.exception.expect(GeoIP2Exception.class);
+        this.exception
+                .expectMessage(containsString(" but it does not appear to be JSON"));
+        this.client.omni(InetAddress.getByName("1.2.3.14"));
+    }
+
+    @Test
+    public void badJsonOn200() throws GeoIP2Exception, UnknownHostException {
+        this.exception.expect(GeoIP2Exception.class);
+        this.exception
+                .expectMessage(containsString("Received a 200 response but not decode it as JSON: "));
+        this.client.cityIspOrg(InetAddress.getByName("1.2.3.15"));
+    }
 }
