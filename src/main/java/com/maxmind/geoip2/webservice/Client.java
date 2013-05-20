@@ -114,11 +114,10 @@ public class Client {
             InetAddress ipAddress, Class<T> cls) throws GeoIP2Exception {
         HttpRequestFactory requestFactory = this.transport
                 .createRequestFactory();
-        String uri = "https://" + this.host + "/geoip/v2.0/" + path + "/"
-                + (ipAddress == null ? "me" : ipAddress.getHostAddress());
         HttpRequest request;
+        GenericUrl uri = this.createUri(path, ipAddress);
         try {
-            request = requestFactory.buildGetRequest(new GenericUrl(uri));
+            request = requestFactory.buildGetRequest(uri);
         } catch (IOException e) {
             throw new GeoIP2Exception("Error building request", e);
         }
@@ -142,7 +141,7 @@ public class Client {
     }
 
     private <T extends CountryLookup> T handleSuccess(HttpResponse response,
-            String uri, Class<T> cls) throws GeoIP2Exception {
+            GenericUrl uri, Class<T> cls) throws GeoIP2Exception {
         Long content_length = response.getHeaders().getContentLength();
 
         if (content_length == null || content_length.intValue() <= 0) {
@@ -181,15 +180,15 @@ public class Client {
     }
 
     private static HttpException handleErrorStatus(String content, int status,
-            String uri) {
+            GenericUrl uri) {
         if ((status >= 400) && (status < 500)) {
-            return Client.handle4xxStatus(content, status, uri);
+            return Client.handle4xxStatus(content, status, uri.toString());
         } else if ((status >= 500) && (status < 600)) {
             return new HttpException("Received a server error (" + status
-                    + ") for " + uri, status, uri);
+                    + ") for " + uri, status, uri.toString());
         } else {
             return new HttpException("Received a very surprising HTTP status ("
-                    + status + ") for " + uri, status, uri);
+                    + status + ") for " + uri, status, uri.toString());
         }
     }
 
@@ -226,5 +225,11 @@ public class Client {
 
         return new WebServiceException(content.get("error"),
                 content.get("code"), status, uri);
+    }
+
+    private GenericUrl createUri(String path, InetAddress ipAddress) {
+        return new GenericUrl("https://" + this.host + "/geoip/v2.0/" + path
+                + "/" + (ipAddress == null ? "me" : ipAddress.getHostAddress()));
+
     }
 }
