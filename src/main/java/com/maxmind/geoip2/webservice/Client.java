@@ -185,9 +185,11 @@ public class Client {
         if ((status >= 400) && (status < 500)) {
             return Client.handle4xxStatus(content, status, uri);
         } else if ((status >= 500) && (status < 600)) {
-            return Client.handle5xxStatus(status, uri);
+            return new HttpException("Received a server error (" + status
+                    + ") for " + uri, status, uri);
         } else {
-            return Client.handleNon200Status(status, uri);
+            return new HttpException("Received a very surprising HTTP status ("
+                    + status + ") for " + uri, status, uri);
         }
     }
 
@@ -224,15 +226,5 @@ public class Client {
 
         return new WebServiceException(content.get("error"),
                 content.get("code"), status, uri);
-    }
-
-    private static HttpException handle5xxStatus(int status, String uri) {
-        return new HttpException("Received a server error (" + status
-                + ") for " + uri, status, uri);
-    }
-
-    private static HttpException handleNon200Status(int status, String uri) {
-        return new HttpException("Received a very surprising HTTP status ("
-                + status + ") for " + uri, status, uri);
     }
 }
