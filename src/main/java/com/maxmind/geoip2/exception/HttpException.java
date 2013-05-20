@@ -2,28 +2,55 @@ package com.maxmind.geoip2.exception;
 
 import java.net.URL;
 
+/**
+ * This class represents an HTTP transport error.
+ */
 public class HttpException extends GeoIP2Exception {
     private static final long serialVersionUID = -8301101841509056974L;
-    private final int http_status;
+    private final int httpStatus;
     private final URL url;
 
-    public HttpException(String message, int http_status, URL uri) {
+    /**
+     * @param message
+     *            A message describing the reason why the exception was thrown.
+     * @param httpStatus
+     *            The HTTP status of the response that caused the exception.
+     * @param url
+     *            The URL queried.
+     */
+    public HttpException(String message, int httpStatus, URL url) {
         super(message);
-        this.http_status = http_status;
-        this.url = uri;
-    }
-
-    public HttpException(String message, int http_status, URL url,
-            Throwable cause) {
-        super(message, cause);
-        this.http_status = http_status;
+        this.httpStatus = httpStatus;
         this.url = url;
     }
 
-    public int getHttpStatus() {
-        return this.http_status;
+    /**
+     * @param message
+     *            A message describing the reason why the exception was thrown.
+     * @param httpStatus
+     *            The HTTP status of the response that caused the exception.
+     * @param url
+     *            The URL queried.
+     * @param cause
+     *            The cause of the exception.
+     */
+    public HttpException(String message, int httpStatus, URL url,
+            Throwable cause) {
+        super(message, cause);
+        this.httpStatus = httpStatus;
+        this.url = url;
     }
 
+    /**
+     * @return the HTTP status of the query that caused the exception.
+     */
+    public int getHttpStatus() {
+        return this.httpStatus;
+    }
+
+    /**
+     * @return the URL queried.
+     */
     public URL getUrl() {
         return this.url;
     }

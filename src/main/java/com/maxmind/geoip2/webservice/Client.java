@@ -26,6 +26,54 @@ import com.maxmind.geoip2.model.CityLookup;
 import com.maxmind.geoip2.model.CountryLookup;
 import com.maxmind.geoip2.model.OmniLookup;
 
+/**
+ * This class provides a client API for all the GeoIP2 web service's end points.
+ * The end points are Country, City, City/ISP/Org, and Omni. Each end point
+ * returns a different set of data about an IP address, with Country returning
+ * the least data and Omni the most.
+ * 
+ * Each web service end point is represented by a different model class, and
+ * these model classes in turn contain multiple Record classes. The record
+ * classes have attributes which contain data about the IP address.
+ * 
+ * If the web service does not return a particular piece of data for an IP
+ * address, the associated attribute is not populated.
+ * 
+ * The web service may not return any information for an entire record, in which
+ * case all of the attributes for that record class will be empty.
+ * 
+ * **Usage**
+ * 
+ * The basic API for this class is the same for all of the web service end
+ * points. First you create a web service object with your MaxMind
+ * {@code userId} and {@code licenseKey}, then you call the method corresponding
+ * to a specific end point, passing it the IP address you want to look up.
+ * 
+ * If the request succeeds, the method call will return a model class for the
+ * end point you called. This model in turn contains multiple record classes,
+ * each of which represents part of the data returned by the web service.
+ * 
+ * If the request fails, the client class throws an exception.
+ * 
+ * **Exceptions**
+ * 
+ * For details on the possible errors returned by the web service itself, see
+ * {@link http://dev.maxmind.com/geoip2/geoip/web-services the GeoIP2 web
+ * service documentation}.
+ * 
+ * If the web service returns an explicit error document, this is thrown as a
+ * {@link WebServiceException}. If some other sort of transport error occurs,
+ * this is thrown as a {@link HttpException}. The difference is that the web
+ * service error includes an error message and error code delivered by the web
+ * service. The latter is thrown when some sort of unanticipated error occurs,
+ * such as the web service returning a 500 or an invalid error document.
+ * 
+ * If the web service returns any status code besides 200, 4xx, or 5xx, this
+ * also becomes a {@link HttpException}.
+ * 
+ * Finally, if the web service returns a 200 but the body is invalid, the client
+ * throws a {@link GenericException}.
+ */
 public class Client {
     private final HttpTransport transport;
     private final int userId;
@@ -33,10 +81,25 @@ public class Client {
     private final List<String> languages;
     private String host = "geoip.maxmind.com";
 
+    /**
+     * @param userId
+     *            Your MaxMind user ID.
+     * @param licenseKey
+     *            Your MaxMind license key.
+     */
     public Client(int userId, String licenseKey) {
         this(userId, licenseKey, null, null, null);
     }
 
+    /**
+     * @param userId
+     *            Your MaxMind user ID.
+     * @param licenseKey
+     *            Your MaxMind license key.
+     * @param languages
+     *            List of language codes to use in name property from most
+     *            preferred to least preferred.
+     */
     public Client(int userId, String licenseKey, List<String> languages) {
         this(userId, licenseKey, languages, null, null);
     }
@@ -52,8 +115,32 @@ public class Client {
         this(userId, licenseKey, languages, null, transport);
     }
 
+    /**
+     * @param userId
+     *            Your MaxMind user ID.
+     * @param licenseKey
+     *            Your MaxMind license key.
+     * @param host
+     *            The host to use.
+     */
     public Client(int userId, String licenseKey, String host) {
         this(userId, licenseKey, null, host, null);
+    }
+
+    /**
+     * @param userId
+     *            Your MaxMind user ID.
+     * @param licenseKey
+     *            Your MaxMind license key.
+     * @param languages
+     *            List of language codes to use in name property from most
+     *            preferred to least preferred.
+     * @param host
+     *            The host to use.
+     */
+    public Client(int userId, String licenseKey, List<String> languages,
+            String host) {
+        this(userId, licenseKey, languages, host, null);
     }
 
     /* package-private as we only need to specify a transport for unit testing */
@@ -76,36 +163,84 @@ public class Client {
         }
     }
 
+    /**
+     * @return A Country lookup for the requesting IP address
+     * @throws GeoIP2Exception
+     *             if there is an error making the request.
+     */
     public CountryLookup country() throws GeoIP2Exception {
         return this.country(null);
     }
 
+    /**
+     * @param ipAddress
+     *            IPv4 or IPv6 address to lookup.
+     * @return A Country lookup for the requested IP address.
+     * @throws GeoIP2Exception
+     *             if there is an error making the request.
+     */
     public CountryLookup country(InetAddress ipAddress) throws GeoIP2Exception {
         return this.responseFor("country", ipAddress, CountryLookup.class);
     }
 
+    /**
+     * @return A City lookup for the requesting IP address
+     * @throws GeoIP2Exception
+     *             if there is an error making the request.
+     */
     public CityLookup city() throws GeoIP2Exception {
         return this.city(null);
     }
 
+    /**
+     * @param ipAddress
+     *            IPv4 or IPv6 address to lookup.
+     * @return A City lookup for the requested IP address.
+     * @throws GeoIP2Exception
+     *             if there is an error making the request.
+     */
     public CityLookup city(InetAddress ipAddress) throws GeoIP2Exception {
         return this.responseFor("city", ipAddress, CityLookup.class);
     }
 
+    /**
+     * @return A City/ISP/Org lookup for the requesting IP address
+     * @throws GeoIP2Exception
+     *             if there is an error making the request.
+     */
     public CityIspOrgLookup cityIspOrg() throws GeoIP2Exception {
         return this.cityIspOrg(null);
     }
 
+    /**
+     * @param ipAddress
+     *            IPv4 or IPv6 address to lookup.
+     * @return A City/ISP/Org lookup for the requested IP address.
+     * @throws GeoIP2Exception
+     *             if there is an error making the request.
+     */
     public CityIspOrgLookup cityIspOrg(InetAddress ipAddress)
             throws GeoIP2Exception {
         return this.responseFor("city_isp_org", ipAddress,
                 CityIspOrgLookup.class);
     }
 
+    /**
+     * @return An Omni lookup for the requesting IP address
+     * @throws GeoIP2Exception
+     *             if there is an error making the request.
+     */
     public OmniLookup omni() throws GeoIP2Exception {
         return this.omni(null);
     }
 
+    /**
+     * @param ipAddress
+     *            IPv4 or IPv6 address to lookup.
+     * @return An Omni lookup for the requested IP address.
+     * @throws GeoIP2Exception
+     *             if there is an error making the request.
+     */
     public OmniLookup omni(InetAddress ipAddress) throws GeoIP2Exception {
         return this.responseFor("omni", ipAddress, OmniLookup.class);
     }
@@ -211,11 +346,9 @@ public class Client {
                     new TypeReference<HashMap<String, String>>() {
                     });
         } catch (IOException e) {
-            return new HttpException(
-                    "Received a $status error for "
-                            + uri
-                            + " but it did not include the expected JSON body: "
-                            + body, status, uri.toURL());
+            return new HttpException("Received a " + status + " error for "
+                    + uri + " but it did not include the expected JSON body: "
+                    + body, status, uri.toURL());
         }
 
         String error = content.get("error");

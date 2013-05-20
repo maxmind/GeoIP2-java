@@ -2,6 +2,11 @@ package com.maxmind.geoip2.record;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Contains data for the subdivisions associated with an IP address
+ * 
+ * This record is returned by all the end points except the Country end point.
+ */
 public class Subdivision extends RecordWithNames {
     @JsonProperty
     private Integer confidence;
@@ -12,10 +17,21 @@ public class Subdivision extends RecordWithNames {
     public Subdivision() {
     }
 
+    /**
+     * @return This is a value from 0-100 indicating MaxMind's confidence that
+     *         the subdivision is correct. This attribute is only available from
+     *         the Omni end point.
+     */
     public Integer getConfidence() {
         return this.confidence;
     }
 
+    /**
+     * @return This is a string up to three characters long contain the
+     *         subdivision portion of the {@link http
+     *         ://en.wikipedia.org/wiki/ISO_3166-2 ISO 3166-2 code}. This
+     *         attribute is returned by all end points except Country.
+     */
     public String getIsoCode() {
         return this.isoCode;
     }

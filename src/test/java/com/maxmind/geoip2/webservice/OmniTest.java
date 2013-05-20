@@ -6,7 +6,7 @@ import static org.junit.Assert.fail;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,8 +33,7 @@ public class OmniTest {
 
     @Test
     public void testSubdivisionsList() {
-        ArrayList<Subdivision> subdivisionsList = this.omni
-                .getSubdivisionsList();
+        List<Subdivision> subdivisionsList = this.omni.getSubdivisionsList();
         assertNotNull("city.getSubdivisionsList returns null", subdivisionsList);
         if (subdivisionsList.size() == 0) {
             fail("subdivisionsList is empty");

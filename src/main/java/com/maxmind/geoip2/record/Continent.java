@@ -2,6 +2,11 @@ package com.maxmind.geoip2.record;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Contains data for the continent record associated with an IP address
+ * 
+ * This record is returned by all the end points.
+ */
 public class Continent extends RecordWithNames {
     // FIXME?
     @JsonProperty("continent_code")
@@ -11,6 +16,10 @@ public class Continent extends RecordWithNames {
         super();
     }
 
+    /**
+     * @return A two character continent code like "NA" (North America) or "OC"
+     *         (Oceania). This attribute is returned by all end points.
+     */
     public String getCode() {
         return this.continentCode;
     }
