@@ -78,7 +78,6 @@ public final class TestTransport extends MockHttpTransport {
             public LowLevelHttpResponse execute() throws IOException {
                 String path = url.replaceFirst(
                         "https://geoip.maxmind.com/geoip/v2.0/", "");
-                System.out.println(path);
                 // only 1.7 supports switching on strings
                 // XXX - This could probably be cleaned up by dispatching to
                 // separate

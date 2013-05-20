@@ -3,17 +3,17 @@
  */
 package com.maxmind.geoip2.record;
 
-import com.google.api.client.util.Key;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author greg
  * 
  */
 public class Postal {
-    @Key
+    @JsonProperty
     private String code;
 
-    @Key
+    @JsonProperty
     private Integer confidence;
 
     /**

@@ -2,14 +2,9 @@ package com.maxmind.geoip2.webservice;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.List;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,14 +17,6 @@ import com.maxmind.geoip2.exception.WebServiceException;
 import com.maxmind.geoip2.matchers.CodeMatcher;
 import com.maxmind.geoip2.matchers.HttpStatusMatcher;
 import com.maxmind.geoip2.model.CountryResponse;
-import com.maxmind.geoip2.model.OmniResponse;
-import com.maxmind.geoip2.record.City;
-import com.maxmind.geoip2.record.Continent;
-import com.maxmind.geoip2.record.Country;
-import com.maxmind.geoip2.record.RecordWithNames;
-import com.maxmind.geoip2.record.RepresentedCountry;
-import com.maxmind.geoip2.record.Subdivision;
-import com.maxmind.geoip2.record.Traits;
 
 /**
  * Unit test for simple App.
@@ -51,14 +38,14 @@ public class ClientTest {
                 country.getContinent().getGeoNameId().intValue());
         assertEquals(
                 "country.getContinent().getName(\"en\") does not return North America",
-                "North America", country.getContinent().getName("en"));
+                "North America", country.getContinent().getName());
         assertEquals("country.getCountry().getCode() does not return US", "US",
                 country.getCountry().getIsoCode());
         assertEquals("country.getCountry().getGeoNameId() does not return 1",
                 1, country.getCountry().getGeoNameId().intValue());
         assertEquals(
                 "country.getCountry().getName(\"en\") does not return United States",
-                "United States", country.getCountry().getName("en"));
+                "United States", country.getCountry().getName());
 
     }
 
@@ -136,67 +123,5 @@ public class ClientTest {
         this.exception
                 .expectMessage(containsString("Cannot satisfy your Accept-Charset requirements"));
         this.client.country(InetAddress.getByName("1.2.3.12"));
-    }
-
-    @Test
-    public void testDefaults() throws GeoIP2Exception, UnknownHostException {
-        OmniResponse omni = this.client.omni(InetAddress.getByName("1.2.3.13"));
-
-        City city = omni.getCity();
-        assertNotNull(city);
-        assertNull(city.getConfidence());
-
-        Continent continent = omni.getContinent();
-        assertNotNull(continent);
-        assertNull(continent.getCode());
-
-        Country country = omni.getCountry();
-        assertNotNull(country);
-
-        assertNotNull(omni.getLocation());
-
-        assertNotNull(omni.getPostal());
-
-        Country registeredCountry = omni.getRegisteredCountry();
-        assertNotNull(registeredCountry);
-
-        RepresentedCountry representedCountry = omni.getRepresentedCountry();
-        assertNotNull(representedCountry);
-        assertNull(representedCountry.getType());
-
-        List<Subdivision> subdivisions = omni.getSubdivisionsList();
-        assertNotNull(subdivisions);
-        assertTrue(subdivisions.isEmpty());
-
-        Subdivision subdiv = omni.getMostSpecificSubdivision();
-        assertNotNull(subdiv);
-        assertNull(subdiv.getIsoCode());
-        assertNull(subdiv.getConfidence());
-
-        Traits traits = omni.getTraits();
-        assertNotNull(traits);
-        assertNull(traits.getAutonomousSystemNumber());
-        assertNull(traits.getAutonomousSystemOrganization());
-        assertNull(traits.getDomain());
-        assertNull(traits.getIpAddress());
-        assertNull(traits.getIsp());
-        assertNull(traits.getOrganization());
-        assertNull(traits.getUserType());
-        assertFalse(traits.isAnonymousProxy());
-        assertFalse(traits.isSatelliteProvider());
-
-        for (Country c : new Country[] { country, registeredCountry,
-                representedCountry }) {
-            assertNull(c.getConfidence());
-            assertNull(c.getIsoCode());
-        }
-
-        for (RecordWithNames r : new RecordWithNames[] { city, continent,
-                country, registeredCountry, representedCountry, subdiv }) {
-            assertNull(r.getGeoNameId());
-            assertNull(r.getName("en"));
-            assertNull(r.getName("en", "pt"));
-            assertTrue(r.getNames().isEmpty());
-        }
     }
 }

@@ -1,9 +1,9 @@
 package com.maxmind.geoip2.record;
 
-import com.google.api.client.util.Key;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class City extends RecordWithNames {
-    @Key
+    @JsonProperty
     private Integer confidence;
 
     public City() {

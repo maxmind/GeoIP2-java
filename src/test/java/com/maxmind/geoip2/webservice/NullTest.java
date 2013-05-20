@@ -84,8 +84,7 @@ public class NullTest {
         for (RecordWithNames r : new RecordWithNames[] { city, continent,
                 country, registeredCountry, representedCountry, subdiv }) {
             assertNull(r.getGeoNameId());
-            assertNull(r.getName("en"));
-            assertNull(r.getName("en", "pt"));
+            assertNull(r.getName());
             assertTrue(r.getNames().isEmpty());
         }
     }

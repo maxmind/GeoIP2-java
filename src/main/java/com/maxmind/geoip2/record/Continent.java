@@ -1,10 +1,10 @@
 package com.maxmind.geoip2.record;
 
-import com.google.api.client.util.Key;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Continent extends RecordWithNames {
     // FIXME?
-    @Key("continent_code")
+    @JsonProperty("continent_code")
     private String continentCode;
 
     public Continent() {

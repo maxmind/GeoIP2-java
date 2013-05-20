@@ -1,25 +1,27 @@
 package com.maxmind.geoip2.record;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import com.google.api.client.util.Key;
+import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public abstract class RecordWithNames {
-    @Key
+    @JsonProperty
     private HashMap<String, String> names = new HashMap<String, String>();
-    @Key("geoname_id")
+    @JsonProperty("geoname_id")
     private Integer geoNameId;
+
+    @JacksonInject("languages")
+    public List<String> languages = new ArrayList<String>();
 
     RecordWithNames() {
     }
 
-    public String getName(String... languages) {
-        if (languages.length == 0) {
-            return this.names.get("en");
-        }
-
-        for (String lang : languages) {
+    public String getName() {
+        for (String lang : this.languages) {
             if (this.names.containsKey(lang)) {
                 return this.names.get(lang);
             }

@@ -1,12 +1,12 @@
 package com.maxmind.geoip2.record;
 
-import com.google.api.client.util.Key;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Subdivision extends RecordWithNames {
-    @Key
+    @JsonProperty
     private Integer confidence;
 
-    @Key("iso_code")
+    @JsonProperty("iso_code")
     private String isoCode;
 
     public Subdivision() {

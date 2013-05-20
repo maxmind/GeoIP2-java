@@ -2,21 +2,21 @@ package com.maxmind.geoip2.model;
 
 import java.util.ArrayList;
 
-import com.google.api.client.util.Key;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Location;
 import com.maxmind.geoip2.record.Postal;
 import com.maxmind.geoip2.record.Subdivision;
 
 public class CityResponse extends CountryResponse {
-    @Key
+    @JsonProperty
     private City city = new City();
-    @Key
+    @JsonProperty
     private Location location = new Location();
-    @Key
+    @JsonProperty
     private Postal postal = new Postal();
 
-    @Key("subdivisions")
+    @JsonProperty("subdivisions")
     private ArrayList<Subdivision> subdivisions = new ArrayList<Subdivision>();
 
     public CityResponse() {

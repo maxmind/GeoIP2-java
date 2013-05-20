@@ -1,25 +1,25 @@
 package com.maxmind.geoip2.model;
 
-import com.google.api.client.util.Key;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maxmind.geoip2.record.Continent;
 import com.maxmind.geoip2.record.Country;
 import com.maxmind.geoip2.record.RepresentedCountry;
 import com.maxmind.geoip2.record.Traits;
 
 public class CountryResponse {
-    @Key
+    @JsonProperty
     private Continent continent = new Continent();
 
-    @Key
+    @JsonProperty
     private Country country = new Country();
 
-    @Key("registered_country")
+    @JsonProperty("registered_country")
     private Country registeredCountry = new Country();
 
-    @Key("represented_country")
+    @JsonProperty("represented_country")
     private RepresentedCountry representedCountry = new RepresentedCountry();
 
-    @Key
+    @JsonProperty
     private Traits traits = new Traits();
 
     public CountryResponse() {

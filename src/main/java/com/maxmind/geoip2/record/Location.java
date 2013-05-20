@@ -1,21 +1,21 @@
 package com.maxmind.geoip2.record;
 
-import com.google.api.client.util.Key;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Location {
-    @Key("accuracy_radius")
+    @JsonProperty("accuracy_radius")
     private Integer accuracyRadius;
 
-    @Key
+    @JsonProperty
     private Double latitude;
 
-    @Key
+    @JsonProperty
     private Double longitude;
 
-    @Key("metro_code")
+    @JsonProperty("metro_code")
     private Integer metroCode;
 
-    @Key("time_zone")
+    @JsonProperty("time_zone")
     private String timeZone;
 
     public Location() {

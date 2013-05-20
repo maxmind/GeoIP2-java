@@ -1,33 +1,33 @@
 package com.maxmind.geoip2.record;
 
-import com.google.api.client.util.Key;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Traits {
-    @Key("autonomous_system_number")
+    @JsonProperty("autonomous_system_number")
     private Integer autonomousSystemNumber;
 
-    @Key("autonomous_system_organization")
+    @JsonProperty("autonomous_system_organization")
     private String autonomousSystemOrganization;
 
-    @Key
+    @JsonProperty
     private String domain;
 
-    @Key("ip_address")
+    @JsonProperty("ip_address")
     private String ipAddress;
 
-    @Key("is_anonymous_proxy")
+    @JsonProperty("is_anonymous_proxy")
     private boolean anonymousProxy;
 
-    @Key("is_satellite_provider")
+    @JsonProperty("is_satellite_provider")
     private boolean satelliteProvider;
 
-    @Key
+    @JsonProperty
     private String isp;
 
-    @Key
+    @JsonProperty
     private String organization;
 
-    @Key("user_type")
+    @JsonProperty("user_type")
     private String userType;
 
     public Traits() {

@@ -2,22 +2,22 @@ package com.maxmind.geoip2.webservice;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
-import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.JsonObjectParser;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.exception.HttpException;
 import com.maxmind.geoip2.exception.WebServiceException;
@@ -28,30 +28,46 @@ import com.maxmind.geoip2.model.OmniResponse;
 
 public class Client {
     private final HttpTransport transport;
-    private static final JsonFactory JSON_FACTORY = new JacksonFactory();
     private final int userId;
     private final String licenseKey;
+    private final List<String> languages;
     private String host = "geoip.maxmind.com";
 
     public Client(int userId, String licenseKey) {
-        this(userId, licenseKey, null, null);
+        this(userId, licenseKey, null, null, null);
+    }
+
+    public Client(int userId, String licenseKey, List<String> languages) {
+        this(userId, licenseKey, languages, null, null);
     }
 
     /* package-private as this is just for unit testing */
     Client(int userId, String licenseKey, HttpTransport transport) {
-        this(userId, licenseKey, null, transport);
+        this(userId, licenseKey, null, null, transport);
+    }
+
+    /* package-private as this is just for unit testing */
+    Client(int userId, String licenseKey, List<String> languages,
+            HttpTransport transport) {
+        this(userId, licenseKey, languages, null, transport);
     }
 
     public Client(int userId, String licenseKey, String host) {
-        this(userId, licenseKey, host, null);
+        this(userId, licenseKey, null, host, null);
     }
 
     /* package-private as we only need to specify a transport for unit testing */
-    Client(int userId, String licenseKey, String host, HttpTransport transport) {
+    Client(int userId, String licenseKey, List<String> languages, String host,
+            HttpTransport transport) {
         this.userId = userId;
         this.licenseKey = licenseKey;
         if (host != null) {
             this.host = host;
+        }
+        if (languages == null) {
+            this.languages = Arrays.asList("en");
+        } else {
+            this.languages = languages;
         }
         if (transport == null) {
             this.transport = new NetHttpTransport();
@@ -98,12 +114,7 @@ public class Client {
     private <T extends CountryResponse> T responseFor(String path,
             InetAddress ipAddress, Class<T> cls) throws GeoIP2Exception {
         HttpRequestFactory requestFactory = this.transport
-                .createRequestFactory(new HttpRequestInitializer() {
-                    @Override
-                    public void initialize(HttpRequest request) {
-                        request.setParser(new JsonObjectParser(JSON_FACTORY));
-                    }
-                });
+                .createRequestFactory();
         String uri = "https://" + this.host + "/geoip/v2.0/" + path + "/"
                 + (ipAddress == null ? "me" : ipAddress.getHostAddress());
         HttpRequest request;
@@ -128,12 +139,11 @@ public class Client {
                             + e.getMessage(), e);
         }
 
-        return Client.handleSuccess(response, uri, cls);
+        return this.handleSuccess(response, uri, cls);
     }
 
-    private static <T extends CountryResponse> T handleSuccess(
-            HttpResponse response, String uri, Class<T> cls)
-            throws GeoIP2Exception {
+    private <T extends CountryResponse> T handleSuccess(HttpResponse response,
+            String uri, Class<T> cls) throws GeoIP2Exception {
         Long content_length = response.getHeaders().getContentLength();
 
         if (content_length == null || content_length.intValue() <= 0) {
@@ -155,16 +165,27 @@ public class Client {
             }
         }
 
+        String jsonBody;
         try {
-            return response.parseAs(cls);
+            jsonBody = response.parseAsString();
+        } catch (IOException e) {
+            throw new GeoIP2Exception(
+                    "Received a 200 response but not decode message body: "
+                            + e.getMessage());
+        }
+
+        InjectableValues inject = new InjectableValues.Std().addValue(
+                "languages", this.languages);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
+                false);
+
+        try {
+            return mapper.reader(cls).with(inject).readValue(jsonBody);
         } catch (IOException e) {
             throw new GeoIP2Exception(
                     "Received a 200 response but not decode it as JSON: "
-                            + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            throw new GeoIP2Exception(
-                    "Received a 200 response but not decode it as JSON: "
-                            + e.getMessage());
+                            + jsonBody);
         }
     }
 
@@ -190,8 +211,6 @@ public class Client {
         Map<String, String> content;
         try {
             ObjectMapper mapper = new ObjectMapper();
-            // This allows us to get back a HashMap<String, String> instead of a
-            // HashMap
             content = mapper.readValue(body,
                     new TypeReference<HashMap<String, String>>() {
                     });

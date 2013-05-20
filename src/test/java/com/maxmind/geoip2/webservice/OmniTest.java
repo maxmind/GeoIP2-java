@@ -26,8 +26,7 @@ public class OmniTest {
     public void createClient() throws GeoIP2Exception, UnknownHostException {
         HttpTransport transport = new TestTransport();
 
-        Client client = new Client(42, "012345689", "geoip.maxmind.com",
-                transport);
+        Client client = new Client(42, "012345689", transport);
 
         this.omni = client.omni(InetAddress.getByName("1.1.1.1"));
     }
@@ -102,12 +101,11 @@ public class OmniTest {
     @Test
     public void testPostal() {
 
-        Postal location = this.omni.getPostal();
-
+        Postal postal = this.omni.getPostal();
         assertEquals("postal.getCode() does not return 55401", "55401",
-                location.getCode());
+                postal.getCode());
         assertEquals("postal.getConfidence() does not return 33", new Integer(
-                33), location.getConfidence());
+                33), postal.getConfidence());
 
     }
 

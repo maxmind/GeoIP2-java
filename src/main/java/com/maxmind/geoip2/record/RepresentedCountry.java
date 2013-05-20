@@ -1,9 +1,9 @@
 package com.maxmind.geoip2.record;
 
-import com.google.api.client.util.Key;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RepresentedCountry extends Country {
-    @Key
+    @JsonProperty
     private String type;
 
     public RepresentedCountry() {
