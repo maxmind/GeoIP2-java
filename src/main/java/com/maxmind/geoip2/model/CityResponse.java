@@ -38,7 +38,7 @@ public class CityResponse extends CountryResponse {
     }
 
     public ArrayList<Subdivision> getSubdivisionsList() {
-        return this.subdivisions;
+        return new ArrayList<Subdivision>(this.subdivisions);
     }
 
     public Subdivision getMostSpecificSubdivision() {

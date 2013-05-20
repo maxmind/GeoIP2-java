@@ -7,20 +7,15 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.simpleframework.transport.connect.Connection;
 
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.LowLevelHttpRequest;
-import com.google.api.client.http.LowLevelHttpResponse;
-import com.google.api.client.testing.http.MockHttpTransport;
-import com.google.api.client.testing.http.MockLowLevelHttpRequest;
-import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.exception.HttpException;
 import com.maxmind.geoip2.exception.WebServiceException;
@@ -40,99 +35,15 @@ import com.maxmind.geoip2.record.Traits;
  * Unit test for simple App.
  */
 public class ClientTest {
-    Connection connection;
-    int port;
 
-    final static private String countryResponse = "{\"continent\":{"
-            + "\"continent_code\":\"NA\"," + "\"geoname_id\":42,"
-            + "\"names\":{\"en\":\"North America\"}" + "}," + "\"country\":{"
-            + "\"geoname_id\":1," + "\"iso_code\":\"US\","
-            + "\"confidence\":56," + "\"names\":{\"en\":\"United States\"}"
-            + "}," + "\"registered_country\":{" + "\"geoname_id\":2,"
-            + "\"iso_code\":\"CA\"," + "\"names\":{\"en\":\"Canada\"}" + "},"
-            + "\"traits\":{" + "\"ip_address\":\"1.2.3.4\"" + "}}";
+    private final HttpTransport transport = new TestTransport();
 
-    HttpTransport transport = new MockHttpTransport() {
-        @Override
-        public LowLevelHttpRequest buildRequest(String method, final String url)
-                throws IOException {
-            return new MockLowLevelHttpRequest() {
-                @Override
-                public LowLevelHttpResponse execute() throws IOException {
-                    String ipAddress = url.substring(url.lastIndexOf('/') + 1);
-                    switch (ipAddress) {
-                        case "1.2.3.4":
-                            return this.getResponse("country", 200,
-                                    countryResponse);
-                        case "1.2.3.5":
-                            return this.getResponse("country", 200);
-                        case "1.2.3.6":
-                            String body = "{\"code\":\"IP_ADDRESS_INVALID\","
-                                    + "\"error\":\"The value 1.2.3 is not a valid ip address\"}";
-                            return this.getResponse("error", 400, body);
-                        case "1.2.3.7":
-                            return this.getResponse("error", 400);
-                        case "1.2.3.8":
-                            return this.getResponse("error", 400,
-                                    "{\"weird\":42}");
-                        case "1.2.3.9":
-                            return this.getResponse("error", 400,
-                                    "{ invalid: }");
-                        case "1.2.3.10":
-                            return this.getResponse("", 500);
-                        case "1.2.3.11":
-                            return this.getResponse("", 300);
-                        case "1.2.3.12":
-                            return this
-                                    .getResponse(
-                                            "error",
-                                            406,
-                                            "Cannot satisfy your Accept-Charset requirements",
-                                            "text/plain");
-                        case "1.2.3.13":
-                            return this.getResponse("omni", 200, "{}");
-                        default:
-                            return this.getResponse("", 404);
-                    }
-                }
-
-                private LowLevelHttpResponse getResponse(String endpoint,
-                        int status) {
-                    return this.getResponse(endpoint, status, "", null);
-                }
-
-                private LowLevelHttpResponse getResponse(String endpoint,
-                        int status, String body) {
-                    return this.getResponse(endpoint, status, body, null);
-                }
-
-                private LowLevelHttpResponse getResponse(String endpoint,
-                        int status, String body, String content_type) {
-                    MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
-                    response.addHeader("Content-Length",
-                            String.valueOf(body.length()));
-                    response.setStatusCode(status);
-
-                    if (content_type != null) {
-                        response.setContentType(content_type);
-                    } else {
-                        response.setContentType("application/vnd.maxmind.com-"
-                                + endpoint
-                                + "+json; charset=UTF-8; version=1.0");
-                    }
-
-                    response.setContent(body);
-                    return response;
-                }
-            };
-        }
-    };
-
-    Client client = new Client(42, "abcdef123456", this.transport);
+    private final Client client = new Client(42, "abcdef123456", this.transport);
 
     @Test
-    public void testCountry() throws GeoIP2Exception {
-        CountryResponse country = this.client.country("1.2.3.4");
+    public void testCountry() throws GeoIP2Exception, UnknownHostException {
+        CountryResponse country = this.client.country(InetAddress
+                .getByName("1.2.3.4"));
         assertEquals("country.getContinent().getCode() does not return NA",
                 "NA", country.getContinent().getCode());
         assertEquals(
@@ -155,79 +66,81 @@ public class ClientTest {
     public ExpectedException exception = ExpectedException.none();
 
     @Test
-    public void noBody() throws GeoIP2Exception {
+    public void noBody() throws GeoIP2Exception, UnknownHostException {
         this.exception.expect(GeoIP2Exception.class);
         this.exception.expectMessage(containsString("message body"));
 
-        this.client.country("1.2.3.5");
+        this.client.country(InetAddress.getByName("1.2.3.5"));
     }
 
     @Test
-    public void webServiceError() throws GeoIP2Exception {
+    public void webServiceError() throws GeoIP2Exception, UnknownHostException {
         this.exception.expect(WebServiceException.class);
         this.exception.expect(CodeMatcher.hasCode("IP_ADDRESS_INVALID"));
         this.exception.expect(HttpStatusMatcher.hasStatus(400));
         this.exception
                 .expectMessage(containsString("The value 1.2.3 is not a valid ip address"));
 
-        this.client.country("1.2.3.6");
+        this.client.country(InetAddress.getByName("1.2.3.6"));
     }
 
     @Test
-    public void noErrorBody() throws GeoIP2Exception {
+    public void noErrorBody() throws GeoIP2Exception, UnknownHostException {
         this.exception.expect(HttpException.class);
         this.exception
                 .expectMessage(containsString("Received a 400 error for https://geoip.maxmind.com/geoip/v2.0/country/1.2.3.7 with no body"));
 
-        this.client.country("1.2.3.7");
+        this.client.country(InetAddress.getByName("1.2.3.7"));
     }
 
     @Test
-    public void weirdErrorBody() throws GeoIP2Exception {
+    public void weirdErrorBody() throws GeoIP2Exception, UnknownHostException {
         this.exception.expect(HttpException.class);
         this.exception
                 .expectMessage(containsString("Response contains JSON but it does not specify code or error keys"));
 
-        this.client.country("1.2.3.8");
+        this.client.country(InetAddress.getByName("1.2.3.8"));
     }
 
     @Test
-    public void unexpectedErrorBody() throws GeoIP2Exception {
+    public void unexpectedErrorBody() throws GeoIP2Exception,
+            UnknownHostException {
         this.exception.expect(HttpException.class);
         this.exception
                 .expectMessage(containsString("it did not include the expected JSON body:"));
 
-        this.client.country("1.2.3.9");
+        this.client.country(InetAddress.getByName("1.2.3.9"));
     }
 
     @Test
-    public void internalServerError() throws GeoIP2Exception {
+    public void internalServerError() throws GeoIP2Exception,
+            UnknownHostException {
         this.exception.expect(HttpException.class);
         this.exception
                 .expectMessage(containsString("Received a server error (500) for"));
-        this.client.country("1.2.3.10");
+        this.client.country(InetAddress.getByName("1.2.3.10"));
     }
 
     @Test
-    public void surprisingStatus() throws GeoIP2Exception {
+    public void surprisingStatus() throws GeoIP2Exception, UnknownHostException {
         this.exception.expect(HttpException.class);
         this.exception
                 .expectMessage(containsString("Received a very surprising HTTP status (300) for"));
 
-        this.client.country("1.2.3.11");
+        this.client.country(InetAddress.getByName("1.2.3.11"));
     }
 
     @Test
-    public void cannotAccept() throws GeoIP2Exception {
+    public void cannotAccept() throws GeoIP2Exception, UnknownHostException {
         this.exception.expect(HttpException.class);
         this.exception
                 .expectMessage(containsString("Cannot satisfy your Accept-Charset requirements"));
-        this.client.country("1.2.3.12");
+        this.client.country(InetAddress.getByName("1.2.3.12"));
     }
 
     @Test
-    public void testDefaults() throws GeoIP2Exception {
-        OmniResponse omni = this.client.omni("1.2.3.13");
+    public void testDefaults() throws GeoIP2Exception, UnknownHostException {
+        OmniResponse omni = this.client.omni(InetAddress.getByName("1.2.3.13"));
 
         City city = omni.getCity();
         assertNotNull(city);
@@ -282,7 +195,7 @@ public class ClientTest {
                 country, registeredCountry, representedCountry, subdiv }) {
             assertNull(r.getGeoNameId());
             assertNull(r.getName("en"));
-            assertNull(r.getName(new String[] { "en", "pt" }));
+            assertNull(r.getName("en", "pt"));
             assertTrue(r.getNames().isEmpty());
         }
     }

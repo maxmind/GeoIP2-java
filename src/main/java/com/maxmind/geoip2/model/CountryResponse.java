@@ -14,7 +14,7 @@ public class CountryResponse {
     private Country country = new Country();
 
     @Key("registered_country")
-    private com.maxmind.geoip2.record.Country registeredCountry = new Country();
+    private Country registeredCountry = new Country();
 
     @Key("represented_country")
     private RepresentedCountry representedCountry = new RepresentedCountry();

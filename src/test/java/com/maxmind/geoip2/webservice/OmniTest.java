@@ -4,18 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.LowLevelHttpRequest;
-import com.google.api.client.http.LowLevelHttpResponse;
-import com.google.api.client.testing.http.MockHttpTransport;
-import com.google.api.client.testing.http.MockLowLevelHttpRequest;
-import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.model.OmniResponse;
 import com.maxmind.geoip2.record.Location;
@@ -24,70 +20,18 @@ import com.maxmind.geoip2.record.Subdivision;
 import com.maxmind.geoip2.record.Traits;
 
 public class OmniTest {
-    OmniResponse omni;
+    private OmniResponse omni;
 
     @Before
-    public void setUp() throws GeoIP2Exception {
-        final String body = "{" + "\"city\":{" + "\"confidence\":76,"
-                + "\"geoname_id\":9876," + "\"names\":{"
-                + "\"en\":\"Minneapolis\"" + "}" + "}," +
+    public void createClient() throws GeoIP2Exception, UnknownHostException {
+        HttpTransport transport = new TestTransport();
 
-                "\"continent\":{" + "\"continent_code\":\"NA\","
-                + "\"geoname_id\":42," + "\"names\":{"
-                + "\"en\":\"North America\"" + "}" + "}," +
-
-                "\"country\":{" + "\"confidence\":99," + "\"iso_code\":\"US\","
-                + "\"geoname_id\":1," + "\"names\":{"
-                + "\"en\":\"United States of America\"" + "}" + "}," +
-
-                "\"location\":{" + "\"accuracy_radius\":1500,"
-                + "\"latitude\":44.98," + "\"longitude\":93.2636,"
-                + "\"metro_code\":765," + "\"time_zone\":\"America/Chicago\""
-                + "}," + "\"postal\":{\"confidence\": 33, \"code\":\"55401\"},"
-                + "\"registered_country\":{" + "\"geoname_id\":2,"
-                + "\"iso_code\":\"CA\"," + "\"names\":{" + "\"en\":\"Canada\""
-                + "}" + "}," + "\"represented_country\":{"
-                + "\"geoname_id\":3," + "\"iso_code\":\"GB\"," + "\"names\":{"
-                + "\"en\":\"United Kingdom\"" + "},"
-                + "\"type\":\"C<military>\"" + "}," + "\"subdivisions\":[{"
-                + "\"confidence\":88," + "\"geoname_id\":574635,"
-                + "\"iso_code\":\"MN\"," + "\"names\":{"
-                + "\"en\":\"Minnesota\"" + "}" + "}" + "]," + "\"traits\":{"
-                + "\"autonomous_system_number\":1234,"
-                + "\"autonomous_system_organization\":\"AS Organization\","
-                + "\"domain\":\"example.com\"," + "\"ip_address\":\"1.2.3.4\","
-                + "\"is_anonymous_proxy\":true,"
-                + "\"is_satellite_provider\":true," + "\"isp\":\"Comcast\","
-                + "\"organization\":\"Blorg\"," + "\"user_type\":\"college\""
-                + "}" + "}";
-
-        // Move this to shared code
-        HttpTransport transport = new MockHttpTransport() {
-            @Override
-            public LowLevelHttpRequest buildRequest(String method, String url)
-                    throws IOException {
-                return new MockLowLevelHttpRequest() {
-                    @Override
-                    public LowLevelHttpResponse execute() throws IOException {
-                        MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
-                        response.addHeader("Content-Length",
-                                String.valueOf(body.length()));
-                        response.setStatusCode(200);
-                        response.setContentType("application/vnd.maxmind.com-country"
-                                + "+json; charset=UTF-8; version=1.0);");
-                        response.setContent(body);
-                        return response;
-                    }
-                };
-            }
-        };
         Client client = new Client(42, "012345689", "geoip.maxmind.com",
                 transport);
 
-        this.omni = client.omni("1.1.1.1");
+        this.omni = client.omni(InetAddress.getByName("1.1.1.1"));
     }
 
-    @SuppressWarnings("boxing")
     @Test
     public void testSubdivisionsList() {
         ArrayList<Subdivision> subdivisionsList = this.omni
@@ -100,7 +44,7 @@ public class OmniTest {
         assertEquals("subdivision.getConfidence() does not return 88",
                 new Integer(88), subdivision.getConfidence());
         assertEquals("subdivision.getGeoNameId() does not return 574635",
-                574635, (int) subdivision.getGeoNameId());
+                574635, subdivision.getGeoNameId().intValue());
         assertEquals("subdivision.getCode() does not return MN", "MN",
                 subdivision.getIsoCode());
     }
@@ -133,7 +77,6 @@ public class OmniTest {
                 "college", traits.getUserType());
     }
 
-    @SuppressWarnings("boxing")
     @Test
     public void testLocation() {
 
@@ -144,10 +87,10 @@ public class OmniTest {
         assertEquals("location.getAccuracyRadius() does not return 1500",
                 new Integer(1500), location.getAccuracyRadius());
 
-        double latitude = location.getLatitude();
+        double latitude = location.getLatitude().doubleValue();
         assertEquals("location.getLatitude() does not return 44.98", 44.98,
                 latitude, 0.1);
-        double longitude = location.getLongitude();
+        double longitude = location.getLongitude().doubleValue();
         assertEquals("location.getLongitude() does not return 93.2636",
                 93.2636, longitude, 0.1);
         assertEquals("location.getMetroCode() does not return 765",

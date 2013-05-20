@@ -2,8 +2,8 @@ package com.maxmind.geoip2.exception;
 
 public class HttpException extends GeoIP2Exception {
     private static final long serialVersionUID = -8301101841509056974L;
-    private int http_status;
-    private String uri;
+    private final int http_status;
+    private final String uri;
 
     public HttpException(String message, int http_status, String uri) {
         super(message);

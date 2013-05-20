@@ -4,60 +4,27 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.LowLevelHttpRequest;
-import com.google.api.client.http.LowLevelHttpResponse;
-import com.google.api.client.testing.http.MockHttpTransport;
-import com.google.api.client.testing.http.MockLowLevelHttpRequest;
-import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.model.CityIspOrgResponse;
+import com.maxmind.geoip2.webservice.Client;
 
 public class NamesTest {
-    CityIspOrgResponse cio;
+    private CityIspOrgResponse cio;
 
     @Before
-    public void setUp() throws GeoIP2Exception {
-        final String body = "{\"continent\":{" + "\"continent_code\":\"NA\","
-                + "\"geoname_id\":42," + "\"names\":{"
-                + "\"en\":\"North America\"," + "\"zh-CN\":\"北美洲\"" + "}"
-                + "}," + "\"country\":{" + "\"geoname_id\":1,"
-                + "\"iso_code\":\"US\"," + "\"confidence\":56," + "\"names\":{"
-                + "\"en\":\"United States\","
-                + "\"ru\":\"объединяет государства\"," + "\"zh-CN\":\"美国\""
-                + "}" + "}," + "\"registered_country\":{" + "\"geoname_id\":2,"
-                + "\"iso_code\":\"CA\"," + "\"names\":{\"en\":\"Canada\"}"
-                + "}," + "\"traits\":{" + "\"ip_address\":\"1.2.3.4\"" + "}}";
-
-        // Move this to shared code
-        HttpTransport transport = new MockHttpTransport() {
-            @Override
-            public LowLevelHttpRequest buildRequest(String method, String url)
-                    throws IOException {
-                return new MockLowLevelHttpRequest() {
-                    @Override
-                    public LowLevelHttpResponse execute() throws IOException {
-                        MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
-                        response.addHeader("Content-Length",
-                                String.valueOf(body.length()));
-                        response.setStatusCode(200);
-                        response.setContentType("application/vnd.maxmind.com-country"
-                                + "+json; charset=UTF-8; version=1.0);");
-                        response.setContent(body);
-                        return response;
-                    }
-                };
-            }
-        };
+    public void setUp() throws GeoIP2Exception, UnknownHostException {
+        HttpTransport transport = new TestTransport();
         Client client = new Client(42, "012345689", "geoip.maxmind.com",
                 transport);
 
-        this.cio = client.cityIspOrg("1.1.1.1");
+        this.cio = client.cityIspOrg(InetAddress.getByName("1.1.1.2"));
     }
 
     @Test

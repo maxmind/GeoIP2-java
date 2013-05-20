@@ -1,8 +1,9 @@
 package com.maxmind.geoip2.exception;
 
+
 public class WebServiceException extends HttpException {
     private static final long serialVersionUID = 8662062420258379643L;
-    private String code;
+    private final String code;
 
     public WebServiceException(String message, String code, int http_status,
             String uri) {

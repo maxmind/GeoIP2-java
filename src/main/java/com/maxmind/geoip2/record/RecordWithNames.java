@@ -11,7 +11,7 @@ public abstract class RecordWithNames {
     @Key("geoname_id")
     private Integer geoNameId;
 
-    protected RecordWithNames() {
+    RecordWithNames() {
     }
 
     public String getName(String... languages) {
@@ -28,7 +28,7 @@ public abstract class RecordWithNames {
     }
 
     public Map<String, String> getNames() {
-        return (Map<String, String>) this.names.clone();
+        return new HashMap<String, String>(this.names);
     }
 
     public Integer getGeoNameId() {

@@ -1,9 +1,11 @@
 package com.maxmind.geoip2.webservice;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
@@ -25,10 +27,10 @@ import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.model.OmniResponse;
 
 public class Client {
-    private HttpTransport transport;
-    static final JsonFactory JSON_FACTORY = new JacksonFactory();
-    private int userId;
-    private String licenseKey;
+    private final HttpTransport transport;
+    private static final JsonFactory JSON_FACTORY = new JacksonFactory();
+    private final int userId;
+    private final String licenseKey;
     private String host = "geoip.maxmind.com";
 
     public Client(int userId, String licenseKey) {
@@ -58,26 +60,43 @@ public class Client {
         }
     }
 
-    public CountryResponse country(String ipAddress) throws GeoIP2Exception {
+    public CountryResponse country() throws GeoIP2Exception {
+        return this.country(null);
+    }
+
+    public CountryResponse country(InetAddress ipAddress)
+            throws GeoIP2Exception {
         return this.responseFor("country", ipAddress, CountryResponse.class);
     }
 
-    public CityResponse city(String ipAddress) throws GeoIP2Exception {
+    public CityResponse city() throws GeoIP2Exception {
+        return this.city(null);
+    }
+
+    public CityResponse city(InetAddress ipAddress) throws GeoIP2Exception {
         return this.responseFor("city", ipAddress, CityResponse.class);
     }
 
-    public OmniResponse omni(String ipAddress) throws GeoIP2Exception {
-        return this.responseFor("omni", ipAddress, OmniResponse.class);
+    public CityIspOrgResponse cityIspOrg() throws GeoIP2Exception {
+        return this.cityIspOrg(null);
     }
 
-    public CityIspOrgResponse cityIspOrg(String ipAddress)
+    public CityIspOrgResponse cityIspOrg(InetAddress ipAddress)
             throws GeoIP2Exception {
         return this.responseFor("city_isp_org", ipAddress,
                 CityIspOrgResponse.class);
     }
 
+    public OmniResponse omni() throws GeoIP2Exception {
+        return this.omni(null);
+    }
+
+    public OmniResponse omni(InetAddress ipAddress) throws GeoIP2Exception {
+        return this.responseFor("omni", ipAddress, OmniResponse.class);
+    }
+
     private <T extends CountryResponse> T responseFor(String path,
-            String ip_address, Class<T> cls) throws GeoIP2Exception {
+            InetAddress ipAddress, Class<T> cls) throws GeoIP2Exception {
         HttpRequestFactory requestFactory = this.transport
                 .createRequestFactory(new HttpRequestInitializer() {
                     @Override
@@ -86,8 +105,7 @@ public class Client {
                     }
                 });
         String uri = "https://" + this.host + "/geoip/v2.0/" + path + "/"
-                + ip_address;
-
+                + (ipAddress == null ? "me" : ipAddress.getHostAddress());
         HttpRequest request;
         try {
             request = requestFactory.buildGetRequest(new GenericUrl(uri));
@@ -118,13 +136,13 @@ public class Client {
             throws GeoIP2Exception {
         Long content_length = response.getHeaders().getContentLength();
 
-        if (content_length == null || content_length.longValue() <= 0) {
+        if (content_length == null || content_length.intValue() <= 0) {
             throw new GeoIP2Exception("Received a 200 response for " + uri
                     + " but there was no message body.");
         }
 
         if (response.getContentType() == null
-                || response.getContentType().indexOf("json") == -1) {
+                || !response.getContentType().contains("json")) {
             try {
                 throw new GeoIP2Exception("Received a 200 response for " + uri
                         + " but it does not appear to be JSON:\n"
@@ -172,7 +190,11 @@ public class Client {
         Map<String, String> content;
         try {
             ObjectMapper mapper = new ObjectMapper();
-            content = mapper.readValue(body, HashMap.class);
+            // This allows us to get back a HashMap<String, String> instead of a
+            // HashMap
+            content = mapper.readValue(body,
+                    new TypeReference<HashMap<String, String>>() {
+                    });
         } catch (IOException e) {
             return new HttpException(
                     "Received a $status error for "
