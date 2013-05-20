@@ -57,9 +57,9 @@ import com.maxmind.geoip2.model.OmniLookup;
  * 
  * **Exceptions**
  * 
- * For details on the possible errors returned by the web service itself, see
- * {@link http://dev.maxmind.com/geoip2/geoip/web-services the GeoIP2 web
- * service documentation}.
+ * For details on the possible errors returned by the web service itself, see <a
+ * href="http://dev.maxmind.com/geoip2/geoip/web-services">the GeoIP2 web
+ * service documentation</a>.
  * 
  * If the web service returns an explicit error document, this is thrown as a
  * {@link WebServiceException}. If some other sort of transport error occurs,
@@ -72,7 +72,7 @@ import com.maxmind.geoip2.model.OmniLookup;
  * also becomes a {@link HttpException}.
  * 
  * Finally, if the web service returns a 200 but the body is invalid, the client
- * throws a {@link GenericException}.
+ * throws a {@link GeoIP2Exception}.
  */
 public class Client {
     private final HttpTransport transport;

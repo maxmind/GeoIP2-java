@@ -33,8 +33,8 @@ public abstract class RecordWithNames {
 
     /**
      * @return The name of the city based on the languages list passed to the
-     *         {@link Client} constructor. This attribute is returned by all end
-     *         points.
+     *         {@link com.maxmind.geoip2.webservice.Client} constructor. This
+     *         attribute is returned by all end points.
      */
     public String getName() {
         for (String lang : this.languages) {

@@ -55,21 +55,20 @@ public class Location {
 
     /**
      * @return The metro code of the location if the location is in the US.
-     *         MaxMind returns the same metro codes as the {@link https
-     *         ://developers
-     *         .google.com/adwords/api/docs/appendix/cities-DMAregions Google
-     *         AdWords API}. This attribute is returned by all end points except
-     *         the Country end point.
+     *         MaxMind returns the same metro codes as the <a href=
+     *         "https://developers.google.com/adwords/api/docs/appendix/cities-DMAregions"
+     *         >Google AdWords API</a>. This attribute is returned by all end
+     *         points except the Country end point.
      */
     public Integer getMetroCode() {
         return this.metroCode;
     }
 
     /**
-     * @return The time zone associated with location, as specified by the
-     *         {@link http://www.iana.org/time-zones IANA Time Zone Database},
-     *         e.g., "America/New_York". This attribute is returned by all end
-     *         points except the Country end point.
+     * @return The time zone associated with location, as specified by the <a
+     *         href="http://www.iana.org/time-zones">IANA Time Zone
+     *         Database</a>, e.g., "America/New_York". This attribute is
+     *         returned by all end points except the Country end point.
      */
     public String getTimeZone() {
         return this.timeZone;

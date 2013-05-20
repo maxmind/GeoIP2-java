@@ -11,8 +11,10 @@ import com.maxmind.geoip2.record.Traits;
  * point.
  * 
  * The only difference between the City, City/ISP/Org, and Omni model classes is
- * which fields in each record may be populated. See {@link http
- * ://dev.maxmind.com/geoip/geoip2/web-services} more details.
+ * which fields in each record may be populated.
+ * 
+ * @see <a href="http://dev.maxmind.com/geoip/geoip2/web-services">GeoIP2 Web
+ *      Services</a>
  */
 public class CountryLookup {
     @JsonProperty

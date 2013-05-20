@@ -28,9 +28,10 @@ public class Country extends RecordWithNames {
     }
 
     /**
-     * @return The {@link http://en.wikipedia.org/wiki/ISO_3166-1 two-character
-     *         ISO 3166-1 alpha code} for the country. This attribute is
-     *         returned by all end points.
+     * @return The <a
+     *         href="http://en.wikipedia.org/wiki/ISO_3166-1">two-character ISO
+     *         3166-1 alpha code</a> for the country. This attribute is returned
+     *         by all end points.
      */
     public String getIsoCode() {
         return this.isoCode;
