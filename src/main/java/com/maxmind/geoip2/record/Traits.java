@@ -69,4 +69,28 @@ public class Traits {
     public boolean isSatelliteProvider() {
         return this.satelliteProvider;
     }
+
+    @Override
+    public String toString() {
+        return "Traits ["
+                + (this.autonomousSystemNumber != null ? "autonomousSystemNumber="
+                        + this.autonomousSystemNumber + ", "
+                        : "")
+                + (this.autonomousSystemOrganization != null ? "autonomousSystemOrganization="
+                        + this.autonomousSystemOrganization + ", "
+                        : "")
+                + (this.domain != null ? "domain=" + this.domain + ", " : "")
+                + (this.ipAddress != null ? "ipAddress=" + this.ipAddress
+                        + ", " : "")
+                + "anonymousProxy="
+                + this.anonymousProxy
+                + ", satelliteProvider="
+                + this.satelliteProvider
+                + ", "
+                + (this.isp != null ? "isp=" + this.isp + ", " : "")
+                + (this.organization != null ? "organization="
+                        + this.organization + ", " : "")
+                + (this.userType != null ? "userType=" + this.userType : "")
+                + "]";
+    }
 }

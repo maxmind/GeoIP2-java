@@ -36,4 +36,9 @@ public abstract class RecordWithNames {
     public Integer getGeoNameId() {
         return this.geoNameId;
     }
+
+    @Override
+    public String toString() {
+        return this.getName() != null ? this.getName() : "";
+    }
 }

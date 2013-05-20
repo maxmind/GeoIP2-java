@@ -40,4 +40,19 @@ public class Location {
     public String getTimeZone() {
         return this.timeZone;
     }
+
+    @Override
+    public String toString() {
+        return "Location ["
+                + (this.accuracyRadius != null ? "accuracyRadius="
+                        + this.accuracyRadius + ", " : "")
+                + (this.latitude != null ? "latitude=" + this.latitude + ", "
+                        : "")
+                + (this.longitude != null ? "longitude=" + this.longitude
+                        + ", " : "")
+                + (this.metroCode != null ? "metroCode=" + this.metroCode
+                        + ", " : "")
+                + (this.timeZone != null ? "timeZone=" + this.timeZone : "")
+                + "]";
+    }
 }

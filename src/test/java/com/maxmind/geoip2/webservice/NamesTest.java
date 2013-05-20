@@ -28,6 +28,8 @@ public class NamesTest {
                 "北美洲", cio.getContinent().getName());
         assertEquals("country.getCountry().getName() does not return 美国", "美国",
                 cio.getCountry().getName());
+        assertEquals("toString() returns getName()",
+                cio.getCountry().getName(), cio.getCountry().getName());
     }
 
     @Test

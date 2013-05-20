@@ -47,4 +47,31 @@ public class CityLookup extends CountryLookup {
         }
         return this.subdivisions.get(this.subdivisions.size() - 1);
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName()
+                + " ["
+                + (this.getCity() != null ? "getCity()=" + this.getCity()
+                        + ", " : "")
+                + (this.getLocation() != null ? "getLocation()="
+                        + this.getLocation() + ", " : "")
+                + (this.getPostal() != null ? "getPostal()=" + this.getPostal()
+                        + ", " : "")
+                + (this.getSubdivisionsList() != null ? "getSubdivisionsList()="
+                        + this.getSubdivisionsList() + ", "
+                        : "")
+                + (this.getContinent() != null ? "getContinent()="
+                        + this.getContinent() + ", " : "")
+                + (this.getCountry() != null ? "getCountry()="
+                        + this.getCountry() + ", " : "")
+                + (this.getRegisteredCountry() != null ? "getRegisteredCountry()="
+                        + this.getRegisteredCountry() + ", "
+                        : "")
+                + (this.getRepresentedCountry() != null ? "getRepresentedCountry()="
+                        + this.getRepresentedCountry() + ", "
+                        : "")
+                + (this.getTraits() != null ? "getTraits()=" + this.getTraits()
+                        : "") + "]";
+    }
 }

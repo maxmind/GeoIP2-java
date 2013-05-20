@@ -36,4 +36,9 @@ public class Postal {
     public Integer getConfidence() {
         return this.confidence;
     }
+
+    @Override
+    public String toString() {
+        return this.code != null ? this.code : "";
+    }
 }

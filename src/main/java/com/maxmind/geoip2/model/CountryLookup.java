@@ -44,4 +44,21 @@ public class CountryLookup {
     public Traits getTraits() {
         return this.traits;
     }
+
+    @Override
+    public String toString() {
+        return "CountryLookup ["
+                + (this.getContinent() != null ? "getContinent()="
+                        + this.getContinent() + ", " : "")
+                + (this.getCountry() != null ? "getCountry()="
+                        + this.getCountry() + ", " : "")
+                + (this.getRegisteredCountry() != null ? "getRegisteredCountry()="
+                        + this.getRegisteredCountry() + ", "
+                        : "")
+                + (this.getRepresentedCountry() != null ? "getRepresentedCountry()="
+                        + this.getRepresentedCountry() + ", "
+                        : "")
+                + (this.getTraits() != null ? "getTraits()=" + this.getTraits()
+                        : "") + "]";
+    }
 }

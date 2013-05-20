@@ -1,5 +1,6 @@
 package com.maxmind.geoip2.webservice;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -17,6 +18,7 @@ import com.maxmind.geoip2.model.OmniLookup;
 import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Continent;
 import com.maxmind.geoip2.record.Country;
+import com.maxmind.geoip2.record.Location;
 import com.maxmind.geoip2.record.RecordWithNames;
 import com.maxmind.geoip2.record.RepresentedCountry;
 import com.maxmind.geoip2.record.Subdivision;
@@ -32,6 +34,8 @@ public class NullTest {
     public void testDefaults() throws GeoIP2Exception, UnknownHostException {
         OmniLookup omni = this.client.omni(InetAddress.getByName("1.2.3.13"));
 
+        assertTrue(omni.toString().startsWith("OmniLookup"));
+
         City city = omni.getCity();
         assertNotNull(city);
         assertNull(city.getConfidence());
@@ -43,7 +47,14 @@ public class NullTest {
         Country country = omni.getCountry();
         assertNotNull(country);
 
-        assertNotNull(omni.getLocation());
+        Location location = omni.getLocation();
+        assertNotNull(location);
+        assertNull(location.getAccuracyRadius());
+        assertNull(location.getLatitude());
+        assertNull(location.getLongitude());
+        assertNull(location.getMetroCode());
+        assertNull(location.getTimeZone());
+        assertEquals("Location []", location.toString());
 
         assertNotNull(omni.getPostal());
 
@@ -74,6 +85,9 @@ public class NullTest {
         assertNull(traits.getUserType());
         assertFalse(traits.isAnonymousProxy());
         assertFalse(traits.isSatelliteProvider());
+        assertEquals(
+                "Traits [anonymousProxy=false, satelliteProvider=false, ]",
+                traits.toString());
 
         for (Country c : new Country[] { country, registeredCountry,
                 representedCountry }) {
@@ -86,6 +100,7 @@ public class NullTest {
             assertNull(r.getGeoNameId());
             assertNull(r.getName());
             assertTrue(r.getNames().isEmpty());
+            assertEquals("", r.toString());
         }
     }
 }
