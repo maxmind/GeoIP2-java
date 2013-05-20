@@ -112,36 +112,9 @@ public class Client {
 
     private <T extends CountryLookup> T responseFor(String path,
             InetAddress ipAddress, Class<T> cls) throws GeoIP2Exception {
-        HttpRequestFactory requestFactory = this.transport
-                .createRequestFactory();
-        HttpRequest request;
         GenericUrl uri = this.createUri(path, ipAddress);
-        try {
-            request = requestFactory.buildGetRequest(uri);
-        } catch (IOException e) {
-            throw new GeoIP2Exception("Error building request", e);
-        }
-        request.getHeaders().setAccept("application/json");
-        request.getHeaders().setBasicAuthentication(
-                String.valueOf(this.userId), this.licenseKey);
+        HttpResponse response = this.getResponse(uri);
 
-        HttpResponse response;
-        try {
-            response = request.execute();
-        } catch (HttpResponseException e) {
-            throw Client.handleErrorStatus(e.getContent(), e.getStatusCode(),
-                    uri);
-        } catch (IOException e) {
-            throw new GeoIP2Exception(
-                    "Unknown error when connecting to web service: "
-                            + e.getMessage(), e);
-        }
-
-        return this.handleSuccess(response, uri, cls);
-    }
-
-    private <T extends CountryLookup> T handleSuccess(HttpResponse response,
-            GenericUrl uri, Class<T> cls) throws GeoIP2Exception {
         Long content_length = response.getHeaders().getContentLength();
 
         if (content_length == null || content_length.intValue() <= 0) {
@@ -149,20 +122,7 @@ public class Client {
                     + " but there was no message body.");
         }
 
-        String body;
-        try {
-            body = response.parseAsString();
-        } catch (IOException e) {
-            throw new GeoIP2Exception(
-                    "Received a 200 response but not decode message body: "
-                            + e.getMessage());
-        }
-
-        if (response.getContentType() == null
-                || !response.getContentType().contains("json")) {
-            throw new GeoIP2Exception("Received a 200 response for " + uri
-                    + " but it does not appear to be JSON:\n" + body);
-        }
+        String body = Client.getSuccessBody(response, uri);
 
         InjectableValues inject = new InjectableValues.Std().addValue(
                 "languages", this.languages);
@@ -177,6 +137,50 @@ public class Client {
                     "Received a 200 response but not decode it as JSON: "
                             + body);
         }
+    }
+
+    private HttpResponse getResponse(GenericUrl uri) throws GeoIP2Exception {
+        HttpRequestFactory requestFactory = this.transport
+                .createRequestFactory();
+        HttpRequest request;
+        try {
+            request = requestFactory.buildGetRequest(uri);
+        } catch (IOException e) {
+            throw new GeoIP2Exception("Error building request", e);
+        }
+        request.getHeaders().setAccept("application/json");
+        request.getHeaders().setBasicAuthentication(
+                String.valueOf(this.userId), this.licenseKey);
+
+        try {
+            return request.execute();
+        } catch (HttpResponseException e) {
+            throw Client.handleErrorStatus(e.getContent(), e.getStatusCode(),
+                    uri);
+        } catch (IOException e) {
+            throw new GeoIP2Exception(
+                    "Unknown error when connecting to web service: "
+                            + e.getMessage(), e);
+        }
+    }
+
+    private static String getSuccessBody(HttpResponse response, GenericUrl uri)
+            throws GeoIP2Exception {
+        String body;
+        try {
+            body = response.parseAsString();
+        } catch (IOException e) {
+            throw new GeoIP2Exception(
+                    "Received a 200 response but not decode message body: "
+                            + e.getMessage());
+        }
+
+        if (response.getContentType() == null
+                || !response.getContentType().contains("json")) {
+            throw new GeoIP2Exception("Received a 200 response for " + uri
+                    + " but it does not appear to be JSON:\n" + body);
+        }
+        return body;
     }
 
     private static HttpException handleErrorStatus(String content, int status,
