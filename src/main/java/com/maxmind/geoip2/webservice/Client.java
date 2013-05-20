@@ -182,22 +182,22 @@ public class Client {
     private static HttpException handleErrorStatus(String content, int status,
             GenericUrl uri) {
         if ((status >= 400) && (status < 500)) {
-            return Client.handle4xxStatus(content, status, uri.toString());
+            return Client.handle4xxStatus(content, status, uri);
         } else if ((status >= 500) && (status < 600)) {
             return new HttpException("Received a server error (" + status
-                    + ") for " + uri, status, uri.toString());
+                    + ") for " + uri, status, uri.toURL());
         } else {
             return new HttpException("Received a very surprising HTTP status ("
-                    + status + ") for " + uri, status, uri.toString());
+                    + status + ") for " + uri, status, uri.toURL());
         }
     }
 
     private static HttpException handle4xxStatus(String body, int status,
-            String uri) {
+            GenericUrl uri) {
 
         if (body == null) {
             return new HttpException("Received a " + status + " error for "
-                    + uri + " with no body", status, uri);
+                    + uri + " with no body", status, uri.toURL());
         }
 
         Map<String, String> content;
@@ -211,7 +211,7 @@ public class Client {
                     "Received a $status error for "
                             + uri
                             + " but it did not include the expected JSON body: "
-                            + body, status, uri);
+                            + body, status, uri.toURL());
         }
 
         String error = content.get("error");
@@ -220,11 +220,11 @@ public class Client {
         if (error == null || code == null) {
             return new HttpException(
                     "Response contains JSON but it does not specify code or error keys: "
-                            + body, status, uri);
+                            + body, status, uri.toURL());
         }
 
         return new WebServiceException(content.get("error"),
-                content.get("code"), status, uri);
+                content.get("code"), status, uri.toURL());
     }
 
     private GenericUrl createUri(String path, InetAddress ipAddress) {
