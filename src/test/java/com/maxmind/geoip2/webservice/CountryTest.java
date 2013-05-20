@@ -10,10 +10,10 @@ import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
-import com.maxmind.geoip2.model.CountryResponse;
+import com.maxmind.geoip2.model.CountryLookup;
 
 public class CountryTest {
-    private CountryResponse country;
+    private CountryLookup country;
 
     @Before
     public void setUp() throws GeoIP2Exception, UnknownHostException {

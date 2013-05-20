@@ -6,7 +6,7 @@ import com.maxmind.geoip2.record.Country;
 import com.maxmind.geoip2.record.RepresentedCountry;
 import com.maxmind.geoip2.record.Traits;
 
-public class CountryResponse {
+public class CountryLookup {
     @JsonProperty
     private Continent continent = new Continent();
 
@@ -22,7 +22,7 @@ public class CountryResponse {
     @JsonProperty
     private Traits traits = new Traits();
 
-    public CountryResponse() {
+    public CountryLookup() {
     }
 
     public Continent getContinent() {

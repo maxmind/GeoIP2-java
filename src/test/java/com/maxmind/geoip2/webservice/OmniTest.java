@@ -13,14 +13,14 @@ import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
-import com.maxmind.geoip2.model.OmniResponse;
+import com.maxmind.geoip2.model.OmniLookup;
 import com.maxmind.geoip2.record.Location;
 import com.maxmind.geoip2.record.Postal;
 import com.maxmind.geoip2.record.Subdivision;
 import com.maxmind.geoip2.record.Traits;
 
 public class OmniTest {
-    private OmniResponse omni;
+    private OmniLookup omni;
 
     @Before
     public void createClient() throws GeoIP2Exception, UnknownHostException {

@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
-import com.maxmind.geoip2.model.CityIspOrgResponse;
+import com.maxmind.geoip2.model.CityIspOrgLookup;
 
 public class NamesTest {
     HttpTransport transport = new TestTransport();
@@ -22,7 +22,7 @@ public class NamesTest {
         Client client = new Client(42, "012345689",
                 Arrays.asList("zh-CN", "ru"), this.transport);
 
-        CityIspOrgResponse cio = client.cityIspOrg(InetAddress
+        CityIspOrgLookup cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
         assertEquals("country.getContinent().getName() does not return 北美洲",
                 "北美洲", cio.getContinent().getName());
@@ -35,7 +35,7 @@ public class NamesTest {
         Client client = new Client(42, "012345689", Arrays.asList("as", "ru"),
                 this.transport);
 
-        CityIspOrgResponse cio = client.cityIspOrg(InetAddress
+        CityIspOrgLookup cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
         assertEquals(
                 "country.getCountry().getName() does not return объединяет государства",
@@ -47,7 +47,7 @@ public class NamesTest {
     public void testFallback() throws GeoIP2Exception, UnknownHostException {
         Client client = new Client(42, "012345689", Arrays.asList("pt", "en",
                 "zh-CN"), this.transport);
-        CityIspOrgResponse cio = client.cityIspOrg(InetAddress
+        CityIspOrgLookup cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
         assertEquals("en is returned when pt is missing", cio.getContinent()
                 .getName(), "North America");
@@ -58,7 +58,7 @@ public class NamesTest {
     public void noFallback() throws GeoIP2Exception, UnknownHostException {
         Client client = new Client(42, "012345689", Arrays.asList("pt", "es",
                 "af"), this.transport);
-        CityIspOrgResponse cio = client.cityIspOrg(InetAddress
+        CityIspOrgLookup cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
 
         assertNull("null is returned when language is not available", cio
@@ -68,7 +68,7 @@ public class NamesTest {
     @Test
     public void noLanguage() throws GeoIP2Exception, UnknownHostException {
         Client client = new Client(42, "012345689", this.transport);
-        CityIspOrgResponse cio = client.cityIspOrg(InetAddress
+        CityIspOrgLookup cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
         assertEquals("en is returned when no languages are specified", cio
                 .getContinent().getName(), "North America");
@@ -80,7 +80,7 @@ public class NamesTest {
         Client client = new Client(42, "012345689", Arrays.asList("en"),
                 this.transport);
 
-        CityIspOrgResponse cio = client.cityIspOrg(InetAddress
+        CityIspOrgLookup cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
         assertNotNull(cio.getCity());
         assertNull("null is returned when names object is missing", cio

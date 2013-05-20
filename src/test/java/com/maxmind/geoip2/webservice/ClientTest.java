@@ -16,7 +16,7 @@ import com.maxmind.geoip2.exception.HttpException;
 import com.maxmind.geoip2.exception.WebServiceException;
 import com.maxmind.geoip2.matchers.CodeMatcher;
 import com.maxmind.geoip2.matchers.HttpStatusMatcher;
-import com.maxmind.geoip2.model.CountryResponse;
+import com.maxmind.geoip2.model.CountryLookup;
 
 /**
  * Unit test for simple App.
@@ -29,7 +29,7 @@ public class ClientTest {
 
     @Test
     public void testCountry() throws GeoIP2Exception, UnknownHostException {
-        CountryResponse country = this.client.country(InetAddress
+        CountryLookup country = this.client.country(InetAddress
                 .getByName("1.2.3.4"));
         assertEquals("country.getContinent().getCode() does not return NA",
                 "NA", country.getContinent().getCode());

@@ -8,7 +8,7 @@ import com.maxmind.geoip2.record.Location;
 import com.maxmind.geoip2.record.Postal;
 import com.maxmind.geoip2.record.Subdivision;
 
-public class CityResponse extends CountryResponse {
+public class CityLookup extends CountryLookup {
     @JsonProperty
     private City city = new City();
     @JsonProperty
@@ -19,7 +19,7 @@ public class CityResponse extends CountryResponse {
     @JsonProperty("subdivisions")
     private ArrayList<Subdivision> subdivisions = new ArrayList<Subdivision>();
 
-    public CityResponse() {
+    public CityLookup() {
     }
 
     public com.maxmind.geoip2.record.City getCity() {

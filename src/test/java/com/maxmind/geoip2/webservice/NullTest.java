@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
-import com.maxmind.geoip2.model.OmniResponse;
+import com.maxmind.geoip2.model.OmniLookup;
 import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Continent;
 import com.maxmind.geoip2.record.Country;
@@ -30,7 +30,7 @@ public class NullTest {
 
     @Test
     public void testDefaults() throws GeoIP2Exception, UnknownHostException {
-        OmniResponse omni = this.client.omni(InetAddress.getByName("1.2.3.13"));
+        OmniLookup omni = this.client.omni(InetAddress.getByName("1.2.3.13"));
 
         City city = omni.getCity();
         assertNotNull(city);

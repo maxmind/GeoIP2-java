@@ -21,10 +21,10 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.exception.HttpException;
 import com.maxmind.geoip2.exception.WebServiceException;
-import com.maxmind.geoip2.model.CityIspOrgResponse;
-import com.maxmind.geoip2.model.CityResponse;
-import com.maxmind.geoip2.model.CountryResponse;
-import com.maxmind.geoip2.model.OmniResponse;
+import com.maxmind.geoip2.model.CityIspOrgLookup;
+import com.maxmind.geoip2.model.CityLookup;
+import com.maxmind.geoip2.model.CountryLookup;
+import com.maxmind.geoip2.model.OmniLookup;
 
 public class Client {
     private final HttpTransport transport;
@@ -76,42 +76,42 @@ public class Client {
         }
     }
 
-    public CountryResponse country() throws GeoIP2Exception {
+    public CountryLookup country() throws GeoIP2Exception {
         return this.country(null);
     }
 
-    public CountryResponse country(InetAddress ipAddress)
+    public CountryLookup country(InetAddress ipAddress)
             throws GeoIP2Exception {
-        return this.responseFor("country", ipAddress, CountryResponse.class);
+        return this.responseFor("country", ipAddress, CountryLookup.class);
     }
 
-    public CityResponse city() throws GeoIP2Exception {
+    public CityLookup city() throws GeoIP2Exception {
         return this.city(null);
     }
 
-    public CityResponse city(InetAddress ipAddress) throws GeoIP2Exception {
-        return this.responseFor("city", ipAddress, CityResponse.class);
+    public CityLookup city(InetAddress ipAddress) throws GeoIP2Exception {
+        return this.responseFor("city", ipAddress, CityLookup.class);
     }
 
-    public CityIspOrgResponse cityIspOrg() throws GeoIP2Exception {
+    public CityIspOrgLookup cityIspOrg() throws GeoIP2Exception {
         return this.cityIspOrg(null);
     }
 
-    public CityIspOrgResponse cityIspOrg(InetAddress ipAddress)
+    public CityIspOrgLookup cityIspOrg(InetAddress ipAddress)
             throws GeoIP2Exception {
         return this.responseFor("city_isp_org", ipAddress,
-                CityIspOrgResponse.class);
+                CityIspOrgLookup.class);
     }
 
-    public OmniResponse omni() throws GeoIP2Exception {
+    public OmniLookup omni() throws GeoIP2Exception {
         return this.omni(null);
     }
 
-    public OmniResponse omni(InetAddress ipAddress) throws GeoIP2Exception {
-        return this.responseFor("omni", ipAddress, OmniResponse.class);
+    public OmniLookup omni(InetAddress ipAddress) throws GeoIP2Exception {
+        return this.responseFor("omni", ipAddress, OmniLookup.class);
     }
 
-    private <T extends CountryResponse> T responseFor(String path,
+    private <T extends CountryLookup> T responseFor(String path,
             InetAddress ipAddress, Class<T> cls) throws GeoIP2Exception {
         HttpRequestFactory requestFactory = this.transport
                 .createRequestFactory();
@@ -142,7 +142,7 @@ public class Client {
         return this.handleSuccess(response, uri, cls);
     }
 
-    private <T extends CountryResponse> T handleSuccess(HttpResponse response,
+    private <T extends CountryLookup> T handleSuccess(HttpResponse response,
             String uri, Class<T> cls) throws GeoIP2Exception {
         Long content_length = response.getHeaders().getContentLength();
 
