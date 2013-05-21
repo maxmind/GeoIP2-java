@@ -19,6 +19,7 @@ import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Continent;
 import com.maxmind.geoip2.record.Country;
 import com.maxmind.geoip2.record.Location;
+import com.maxmind.geoip2.record.MaxMind;
 import com.maxmind.geoip2.record.RecordWithNames;
 import com.maxmind.geoip2.record.RepresentedCountry;
 import com.maxmind.geoip2.record.Subdivision;
@@ -55,6 +56,10 @@ public class NullTest {
         assertNull(location.getMetroCode());
         assertNull(location.getTimeZone());
         assertEquals("Location []", location.toString());
+
+        MaxMind maxmind = omni.getMaxMind();
+        assertNotNull(maxmind);
+        assertNull(maxmind.getQueriesRemaining());
 
         assertNotNull(omni.getPostal());
 

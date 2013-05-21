@@ -3,6 +3,7 @@ package com.maxmind.geoip2.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maxmind.geoip2.record.Continent;
 import com.maxmind.geoip2.record.Country;
+import com.maxmind.geoip2.record.MaxMind;
 import com.maxmind.geoip2.record.RepresentedCountry;
 import com.maxmind.geoip2.record.Traits;
 
@@ -25,6 +26,9 @@ public class CountryLookup {
 
     @JsonProperty("registered_country")
     private Country registeredCountry = new Country();
+
+    @JsonProperty("maxmind")
+    private MaxMind maxmind = new MaxMind();
 
     @JsonProperty("represented_country")
     private RepresentedCountry representedCountry = new RepresentedCountry();
@@ -49,6 +53,13 @@ public class CountryLookup {
      */
     public Country getCountry() {
         return this.country;
+    }
+
+    /**
+     * @return MaxMind record containing data related to your account.
+     */
+    public MaxMind getMaxMind() {
+        return this.maxmind;
     }
 
     /**

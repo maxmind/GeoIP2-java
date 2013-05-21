@@ -34,8 +34,8 @@ public final class TestTransport extends MockHttpTransport {
             + "\"domain\":\"example.com\"," + "\"ip_address\":\"1.2.3.4\","
             + "\"is_anonymous_proxy\":true,"
             + "\"is_satellite_provider\":true," + "\"isp\":\"Comcast\","
-            + "\"organization\":\"Blorg\"," + "\"user_type\":\"college\"" + "}"
-            + "}";
+            + "\"organization\":\"Blorg\"," + "\"user_type\":\"college\""
+            + "}," + "\"maxmind\":{\"queries_remaining\":11}" + "}";
 
     private final static String namesBody = "{\"continent\":{"
             + "\"continent_code\":\"NA\"," + "\"geoname_id\":42,"

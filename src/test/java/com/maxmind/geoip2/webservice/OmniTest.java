@@ -15,6 +15,7 @@ import com.google.api.client.http.HttpTransport;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.model.OmniLookup;
 import com.maxmind.geoip2.record.Location;
+import com.maxmind.geoip2.record.MaxMind;
 import com.maxmind.geoip2.record.Postal;
 import com.maxmind.geoip2.record.Subdivision;
 import com.maxmind.geoip2.record.Traits;
@@ -101,6 +102,13 @@ public class OmniTest {
                 new Integer(765), location.getMetroCode());
         assertEquals("location.getTimeZone() does not return America/Chicago",
                 "America/Chicago", location.getTimeZone());
+    }
+
+    @Test
+    public void testMaxMind() {
+        MaxMind maxmind = this.omni.getMaxMind();
+        assertEquals("Correct number of queries remaining", 11, maxmind
+                .getQueriesRemaining().intValue());
     }
 
     @Test
