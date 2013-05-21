@@ -12,9 +12,9 @@ public final class TestTransport extends MockHttpTransport {
     private final static String omniBody = "{" + "\"city\":{"
             + "\"confidence\":76," + "\"geoname_id\":9876," + "\"names\":{"
             + "\"en\":\"Minneapolis\"" + "}" + "}," + "\"continent\":{"
-            + "\"continent_code\":\"NA\"," + "\"geoname_id\":42,"
-            + "\"names\":{" + "\"en\":\"North America\"" + "}" + "},"
-            + "\"country\":{" + "\"confidence\":99," + "\"iso_code\":\"US\","
+            + "\"code\":\"NA\"," + "\"geoname_id\":42," + "\"names\":{"
+            + "\"en\":\"North America\"" + "}" + "}," + "\"country\":{"
+            + "\"confidence\":99," + "\"iso_code\":\"US\","
             + "\"geoname_id\":1," + "\"names\":{"
             + "\"en\":\"United States of America\"" + "}" + "},"
             + "\"location\":{" + "\"accuracy_radius\":1500,"
@@ -38,10 +38,10 @@ public final class TestTransport extends MockHttpTransport {
             + "}," + "\"maxmind\":{\"queries_remaining\":11}" + "}";
 
     private final static String namesBody = "{\"continent\":{"
-            + "\"continent_code\":\"NA\"," + "\"geoname_id\":42,"
-            + "\"names\":{" + "\"en\":\"North America\"," + "\"zh-CN\":\"北美洲\""
-            + "}" + "}," + "\"country\":{" + "\"geoname_id\":1,"
-            + "\"iso_code\":\"US\"," + "\"confidence\":56," + "\"names\":{"
+            + "\"code\":\"NA\"," + "\"geoname_id\":42," + "\"names\":{"
+            + "\"en\":\"North America\"," + "\"zh-CN\":\"北美洲\"" + "}" + "},"
+            + "\"country\":{" + "\"geoname_id\":1," + "\"iso_code\":\"US\","
+            + "\"confidence\":56," + "\"names\":{"
             + "\"en\":\"United States\","
             + "\"ru\":\"объединяет государства\"," + "\"zh-CN\":\"美国\"" + "}"
             + "}," + "\"registered_country\":{" + "\"geoname_id\":2,"
@@ -49,7 +49,7 @@ public final class TestTransport extends MockHttpTransport {
             + "\"traits\":{" + "\"ip_address\":\"1.2.3.4\"" + "}}";
 
     private final static String clientBody = "{\"continent\":{"
-            + "\"continent_code\":\"NA\"," + "\"geoname_id\":42,"
+            + "\"code\":\"NA\"," + "\"geoname_id\":42,"
             + "\"names\":{\"en\":\"North America\"}" + "}," + "\"country\":{"
             + "\"geoname_id\":1," + "\"iso_code\":\"US\","
             + "\"confidence\":56," + "\"names\":{\"en\":\"United States\"}"
@@ -58,7 +58,7 @@ public final class TestTransport extends MockHttpTransport {
             + "\"traits\":{" + "\"ip_address\":\"1.2.3.4\"" + "}}";
 
     private final static String countryBody = "{\"continent\":{"
-            + "\"continent_code\":\"NA\"," + "\"geoname_id\":42,"
+            + "\"code\":\"NA\"," + "\"geoname_id\":42,"
             + "\"names\":{\"en\":\"North America\"}" + "}," + "\"country\":{"
             + "\"geoname_id\":1," + "\"iso_code\":\"US\","
             + "\"confidence\":56," + "\"names\":{\"en\":\"United States\"}"
