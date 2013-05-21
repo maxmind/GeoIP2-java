@@ -6,6 +6,8 @@ jdk:
   - oraclejdk6
   - oraclejdk7
 
+install: mvn install -DskipTests=true -Dgpg.skip=true
+
 notifications:
   email:
     recipients:
