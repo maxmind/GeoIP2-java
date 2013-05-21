@@ -1,5 +1,8 @@
 # GeoIP2 Java API #
 
+**NOTE**: This is an alpha release, and APIs may change before the final
+production release.
+
 ## Description ##
 
 Currently, this distribution provides an API for the GeoIP2 web services
