@@ -5,8 +5,8 @@ production release.
 
 ## Description ##
 
-Currently, this distribution provides an API for the GeoIP2 web services
- (as documented at http://dev.maxmind.com/geoip/geoip2/web-services).
+Currently, this distribution provides an API for the [GeoIP2 web services]
+(http://dev.maxmind.com/geoip/geoip2/web-services).
 
 In the future, this distribution will also provide the same API for the
 GeoIP2 downloadable databases. These databases have not yet been
@@ -51,16 +51,19 @@ See the API documentation for more details.
 Client client = new Client(42, "abcfe12345");
 
 OmniLookup omni = client.omni(InetAddress.getByName("24.24.24.24"));
-System.out.println(omni.getCity().getName());
-System.out.println(omni.getPostal().getCode());
+
+City city = omni.getCity();
+System.out.println(city.getName());
+
+Postal postal = omni.getPostal();
+System.out.println(postal.getCode());
 
 ```
 
 ## Exceptions ##
 
-For details on the possible errors returned by the web service itself, see
-http://dev.maxmind.com/geoip2/geoip/web-services for the GeoIP2 web service
-docs.
+For details on the possible errors returned by the web service itself, [see
+the GeoIP2 web service documentation](http://dev.maxmind.com/geoip2/geoip/web-services).
 
 If the web service returns an explicit error document, this is thrown as a
 ```WebServiceException```. If some other sort of transport error occurs,
@@ -85,8 +88,9 @@ piece of data for any given IP address.
 Because of these factors, it is possible for any end point to return a record
 where some or all of the attributes are unpopulated.
 
-See http://dev.maxmind.com/geoip/geoip2/web-services for details on what data
-each end point may return.
+[See our web-service developer
+documentation](http://dev.maxmind.com/geoip/geoip2/web-services) for
+details on what data each end point may return.
 
 The only piece of data which is always returned is the ```ip_address```
 available at ```lookup.getTraits().getIpAddresS()```.
@@ -112,11 +116,11 @@ the GeoNames premium data set.
 ## Reporting data problems ##
 
 If the problem you find is that an IP address is incorrectly mapped,
-please submit your correction to MaxMind at
-http://www.maxmind.com/en/correction.
+please
+[submit your correction to MaxMind](http://www.maxmind.com/en/correction).
 
 If you find some other sort of mistake, like an incorrect spelling,
-please check the GeoNames site (http://www.geonames.org/) first. Once
+please check [the GeoNames site](http://www.geonames.org/) first. Once
 you've searched for a place and found it on the GeoNames map view, there
 are a number of links you can use to correct data ("move", "edit",
 "alternate names", etc.). Once the correction is part of the GeoNames
@@ -138,8 +142,9 @@ details.
 
 ## Requirements  ##
 
-This code requires Java 6 or greater. Older versions of Java are not
-supported.
+Maxmind has tested this API with Java 6 and above. Reasonable patches
+for Java 5 will be accepted. Patches for 1.4 or earlier will not be
+accepted.
 
 ## Contributing ##
 
