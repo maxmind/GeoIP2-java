@@ -4,24 +4,41 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.maxmind.geoip2</groupId>
-	<artifactId>GeoIP2-java</artifactId>
+	<artifactId>geoip2</artifactId>
 	<version>0.1.0</version>
 	<packaging>jar</packaging>
-
-	<name>GeoIP2-java</name>
-	<url>http://maven.apache.org</url>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+	<name>MaxMind GeoIP2 API</name>
+    <description>API for accessing MaxMind's GeoIP2 web service</description>
+	<url>http://dev.maxmind.com/geoip/geoip2/web-services</url>
+    <licenses>
+      <license>
+        <name>GNU Lesser General Public License, version 2.1</name>
+        <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
+        <distribution>repo</distribution>
+      </license>
+    </licenses>
+	<organization>
+		<name>MaxMind, Inc.</name>
+		<url>http://www.maxmind.com/</url>
+	</organization>
+	<scm>
+		<url>https://github.com/maxmind/GeoIP2-java</url>
+        <connection>scm:git:git@github.com:maxmind/GeoIP2-java.git</connection>
+        <developerConnection>scm:git:git@github.com:maxmind/GeoIP2-java.git</developerConnection>
+	</scm>
+	<issueManagement>
+		<url>https://github.com/maxmind/GeoIP2-java/issues</url>
+		<system>GitHub</system>
+	</issueManagement>
+    <developers>
+      <developer>
+        <id>oschwald</id>
+        <name>Gregory J. Oschwald</name>
+        <email>goschwald@maxmind.com</email>
+      </developer>
+    </developers>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.simpleframework</groupId>
-			<artifactId>simple</artifactId>
-			<version>5.1.1</version>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -45,8 +62,26 @@
 		</dependency>
 	</dependencies>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
 	<build>
 		<plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-gpg-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>sign-artifacts</id>
+                  <phase>verify</phase>
+                  <goals>
+                    <goal>sign</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -58,15 +93,9 @@
 			</plugin>
 		</plugins>
 	</build>
-	<organization>
-		<name>MaxMind, Inc.</name>
-		<url>http://www.maxmind.com/</url>
-	</organization>
-	<scm>
-		<url>https://github.com/maxmind/GeoIP2-java</url>
-	</scm>
-	<issueManagement>
-		<url>https://github.com/maxmind/GeoIP2-java/issues</url>
-		<system>GitHub</system>
-	</issueManagement>
+    <parent>
+      <groupId>org.sonatype.oss</groupId>
+      <artifactId>oss-parent</artifactId>
+      <version>7</version>
+    </parent>
 </project>
