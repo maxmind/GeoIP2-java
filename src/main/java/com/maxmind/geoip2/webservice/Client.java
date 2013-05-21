@@ -27,52 +27,74 @@ import com.maxmind.geoip2.model.CountryLookup;
 import com.maxmind.geoip2.model.OmniLookup;
 
 /**
+ * <p>
  * This class provides a client API for all the GeoIP2 web service's end points.
  * The end points are Country, City, City/ISP/Org, and Omni. Each end point
  * returns a different set of data about an IP address, with Country returning
  * the least data and Omni the most.
+ * </p>
  * 
+ * <p>
  * Each web service end point is represented by a different model class, and
  * these model classes in turn contain multiple Record classes. The record
  * classes have attributes which contain data about the IP address.
+ * </p>
  * 
+ * <p>
  * If the web service does not return a particular piece of data for an IP
  * address, the associated attribute is not populated.
+ * </p>
  * 
+ * <p>
  * The web service may not return any information for an entire record, in which
  * case all of the attributes for that record class will be empty.
+ * </p>
  * 
- * **Usage**
+ * <h3>Usage</h3>
  * 
+ * <p>
  * The basic API for this class is the same for all of the web service end
  * points. First you create a web service object with your MaxMind
  * {@code userId} and {@code licenseKey}, then you call the method corresponding
  * to a specific end point, passing it the IP address you want to look up.
+ * </p>
  * 
+ * <p>
  * If the request succeeds, the method call will return a model class for the
  * end point you called. This model in turn contains multiple record classes,
  * each of which represents part of the data returned by the web service.
+ * </p>
  * 
+ * <p>
  * If the request fails, the client class throws an exception.
+ * </p>
  * 
- * **Exceptions**
+ * <h3>Exceptions</h3>
  * 
+ * <p>
  * For details on the possible errors returned by the web service itself, see <a
  * href="http://dev.maxmind.com/geoip2/geoip/web-services">the GeoIP2 web
  * service documentation</a>.
+ * </p>
  * 
+ * <p>
  * If the web service returns an explicit error document, this is thrown as a
  * {@link WebServiceException}. If some other sort of transport error occurs,
  * this is thrown as a {@link HttpException}. The difference is that the web
  * service error includes an error message and error code delivered by the web
  * service. The latter is thrown when some sort of unanticipated error occurs,
  * such as the web service returning a 500 or an invalid error document.
+ * </p>
  * 
+ * <p>
  * If the web service returns any status code besides 200, 4xx, or 5xx, this
  * also becomes a {@link HttpException}.
+ * </p>
  * 
+ * <p>
  * Finally, if the web service returns a 200 but the body is invalid, the client
  * throws a {@link GeoIP2Exception}.
+ * </p>
  */
 public class Client {
     private final HttpTransport transport;
