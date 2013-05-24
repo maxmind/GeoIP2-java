@@ -6,10 +6,12 @@
 *.ear
 *.sw?
 *.classpath
+.gh-pages
 .idea
 .pmd
 .project
 .settings
+doc
 hs_err*.log
 target
 reports
