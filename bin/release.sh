@@ -27,8 +27,16 @@ if [ -n "$(git status --porcelain)" ]; then
     exit 1
 fi
 
-cp ../README.md _includes/README.md
-apigen --quiet --download --title "GeoIP2 PHP API $TAG" --source ../src --destination doc/$TAG
+cd ..
+
+cp README.md .gh-pages/_includes/README.md
+
+# could be combined with the primary build
+mvn javadoc:javadoc
+cp -r target/apidocs .gh-pages/doc/$TAG
+
+cd .gh-pages
+
 echo $TAG > _includes/version
 
 git add doc/
