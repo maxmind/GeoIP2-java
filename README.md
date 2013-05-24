@@ -128,17 +128,17 @@ data set, it will be automatically incorporated into future MaxMind
 releases.
 
 If you are a paying MaxMind customer and you're not sure where to submit
-a correction, please contact MaxMind support at
-http://www.maxmind.com/en/support for help.
+a correction, please [contact MaxMind support]
+(http://www.maxmind.com/en/support) for help.
 
 ## Other Support ##
 
-Please report all issues with this code using the GitHub issue tracker
-at https://github.com/maxmind/GeoIP2-java/issues
+Please report all issues with this code using the [GitHub issue tracker]
+(https://github.com/maxmind/GeoIP2-java/issues).
 
 If you are having an issue with a MaxMind service that is not specific
-to the client API please see http://www.maxmind.com/en/support for
-details.
+to the client API, please [contact MaxMind support]
+(http://www.maxmind.com/en/support).
 
 ## Requirements  ##
 
