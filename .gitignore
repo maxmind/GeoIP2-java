@@ -1,10 +1,12 @@
 *.class
 *~
+*.iml
 *.jar
 *.war
 *.ear
 *.sw?
 *.classpath
+.idea
 .pmd
 .project
 .settings
