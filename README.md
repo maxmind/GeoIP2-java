@@ -155,10 +155,6 @@ PSR-2 style guidelines. Please include unit tests whenever possible.
 
 The GeoIP2 Java API uses [Semantic Versioning](http://semver.org/).
 
-## Author ##
-
-[Gregory Oschwald](mailto:goschwald@maxmind.com)
-
 ## Copyright and License ##
 
 This software is Copyright (c) 2013 by MaxMind, Inc.
