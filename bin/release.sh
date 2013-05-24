@@ -33,6 +33,7 @@ cp README.md .gh-pages/_includes/README.md
 
 # could be combined with the primary build
 mvn javadoc:javadoc
+rm -fr ".gh-pages/doc/$TAG"
 cp -r target/apidocs .gh-pages/doc/$TAG
 
 cd .gh-pages
