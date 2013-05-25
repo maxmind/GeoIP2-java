@@ -33,7 +33,7 @@ PAGE=.gh-pages/index.md
 cat <<EOF > $PAGE
 ---
 layout: default
-title: MaxMind GeoIP2 PHP API
+title: MaxMind GeoIP2 Java API
 language: java
 version: $TAG
 ---
