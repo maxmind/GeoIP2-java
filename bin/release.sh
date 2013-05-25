@@ -29,7 +29,18 @@ fi
 
 cd ..
 
-cp README.md .gh-pages/_includes/README.md
+PAGE=.gh-pages/index.md
+cat <<EOF > $PAGE
+---
+layout: default
+title: MaxMind GeoIP2 PHP API
+language: java
+version: $TAG
+---
+
+EOF
+
+cat README.md >> $PAGE
 
 # could be combined with the primary build
 mvn javadoc:javadoc
@@ -37,8 +48,6 @@ rm -fr ".gh-pages/doc/$TAG"
 cp -r target/apidocs .gh-pages/doc/$TAG
 
 cd .gh-pages
-
-echo $TAG > _includes/version
 
 git add doc/
 git commit -m "Updated for $TAG" -a
