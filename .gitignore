@@ -8,6 +8,7 @@
 .pmd
 .project
 .settings
+_site
 hs_err*.log
 target
 reports
