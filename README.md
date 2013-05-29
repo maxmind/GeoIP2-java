@@ -1,7 +1,7 @@
 # GeoIP2 Java API #
 
 **NOTE**: This is an alpha release, and APIs may change before the final
-production release.
+production release, which will be numbered 2.0.0.
 
 ## Description ##
 
