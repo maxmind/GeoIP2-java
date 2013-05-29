@@ -65,7 +65,7 @@ public class CountryLookup {
     /**
      * @return Registered country record for the requested IP address. This
      *         record represents the country where the ISP has registered a
-     *         given IP block in and may differ from the user's country.
+     *         given IP block and may differ from the user's country.
      */
     public Country getRegisteredCountry() {
         return this.registeredCountry;
