@@ -3,12 +3,12 @@ package com.maxmind.geoip2.record;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Contains data for the represented country associated with an IP address
- * 
+ * Contains data for the represented country associated with an IP address.
+ *
  * This class contains the country-level data associated with an IP address for
  * the IP's represented country. The represented country is the country
  * represented by something like a military base or embassy.
- * 
+ *
  * This record is returned by all the end points.
  */
 public class RepresentedCountry extends Country {
