@@ -103,7 +103,7 @@ check to see if the attribute is set.
 [GeoNames](http://www.geonames.org/) offers web services and downloadable
 databases with data on geographical features around the world, including
 populated places. They offer both free and paid premium data. Each
-feature is unique identified by a ```geonameId```, which is an integer.
+feature is uniquely identified by a ```geonameId```, which is an integer.
 
 Many of the records returned by the GeoIP2 web services and databases
 include a ```getGeonameId()``` method. This is the ID of a geographical
