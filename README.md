@@ -148,8 +148,8 @@ accepted.
 
 ## Contributing ##
 
-Patches and pull requests are encouraged. All code should follow the
-PSR-2 style guidelines. Please include unit tests whenever possible.
+Patches and pull requests are encouraged. Please include unit tests
+whenever possible.
 
 ## Versioning ##
 
