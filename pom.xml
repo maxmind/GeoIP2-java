@@ -10,8 +10,8 @@
   <url>http://dev.maxmind.com/geoip/geoip2/web-services</url>
   <licenses>
     <license>
-      <name>GNU Lesser General Public License, version 2.1</name>
-      <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
