@@ -2,13 +2,21 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v0.1.0
+version: v0.1.1
 ---
 
 # GeoIP2 Java API #
 
-**NOTE**: This is an alpha release, and APIs may change before the final
-production release.
+## Beta Note ##
+
+This is a beta release. The API may change before the first production
+release, which will be numbered 2.0.0.
+
+You may find information on the GeoIP2 beta release process on [our
+website](http://www.maxmind.com/en/geoip2_beta).
+
+To provide feedback or get support during the beta, please see the
+[MaxMind Customer Community](https://getsatisfaction.com/maxmind).
 
 ## Description ##
 
@@ -35,8 +43,6 @@ To do this, add the dependency to your pom.xml:
         <version>0.1.0</version>
     </dependency>
 ```
-
-**MISSING:** We also provide a .jar file that includes all the dependencies.
 
 ## Usage ##
 
@@ -110,7 +116,7 @@ check to see if the attribute is set.
 [GeoNames](http://www.geonames.org/) offers web services and downloadable
 databases with data on geographical features around the world, including
 populated places. They offer both free and paid premium data. Each
-feature is unique identified by a ```geonameId```, which is an integer.
+feature is uniquely identified by a ```geonameId```, which is an integer.
 
 Many of the records returned by the GeoIP2 web services and databases
 include a ```getGeonameId()``` method. This is the ID of a geographical
@@ -149,14 +155,14 @@ to the client API, please [contact MaxMind support]
 
 ## Requirements  ##
 
-Maxmind has tested this API with Java 6 and above. Reasonable patches
+MaxMind has tested this API with Java 6 and above. Reasonable patches
 for Java 5 will be accepted. Patches for 1.4 or earlier will not be
 accepted.
 
 ## Contributing ##
 
-Patches and pull requests are encouraged. All code should follow the
-PSR-2 style guidelines. Please include unit tests whenever possible.
+Patches and pull requests are encouraged. Please include unit tests
+whenever possible.
 
 ## Versioning ##
 
@@ -166,5 +172,4 @@ The GeoIP2 Java API uses [Semantic Versioning](http://semver.org/).
 
 This software is Copyright (c) 2013 by MaxMind, Inc.
 
-This is free software, licensed under the GNU Lesser General Public License
-version 2.1 or later.
+This is free software, licensed under the Apache License, Version 2.0.
