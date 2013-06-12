@@ -18,6 +18,7 @@ import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.exception.HttpException;
 import com.maxmind.geoip2.exception.WebServiceException;
@@ -349,8 +350,8 @@ public class Client {
         return body;
     }
 
-    private static HttpException handleErrorStatus(String content, int status,
-            GenericUrl uri) {
+    private static GeoIP2Exception handleErrorStatus(String content,
+            int status, GenericUrl uri) {
         if ((status >= 400) && (status < 500)) {
             return Client.handle4xxStatus(content, status, uri);
         } else if ((status >= 500) && (status < 600)) {
@@ -362,7 +363,7 @@ public class Client {
         }
     }
 
-    private static HttpException handle4xxStatus(String body, int status,
+    private static GeoIP2Exception handle4xxStatus(String body, int status,
             GenericUrl uri) {
 
         if (body == null) {
@@ -376,12 +377,16 @@ public class Client {
             content = mapper.readValue(body,
                     new TypeReference<HashMap<String, String>>() {
                     });
+            return handleErrorWithJsonBody(content, body, status, uri);
         } catch (IOException e) {
             return new HttpException("Received a " + status + " error for "
                     + uri + " but it did not include the expected JSON body: "
                     + body, status, uri.toURL());
         }
+    }
 
+    private static GeoIP2Exception handleErrorWithJsonBody(
+            Map<String, String> content, String body, int status, GenericUrl uri) {
         String error = content.get("error");
         String code = content.get("code");
 
@@ -391,8 +396,12 @@ public class Client {
                             + body, status, uri.toURL());
         }
 
-        return new WebServiceException(content.get("error"),
-                content.get("code"), status, uri.toURL());
+        if (code.equals("IP_ADDRESS_NOT_FOUND")
+                || code.equals("IP_ADDRESS_RESERVED")) {
+            return new AddressNotFoundException(error);
+        }
+
+        return new WebServiceException(error, code, status, uri.toURL());
     }
 
     private GenericUrl createUri(String path, InetAddress ipAddress) {

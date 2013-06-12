@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.google.api.client.http.HttpTransport;
+import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.exception.HttpException;
 import com.maxmind.geoip2.exception.WebServiceException;
@@ -141,4 +142,23 @@ public class ClientTest {
                 .expectMessage(containsString("Received a 200 response but not decode it as JSON: "));
         this.client.cityIspOrg(InetAddress.getByName("1.2.3.15"));
     }
+
+    @Test
+    public void addressNotFound() throws GeoIP2Exception, UnknownHostException {
+        this.exception.expect(AddressNotFoundException.class);
+        this.exception
+                .expectMessage(containsString("The value 1.2.3.16 is not in the database."));
+
+        this.client.country(InetAddress.getByName("1.2.3.16"));
+    }
+
+    @Test
+    public void addressReserved() throws GeoIP2Exception, UnknownHostException {
+        this.exception.expect(AddressNotFoundException.class);
+        this.exception
+                .expectMessage(containsString("The value 1.2.3.17 belongs to a reserved or private range."));
+
+        this.client.country(InetAddress.getByName("1.2.3.17"));
+    }
+
 }

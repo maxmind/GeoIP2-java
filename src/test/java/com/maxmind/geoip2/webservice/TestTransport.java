@@ -120,6 +120,14 @@ public final class TestTransport extends MockHttpTransport {
                             "bad/content-type");
                 } else if (path.equals("city_isp_org/1.2.3.15")) {
                     return this.getResponse("omni", 200, "{\"invalid\":yes}");
+                } else if (path.equals("country/1.2.3.16")) {
+                    String body = "{\"code\":\"IP_ADDRESS_NOT_FOUND\","
+                            + "\"error\":\"The value 1.2.3.16 is not in the database.\"}";
+                    return this.getResponse("error", 404, body);
+                } else if (path.equals("country/1.2.3.17")) {
+                    String body = "{\"code\":\"IP_ADDRESS_RESERVED\","
+                            + "\"error\":\"The value 1.2.3.17 belongs to a reserved or private range.\"}";
+                    return this.getResponse("error", 400, body);
                 } else if (path
                         .equals("https://blah.com/geoip/v2.0/omni/128.101.101.101")) {
                     return this
