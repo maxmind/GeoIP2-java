@@ -54,8 +54,8 @@ public class Reader implements Closeable {
         // keep this exception, we should adjust the web service to throw the
         // same exception when it gets and IP_ADDRESS_NOT_FOUND error.
         if (rawLookup == null) {
-            throw new AddressNotFoundException(ipAddress.toString()
-                    + " is not in the database.");
+            throw new AddressNotFoundException("The address "
+                    + ipAddress.getHostAddress() + " is not in the database.");
         }
         // The cast and the OmniLookup.class are sort of ugly. There might be a
         // better way
