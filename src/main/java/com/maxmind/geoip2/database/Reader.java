@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.maxmind.geoip2.database;
 
 import java.io.Closeable;
@@ -18,7 +15,8 @@ import com.maxmind.geoip2.model.CountryLookup;
 import com.maxmind.geoip2.model.OmniLookup;
 
 /**
- *
+ * Instances of this class provide a reader for the GeoIP2 database format. IP
+ * addresses can be looked up using the <code>get</code> method.
  */
 public class Reader implements Closeable {
 
@@ -28,12 +26,30 @@ public class Reader implements Closeable {
     private final ObjectMapper om;
 
     /**
+     * Constructs a Reader for the GeoIP2 database format. The file passed to it
+     * must be a valid GeoIP2 database file.
      * 
+     * @param database
+     *            the GeoIP2 database file to use.
+     * @throws IOException
+     *             if there is an error opening or reading from the file.
      */
     public Reader(File database) throws IOException {
         this(database, Arrays.asList("en"));
     }
 
+    /**
+     * Constructs a Reader for the GeoIP2 database format. The file passed to it
+     * must be a valid GeoIP2 database file.
+     * 
+     * @param database
+     *            the GeoIP2 database file to use.
+     * @param languages
+     *            List of language codes to use in name property from most
+     *            preferred to least preferred.
+     * @throws IOException
+     *             if there is an error opening or reading from the file.
+     */
     public Reader(File database, List<String> languages) throws IOException {
         this.reader = new com.maxmind.maxminddb.Reader(database);
         this.om = new ObjectMapper();
@@ -42,6 +58,15 @@ public class Reader implements Closeable {
         this.om.setInjectableValues(inject);
     }
 
+    /**
+     * @param ipAddress
+     *            IPv4 or IPv6 address to lookup.
+     * @return A <T> object with the data for the IP address
+     * @throws IOException
+     *             if there is an error opening or reading from the file.
+     * @throws AddressNotFoundException
+     *             if the IP address is not in our database
+     */
     public <T extends CountryLookup> T get(InetAddress ipAddress)
             throws IOException, AddressNotFoundException {
         ObjectNode node = (ObjectNode) this.reader.get(ipAddress);
@@ -66,6 +91,12 @@ public class Reader implements Closeable {
         return (T) this.om.treeToValue(node, OmniLookup.class);
     }
 
+    /**
+     * Closes the GeoIP2 database and returns resources to the system.
+     * 
+     * @throws IOException
+     *             if an I/O error occurs.
+     */
     @Override
     public void close() throws IOException {
         this.reader.close();
