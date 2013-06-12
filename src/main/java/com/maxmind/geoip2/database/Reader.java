@@ -11,8 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.InjectableValues;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.model.CountryLookup;
 import com.maxmind.geoip2.model.OmniLookup;
@@ -27,8 +27,6 @@ public class Reader implements Closeable {
 
     private final ObjectMapper om;
 
-    private final List<String> languages;
-
     /**
      * 
      */
@@ -37,30 +35,35 @@ public class Reader implements Closeable {
     }
 
     public Reader(File database, List<String> languages) throws IOException {
-        this.languages = languages;
         this.reader = new com.maxmind.maxminddb.Reader(database);
         this.om = new ObjectMapper();
         InjectableValues inject = new InjectableValues.Std().addValue(
-                "languages", this.languages);
+                "languages", languages);
         this.om.setInjectableValues(inject);
     }
 
     public <T extends CountryLookup> T get(InetAddress ipAddress)
             throws IOException, AddressNotFoundException {
-        JsonNode rawLookup = this.reader.get(ipAddress);
+        ObjectNode node = (ObjectNode) this.reader.get(ipAddress);
 
         // XXX - I am not sure Java programmers would expect an exception here,
         // but the web service code does throw an exception in this case. If we
         // keep this exception, we should adjust the web service to throw the
         // same exception when it gets and IP_ADDRESS_NOT_FOUND error.
-        if (rawLookup == null) {
+        if (node == null) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
         }
+
+        if (!node.has("traits")) {
+            node.put("traits", this.om.createObjectNode());
+        }
+        ObjectNode traits = (ObjectNode) node.get("traits");
+        traits.put("ip_address", ipAddress.getHostAddress());
+
         // The cast and the OmniLookup.class are sort of ugly. There might be a
         // better way
-        T lookup = (T) this.om.treeToValue(rawLookup, OmniLookup.class);
-        return lookup;
+        return (T) this.om.treeToValue(node, OmniLookup.class);
     }
 
     @Override

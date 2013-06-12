@@ -37,8 +37,17 @@ public class ReaderTest {
                 Arrays.asList("xx", "ru", "pt-BR", "es", "en"));
         OmniLookup city = reader.get(InetAddress.getByName("81.2.69.160"));
         assertEquals("Лондон", city.getCity().getName());
+        System.out.println(city.getTraits().getIpAddress());
         reader.close();
 
+    }
+
+    @Test
+    public void hasIpAddress() throws GeoIP2Exception, IOException {
+        Reader reader = new Reader(new File("test-data/GeoIP2-City.mmdb"));
+        CityLookup city = reader.get(InetAddress.getByName("81.2.69.160"));
+        assertEquals("81.2.69.160", city.getTraits().getIpAddress());
+        reader.close();
     }
 
     @Test
