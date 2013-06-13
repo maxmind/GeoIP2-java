@@ -97,11 +97,12 @@ import com.maxmind.geoip2.model.OmniLookup;
  * </p>
  */
 public class Client {
+    private final String host;
+    private final List<String> languages;
+    private final String licenseKey;
+    private final int timeout;
     private final HttpTransport transport;
     private final int userId;
-    private final String licenseKey;
-    private final List<String> languages;
-    private String host = "geoip.maxmind.com";
 
     @SuppressWarnings("synthetic-access")
     private Client(Builder builder) {
@@ -109,6 +110,7 @@ public class Client {
         this.licenseKey = builder.licenseKey;
         this.host = builder.host;
         this.languages = builder.languages;
+        this.timeout = builder.timeout;
         this.transport = builder.transport;
     }
 
@@ -127,8 +129,10 @@ public class Client {
     public static class Builder {
         private final int userId;
         private final String licenseKey;
-        private List<String> languages = Arrays.asList("en");
+
         private String host = "geoip.maxmind.com";
+        private List<String> languages = Arrays.asList("en");
+        private int timeout = 3000;
         private HttpTransport transport = new NetHttpTransport();
 
         /**
@@ -144,6 +148,15 @@ public class Client {
 
         /**
          * @param val
+         *            The host to use.
+         */
+        public Builder host(String val) {
+            this.host = val;
+            return this;
+        }
+
+        /**
+         * @param val
          *            List of language codes to use in name property from most
          *            preferred to least preferred.
          * @return
@@ -155,10 +168,11 @@ public class Client {
 
         /**
          * @param val
-         *            The host to use.
+         *            Timeout in milliseconds for connection to web service. The
+         *            default is 3000 (3 seconds).
          */
-        public Builder host(String val) {
-            this.host = val;
+        public Builder timeout(int val) {
+            this.timeout = val;
             return this;
         }
 
@@ -298,6 +312,8 @@ public class Client {
         } catch (IOException e) {
             throw new GeoIP2Exception("Error building request", e);
         }
+        request.setConnectTimeout(this.timeout);
+
         request.getHeaders().setAccept("application/json");
         request.getHeaders().setBasicAuthentication(
                 String.valueOf(this.userId), this.licenseKey);
