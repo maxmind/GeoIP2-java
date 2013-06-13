@@ -1,5 +1,6 @@
 package com.maxmind.geoip2.webservice;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -99,7 +100,7 @@ import com.maxmind.geoip2.model.OmniLookup;
  * throws a {@link GeoIP2Exception}.
  * </p>
  */
-public class Client {
+public class Client implements Closeable {
     private final String host;
     private final List<String> languages;
     private final String licenseKey;
@@ -176,7 +177,6 @@ public class Client {
          * @param val
          *            List of language codes to use in name property from most
          *            preferred to least preferred.
-         * @return
          */
         public Builder languages(List<String> val) {
             this.languages = val;
@@ -447,5 +447,18 @@ public class Client {
         return new GenericUrl("https://" + this.host + "/geoip/v2.0/" + path
                 + "/" + (ipAddress == null ? "me" : ipAddress.getHostAddress()));
 
+    }
+
+    /**
+     * Closes the GeoIP2 fallback database and returns resources to the system.
+     * 
+     * @throws IOException
+     *             if an I/O error occurs.
+     */
+    @Override
+    public void close() throws IOException {
+        if (this.fallbackDatabase != null) {
+            this.fallbackDatabase.close();
+        }
     }
 }

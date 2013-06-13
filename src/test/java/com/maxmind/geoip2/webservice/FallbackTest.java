@@ -29,6 +29,7 @@ public class FallbackTest {
 
     @After
     public void tearDown() throws Exception {
+        this.client.close();
     }
 
     @Test

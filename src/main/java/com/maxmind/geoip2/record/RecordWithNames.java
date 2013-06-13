@@ -18,7 +18,7 @@ public abstract class RecordWithNames {
     private Integer geoNameId;
 
     @JacksonInject("languages")
-    public List<String> languages = new ArrayList<String>();
+    private List<String> languages = new ArrayList<String>();
 
     RecordWithNames() {
     }

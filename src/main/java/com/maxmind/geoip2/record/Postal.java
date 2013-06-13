@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Contains data for the postal record associated with an IP address.
- *
+ * 
  * This record is returned by all the end points except the Country end point.
  */
 public class Postal {
