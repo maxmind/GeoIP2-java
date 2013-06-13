@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -53,6 +54,8 @@ public class Reader implements Closeable {
     public Reader(File database, List<String> languages) throws IOException {
         this.reader = new com.maxmind.maxminddb.Reader(database);
         this.om = new ObjectMapper();
+        this.om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
+                false);
         InjectableValues inject = new InjectableValues.Std().addValue(
                 "languages", languages);
         this.om.setInjectableValues(inject);
