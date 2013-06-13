@@ -2,7 +2,7 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v0.1.1
+version: v0.2.0
 ---
 
 # GeoIP2 Java API #
@@ -40,7 +40,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>0.1.1</version>
+        <version>0.2.0</version>
     </dependency>
 ```
 
@@ -61,7 +61,7 @@ See the API documentation for more details.
 
 ```java
 
-Client client = new Client(42, "abcfe12345");
+Client client = new Client.Builder(42, "abcfe12345").build();
 
 OmniLookup omni = client.omni(InetAddress.getByName("24.24.24.24"));
 
