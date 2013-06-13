@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.2.0 (2013-06-13)
+------------------
+
+* Replaced the public constructor on `Client` with a `Builder` class.
+
 0.1.1 (2013-06-10)
 ------------------
 
