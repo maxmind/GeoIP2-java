@@ -19,8 +19,9 @@ public class NamesTest {
 
     @Test
     public void testNames() throws GeoIP2Exception, UnknownHostException {
-        Client client = new Client(42, "012345689",
-                Arrays.asList("zh-CN", "ru"), this.transport);
+        Client client = new Client.Builder(42, "abcdef123456")
+                .transport(this.transport)
+                .languages(Arrays.asList("zh-CN", "ru")).build();
 
         CityIspOrgLookup cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
@@ -34,8 +35,9 @@ public class NamesTest {
 
     @Test
     public void russianFallback() throws GeoIP2Exception, UnknownHostException {
-        Client client = new Client(42, "012345689", Arrays.asList("as", "ru"),
-                this.transport);
+        Client client = new Client.Builder(42, "abcdef123456")
+                .transport(this.transport).languages(Arrays.asList("as", "ru"))
+                .build();
 
         CityIspOrgLookup cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
@@ -47,8 +49,9 @@ public class NamesTest {
 
     @Test
     public void testFallback() throws GeoIP2Exception, UnknownHostException {
-        Client client = new Client(42, "012345689", Arrays.asList("pt", "en",
-                "zh-CN"), this.transport);
+        Client client = new Client.Builder(42, "abcdef123456")
+                .transport(this.transport)
+                .languages(Arrays.asList("pt", "en", "zh-CN")).build();
         CityIspOrgLookup cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
         assertEquals("en is returned when pt is missing", cio.getContinent()
@@ -58,8 +61,9 @@ public class NamesTest {
 
     @Test
     public void noFallback() throws GeoIP2Exception, UnknownHostException {
-        Client client = new Client(42, "012345689", Arrays.asList("pt", "es",
-                "af"), this.transport);
+        Client client = new Client.Builder(42, "abcdef123456")
+                .transport(this.transport)
+                .languages(Arrays.asList("pt", "es", "af")).build();
         CityIspOrgLookup cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
 
@@ -69,7 +73,8 @@ public class NamesTest {
 
     @Test
     public void noLanguage() throws GeoIP2Exception, UnknownHostException {
-        Client client = new Client(42, "012345689", this.transport);
+        Client client = new Client.Builder(42, "abcdef123456").transport(
+                this.transport).build();
         CityIspOrgLookup cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
         assertEquals("en is returned when no languages are specified", cio
@@ -79,8 +84,9 @@ public class NamesTest {
 
     @Test
     public void testMissing() throws GeoIP2Exception, UnknownHostException {
-        Client client = new Client(42, "012345689", Arrays.asList("en"),
-                this.transport);
+        Client client = new Client.Builder(42, "abcdef123456")
+                .transport(this.transport).languages(Arrays.asList("en"))
+                .build();
 
         CityIspOrgLookup cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));

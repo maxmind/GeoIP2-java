@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 
 import org.junit.Test;
 
@@ -17,8 +16,8 @@ public class HostTest {
     @Test
     public void omni() throws GeoIP2Exception, UnknownHostException {
         HttpTransport transport = new TestTransport();
-        Client client = new Client(42, "012345689", Arrays.asList("en"),
-                "blah.com", transport);
+        Client client = new Client.Builder(42, "abcdef123456").host("blah.com")
+                .transport(transport).build();
 
         OmniLookup omni = client.omni(InetAddress.getByName("128.101.101.101"));
         assertEquals(omni.getTraits().getIpAddress(), "128.101.101.101");

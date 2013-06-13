@@ -25,7 +25,8 @@ public class ClientTest {
 
     private final HttpTransport transport = new TestTransport();
 
-    private final Client client = new Client(42, "abcdef123456", this.transport);
+    private final Client client = new Client.Builder(42, "abcdef123456")
+            .transport(this.transport).build();
 
     @Test
     public void testCountry() throws GeoIP2Exception, UnknownHostException {

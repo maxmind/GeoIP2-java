@@ -27,7 +27,8 @@ public class OmniTest {
     public void createClient() throws GeoIP2Exception, UnknownHostException {
         HttpTransport transport = new TestTransport();
 
-        Client client = new Client(42, "012345689", transport);
+        Client client = new Client.Builder(42, "012345689")
+                .transport(transport).build();
 
         this.omni = client.omni(InetAddress.getByName("1.1.1.1"));
     }

@@ -18,7 +18,8 @@ public class CountryTest {
     @Before
     public void setUp() throws GeoIP2Exception, UnknownHostException {
         HttpTransport transport = new TestTransport();
-        Client client = new Client(42, "012345689", transport);
+        Client client = new Client.Builder(42, "abcdef123456").transport(
+                transport).build();
 
         this.country = client.country(InetAddress.getByName("1.1.1.3"));
     }

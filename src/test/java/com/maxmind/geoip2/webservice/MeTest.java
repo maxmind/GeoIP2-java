@@ -15,7 +15,8 @@ public class MeTest {
     public void createClient() {
         HttpTransport transport = new TestTransport();
 
-        this.client = new Client(42, "012345689", transport);
+        this.client = new Client.Builder(42, "abcdef123456").transport(
+                transport).build();
 
     }
 

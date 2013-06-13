@@ -103,85 +103,78 @@ public class Client {
     private final List<String> languages;
     private String host = "geoip.maxmind.com";
 
-    /**
-     * @param userId
-     *            Your MaxMind user ID.
-     * @param licenseKey
-     *            Your MaxMind license key.
-     */
-    public Client(int userId, String licenseKey) {
-        this(userId, licenseKey, null, null, null);
+    @SuppressWarnings("synthetic-access")
+    private Client(Builder builder) {
+        this.userId = builder.userId;
+        this.licenseKey = builder.licenseKey;
+        this.host = builder.host;
+        this.languages = builder.languages;
+        this.transport = builder.transport;
     }
 
     /**
-     * @param userId
-     *            Your MaxMind user ID.
-     * @param licenseKey
-     *            Your MaxMind license key.
-     * @param languages
-     *            List of language codes to use in name property from most
-     *            preferred to least preferred.
+     * <code>Builder</code> creates instances of
+     * <code>Client</client> from values set by the methods.
+     *  
+     *  This example shows how to create a <code>Client</code> object with the
+     * <code>Builder</code>:
+     * 
+     * Client client = new
+     * Client.Builder(12,"licensekey").host("geoip.maxmind.com").build();
+     * 
+     * Only the values set in the <code>Builder</code> constructor are required.
      */
-    public Client(int userId, String licenseKey, List<String> languages) {
-        this(userId, licenseKey, languages, null, null);
-    }
+    public static class Builder {
+        private final int userId;
+        private final String licenseKey;
+        private List<String> languages = Arrays.asList("en");
+        private String host = "geoip.maxmind.com";
+        private HttpTransport transport = new NetHttpTransport();
 
-    /* package-private as this is just for unit testing */
-    Client(int userId, String licenseKey, HttpTransport transport) {
-        this(userId, licenseKey, null, null, transport);
-    }
-
-    /* package-private as this is just for unit testing */
-    Client(int userId, String licenseKey, List<String> languages,
-            HttpTransport transport) {
-        this(userId, licenseKey, languages, null, transport);
-    }
-
-    /**
-     * @param userId
-     *            Your MaxMind user ID.
-     * @param licenseKey
-     *            Your MaxMind license key.
-     * @param host
-     *            The host to use.
-     */
-    public Client(int userId, String licenseKey, String host) {
-        this(userId, licenseKey, null, host, null);
-    }
-
-    /**
-     * @param userId
-     *            Your MaxMind user ID.
-     * @param licenseKey
-     *            Your MaxMind license key.
-     * @param languages
-     *            List of language codes to use in name property from most
-     *            preferred to least preferred.
-     * @param host
-     *            The host to use.
-     */
-    public Client(int userId, String licenseKey, List<String> languages,
-            String host) {
-        this(userId, licenseKey, languages, host, null);
-    }
-
-    /* package-private as we only need to specify a transport for unit testing */
-    Client(int userId, String licenseKey, List<String> languages, String host,
-            HttpTransport transport) {
-        this.userId = userId;
-        this.licenseKey = licenseKey;
-        if (host != null) {
-            this.host = host;
+        /**
+         * @param userId
+         *            Your MaxMind user ID.
+         * @param licenseKey
+         *            Your MaxMind license key.
+         */
+        public Builder(int userId, String licenseKey) {
+            this.userId = userId;
+            this.licenseKey = licenseKey;
         }
-        if (languages == null) {
-            this.languages = Arrays.asList("en");
-        } else {
-            this.languages = languages;
+
+        /**
+         * @param val
+         *            List of language codes to use in name property from most
+         *            preferred to least preferred.
+         * @return
+         */
+        public Builder languages(List<String> val) {
+            this.languages = val;
+            return this;
         }
-        if (transport == null) {
-            this.transport = new NetHttpTransport();
-        } else {
-            this.transport = transport;
+
+        /**
+         * @param val
+         *            The host to use.
+         */
+        public Builder host(String val) {
+            this.host = val;
+            return this;
+        }
+
+        // For unit testing
+        Builder transport(HttpTransport val) {
+            this.transport = val;
+            return this;
+        }
+
+        /**
+         * @return an instance of <code>Client</code> created from the fields
+         *         set on this builder.
+         */
+        @SuppressWarnings("synthetic-access")
+        public Client build() {
+            return new Client(this);
         }
     }
 
