@@ -4,21 +4,21 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Arrays;
 
 import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.exception.GeoIP2Exception;
+import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.model.CityIspOrgLookup;
 
 public class NamesTest {
     HttpTransport transport = new TestTransport();
 
     @Test
-    public void testNames() throws GeoIP2Exception, UnknownHostException {
+    public void testNames() throws IOException, AddressNotFoundException {
         Client client = new Client.Builder(42, "abcdef123456")
                 .transport(this.transport)
                 .languages(Arrays.asList("zh-CN", "ru")).build();
@@ -34,7 +34,7 @@ public class NamesTest {
     }
 
     @Test
-    public void russianFallback() throws GeoIP2Exception, UnknownHostException {
+    public void russianFallback() throws IOException, AddressNotFoundException {
         Client client = new Client.Builder(42, "abcdef123456")
                 .transport(this.transport).languages(Arrays.asList("as", "ru"))
                 .build();
@@ -48,7 +48,7 @@ public class NamesTest {
     }
 
     @Test
-    public void testFallback() throws GeoIP2Exception, UnknownHostException {
+    public void testFallback() throws IOException, AddressNotFoundException {
         Client client = new Client.Builder(42, "abcdef123456")
                 .transport(this.transport)
                 .languages(Arrays.asList("pt", "en", "zh-CN")).build();
@@ -60,7 +60,7 @@ public class NamesTest {
     }
 
     @Test
-    public void noFallback() throws GeoIP2Exception, UnknownHostException {
+    public void noFallback() throws IOException, AddressNotFoundException {
         Client client = new Client.Builder(42, "abcdef123456")
                 .transport(this.transport)
                 .languages(Arrays.asList("pt", "es", "af")).build();
@@ -72,7 +72,7 @@ public class NamesTest {
     }
 
     @Test
-    public void noLanguage() throws GeoIP2Exception, UnknownHostException {
+    public void noLanguage() throws IOException, AddressNotFoundException {
         Client client = new Client.Builder(42, "abcdef123456").transport(
                 this.transport).build();
         CityIspOrgLookup cio = client.cityIspOrg(InetAddress
@@ -83,7 +83,7 @@ public class NamesTest {
     }
 
     @Test
-    public void testMissing() throws GeoIP2Exception, UnknownHostException {
+    public void testMissing() throws IOException, AddressNotFoundException {
         Client client = new Client.Builder(42, "abcdef123456")
                 .transport(this.transport).languages(Arrays.asList("en"))
                 .build();

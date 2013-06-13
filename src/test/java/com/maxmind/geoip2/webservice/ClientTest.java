@@ -3,8 +3,8 @@ package com.maxmind.geoip2.webservice;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,7 +30,7 @@ public class ClientTest {
             .transport(this.transport).build();
 
     @Test
-    public void testCountry() throws GeoIP2Exception, UnknownHostException {
+    public void testCountry() throws IOException, AddressNotFoundException {
         CountryLookup country = this.client.country(InetAddress
                 .getByName("1.2.3.4"));
         assertEquals("country.getContinent().getCode() does not return NA",
@@ -55,7 +55,7 @@ public class ClientTest {
     public ExpectedException exception = ExpectedException.none();
 
     @Test
-    public void noBody() throws GeoIP2Exception, UnknownHostException {
+    public void noBody() throws IOException, AddressNotFoundException {
         this.exception.expect(GeoIP2Exception.class);
         this.exception.expectMessage(containsString("message body"));
 
@@ -63,7 +63,7 @@ public class ClientTest {
     }
 
     @Test
-    public void webServiceError() throws GeoIP2Exception, UnknownHostException {
+    public void webServiceError() throws IOException, AddressNotFoundException {
         this.exception.expect(WebServiceException.class);
         this.exception.expect(CodeMatcher.hasCode("IP_ADDRESS_INVALID"));
         this.exception.expect(HttpStatusMatcher.hasStatus(400));
@@ -74,7 +74,7 @@ public class ClientTest {
     }
 
     @Test
-    public void noErrorBody() throws GeoIP2Exception, UnknownHostException {
+    public void noErrorBody() throws IOException, AddressNotFoundException {
         this.exception.expect(HttpException.class);
         this.exception
                 .expectMessage(containsString("Received a 400 error for https://geoip.maxmind.com/geoip/v2.0/country/1.2.3.7 with no body"));
@@ -83,7 +83,7 @@ public class ClientTest {
     }
 
     @Test
-    public void weirdErrorBody() throws GeoIP2Exception, UnknownHostException {
+    public void weirdErrorBody() throws IOException, AddressNotFoundException {
         this.exception.expect(HttpException.class);
         this.exception
                 .expectMessage(containsString("Response contains JSON but it does not specify code or error keys"));
@@ -92,8 +92,8 @@ public class ClientTest {
     }
 
     @Test
-    public void unexpectedErrorBody() throws GeoIP2Exception,
-            UnknownHostException {
+    public void unexpectedErrorBody() throws IOException,
+            AddressNotFoundException {
         this.exception.expect(HttpException.class);
         this.exception
                 .expectMessage(containsString("it did not include the expected JSON body:"));
@@ -102,8 +102,8 @@ public class ClientTest {
     }
 
     @Test
-    public void internalServerError() throws GeoIP2Exception,
-            UnknownHostException {
+    public void internalServerError() throws IOException,
+            AddressNotFoundException {
         this.exception.expect(HttpException.class);
         this.exception
                 .expectMessage(containsString("Received a server error (500) for"));
@@ -111,7 +111,7 @@ public class ClientTest {
     }
 
     @Test
-    public void surprisingStatus() throws GeoIP2Exception, UnknownHostException {
+    public void surprisingStatus() throws IOException, AddressNotFoundException {
         this.exception.expect(HttpException.class);
         this.exception
                 .expectMessage(containsString("Received a very surprising HTTP status (300) for"));
@@ -120,7 +120,7 @@ public class ClientTest {
     }
 
     @Test
-    public void cannotAccept() throws GeoIP2Exception, UnknownHostException {
+    public void cannotAccept() throws AddressNotFoundException, IOException {
         this.exception.expect(HttpException.class);
         this.exception
                 .expectMessage(containsString("Cannot satisfy your Accept-Charset requirements"));
@@ -128,7 +128,7 @@ public class ClientTest {
     }
 
     @Test
-    public void badContentType() throws GeoIP2Exception, UnknownHostException {
+    public void badContentType() throws AddressNotFoundException, IOException {
         this.exception.expect(GeoIP2Exception.class);
         this.exception
                 .expectMessage(containsString(" but it does not appear to be JSON"));
@@ -136,7 +136,7 @@ public class ClientTest {
     }
 
     @Test
-    public void badJsonOn200() throws GeoIP2Exception, UnknownHostException {
+    public void badJsonOn200() throws IOException, AddressNotFoundException {
         this.exception.expect(GeoIP2Exception.class);
         this.exception
                 .expectMessage(containsString("Received a 200 response but not decode it as JSON: "));
@@ -144,7 +144,7 @@ public class ClientTest {
     }
 
     @Test
-    public void addressNotFound() throws GeoIP2Exception, UnknownHostException {
+    public void addressNotFound() throws IOException, AddressNotFoundException {
         this.exception.expect(AddressNotFoundException.class);
         this.exception
                 .expectMessage(containsString("The value 1.2.3.16 is not in the database."));
@@ -153,7 +153,7 @@ public class ClientTest {
     }
 
     @Test
-    public void addressReserved() throws GeoIP2Exception, UnknownHostException {
+    public void addressReserved() throws IOException, AddressNotFoundException {
         this.exception.expect(AddressNotFoundException.class);
         this.exception
                 .expectMessage(containsString("The value 1.2.3.17 belongs to a reserved or private range."));

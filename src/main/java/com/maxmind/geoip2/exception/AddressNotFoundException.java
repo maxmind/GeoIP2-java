@@ -1,9 +1,10 @@
 package com.maxmind.geoip2.exception;
 
 /**
- * This class represents an error returned by MaxMind's GeoIP2 web service.
+ * This exception is thrown when the IP address is not found in the database.
+ * This generally means that the address was a private or reserved address.
  */
-public class AddressNotFoundException extends GeoIP2Exception {
+public class AddressNotFoundException extends Exception {
     private static final long serialVersionUID = 5524955504419835710L;
 
     /**

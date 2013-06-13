@@ -1,5 +1,6 @@
 package com.maxmind.geoip2.webservice;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Arrays;
@@ -18,6 +19,7 @@ import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import com.maxmind.geoip2.database.Reader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.exception.HttpException;
@@ -104,15 +106,17 @@ public class Client {
     private final int timeout;
     private final HttpTransport transport;
     private final int userId;
+    private final Reader fallbackDatabase;
 
     @SuppressWarnings("synthetic-access")
     private Client(Builder builder) {
-        this.userId = builder.userId;
-        this.licenseKey = builder.licenseKey;
+        this.fallbackDatabase = builder.fallbackDatabase;
         this.host = builder.host;
         this.languages = builder.languages;
+        this.licenseKey = builder.licenseKey;
         this.timeout = builder.timeout;
         this.transport = builder.transport;
+        this.userId = builder.userId;
     }
 
     /**
@@ -135,6 +139,7 @@ public class Client {
         private List<String> languages = Arrays.asList("en");
         private int timeout = 3000;
         private HttpTransport transport = new NetHttpTransport();
+        private Reader fallbackDatabase;
 
         /**
          * @param userId
@@ -145,6 +150,17 @@ public class Client {
         public Builder(int userId, String licenseKey) {
             this.userId = userId;
             this.licenseKey = licenseKey;
+        }
+
+        /**
+         * @param val
+         *            A fallback GeoIP2 database to use if the the web service
+         *            query fails.
+         * @throws IOException
+         */
+        public Builder fallbackDatabase(File val) throws IOException {
+            this.fallbackDatabase = new Reader(val);
+            return this;
         }
 
         /**
@@ -195,10 +211,10 @@ public class Client {
 
     /**
      * @return A Country lookup for the requesting IP address
-     * @throws GeoIP2Exception
-     *             if there is an error making the request.
+     * @throws AddressNotFoundException
+     * @throws IOException
      */
-    public CountryLookup country() throws GeoIP2Exception {
+    public CountryLookup country() throws IOException, AddressNotFoundException {
         return this.country(null);
     }
 
@@ -206,19 +222,20 @@ public class Client {
      * @param ipAddress
      *            IPv4 or IPv6 address to lookup.
      * @return A Country lookup for the requested IP address.
-     * @throws GeoIP2Exception
-     *             if there is an error making the request.
+     * @throws AddressNotFoundException
+     * @throws IOException
      */
-    public CountryLookup country(InetAddress ipAddress) throws GeoIP2Exception {
+    public CountryLookup country(InetAddress ipAddress) throws IOException,
+            AddressNotFoundException {
         return this.responseFor("country", ipAddress, CountryLookup.class);
     }
 
     /**
      * @return A City lookup for the requesting IP address
-     * @throws GeoIP2Exception
-     *             if there is an error making the request.
+     * @throws AddressNotFoundException
+     * @throws IOException
      */
-    public CityLookup city() throws GeoIP2Exception {
+    public CityLookup city() throws IOException, AddressNotFoundException {
         return this.city(null);
     }
 
@@ -226,19 +243,21 @@ public class Client {
      * @param ipAddress
      *            IPv4 or IPv6 address to lookup.
      * @return A City lookup for the requested IP address.
-     * @throws GeoIP2Exception
-     *             if there is an error making the request.
+     * @throws AddressNotFoundException
+     * @throws IOException
      */
-    public CityLookup city(InetAddress ipAddress) throws GeoIP2Exception {
+    public CityLookup city(InetAddress ipAddress) throws IOException,
+            AddressNotFoundException {
         return this.responseFor("city", ipAddress, CityLookup.class);
     }
 
     /**
      * @return A City/ISP/Org lookup for the requesting IP address
-     * @throws GeoIP2Exception
-     *             if there is an error making the request.
+     * @throws AddressNotFoundException
+     * @throws IOException
      */
-    public CityIspOrgLookup cityIspOrg() throws GeoIP2Exception {
+    public CityIspOrgLookup cityIspOrg() throws IOException,
+            AddressNotFoundException {
         return this.cityIspOrg(null);
     }
 
@@ -246,21 +265,21 @@ public class Client {
      * @param ipAddress
      *            IPv4 or IPv6 address to lookup.
      * @return A City/ISP/Org lookup for the requested IP address.
-     * @throws GeoIP2Exception
-     *             if there is an error making the request.
+     * @throws AddressNotFoundException
+     * @throws IOException
      */
     public CityIspOrgLookup cityIspOrg(InetAddress ipAddress)
-            throws GeoIP2Exception {
+            throws IOException, AddressNotFoundException {
         return this.responseFor("city_isp_org", ipAddress,
                 CityIspOrgLookup.class);
     }
 
     /**
      * @return An Omni lookup for the requesting IP address
-     * @throws GeoIP2Exception
-     *             if there is an error making the request.
+     * @throws AddressNotFoundException
+     * @throws IOException
      */
-    public OmniLookup omni() throws GeoIP2Exception {
+    public OmniLookup omni() throws IOException, AddressNotFoundException {
         return this.omni(null);
     }
 
@@ -268,15 +287,30 @@ public class Client {
      * @param ipAddress
      *            IPv4 or IPv6 address to lookup.
      * @return An Omni lookup for the requested IP address.
-     * @throws GeoIP2Exception
-     *             if there is an error making the request.
+     * @throws AddressNotFoundException
+     * @throws IOException
      */
-    public OmniLookup omni(InetAddress ipAddress) throws GeoIP2Exception {
+    public OmniLookup omni(InetAddress ipAddress) throws IOException,
+            AddressNotFoundException {
         return this.responseFor("omni", ipAddress, OmniLookup.class);
     }
 
     private <T extends CountryLookup> T responseFor(String path,
-            InetAddress ipAddress, Class<T> cls) throws GeoIP2Exception {
+            InetAddress ipAddress, Class<T> cls) throws IOException,
+            AddressNotFoundException {
+        try {
+            return this.webServiceResponseFor(path, ipAddress, cls);
+        } catch (GeoIP2Exception e) {
+            if (this.fallbackDatabase != null) {
+                return this.fallbackDatabase.get(ipAddress);
+            }
+            throw e;
+        }
+    }
+
+    private <T extends CountryLookup> T webServiceResponseFor(String path,
+            InetAddress ipAddress, Class<T> cls) throws GeoIP2Exception,
+            AddressNotFoundException {
         GenericUrl uri = this.createUri(path, ipAddress);
         HttpResponse response = this.getResponse(uri);
 
@@ -304,7 +338,8 @@ public class Client {
         }
     }
 
-    private HttpResponse getResponse(GenericUrl uri) throws GeoIP2Exception {
+    private HttpResponse getResponse(GenericUrl uri) throws GeoIP2Exception,
+            AddressNotFoundException {
         HttpRequestFactory requestFactory = this.transport
                 .createRequestFactory();
         HttpRequest request;
@@ -322,8 +357,9 @@ public class Client {
         try {
             return request.execute();
         } catch (HttpResponseException e) {
-            throw Client.handleErrorStatus(e.getContent(), e.getStatusCode(),
-                    uri);
+            Client.handleErrorStatus(e.getContent(), e.getStatusCode(), uri);
+            throw new AssertionError(
+                    "Something very strange happened. This code should be unreachable.");
         } catch (IOException e) {
             throw new GeoIP2Exception(
                     "Unknown error when connecting to web service: "
@@ -350,24 +386,24 @@ public class Client {
         return body;
     }
 
-    private static GeoIP2Exception handleErrorStatus(String content,
-            int status, GenericUrl uri) {
+    private static void handleErrorStatus(String content, int status,
+            GenericUrl uri) throws AddressNotFoundException, GeoIP2Exception {
         if ((status >= 400) && (status < 500)) {
-            return Client.handle4xxStatus(content, status, uri);
+            Client.handle4xxStatus(content, status, uri);
         } else if ((status >= 500) && (status < 600)) {
-            return new HttpException("Received a server error (" + status
+            throw new HttpException("Received a server error (" + status
                     + ") for " + uri, status, uri.toURL());
         } else {
-            return new HttpException("Received a very surprising HTTP status ("
+            throw new HttpException("Received a very surprising HTTP status ("
                     + status + ") for " + uri, status, uri.toURL());
         }
     }
 
-    private static GeoIP2Exception handle4xxStatus(String body, int status,
-            GenericUrl uri) {
+    private static void handle4xxStatus(String body, int status, GenericUrl uri)
+            throws AddressNotFoundException, GeoIP2Exception {
 
         if (body == null) {
-            return new HttpException("Received a " + status + " error for "
+            throw new HttpException("Received a " + status + " error for "
                     + uri + " with no body", status, uri.toURL());
         }
 
@@ -377,31 +413,34 @@ public class Client {
             content = mapper.readValue(body,
                     new TypeReference<HashMap<String, String>>() {
                     });
-            return handleErrorWithJsonBody(content, body, status, uri);
+            handleErrorWithJsonBody(content, body, status, uri);
+        } catch (GeoIP2Exception e) {
+            throw e;
         } catch (IOException e) {
-            return new HttpException("Received a " + status + " error for "
+            throw new HttpException("Received a " + status + " error for "
                     + uri + " but it did not include the expected JSON body: "
                     + body, status, uri.toURL());
         }
     }
 
-    private static GeoIP2Exception handleErrorWithJsonBody(
-            Map<String, String> content, String body, int status, GenericUrl uri) {
+    private static void handleErrorWithJsonBody(Map<String, String> content,
+            String body, int status, GenericUrl uri) throws HttpException,
+            AddressNotFoundException {
         String error = content.get("error");
         String code = content.get("code");
 
         if (error == null || code == null) {
-            return new HttpException(
+            throw new HttpException(
                     "Response contains JSON but it does not specify code or error keys: "
                             + body, status, uri.toURL());
         }
 
         if (code.equals("IP_ADDRESS_NOT_FOUND")
                 || code.equals("IP_ADDRESS_RESERVED")) {
-            return new AddressNotFoundException(error);
+            throw new AddressNotFoundException(error);
         }
 
-        return new WebServiceException(error, code, status, uri.toURL());
+        throw new WebServiceException(error, code, status, uri.toURL());
     }
 
     private GenericUrl createUri(String path, InetAddress ipAddress) {

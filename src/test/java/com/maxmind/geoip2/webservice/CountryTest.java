@@ -2,21 +2,21 @@ package com.maxmind.geoip2.webservice;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.exception.GeoIP2Exception;
+import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.model.CountryLookup;
 
 public class CountryTest {
     private CountryLookup country;
 
     @Before
-    public void setUp() throws GeoIP2Exception, UnknownHostException {
+    public void setUp() throws IOException, AddressNotFoundException {
         HttpTransport transport = new TestTransport();
         Client client = new Client.Builder(42, "abcdef123456").transport(
                 transport).build();

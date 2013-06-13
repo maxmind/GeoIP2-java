@@ -24,7 +24,8 @@ public class ReaderTest {
     public ExpectedException exception = ExpectedException.none();
 
     @Test
-    public void testDefaultLanguage() throws GeoIP2Exception, IOException {
+    public void testDefaultLanguage() throws IOException,
+            AddressNotFoundException {
         Reader reader = new Reader(new File("test-data/GeoIP2-City.mmdb"));
         CityLookup city = reader.get(InetAddress.getByName("81.2.69.160"));
         assertEquals("London", city.getCity().getName());
@@ -32,7 +33,8 @@ public class ReaderTest {
     }
 
     @Test
-    public void testLanguageList() throws GeoIP2Exception, IOException {
+    public void testLanguageList() throws GeoIP2Exception, IOException,
+            AddressNotFoundException {
         Reader reader = new Reader(new File("test-data/GeoIP2-City.mmdb"),
                 Arrays.asList("xx", "ru", "pt-BR", "es", "en"));
         OmniLookup city = reader.get(InetAddress.getByName("81.2.69.160"));
@@ -43,7 +45,8 @@ public class ReaderTest {
     }
 
     @Test
-    public void hasIpAddress() throws GeoIP2Exception, IOException {
+    public void hasIpAddress() throws GeoIP2Exception, IOException,
+            AddressNotFoundException {
         Reader reader = new Reader(new File("test-data/GeoIP2-City.mmdb"));
         CityLookup city = reader.get(InetAddress.getByName("81.2.69.160"));
         assertEquals("81.2.69.160", city.getTraits().getIpAddress());
@@ -51,7 +54,8 @@ public class ReaderTest {
     }
 
     @Test
-    public void unknownAddress() throws GeoIP2Exception, IOException {
+    public void unknownAddress() throws GeoIP2Exception, IOException,
+            AddressNotFoundException {
         this.exception.expect(AddressNotFoundException.class);
         this.exception
                 .expectMessage(containsString("The address 10.10.10.10 is not in the database."));
