@@ -7,11 +7,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * This record is returned by all the end points.
  */
-public class Continent extends AbstractNamedRecord {
+public class ContinentRecord extends AbstractNamedRecord {
     @JsonProperty("code")
     private String code;
 
-    public Continent() {
+    public ContinentRecord() {
         super();
     }
 

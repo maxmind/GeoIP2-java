@@ -1,4 +1,4 @@
-package com.maxmind.geoip2.webservice;
+package com.maxmind.geoip2;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,17 +11,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.exception.GeoIP2Exception;
-import com.maxmind.geoip2.model.CityLookup;
+import com.maxmind.geoip2.WebServiceClient;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.maxmind.geoip2.model.City;
 
 public class FallbackTest {
     private HttpTransport transport;
-    private Client client;
+    private WebServiceClient client;
 
     @Before
     public void setUp() throws Exception {
         this.transport = new TestTransport();
-        this.client = new Client.Builder(42, "abcdef123456")
+        this.client = new WebServiceClient.Builder(42, "abcdef123456")
                 .fallbackDatabase(new File("test-data/GeoIP2-City.mmdb"))
                 .transport(this.transport).build();
 
@@ -33,8 +34,8 @@ public class FallbackTest {
     }
 
     @Test
-    public void test() throws IOException, GeoIP2Exception {
-        CityLookup city = this.client
+    public void test() throws IOException, GeoIp2Exception {
+        City city = this.client
                 .city(InetAddress.getByName("81.2.69.160"));
         assertEquals("London", city.getCity().getName());
     }

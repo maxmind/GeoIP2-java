@@ -7,7 +7,7 @@ import java.net.URL;
  * service. This occurs when the web service is up and responding to requests,
  * but the request sent was invalid in some way.
  */
-public class InvalidRequestException extends GeoIP2Exception {
+public class InvalidRequestException extends GeoIp2Exception {
     private static final long serialVersionUID = 8662062420258379643L;
     private final String code;
     private final URL url;

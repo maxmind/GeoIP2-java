@@ -1,4 +1,4 @@
-package com.maxmind.geoip2.webservice;
+package com.maxmind.geoip2;
 
 import java.io.IOException;
 
@@ -48,15 +48,6 @@ public final class TestTransport extends MockHttpTransport {
             + "\"iso_code\":\"CA\"," + "\"names\":{\"en\":\"Canada\"}" + "},"
             + "\"traits\":{" + "\"ip_address\":\"1.2.3.4\"" + "}}";
 
-    private final static String clientBody = "{\"continent\":{"
-            + "\"code\":\"NA\"," + "\"geoname_id\":42,"
-            + "\"names\":{\"en\":\"North America\"}" + "}," + "\"country\":{"
-            + "\"geoname_id\":1," + "\"iso_code\":\"US\","
-            + "\"confidence\":56," + "\"names\":{\"en\":\"United States\"}"
-            + "}," + "\"registered_country\":{" + "\"geoname_id\":2,"
-            + "\"iso_code\":\"CA\"," + "\"names\":{\"en\":\"Canada\"}" + "},"
-            + "\"traits\":{" + "\"ip_address\":\"1.2.3.4\"" + "}}";
-
     private final static String countryBody = "{\"continent\":{"
             + "\"code\":\"NA\"," + "\"geoname_id\":42,"
             + "\"names\":{\"en\":\"North America\"}" + "}," + "\"country\":{"
@@ -91,8 +82,6 @@ public final class TestTransport extends MockHttpTransport {
                 } else if (path.equals("country/1.1.1.3")) {
                     return this.getResponse("country", 200,
                             TestTransport.countryBody);
-                } else if (path.equals("country/1.2.3.4")) {
-                    return this.getResponse("country", 200, clientBody);
                 } else if (path.equals("country/1.2.3.5")) {
                     return this.getResponse("country", 200);
                 } else if (path.equals("country/1.2.3.6")) {
@@ -116,7 +105,7 @@ public final class TestTransport extends MockHttpTransport {
                 } else if (path.equals("omni/1.2.3.13")) {
                     return this.getResponse("omni", 200, "{}");
                 } else if (path.equals("omni/1.2.3.14")) {
-                    return this.getResponse("omni", 200, clientBody,
+                    return this.getResponse("omni", 200, countryBody,
                             "bad/content-type");
                 } else if (path.equals("city_isp_org/1.2.3.15")) {
                     return this.getResponse("omni", 200, "{\"invalid\":yes}");

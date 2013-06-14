@@ -3,10 +3,10 @@ package com.maxmind.geoip2.model;
 /**
  *
  */
-public class OmniLookup extends CityLookup {
+public class Omni extends City {
     /**
      * 
      */
-    public OmniLookup() {
+    public Omni() {
     }
 }

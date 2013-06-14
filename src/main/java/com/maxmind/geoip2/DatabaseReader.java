@@ -1,4 +1,4 @@
-package com.maxmind.geoip2.database;
+package com.maxmind.geoip2;
 
 import java.io.Closeable;
 import java.io.File;
@@ -12,14 +12,14 @@ import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
-import com.maxmind.geoip2.model.CountryLookup;
-import com.maxmind.geoip2.model.OmniLookup;
+import com.maxmind.geoip2.model.Country;
+import com.maxmind.geoip2.model.Omni;
 
 /**
  * Instances of this class provide a reader for the GeoIP2 database format. IP
  * addresses can be looked up using the <code>get</code> method.
  */
-public class Reader implements Closeable {
+public class DatabaseReader implements Closeable {
 
     // This is sort of annoying. Rename one of the two?
     private final com.maxmind.maxminddb.Reader reader;
@@ -35,7 +35,7 @@ public class Reader implements Closeable {
      * @throws IOException
      *             if there is an error opening or reading from the file.
      */
-    public Reader(File database) throws IOException {
+    public DatabaseReader(File database) throws IOException {
         this(database, Arrays.asList("en"));
     }
 
@@ -51,7 +51,7 @@ public class Reader implements Closeable {
      * @throws IOException
      *             if there is an error opening or reading from the file.
      */
-    public Reader(File database, List<String> languages) throws IOException {
+    public DatabaseReader(File database, List<String> languages) throws IOException {
         this.reader = new com.maxmind.maxminddb.Reader(database);
         this.om = new ObjectMapper();
         this.om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
@@ -70,7 +70,7 @@ public class Reader implements Closeable {
      * @throws AddressNotFoundException
      *             if the IP address is not in our database
      */
-    public <T extends CountryLookup> T get(InetAddress ipAddress)
+    public <T extends Country> T get(InetAddress ipAddress)
             throws IOException, AddressNotFoundException {
         ObjectNode node = (ObjectNode) this.reader.get(ipAddress);
 
@@ -89,9 +89,9 @@ public class Reader implements Closeable {
         ObjectNode traits = (ObjectNode) node.get("traits");
         traits.put("ip_address", ipAddress.getHostAddress());
 
-        // The cast and the OmniLookup.class are sort of ugly. There might be a
+        // The cast and the Omni.class are sort of ugly. There might be a
         // better way
-        return (T) this.om.treeToValue(node, OmniLookup.class);
+        return (T) this.om.treeToValue(node, Omni.class);
     }
 
     /**

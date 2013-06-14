@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.maxmind.geoip2.record.City;
-import com.maxmind.geoip2.record.Location;
-import com.maxmind.geoip2.record.Postal;
-import com.maxmind.geoip2.record.Subdivision;
+import com.maxmind.geoip2.record.CityRecord;
+import com.maxmind.geoip2.record.LocationRecord;
+import com.maxmind.geoip2.record.PostalRecord;
+import com.maxmind.geoip2.record.SubdivisionRecord;
 
 /**
  * This class provides a model for the data returned by the GeoIP2 City end
@@ -19,43 +19,43 @@ import com.maxmind.geoip2.record.Subdivision;
  * @see <a href="http://dev.maxmind.com/geoip/geoip2/web-services">GeoIP2 Web
  *      Services</a>
  */
-public class CityLookup extends CountryLookup {
+public class City extends Country {
     @JsonProperty
-    private City city = new City();
+    private CityRecord city = new CityRecord();
     @JsonProperty
-    private Location location = new Location();
+    private LocationRecord location = new LocationRecord();
     @JsonProperty
-    private Postal postal = new Postal();
+    private PostalRecord postal = new PostalRecord();
 
     @JsonProperty("subdivisions")
-    private ArrayList<Subdivision> subdivisions = new ArrayList<Subdivision>();
+    private ArrayList<SubdivisionRecord> subdivisions = new ArrayList<SubdivisionRecord>();
 
-    public CityLookup() {
+    public City() {
     }
 
     /**
      * @return City record for the requested IP address.
      */
-    public com.maxmind.geoip2.record.City getCity() {
+    public com.maxmind.geoip2.record.CityRecord getCity() {
         return this.city;
     }
 
     /**
      * @return Location record for the requested IP address.
      */
-    public Location getLocation() {
+    public LocationRecord getLocation() {
         return this.location;
     }
 
     /**
      * @return the postal
      */
-    public Postal getPostal() {
+    public PostalRecord getPostal() {
         return this.postal;
     }
 
     /**
-     * @return An {@link List} of {@link Subdivision} objects representing the
+     * @return An {@link List} of {@link SubdivisionRecord} objects representing the
      *         country subdivisions for the requested IP address. The number and
      *         type of subdivisions varies by country, but a subdivision is
      *         typically a state, province, county, etc. Subdivisions are
@@ -63,18 +63,18 @@ public class CityLookup extends CountryLookup {
      *         If the response did not contain any subdivisions, this method
      *         returns an empty array.
      */
-    public List<Subdivision> getSubdivisionsList() {
-        return new ArrayList<Subdivision>(this.subdivisions);
+    public List<SubdivisionRecord> getSubdivisionsList() {
+        return new ArrayList<SubdivisionRecord>(this.subdivisions);
     }
 
     /**
      * @return An object representing the most specific subdivision returned. If
      *         the response did not contain any subdivisions, this method
-     *         returns an empty {@link Subdivision} object.
+     *         returns an empty {@link SubdivisionRecord} object.
      */
-    public Subdivision getMostSpecificSubdivision() {
+    public SubdivisionRecord getMostSpecificSubdivision() {
         if (this.subdivisions.isEmpty()) {
-            return new Subdivision();
+            return new SubdivisionRecord();
         }
         return this.subdivisions.get(this.subdivisions.size() - 1);
     }

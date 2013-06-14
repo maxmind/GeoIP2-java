@@ -33,7 +33,7 @@ public abstract class AbstractNamedRecord {
 
     /**
      * @return The name of the city based on the languages list passed to the
-     *         {@link com.maxmind.geoip2.webservice.Client} constructor. This
+     *         {@link com.maxmind.geoip2.WebServiceClient} constructor. This
      *         attribute is returned by all end points.
      */
     public String getName() {

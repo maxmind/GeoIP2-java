@@ -1,4 +1,4 @@
-package com.maxmind.geoip2.webservice;
+package com.maxmind.geoip2;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -13,43 +13,44 @@ import java.util.List;
 import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.exception.GeoIP2Exception;
-import com.maxmind.geoip2.model.OmniLookup;
-import com.maxmind.geoip2.record.City;
-import com.maxmind.geoip2.record.Continent;
-import com.maxmind.geoip2.record.Country;
-import com.maxmind.geoip2.record.Location;
-import com.maxmind.geoip2.record.MaxMind;
+import com.maxmind.geoip2.WebServiceClient;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.maxmind.geoip2.model.Omni;
+import com.maxmind.geoip2.record.CityRecord;
+import com.maxmind.geoip2.record.ContinentRecord;
+import com.maxmind.geoip2.record.CountryRecord;
+import com.maxmind.geoip2.record.LocationRecord;
+import com.maxmind.geoip2.record.MaxMindRecord;
 import com.maxmind.geoip2.record.AbstractNamedRecord;
-import com.maxmind.geoip2.record.RepresentedCountry;
-import com.maxmind.geoip2.record.Subdivision;
-import com.maxmind.geoip2.record.Traits;
+import com.maxmind.geoip2.record.RepresentedCountryRecord;
+import com.maxmind.geoip2.record.SubdivisionRecord;
+import com.maxmind.geoip2.record.TraitsRecord;
 
 public class NullTest {
 
     private final HttpTransport transport = new TestTransport();
 
-    private final Client client = new Client.Builder(42, "abcdef123456")
+    private final WebServiceClient client = new WebServiceClient.Builder(42, "abcdef123456")
             .transport(this.transport).build();
 
     @Test
-    public void testDefaults() throws IOException, GeoIP2Exception {
-        OmniLookup omni = this.client.omni(InetAddress.getByName("1.2.3.13"));
+    public void testDefaults() throws IOException, GeoIp2Exception {
+        Omni omni = this.client.omni(InetAddress.getByName("1.2.3.13"));
 
-        assertTrue(omni.toString().startsWith("OmniLookup"));
+        assertTrue(omni.toString().startsWith("Omni"));
 
-        City city = omni.getCity();
+        CityRecord city = omni.getCity();
         assertNotNull(city);
         assertNull(city.getConfidence());
 
-        Continent continent = omni.getContinent();
+        ContinentRecord continent = omni.getContinent();
         assertNotNull(continent);
         assertNull(continent.getCode());
 
-        Country country = omni.getCountry();
+        CountryRecord country = omni.getCountry();
         assertNotNull(country);
 
-        Location location = omni.getLocation();
+        LocationRecord location = omni.getLocation();
         assertNotNull(location);
         assertNull(location.getAccuracyRadius());
         assertNull(location.getLatitude());
@@ -58,29 +59,29 @@ public class NullTest {
         assertNull(location.getTimeZone());
         assertEquals("Location []", location.toString());
 
-        MaxMind maxmind = omni.getMaxMind();
+        MaxMindRecord maxmind = omni.getMaxMind();
         assertNotNull(maxmind);
         assertNull(maxmind.getQueriesRemaining());
 
         assertNotNull(omni.getPostal());
 
-        Country registeredCountry = omni.getRegisteredCountry();
+        CountryRecord registeredCountry = omni.getRegisteredCountry();
         assertNotNull(registeredCountry);
 
-        RepresentedCountry representedCountry = omni.getRepresentedCountry();
+        RepresentedCountryRecord representedCountry = omni.getRepresentedCountry();
         assertNotNull(representedCountry);
         assertNull(representedCountry.getType());
 
-        List<Subdivision> subdivisions = omni.getSubdivisionsList();
+        List<SubdivisionRecord> subdivisions = omni.getSubdivisionsList();
         assertNotNull(subdivisions);
         assertTrue(subdivisions.isEmpty());
 
-        Subdivision subdiv = omni.getMostSpecificSubdivision();
+        SubdivisionRecord subdiv = omni.getMostSpecificSubdivision();
         assertNotNull(subdiv);
         assertNull(subdiv.getIsoCode());
         assertNull(subdiv.getConfidence());
 
-        Traits traits = omni.getTraits();
+        TraitsRecord traits = omni.getTraits();
         assertNotNull(traits);
         assertNull(traits.getAutonomousSystemNumber());
         assertNull(traits.getAutonomousSystemOrganization());
@@ -95,7 +96,7 @@ public class NullTest {
                 "Traits [anonymousProxy=false, satelliteProvider=false, ]",
                 traits.toString());
 
-        for (Country c : new Country[] { country, registeredCountry,
+        for (CountryRecord c : new CountryRecord[] { country, registeredCountry,
                 representedCountry }) {
             assertNull(c.getConfidence());
             assertNull(c.getIsoCode());

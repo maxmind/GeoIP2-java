@@ -10,14 +10,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * This record is returned by all the end points except the Country end point.
  */
-public class Postal {
+public class PostalRecord {
     @JsonProperty
     private String code;
 
     @JsonProperty
     private Integer confidence;
 
-    public Postal() {
+    public PostalRecord() {
         // TODO Auto-generated constructor stub
     }
 

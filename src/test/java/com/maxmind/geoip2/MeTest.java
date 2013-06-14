@@ -1,4 +1,4 @@
-package com.maxmind.geoip2.webservice;
+package com.maxmind.geoip2;
 
 import static org.junit.Assert.assertEquals;
 
@@ -8,40 +8,41 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.exception.GeoIP2Exception;
+import com.maxmind.geoip2.WebServiceClient;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
 
 public class MeTest {
-    private Client client;
+    private WebServiceClient client;
 
     @Before
     public void createClient() {
         HttpTransport transport = new TestTransport();
 
-        this.client = new Client.Builder(42, "abcdef123456").transport(
+        this.client = new WebServiceClient.Builder(42, "abcdef123456").transport(
                 transport).build();
 
     }
 
     @Test
-    public void omni() throws IOException, GeoIP2Exception {
+    public void omni() throws IOException, GeoIp2Exception {
         assertEquals(this.client.omni().getTraits().getIpAddress(),
                 "24.24.24.24");
     }
 
     @Test
-    public void cityIspOrg() throws IOException, GeoIP2Exception {
+    public void cityIspOrg() throws IOException, GeoIp2Exception {
         assertEquals(this.client.cityIspOrg().getTraits().getIpAddress(),
                 "24.24.24.24");
     }
 
     @Test
-    public void city() throws IOException, GeoIP2Exception {
+    public void city() throws IOException, GeoIp2Exception {
         assertEquals(this.client.city().getTraits().getIpAddress(),
                 "24.24.24.24");
     }
 
     @Test
-    public void country() throws IOException, GeoIP2Exception {
+    public void country() throws IOException, GeoIp2Exception {
         assertEquals(this.client.country().getTraits().getIpAddress(),
                 "24.24.24.24");
     }

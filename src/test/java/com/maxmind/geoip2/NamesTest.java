@@ -1,4 +1,4 @@
-package com.maxmind.geoip2.webservice;
+package com.maxmind.geoip2;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -11,19 +11,20 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.exception.GeoIP2Exception;
-import com.maxmind.geoip2.model.CityIspOrgLookup;
+import com.maxmind.geoip2.WebServiceClient;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.maxmind.geoip2.model.CityIspOrg;
 
 public class NamesTest {
     HttpTransport transport = new TestTransport();
 
     @Test
-    public void testNames() throws IOException, GeoIP2Exception {
-        Client client = new Client.Builder(42, "abcdef123456")
+    public void testNames() throws IOException, GeoIp2Exception {
+        WebServiceClient client = new WebServiceClient.Builder(42, "abcdef123456")
                 .transport(this.transport)
                 .languages(Arrays.asList("zh-CN", "ru")).build();
 
-        CityIspOrgLookup cio = client.cityIspOrg(InetAddress
+        CityIspOrg cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
         assertEquals("country.getContinent().getName() does not return 北美洲",
                 "北美洲", cio.getContinent().getName());
@@ -34,12 +35,12 @@ public class NamesTest {
     }
 
     @Test
-    public void russianFallback() throws IOException, GeoIP2Exception {
-        Client client = new Client.Builder(42, "abcdef123456")
+    public void russianFallback() throws IOException, GeoIp2Exception {
+        WebServiceClient client = new WebServiceClient.Builder(42, "abcdef123456")
                 .transport(this.transport).languages(Arrays.asList("as", "ru"))
                 .build();
 
-        CityIspOrgLookup cio = client.cityIspOrg(InetAddress
+        CityIspOrg cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
         assertEquals(
                 "country.getCountry().getName() does not return объединяет государства",
@@ -48,11 +49,11 @@ public class NamesTest {
     }
 
     @Test
-    public void testFallback() throws IOException, GeoIP2Exception {
-        Client client = new Client.Builder(42, "abcdef123456")
+    public void testFallback() throws IOException, GeoIp2Exception {
+        WebServiceClient client = new WebServiceClient.Builder(42, "abcdef123456")
                 .transport(this.transport)
                 .languages(Arrays.asList("pt", "en", "zh-CN")).build();
-        CityIspOrgLookup cio = client.cityIspOrg(InetAddress
+        CityIspOrg cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
         assertEquals("en is returned when pt is missing", cio.getContinent()
                 .getName(), "North America");
@@ -60,11 +61,11 @@ public class NamesTest {
     }
 
     @Test
-    public void noFallback() throws IOException, GeoIP2Exception {
-        Client client = new Client.Builder(42, "abcdef123456")
+    public void noFallback() throws IOException, GeoIp2Exception {
+        WebServiceClient client = new WebServiceClient.Builder(42, "abcdef123456")
                 .transport(this.transport)
                 .languages(Arrays.asList("pt", "es", "af")).build();
-        CityIspOrgLookup cio = client.cityIspOrg(InetAddress
+        CityIspOrg cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
 
         assertNull("null is returned when language is not available", cio
@@ -72,10 +73,10 @@ public class NamesTest {
     }
 
     @Test
-    public void noLanguage() throws IOException, GeoIP2Exception {
-        Client client = new Client.Builder(42, "abcdef123456").transport(
+    public void noLanguage() throws IOException, GeoIp2Exception {
+        WebServiceClient client = new WebServiceClient.Builder(42, "abcdef123456").transport(
                 this.transport).build();
-        CityIspOrgLookup cio = client.cityIspOrg(InetAddress
+        CityIspOrg cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
         assertEquals("en is returned when no languages are specified", cio
                 .getContinent().getName(), "North America");
@@ -83,12 +84,12 @@ public class NamesTest {
     }
 
     @Test
-    public void testMissing() throws IOException, GeoIP2Exception {
-        Client client = new Client.Builder(42, "abcdef123456")
+    public void testMissing() throws IOException, GeoIp2Exception {
+        WebServiceClient client = new WebServiceClient.Builder(42, "abcdef123456")
                 .transport(this.transport).languages(Arrays.asList("en"))
                 .build();
 
-        CityIspOrgLookup cio = client.cityIspOrg(InetAddress
+        CityIspOrg cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
         assertNotNull(cio.getCity());
         assertNull("null is returned when names object is missing", cio

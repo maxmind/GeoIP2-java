@@ -11,11 +11,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * This record is returned by all the end points.
  */
-public class RepresentedCountry extends Country {
+public class RepresentedCountryRecord extends CountryRecord {
     @JsonProperty
     private String type;
 
-    public RepresentedCountry() {
+    public RepresentedCountryRecord() {
     }
 
     /**

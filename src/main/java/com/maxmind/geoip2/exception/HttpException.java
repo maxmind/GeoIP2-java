@@ -5,7 +5,7 @@ import java.net.URL;
 /**
  * This class represents an HTTP transport error.
  */
-public class HttpException extends GeoIP2Exception {
+public class HttpException extends GeoIp2Exception {
     private static final long serialVersionUID = -8301101841509056974L;
     private final int httpStatus;
     private final URL url;

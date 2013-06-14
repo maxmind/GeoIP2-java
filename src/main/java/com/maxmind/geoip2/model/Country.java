@@ -1,11 +1,11 @@
 package com.maxmind.geoip2.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.maxmind.geoip2.record.Continent;
-import com.maxmind.geoip2.record.Country;
-import com.maxmind.geoip2.record.MaxMind;
-import com.maxmind.geoip2.record.RepresentedCountry;
-import com.maxmind.geoip2.record.Traits;
+import com.maxmind.geoip2.record.ContinentRecord;
+import com.maxmind.geoip2.record.CountryRecord;
+import com.maxmind.geoip2.record.MaxMindRecord;
+import com.maxmind.geoip2.record.RepresentedCountryRecord;
+import com.maxmind.geoip2.record.TraitsRecord;
 
 /**
  * This class provides a model for the data returned by the GeoIP2 Country end
@@ -17,32 +17,32 @@ import com.maxmind.geoip2.record.Traits;
  * @see <a href="http://dev.maxmind.com/geoip/geoip2/web-services">GeoIP2 Web
  *      Services</a>
  */
-public class CountryLookup {
+public class Country {
     @JsonProperty
-    private Continent continent = new Continent();
+    private ContinentRecord continent = new ContinentRecord();
 
     @JsonProperty
-    private Country country = new Country();
+    private CountryRecord country = new CountryRecord();
 
     @JsonProperty("registered_country")
-    private Country registeredCountry = new Country();
+    private CountryRecord registeredCountry = new CountryRecord();
 
     @JsonProperty("maxmind")
-    private MaxMind maxmind = new MaxMind();
+    private MaxMindRecord maxmind = new MaxMindRecord();
 
     @JsonProperty("represented_country")
-    private RepresentedCountry representedCountry = new RepresentedCountry();
+    private RepresentedCountryRecord representedCountry = new RepresentedCountryRecord();
 
     @JsonProperty
-    private Traits traits = new Traits();
+    private TraitsRecord traits = new TraitsRecord();
 
-    public CountryLookup() {
+    public Country() {
     }
 
     /**
      * @return Continent record for the requested IP address.
      */
-    public Continent getContinent() {
+    public ContinentRecord getContinent() {
         return this.continent;
     }
 
@@ -51,14 +51,14 @@ public class CountryLookup {
      *         represents the country where MaxMind believes the end user is
      *         located.
      */
-    public Country getCountry() {
+    public CountryRecord getCountry() {
         return this.country;
     }
 
     /**
      * @return MaxMind record containing data related to your account.
      */
-    public MaxMind getMaxMind() {
+    public MaxMindRecord getMaxMind() {
         return this.maxmind;
     }
 
@@ -67,7 +67,7 @@ public class CountryLookup {
      *         record represents the country where the ISP has registered a
      *         given IP block and may differ from the user's country.
      */
-    public Country getRegisteredCountry() {
+    public CountryRecord getRegisteredCountry() {
         return this.registeredCountry;
     }
 
@@ -77,14 +77,14 @@ public class CountryLookup {
      *         embassies. It is only present when the represented country
      *         differs from the country.
      */
-    public RepresentedCountry getRepresentedCountry() {
+    public RepresentedCountryRecord getRepresentedCountry() {
         return this.representedCountry;
     }
 
     /**
      * @return Record for the traits of the requested IP address.
      */
-    public Traits getTraits() {
+    public TraitsRecord getTraits() {
         return this.traits;
     }
 
@@ -95,7 +95,7 @@ public class CountryLookup {
      */
     @Override
     public String toString() {
-        return "CountryLookup ["
+        return "Country ["
                 + (this.getContinent() != null ? "getContinent()="
                         + this.getContinent() + ", " : "")
                 + (this.getCountry() != null ? "getCountry()="

@@ -4,7 +4,7 @@ package com.maxmind.geoip2.exception;
  * This exception is thrown when your account does not have any queries
  * remaining for the called service.
  */
-public class OutOfQueriesException extends GeoIP2Exception {
+public class OutOfQueriesException extends GeoIp2Exception {
     private static final long serialVersionUID = 3843736987256336967L;
 
     /**

@@ -1,4 +1,4 @@
-package com.maxmind.geoip2.webservice;
+package com.maxmind.geoip2;
 
 import java.io.Closeable;
 import java.io.File;
@@ -20,17 +20,16 @@ import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.maxmind.geoip2.database.Reader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.AuthenticationException;
-import com.maxmind.geoip2.exception.GeoIP2Exception;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.exception.HttpException;
 import com.maxmind.geoip2.exception.InvalidRequestException;
 import com.maxmind.geoip2.exception.OutOfQueriesException;
-import com.maxmind.geoip2.model.CityIspOrgLookup;
-import com.maxmind.geoip2.model.CityLookup;
-import com.maxmind.geoip2.model.CountryLookup;
-import com.maxmind.geoip2.model.OmniLookup;
+import com.maxmind.geoip2.model.CityIspOrg;
+import com.maxmind.geoip2.model.City;
+import com.maxmind.geoip2.model.Country;
+import com.maxmind.geoip2.model.Omni;
 
 /**
  * <p>
@@ -99,20 +98,20 @@ import com.maxmind.geoip2.model.OmniLookup;
  * 
  * <p>
  * Finally, if the web service returns a 200 but the body is invalid, the client
- * throws a {@link GeoIP2Exception}.
+ * throws a {@link GeoIp2Exception}.
  * </p>
  */
-public class Client implements Closeable {
+public class WebServiceClient implements Closeable {
     private final String host;
     private final List<String> languages;
     private final String licenseKey;
     private final int timeout;
     private final HttpTransport transport;
     private final int userId;
-    private final Reader fallbackDatabase;
+    private final DatabaseReader fallbackDatabase;
 
     @SuppressWarnings("synthetic-access")
-    private Client(Builder builder) {
+    private WebServiceClient(Builder builder) {
         this.fallbackDatabase = builder.fallbackDatabase;
         this.host = builder.host;
         this.languages = builder.languages;
@@ -124,13 +123,13 @@ public class Client implements Closeable {
 
     /**
      * <code>Builder</code> creates instances of
-     * <code>Client</client> from values set by the methods.
+     * <code>WebServiceClient</client> from values set by the methods.
      *  
-     *  This example shows how to create a <code>Client</code> object with the
+     *  This example shows how to create a <code>WebServiceClient</code> object with the
      * <code>Builder</code>:
      * 
-     * Client client = new
-     * Client.Builder(12,"licensekey").host("geoip.maxmind.com").build();
+     * WebServiceClient client = new
+     * WebServiceClient.Builder(12,"licensekey").host("geoip.maxmind.com").build();
      * 
      * Only the values set in the <code>Builder</code> constructor are required.
      */
@@ -142,7 +141,7 @@ public class Client implements Closeable {
         private List<String> languages = Arrays.asList("en");
         private int timeout = 3000;
         private HttpTransport transport = new NetHttpTransport();
-        private Reader fallbackDatabase;
+        private DatabaseReader fallbackDatabase;
 
         /**
          * @param userId
@@ -162,7 +161,7 @@ public class Client implements Closeable {
          * @throws IOException
          */
         public Builder fallbackDatabase(File val) throws IOException {
-            this.fallbackDatabase = new Reader(val);
+            this.fallbackDatabase = new DatabaseReader(val);
             return this;
         }
 
@@ -202,21 +201,21 @@ public class Client implements Closeable {
         }
 
         /**
-         * @return an instance of <code>Client</code> created from the fields
+         * @return an instance of <code>WebServiceClient</code> created from the fields
          *         set on this builder.
          */
         @SuppressWarnings("synthetic-access")
-        public Client build() {
-            return new Client(this);
+        public WebServiceClient build() {
+            return new WebServiceClient(this);
         }
     }
 
     /**
      * @return A Country lookup for the requesting IP address
-     * @throws GeoIP2Exception
+     * @throws GeoIp2Exception
      * @throws IOException
      */
-    public CountryLookup country() throws IOException, GeoIP2Exception {
+    public Country country() throws IOException, GeoIp2Exception {
         return this.country(null);
     }
 
@@ -224,20 +223,20 @@ public class Client implements Closeable {
      * @param ipAddress
      *            IPv4 or IPv6 address to lookup.
      * @return A Country lookup for the requested IP address.
-     * @throws GeoIP2Exception
+     * @throws GeoIp2Exception
      * @throws IOException
      */
-    public CountryLookup country(InetAddress ipAddress) throws IOException,
-            GeoIP2Exception {
-        return this.responseFor("country", ipAddress, CountryLookup.class);
+    public Country country(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.responseFor("country", ipAddress, Country.class);
     }
 
     /**
      * @return A City lookup for the requesting IP address
-     * @throws GeoIP2Exception
+     * @throws GeoIp2Exception
      * @throws IOException
      */
-    public CityLookup city() throws IOException, GeoIP2Exception {
+    public City city() throws IOException, GeoIp2Exception {
         return this.city(null);
     }
 
@@ -245,20 +244,20 @@ public class Client implements Closeable {
      * @param ipAddress
      *            IPv4 or IPv6 address to lookup.
      * @return A City lookup for the requested IP address.
-     * @throws GeoIP2Exception
+     * @throws GeoIp2Exception
      * @throws IOException
      */
-    public CityLookup city(InetAddress ipAddress) throws IOException,
-            GeoIP2Exception {
-        return this.responseFor("city", ipAddress, CityLookup.class);
+    public City city(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.responseFor("city", ipAddress, City.class);
     }
 
     /**
      * @return A City/ISP/Org lookup for the requesting IP address
-     * @throws GeoIP2Exception
+     * @throws GeoIp2Exception
      * @throws IOException
      */
-    public CityIspOrgLookup cityIspOrg() throws IOException, GeoIP2Exception {
+    public CityIspOrg cityIspOrg() throws IOException, GeoIp2Exception {
         return this.cityIspOrg(null);
     }
 
@@ -266,21 +265,21 @@ public class Client implements Closeable {
      * @param ipAddress
      *            IPv4 or IPv6 address to lookup.
      * @return A City/ISP/Org lookup for the requested IP address.
-     * @throws GeoIP2Exception
+     * @throws GeoIp2Exception
      * @throws IOException
      */
-    public CityIspOrgLookup cityIspOrg(InetAddress ipAddress)
-            throws IOException, GeoIP2Exception {
+    public CityIspOrg cityIspOrg(InetAddress ipAddress)
+            throws IOException, GeoIp2Exception {
         return this.responseFor("city_isp_org", ipAddress,
-                CityIspOrgLookup.class);
+                CityIspOrg.class);
     }
 
     /**
      * @return An Omni lookup for the requesting IP address
-     * @throws GeoIP2Exception
+     * @throws GeoIp2Exception
      * @throws IOException
      */
-    public OmniLookup omni() throws IOException, GeoIP2Exception {
+    public Omni omni() throws IOException, GeoIp2Exception {
         return this.omni(null);
     }
 
@@ -288,20 +287,20 @@ public class Client implements Closeable {
      * @param ipAddress
      *            IPv4 or IPv6 address to lookup.
      * @return An Omni lookup for the requested IP address.
-     * @throws GeoIP2Exception
+     * @throws GeoIp2Exception
      * @throws IOException
      */
-    public OmniLookup omni(InetAddress ipAddress) throws IOException,
-            GeoIP2Exception {
-        return this.responseFor("omni", ipAddress, OmniLookup.class);
+    public Omni omni(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.responseFor("omni", ipAddress, Omni.class);
     }
 
-    private <T extends CountryLookup> T responseFor(String path,
+    private <T extends Country> T responseFor(String path,
             InetAddress ipAddress, Class<T> cls) throws IOException,
-            GeoIP2Exception {
+            GeoIp2Exception {
         try {
             return this.webServiceResponseFor(path, ipAddress, cls);
-        } catch (GeoIP2Exception e) {
+        } catch (GeoIp2Exception e) {
             if (this.fallbackDatabase != null) {
                 return this.fallbackDatabase.get(ipAddress);
             }
@@ -309,8 +308,8 @@ public class Client implements Closeable {
         }
     }
 
-    private <T extends CountryLookup> T webServiceResponseFor(String path,
-            InetAddress ipAddress, Class<T> cls) throws GeoIP2Exception,
+    private <T extends Country> T webServiceResponseFor(String path,
+            InetAddress ipAddress, Class<T> cls) throws GeoIp2Exception,
             AddressNotFoundException {
         GenericUrl uri = this.createUri(path, ipAddress);
         HttpResponse response = this.getResponse(uri);
@@ -318,11 +317,11 @@ public class Client implements Closeable {
         Long content_length = response.getHeaders().getContentLength();
 
         if (content_length == null || content_length.intValue() <= 0) {
-            throw new GeoIP2Exception("Received a 200 response for " + uri
+            throw new GeoIp2Exception("Received a 200 response for " + uri
                     + " but there was no message body.");
         }
 
-        String body = Client.getSuccessBody(response, uri);
+        String body = WebServiceClient.getSuccessBody(response, uri);
 
         InjectableValues inject = new InjectableValues.Std().addValue(
                 "languages", this.languages);
@@ -333,13 +332,13 @@ public class Client implements Closeable {
         try {
             return mapper.reader(cls).with(inject).readValue(body);
         } catch (IOException e) {
-            throw new GeoIP2Exception(
+            throw new GeoIp2Exception(
                     "Received a 200 response but not decode it as JSON: "
                             + body);
         }
     }
 
-    private HttpResponse getResponse(GenericUrl uri) throws GeoIP2Exception,
+    private HttpResponse getResponse(GenericUrl uri) throws GeoIp2Exception,
             AddressNotFoundException {
         HttpRequestFactory requestFactory = this.transport
                 .createRequestFactory();
@@ -347,7 +346,7 @@ public class Client implements Closeable {
         try {
             request = requestFactory.buildGetRequest(uri);
         } catch (IOException e) {
-            throw new GeoIP2Exception("Error building request", e);
+            throw new GeoIp2Exception("Error building request", e);
         }
         request.setConnectTimeout(this.timeout);
 
@@ -358,39 +357,39 @@ public class Client implements Closeable {
         try {
             return request.execute();
         } catch (HttpResponseException e) {
-            Client.handleErrorStatus(e.getContent(), e.getStatusCode(), uri);
+            WebServiceClient.handleErrorStatus(e.getContent(), e.getStatusCode(), uri);
             throw new AssertionError(
                     "Something very strange happened. This code should be unreachable.");
         } catch (IOException e) {
-            throw new GeoIP2Exception(
+            throw new GeoIp2Exception(
                     "Unknown error when connecting to web service: "
                             + e.getMessage(), e);
         }
     }
 
     private static String getSuccessBody(HttpResponse response, GenericUrl uri)
-            throws GeoIP2Exception {
+            throws GeoIp2Exception {
         String body;
         try {
             body = response.parseAsString();
         } catch (IOException e) {
-            throw new GeoIP2Exception(
+            throw new GeoIp2Exception(
                     "Received a 200 response but not decode message body: "
                             + e.getMessage());
         }
 
         if (response.getContentType() == null
                 || !response.getContentType().contains("json")) {
-            throw new GeoIP2Exception("Received a 200 response for " + uri
+            throw new GeoIp2Exception("Received a 200 response for " + uri
                     + " but it does not appear to be JSON:\n" + body);
         }
         return body;
     }
 
     private static void handleErrorStatus(String content, int status,
-            GenericUrl uri) throws AddressNotFoundException, GeoIP2Exception {
+            GenericUrl uri) throws AddressNotFoundException, GeoIp2Exception {
         if ((status >= 400) && (status < 500)) {
-            Client.handle4xxStatus(content, status, uri);
+            WebServiceClient.handle4xxStatus(content, status, uri);
         } else if ((status >= 500) && (status < 600)) {
             throw new HttpException("Received a server error (" + status
                     + ") for " + uri, status, uri.toURL());
@@ -401,7 +400,7 @@ public class Client implements Closeable {
     }
 
     private static void handle4xxStatus(String body, int status, GenericUrl uri)
-            throws AddressNotFoundException, GeoIP2Exception {
+            throws AddressNotFoundException, GeoIp2Exception {
 
         if (body == null) {
             throw new HttpException("Received a " + status + " error for "
@@ -415,7 +414,7 @@ public class Client implements Closeable {
                     new TypeReference<HashMap<String, String>>() {
                     });
             handleErrorWithJsonBody(content, body, status, uri);
-        } catch (GeoIP2Exception e) {
+        } catch (GeoIp2Exception e) {
             throw e;
         } catch (IOException e) {
             throw new HttpException("Received a " + status + " error for "
@@ -425,7 +424,7 @@ public class Client implements Closeable {
     }
 
     private static void handleErrorWithJsonBody(Map<String, String> content,
-            String body, int status, GenericUrl uri) throws GeoIP2Exception {
+            String body, int status, GenericUrl uri) throws GeoIp2Exception {
         String error = content.get("error");
         String code = content.get("code");
 

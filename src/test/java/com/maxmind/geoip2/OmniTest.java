@@ -1,4 +1,4 @@
-package com.maxmind.geoip2.webservice;
+package com.maxmind.geoip2;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -12,22 +12,23 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.exception.GeoIP2Exception;
-import com.maxmind.geoip2.model.OmniLookup;
-import com.maxmind.geoip2.record.Location;
-import com.maxmind.geoip2.record.MaxMind;
-import com.maxmind.geoip2.record.Postal;
-import com.maxmind.geoip2.record.Subdivision;
-import com.maxmind.geoip2.record.Traits;
+import com.maxmind.geoip2.WebServiceClient;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.maxmind.geoip2.model.Omni;
+import com.maxmind.geoip2.record.LocationRecord;
+import com.maxmind.geoip2.record.MaxMindRecord;
+import com.maxmind.geoip2.record.PostalRecord;
+import com.maxmind.geoip2.record.SubdivisionRecord;
+import com.maxmind.geoip2.record.TraitsRecord;
 
 public class OmniTest {
-    private OmniLookup omni;
+    private Omni omni;
 
     @Before
-    public void createClient() throws IOException, GeoIP2Exception {
+    public void createClient() throws IOException, GeoIp2Exception {
         HttpTransport transport = new TestTransport();
 
-        Client client = new Client.Builder(42, "012345689")
+        WebServiceClient client = new WebServiceClient.Builder(42, "012345689")
                 .transport(transport).build();
 
         this.omni = client.omni(InetAddress.getByName("1.1.1.1"));
@@ -35,12 +36,12 @@ public class OmniTest {
 
     @Test
     public void testSubdivisionsList() {
-        List<Subdivision> subdivisionsList = this.omni.getSubdivisionsList();
+        List<SubdivisionRecord> subdivisionsList = this.omni.getSubdivisionsList();
         assertNotNull("city.getSubdivisionsList returns null", subdivisionsList);
         if (subdivisionsList.size() == 0) {
             fail("subdivisionsList is empty");
         }
-        Subdivision subdivision = subdivisionsList.get(0);
+        SubdivisionRecord subdivision = subdivisionsList.get(0);
         assertEquals("subdivision.getConfidence() does not return 88",
                 new Integer(88), subdivision.getConfidence());
         assertEquals("subdivision.getGeoNameId() does not return 574635",
@@ -58,7 +59,7 @@ public class OmniTest {
     @SuppressWarnings("boxing")
     @Test
     public void testTraits() {
-        Traits traits = this.omni.getTraits();
+        TraitsRecord traits = this.omni.getTraits();
 
         assertNotNull("city.getTraits() returns null", traits);
         assertEquals("traits.getAutonomousSystemNumber() does not return 1234",
@@ -86,7 +87,7 @@ public class OmniTest {
     @Test
     public void testLocation() {
 
-        Location location = this.omni.getLocation();
+        LocationRecord location = this.omni.getLocation();
 
         assertNotNull("city.getLocation() returns null", location);
 
@@ -107,7 +108,7 @@ public class OmniTest {
 
     @Test
     public void testMaxMind() {
-        MaxMind maxmind = this.omni.getMaxMind();
+        MaxMindRecord maxmind = this.omni.getMaxMind();
         assertEquals("Correct number of queries remaining", 11, maxmind
                 .getQueriesRemaining().intValue());
     }
@@ -115,7 +116,7 @@ public class OmniTest {
     @Test
     public void testPostal() {
 
-        Postal postal = this.omni.getPostal();
+        PostalRecord postal = this.omni.getPostal();
         assertEquals("postal.getCode() does not return 55401", "55401",
                 postal.getCode());
         assertEquals("postal.getConfidence() does not return 33", new Integer(
