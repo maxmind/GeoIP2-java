@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.model.Country;
 import com.maxmind.geoip2.model.Omni;
+import com.maxmind.maxminddb.MaxMindDbReader;
 
 /**
  * Instances of this class provide a reader for the GeoIP2 database format. IP
@@ -22,7 +23,7 @@ import com.maxmind.geoip2.model.Omni;
 public class DatabaseReader implements Closeable {
 
     // This is sort of annoying. Rename one of the two?
-    private final com.maxmind.maxminddb.Reader reader;
+    private final MaxMindDbReader reader;
 
     private final ObjectMapper om;
 
@@ -51,8 +52,9 @@ public class DatabaseReader implements Closeable {
      * @throws IOException
      *             if there is an error opening or reading from the file.
      */
-    public DatabaseReader(File database, List<String> languages) throws IOException {
-        this.reader = new com.maxmind.maxminddb.Reader(database);
+    public DatabaseReader(File database, List<String> languages)
+            throws IOException {
+        this.reader = new MaxMindDbReader(database);
         this.om = new ObjectMapper();
         this.om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
                 false);
@@ -70,8 +72,8 @@ public class DatabaseReader implements Closeable {
      * @throws AddressNotFoundException
      *             if the IP address is not in our database
      */
-    public <T extends Country> T get(InetAddress ipAddress)
-            throws IOException, AddressNotFoundException {
+    public <T extends Country> T get(InetAddress ipAddress) throws IOException,
+            AddressNotFoundException {
         ObjectNode node = (ObjectNode) this.reader.get(ipAddress);
 
         // XXX - I am not sure Java programmers would expect an exception here,
