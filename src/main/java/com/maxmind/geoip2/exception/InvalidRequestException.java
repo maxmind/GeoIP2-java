@@ -3,25 +3,26 @@ package com.maxmind.geoip2.exception;
 import java.net.URL;
 
 /**
- * This class represents an error returned by MaxMind's GeoIP2 web service.
+ * This class represents a non-specific error returned by MaxMind's GeoIP2 web
+ * service. This occurs when the web service is up and responding to requests,
+ * but the request sent was invalid in some way.
  */
-public class WebServiceException extends HttpException {
+public class InvalidRequestException extends GeoIP2Exception {
     private static final long serialVersionUID = 8662062420258379643L;
     private final String code;
+    private final URL url;
 
     /**
      * @param message
      *            A message explaining the cause of the error.
      * @param code
      *            The error code returned by the web service.
-     * @param httpStatus
-     *            The HTTP status of the response.
      * @param url
      *            The URL queried.
      */
-    public WebServiceException(String message, String code, int httpStatus,
-            URL url) {
-        super(message, httpStatus, url);
+    public InvalidRequestException(String message, String code, URL url) {
+        super(message);
+        this.url = url;
         this.code = code;
     }
 
@@ -37,10 +38,11 @@ public class WebServiceException extends HttpException {
      * @param e
      *            The cause of the exception.
      */
-    public WebServiceException(String message, String code, int httpStatus,
+    public InvalidRequestException(String message, String code, int httpStatus,
             URL url, Throwable e) {
-        super(message, httpStatus, url, e);
+        super(message, e);
         this.code = code;
+        this.url = url;
     }
 
     /**
@@ -48,5 +50,12 @@ public class WebServiceException extends HttpException {
      */
     public String getCode() {
         return this.code;
+    }
+
+    /**
+     * @return the URL queried.
+     */
+    public URL getUrl() {
+        return this.url;
     }
 }

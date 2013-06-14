@@ -3,9 +3,9 @@ package com.maxmind.geoip2.matchers;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 
-import com.maxmind.geoip2.exception.WebServiceException;
+import com.maxmind.geoip2.exception.InvalidRequestException;
 
-public class CodeMatcher extends TypeSafeMatcher<WebServiceException> {
+public class CodeMatcher extends TypeSafeMatcher<InvalidRequestException> {
 
     private String foundErrorCode;
     private final String expectedErrorCode;
@@ -19,7 +19,7 @@ public class CodeMatcher extends TypeSafeMatcher<WebServiceException> {
     }
 
     @Override
-    protected boolean matchesSafely(final WebServiceException exception) {
+    protected boolean matchesSafely(final InvalidRequestException exception) {
         this.foundErrorCode = exception.getCode();
         return this.foundErrorCode.equalsIgnoreCase(this.expectedErrorCode);
     }

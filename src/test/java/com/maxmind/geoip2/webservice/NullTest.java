@@ -20,7 +20,7 @@ import com.maxmind.geoip2.record.Continent;
 import com.maxmind.geoip2.record.Country;
 import com.maxmind.geoip2.record.Location;
 import com.maxmind.geoip2.record.MaxMind;
-import com.maxmind.geoip2.record.RecordWithNames;
+import com.maxmind.geoip2.record.AbstractNamedRecord;
 import com.maxmind.geoip2.record.RepresentedCountry;
 import com.maxmind.geoip2.record.Subdivision;
 import com.maxmind.geoip2.record.Traits;
@@ -101,7 +101,7 @@ public class NullTest {
             assertNull(c.getIsoCode());
         }
 
-        for (RecordWithNames r : new RecordWithNames[] { city, continent,
+        for (AbstractNamedRecord r : new AbstractNamedRecord[] { city, continent,
                 country, registeredCountry, representedCountry, subdiv }) {
             assertNull(r.getGeoNameId());
             assertNull(r.getName());

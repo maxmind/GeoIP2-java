@@ -3,9 +3,9 @@ package com.maxmind.geoip2.matchers;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 
-import com.maxmind.geoip2.exception.WebServiceException;
+import com.maxmind.geoip2.exception.HttpException;
 
-public class HttpStatusMatcher extends TypeSafeMatcher<WebServiceException> {
+public class HttpStatusMatcher extends TypeSafeMatcher<HttpException> {
 
     private int foundStatusCode;
     private final int expectedStatusCode;
@@ -19,7 +19,7 @@ public class HttpStatusMatcher extends TypeSafeMatcher<WebServiceException> {
     }
 
     @Override
-    protected boolean matchesSafely(final WebServiceException exception) {
+    protected boolean matchesSafely(final HttpException exception) {
         this.foundStatusCode = exception.getHttpStatus();
         return this.foundStatusCode == this.expectedStatusCode;
     }

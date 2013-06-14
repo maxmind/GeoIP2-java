@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Abstract class for records with name maps.
  */
-public abstract class RecordWithNames {
+public abstract class AbstractNamedRecord {
     @JsonProperty
     private HashMap<String, String> names = new HashMap<String, String>();
     @JsonProperty("geoname_id")
@@ -20,7 +20,7 @@ public abstract class RecordWithNames {
     @JacksonInject("languages")
     private List<String> languages = new ArrayList<String>();
 
-    RecordWithNames() {
+    AbstractNamedRecord() {
     }
 
     /**

@@ -25,8 +25,8 @@ import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.AuthenticationException;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.exception.HttpException;
+import com.maxmind.geoip2.exception.InvalidRequestException;
 import com.maxmind.geoip2.exception.OutOfQueriesException;
-import com.maxmind.geoip2.exception.WebServiceException;
 import com.maxmind.geoip2.model.CityIspOrgLookup;
 import com.maxmind.geoip2.model.CityLookup;
 import com.maxmind.geoip2.model.CountryLookup;
@@ -85,11 +85,11 @@ import com.maxmind.geoip2.model.OmniLookup;
  * 
  * <p>
  * If the web service returns an explicit error document, this is thrown as a
- * {@link WebServiceException}. If some other sort of transport error occurs,
- * this is thrown as a {@link HttpException}. The difference is that the web
- * service error includes an error message and error code delivered by the web
- * service. The latter is thrown when some sort of unanticipated error occurs,
- * such as the web service returning a 500 or an invalid error document.
+ * {@link InvalidRequestException}. If some other sort of transport error
+ * occurs, this is thrown as a {@link HttpException}. The difference is that the
+ * web service error includes an error message and error code delivered by the
+ * web service. The latter is thrown when some sort of unanticipated error
+ * occurs, such as the web service returning a 500 or an invalid error document.
  * </p>
  * 
  * <p>
@@ -447,7 +447,7 @@ public class Client implements Closeable {
         }
 
         // These should be fairly rare
-        throw new WebServiceException(error, code, status, uri.toURL());
+        throw new InvalidRequestException(error, code, uri.toURL());
 
     }
 

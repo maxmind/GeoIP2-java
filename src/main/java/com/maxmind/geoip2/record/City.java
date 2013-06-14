@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * This record is returned by all the end points except the Country end point.
  */
-public class City extends RecordWithNames {
+public class City extends AbstractNamedRecord {
     @JsonProperty
     private Integer confidence;
 

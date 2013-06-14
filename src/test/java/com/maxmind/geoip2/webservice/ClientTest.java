@@ -15,8 +15,8 @@ import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.AuthenticationException;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.exception.HttpException;
+import com.maxmind.geoip2.exception.InvalidRequestException;
 import com.maxmind.geoip2.exception.OutOfQueriesException;
-import com.maxmind.geoip2.exception.WebServiceException;
 import com.maxmind.geoip2.matchers.CodeMatcher;
 import com.maxmind.geoip2.matchers.HttpStatusMatcher;
 import com.maxmind.geoip2.model.CountryLookup;
@@ -66,9 +66,8 @@ public class ClientTest {
 
     @Test
     public void webServiceError() throws IOException, GeoIP2Exception {
-        this.exception.expect(WebServiceException.class);
+        this.exception.expect(InvalidRequestException.class);
         this.exception.expect(CodeMatcher.hasCode("IP_ADDRESS_INVALID"));
-        this.exception.expect(HttpStatusMatcher.hasStatus(400));
         this.exception
                 .expectMessage(containsString("The value 1.2.3 is not a valid ip address"));
 
@@ -80,6 +79,7 @@ public class ClientTest {
         this.exception.expect(HttpException.class);
         this.exception
                 .expectMessage(containsString("Received a 400 error for https://geoip.maxmind.com/geoip/v2.0/country/1.2.3.7 with no body"));
+        this.exception.expect(HttpStatusMatcher.hasStatus(400));
 
         this.client.country(InetAddress.getByName("1.2.3.7"));
     }
