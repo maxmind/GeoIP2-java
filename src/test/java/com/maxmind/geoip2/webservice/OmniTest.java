@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.exception.AddressNotFoundException;
+import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.model.OmniLookup;
 import com.maxmind.geoip2.record.Location;
 import com.maxmind.geoip2.record.MaxMind;
@@ -24,7 +24,7 @@ public class OmniTest {
     private OmniLookup omni;
 
     @Before
-    public void createClient() throws IOException, AddressNotFoundException {
+    public void createClient() throws IOException, GeoIP2Exception {
         HttpTransport transport = new TestTransport();
 
         Client client = new Client.Builder(42, "012345689")

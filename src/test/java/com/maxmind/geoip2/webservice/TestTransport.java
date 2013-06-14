@@ -128,6 +128,22 @@ public final class TestTransport extends MockHttpTransport {
                     String body = "{\"code\":\"IP_ADDRESS_RESERVED\","
                             + "\"error\":\"The value 1.2.3.17 belongs to a reserved or private range.\"}";
                     return this.getResponse("error", 400, body);
+                } else if (path.equals("country/1.2.3.18")) {
+                    String body = "{\"code\":\"AUTHORIZATION_INVALID\","
+                            + "\"error\":\"You have supplied an invalid MaxMind user ID and/or license key in the Authorization header.\"}";
+                    return this.getResponse("error", 401, body);
+                } else if (path.equals("country/1.2.3.19")) {
+                    String body = "{\"code\":\"LICENSE_KEY_REQUIRED\","
+                            + "\"error\":\"You have not supplied a MaxMind license key in the Authorization header.\"}";
+                    return this.getResponse("error", 401, body);
+                } else if (path.equals("country/1.2.3.20")) {
+                    String body = "{\"code\":\"USER_ID_REQUIRED\","
+                            + "\"error\":\"You have not supplied a MaxMind user ID in the Authorization header.\"}";
+                    return this.getResponse("error", 401, body);
+                } else if (path.equals("country/1.2.3.21")) {
+                    String body = "{\"code\":\"OUT_OF_QUERIES\","
+                            + "\"error\":\"The license key you have provided is out of queries. Please purchase more queries to use this service.\"}";
+                    return this.getResponse("error", 402, body);
                 } else if (path
                         .equals("https://blah.com/geoip/v2.0/omni/128.101.101.101")) {
                     return this

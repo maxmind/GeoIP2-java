@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.exception.AddressNotFoundException;
+import com.maxmind.geoip2.exception.GeoIP2Exception;
 
 public class MeTest {
     private Client client;
@@ -23,25 +23,25 @@ public class MeTest {
     }
 
     @Test
-    public void omni() throws IOException, AddressNotFoundException {
+    public void omni() throws IOException, GeoIP2Exception {
         assertEquals(this.client.omni().getTraits().getIpAddress(),
                 "24.24.24.24");
     }
 
     @Test
-    public void cityIspOrg() throws IOException, AddressNotFoundException {
+    public void cityIspOrg() throws IOException, GeoIP2Exception {
         assertEquals(this.client.cityIspOrg().getTraits().getIpAddress(),
                 "24.24.24.24");
     }
 
     @Test
-    public void city() throws IOException, AddressNotFoundException {
+    public void city() throws IOException, GeoIP2Exception {
         assertEquals(this.client.city().getTraits().getIpAddress(),
                 "24.24.24.24");
     }
 
     @Test
-    public void country() throws IOException, AddressNotFoundException {
+    public void country() throws IOException, GeoIP2Exception {
         assertEquals(this.client.country().getTraits().getIpAddress(),
                 "24.24.24.24");
     }

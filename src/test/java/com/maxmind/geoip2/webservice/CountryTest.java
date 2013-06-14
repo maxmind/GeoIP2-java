@@ -9,14 +9,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.exception.AddressNotFoundException;
+import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.model.CountryLookup;
 
 public class CountryTest {
     private CountryLookup country;
 
     @Before
-    public void setUp() throws IOException, AddressNotFoundException {
+    public void setUp() throws IOException, GeoIP2Exception {
         HttpTransport transport = new TestTransport();
         Client client = new Client.Builder(42, "abcdef123456").transport(
                 transport).build();

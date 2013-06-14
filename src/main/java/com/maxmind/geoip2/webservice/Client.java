@@ -22,8 +22,10 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.maxmind.geoip2.database.Reader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
+import com.maxmind.geoip2.exception.AuthenticationException;
 import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.exception.HttpException;
+import com.maxmind.geoip2.exception.OutOfQueriesException;
 import com.maxmind.geoip2.exception.WebServiceException;
 import com.maxmind.geoip2.model.CityIspOrgLookup;
 import com.maxmind.geoip2.model.CityLookup;
@@ -211,10 +213,10 @@ public class Client implements Closeable {
 
     /**
      * @return A Country lookup for the requesting IP address
-     * @throws AddressNotFoundException
+     * @throws GeoIP2Exception
      * @throws IOException
      */
-    public CountryLookup country() throws IOException, AddressNotFoundException {
+    public CountryLookup country() throws IOException, GeoIP2Exception {
         return this.country(null);
     }
 
@@ -222,20 +224,20 @@ public class Client implements Closeable {
      * @param ipAddress
      *            IPv4 or IPv6 address to lookup.
      * @return A Country lookup for the requested IP address.
-     * @throws AddressNotFoundException
+     * @throws GeoIP2Exception
      * @throws IOException
      */
     public CountryLookup country(InetAddress ipAddress) throws IOException,
-            AddressNotFoundException {
+            GeoIP2Exception {
         return this.responseFor("country", ipAddress, CountryLookup.class);
     }
 
     /**
      * @return A City lookup for the requesting IP address
-     * @throws AddressNotFoundException
+     * @throws GeoIP2Exception
      * @throws IOException
      */
-    public CityLookup city() throws IOException, AddressNotFoundException {
+    public CityLookup city() throws IOException, GeoIP2Exception {
         return this.city(null);
     }
 
@@ -243,21 +245,20 @@ public class Client implements Closeable {
      * @param ipAddress
      *            IPv4 or IPv6 address to lookup.
      * @return A City lookup for the requested IP address.
-     * @throws AddressNotFoundException
+     * @throws GeoIP2Exception
      * @throws IOException
      */
     public CityLookup city(InetAddress ipAddress) throws IOException,
-            AddressNotFoundException {
+            GeoIP2Exception {
         return this.responseFor("city", ipAddress, CityLookup.class);
     }
 
     /**
      * @return A City/ISP/Org lookup for the requesting IP address
-     * @throws AddressNotFoundException
+     * @throws GeoIP2Exception
      * @throws IOException
      */
-    public CityIspOrgLookup cityIspOrg() throws IOException,
-            AddressNotFoundException {
+    public CityIspOrgLookup cityIspOrg() throws IOException, GeoIP2Exception {
         return this.cityIspOrg(null);
     }
 
@@ -265,21 +266,21 @@ public class Client implements Closeable {
      * @param ipAddress
      *            IPv4 or IPv6 address to lookup.
      * @return A City/ISP/Org lookup for the requested IP address.
-     * @throws AddressNotFoundException
+     * @throws GeoIP2Exception
      * @throws IOException
      */
     public CityIspOrgLookup cityIspOrg(InetAddress ipAddress)
-            throws IOException, AddressNotFoundException {
+            throws IOException, GeoIP2Exception {
         return this.responseFor("city_isp_org", ipAddress,
                 CityIspOrgLookup.class);
     }
 
     /**
      * @return An Omni lookup for the requesting IP address
-     * @throws AddressNotFoundException
+     * @throws GeoIP2Exception
      * @throws IOException
      */
-    public OmniLookup omni() throws IOException, AddressNotFoundException {
+    public OmniLookup omni() throws IOException, GeoIP2Exception {
         return this.omni(null);
     }
 
@@ -287,17 +288,17 @@ public class Client implements Closeable {
      * @param ipAddress
      *            IPv4 or IPv6 address to lookup.
      * @return An Omni lookup for the requested IP address.
-     * @throws AddressNotFoundException
+     * @throws GeoIP2Exception
      * @throws IOException
      */
     public OmniLookup omni(InetAddress ipAddress) throws IOException,
-            AddressNotFoundException {
+            GeoIP2Exception {
         return this.responseFor("omni", ipAddress, OmniLookup.class);
     }
 
     private <T extends CountryLookup> T responseFor(String path,
             InetAddress ipAddress, Class<T> cls) throws IOException,
-            AddressNotFoundException {
+            GeoIP2Exception {
         try {
             return this.webServiceResponseFor(path, ipAddress, cls);
         } catch (GeoIP2Exception e) {
@@ -424,8 +425,7 @@ public class Client implements Closeable {
     }
 
     private static void handleErrorWithJsonBody(Map<String, String> content,
-            String body, int status, GenericUrl uri) throws HttpException,
-            AddressNotFoundException {
+            String body, int status, GenericUrl uri) throws GeoIP2Exception {
         String error = content.get("error");
         String code = content.get("code");
 
@@ -438,9 +438,17 @@ public class Client implements Closeable {
         if (code.equals("IP_ADDRESS_NOT_FOUND")
                 || code.equals("IP_ADDRESS_RESERVED")) {
             throw new AddressNotFoundException(error);
+        } else if (code.equals("AUTHORIZATION_INVALID")
+                || code.equals("LICENSE_KEY_REQUIRED")
+                || code.equals("USER_ID_REQUIRED")) {
+            throw new AuthenticationException(error);
+        } else if (code.equals("OUT_OF_QUERIES")) {
+            throw new OutOfQueriesException(error);
         }
 
+        // These should be fairly rare
         throw new WebServiceException(error, code, status, uri.toURL());
+
     }
 
     private GenericUrl createUri(String path, InetAddress ipAddress) {

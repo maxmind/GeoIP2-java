@@ -1,12 +1,10 @@
 package com.maxmind.geoip2.exception;
 
-import java.io.IOException;
-
 /**
  * This class represents a generic GeoIP2 error. All other exceptions thrown by
  * the GeoIP2 API subclass this exception
  */
-public class GeoIP2Exception extends IOException {
+public class GeoIP2Exception extends Exception {
 
     private static final long serialVersionUID = -1923104535309628719L;
 

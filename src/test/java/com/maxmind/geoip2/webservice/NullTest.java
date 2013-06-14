@@ -13,7 +13,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.exception.AddressNotFoundException;
+import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.model.OmniLookup;
 import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Continent;
@@ -33,7 +33,7 @@ public class NullTest {
             .transport(this.transport).build();
 
     @Test
-    public void testDefaults() throws IOException, AddressNotFoundException {
+    public void testDefaults() throws IOException, GeoIP2Exception {
         OmniLookup omni = this.client.omni(InetAddress.getByName("1.2.3.13"));
 
         assertTrue(omni.toString().startsWith("OmniLookup"));

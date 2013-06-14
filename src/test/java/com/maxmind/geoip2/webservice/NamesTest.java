@@ -11,14 +11,14 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.exception.AddressNotFoundException;
+import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.model.CityIspOrgLookup;
 
 public class NamesTest {
     HttpTransport transport = new TestTransport();
 
     @Test
-    public void testNames() throws IOException, AddressNotFoundException {
+    public void testNames() throws IOException, GeoIP2Exception {
         Client client = new Client.Builder(42, "abcdef123456")
                 .transport(this.transport)
                 .languages(Arrays.asList("zh-CN", "ru")).build();
@@ -34,7 +34,7 @@ public class NamesTest {
     }
 
     @Test
-    public void russianFallback() throws IOException, AddressNotFoundException {
+    public void russianFallback() throws IOException, GeoIP2Exception {
         Client client = new Client.Builder(42, "abcdef123456")
                 .transport(this.transport).languages(Arrays.asList("as", "ru"))
                 .build();
@@ -48,7 +48,7 @@ public class NamesTest {
     }
 
     @Test
-    public void testFallback() throws IOException, AddressNotFoundException {
+    public void testFallback() throws IOException, GeoIP2Exception {
         Client client = new Client.Builder(42, "abcdef123456")
                 .transport(this.transport)
                 .languages(Arrays.asList("pt", "en", "zh-CN")).build();
@@ -60,7 +60,7 @@ public class NamesTest {
     }
 
     @Test
-    public void noFallback() throws IOException, AddressNotFoundException {
+    public void noFallback() throws IOException, GeoIP2Exception {
         Client client = new Client.Builder(42, "abcdef123456")
                 .transport(this.transport)
                 .languages(Arrays.asList("pt", "es", "af")).build();
@@ -72,7 +72,7 @@ public class NamesTest {
     }
 
     @Test
-    public void noLanguage() throws IOException, AddressNotFoundException {
+    public void noLanguage() throws IOException, GeoIP2Exception {
         Client client = new Client.Builder(42, "abcdef123456").transport(
                 this.transport).build();
         CityIspOrgLookup cio = client.cityIspOrg(InetAddress
@@ -83,7 +83,7 @@ public class NamesTest {
     }
 
     @Test
-    public void testMissing() throws IOException, AddressNotFoundException {
+    public void testMissing() throws IOException, GeoIP2Exception {
         Client client = new Client.Builder(42, "abcdef123456")
                 .transport(this.transport).languages(Arrays.asList("en"))
                 .build();

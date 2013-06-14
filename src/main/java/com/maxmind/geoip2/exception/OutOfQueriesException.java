@@ -1,16 +1,17 @@
 package com.maxmind.geoip2.exception;
 
 /**
- * This exception is thrown when the IP address is not found in the database.
- * This generally means that the address was a private or reserved address.
+ * This exception is thrown when your account does not have any queries
+ * remaining for the called service.
  */
-public class AddressNotFoundException extends GeoIP2Exception {
+public class OutOfQueriesException extends GeoIP2Exception {
+    private static final long serialVersionUID = 3843736987256336967L;
 
     /**
      * @param message
      *            A message explaining the cause of the error.
      */
-    public AddressNotFoundException(String message) {
+    public OutOfQueriesException(String message) {
         super(message);
     }
 
@@ -20,7 +21,7 @@ public class AddressNotFoundException extends GeoIP2Exception {
      * @param e
      *            The cause of the exception.
      */
-    public AddressNotFoundException(String message, Throwable e) {
+    public OutOfQueriesException(String message, Throwable e) {
         super(message, e);
     }
 }

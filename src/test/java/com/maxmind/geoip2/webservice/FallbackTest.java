@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.exception.AddressNotFoundException;
+import com.maxmind.geoip2.exception.GeoIP2Exception;
 import com.maxmind.geoip2.model.CityLookup;
 
 public class FallbackTest {
@@ -33,7 +33,7 @@ public class FallbackTest {
     }
 
     @Test
-    public void test() throws IOException, AddressNotFoundException {
+    public void test() throws IOException, GeoIP2Exception {
         CityLookup city = this.client
                 .city(InetAddress.getByName("81.2.69.160"));
         assertEquals("London", city.getCity().getName());
