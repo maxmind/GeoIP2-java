@@ -50,7 +50,7 @@ which represents part of the data returned by the web service.
 
 See the API documentation for more details.
 
-## Example ##
+## Web Service Example ##
 
 ```java
 
@@ -58,13 +58,29 @@ WebServiceClient client = new WebServiceClient.Builder(42, "abcfe12345").build()
 
 Omni omni = client.omni(InetAddress.getByName("24.24.24.24"));
 
-CityRecord city = omni.getCity();
-System.out.println(city.getName());
+CountryRecord countryRecord = omni.getCountry();
+System.out.println(countryRecord.getName());
 
-PostalRecord postal = omni.getPostal();
-System.out.println(postal.getCode());
+PostalRecord postalRecord = omni.getPostal();
+System.out.println(postalRecord.getCode());
 
 ```
+
+## Database Example ##
+
+```java
+
+DatabaseReader reader = new DatabaseReader(new File("/path/to/GeoIP2-City.mmdb");
+
+City city = reader.get(InetAddress.getByName("24.24.24.24"));
+
+System.out.println(city.getCountry().getName());
+
+PostalRecord postalRecord = city.getPostal();
+System.out.println(postalRecord.getCode());
+
+```
+
 
 ## Exceptions ##
 

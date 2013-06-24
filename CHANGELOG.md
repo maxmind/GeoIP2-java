@@ -12,9 +12,6 @@ CHANGELOG
   `WebServiceException`.
 * A `DatabaseReader` class was added to the distribution. This reads GeoIP2
   databases and returns similar product object to `WebServiceClient`.
-* A `fallbackDatabase` option was added to `WebServiceClient.Builder`.
-  This allows you to specify a database to fall back to if the web service
-  request fails.
 
 0.2.0 (2013-06-13)
 ------------------

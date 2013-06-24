@@ -1,7 +1,5 @@
 package com.maxmind.geoip2;
 
-import java.io.Closeable;
-import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Arrays;
@@ -26,8 +24,8 @@ import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.exception.HttpException;
 import com.maxmind.geoip2.exception.InvalidRequestException;
 import com.maxmind.geoip2.exception.OutOfQueriesException;
-import com.maxmind.geoip2.model.CityIspOrg;
 import com.maxmind.geoip2.model.City;
+import com.maxmind.geoip2.model.CityIspOrg;
 import com.maxmind.geoip2.model.Country;
 import com.maxmind.geoip2.model.Omni;
 
@@ -101,18 +99,16 @@ import com.maxmind.geoip2.model.Omni;
  * throws a {@link GeoIp2Exception}.
  * </p>
  */
-public class WebServiceClient implements Closeable {
+public class WebServiceClient {
     private final String host;
     private final List<String> languages;
     private final String licenseKey;
     private final int timeout;
     private final HttpTransport transport;
     private final int userId;
-    private final DatabaseReader fallbackDatabase;
 
     @SuppressWarnings("synthetic-access")
     private WebServiceClient(Builder builder) {
-        this.fallbackDatabase = builder.fallbackDatabase;
         this.host = builder.host;
         this.languages = builder.languages;
         this.licenseKey = builder.licenseKey;
@@ -125,11 +121,12 @@ public class WebServiceClient implements Closeable {
      * <code>Builder</code> creates instances of
      * <code>WebServiceClient</client> from values set by the methods.
      *  
-     *  This example shows how to create a <code>WebServiceClient</code> object with the
-     * <code>Builder</code>:
+     *  This example shows how to create a <code>WebServiceClient</code> object
+     * with the <code>Builder</code>:
      * 
      * WebServiceClient client = new
-     * WebServiceClient.Builder(12,"licensekey").host("geoip.maxmind.com").build();
+     * WebServiceClient.Builder(12,"licensekey").host
+     * ("geoip.maxmind.com").build();
      * 
      * Only the values set in the <code>Builder</code> constructor are required.
      */
@@ -141,7 +138,6 @@ public class WebServiceClient implements Closeable {
         private List<String> languages = Arrays.asList("en");
         private int timeout = 3000;
         private HttpTransport transport = new NetHttpTransport();
-        private DatabaseReader fallbackDatabase;
 
         /**
          * @param userId
@@ -152,17 +148,6 @@ public class WebServiceClient implements Closeable {
         public Builder(int userId, String licenseKey) {
             this.userId = userId;
             this.licenseKey = licenseKey;
-        }
-
-        /**
-         * @param val
-         *            A fallback GeoIP2 database to use if the the web service
-         *            query fails.
-         * @throws IOException
-         */
-        public Builder fallbackDatabase(File val) throws IOException {
-            this.fallbackDatabase = new DatabaseReader(val);
-            return this;
         }
 
         /**
@@ -201,8 +186,8 @@ public class WebServiceClient implements Closeable {
         }
 
         /**
-         * @return an instance of <code>WebServiceClient</code> created from the fields
-         *         set on this builder.
+         * @return an instance of <code>WebServiceClient</code> created from the
+         *         fields set on this builder.
          */
         @SuppressWarnings("synthetic-access")
         public WebServiceClient build() {
@@ -247,8 +232,7 @@ public class WebServiceClient implements Closeable {
      * @throws GeoIp2Exception
      * @throws IOException
      */
-    public City city(InetAddress ipAddress) throws IOException,
-            GeoIp2Exception {
+    public City city(InetAddress ipAddress) throws IOException, GeoIp2Exception {
         return this.responseFor("city", ipAddress, City.class);
     }
 
@@ -268,10 +252,9 @@ public class WebServiceClient implements Closeable {
      * @throws GeoIp2Exception
      * @throws IOException
      */
-    public CityIspOrg cityIspOrg(InetAddress ipAddress)
-            throws IOException, GeoIp2Exception {
-        return this.responseFor("city_isp_org", ipAddress,
-                CityIspOrg.class);
+    public CityIspOrg cityIspOrg(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.responseFor("city_isp_org", ipAddress, CityIspOrg.class);
     }
 
     /**
@@ -290,25 +273,11 @@ public class WebServiceClient implements Closeable {
      * @throws GeoIp2Exception
      * @throws IOException
      */
-    public Omni omni(InetAddress ipAddress) throws IOException,
-            GeoIp2Exception {
+    public Omni omni(InetAddress ipAddress) throws IOException, GeoIp2Exception {
         return this.responseFor("omni", ipAddress, Omni.class);
     }
 
     private <T extends Country> T responseFor(String path,
-            InetAddress ipAddress, Class<T> cls) throws IOException,
-            GeoIp2Exception {
-        try {
-            return this.webServiceResponseFor(path, ipAddress, cls);
-        } catch (GeoIp2Exception e) {
-            if (this.fallbackDatabase != null) {
-                return this.fallbackDatabase.get(ipAddress);
-            }
-            throw e;
-        }
-    }
-
-    private <T extends Country> T webServiceResponseFor(String path,
             InetAddress ipAddress, Class<T> cls) throws GeoIp2Exception,
             AddressNotFoundException {
         GenericUrl uri = this.createUri(path, ipAddress);
@@ -357,7 +326,8 @@ public class WebServiceClient implements Closeable {
         try {
             return request.execute();
         } catch (HttpResponseException e) {
-            WebServiceClient.handleErrorStatus(e.getContent(), e.getStatusCode(), uri);
+            WebServiceClient.handleErrorStatus(e.getContent(),
+                    e.getStatusCode(), uri);
             throw new AssertionError(
                     "Something very strange happened. This code should be unreachable.");
         } catch (IOException e) {
@@ -454,18 +424,5 @@ public class WebServiceClient implements Closeable {
         return new GenericUrl("https://" + this.host + "/geoip/v2.0/" + path
                 + "/" + (ipAddress == null ? "me" : ipAddress.getHostAddress()));
 
-    }
-
-    /**
-     * Closes the GeoIP2 fallback database and returns resources to the system.
-     * 
-     * @throws IOException
-     *             if an I/O error occurs.
-     */
-    @Override
-    public void close() throws IOException {
-        if (this.fallbackDatabase != null) {
-            this.fallbackDatabase.close();
-        }
     }
 }
