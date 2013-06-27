@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-0.3.0 (2013-06-??)
+0.3.0 (2013-06-27)
 ------------------
 
 * Reorganized the classes. `Client` was renamed `WebServiceClient` and moved
