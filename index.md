@@ -2,7 +2,7 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v0.2.0
+version: v0.3.0
 ---
 
 # GeoIP2 Java API #
@@ -40,14 +40,14 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>0.2.0</version>
+        <version>0.3.0</version>
     </dependency>
 ```
 
 ## Usage ##
 
-To use this API, you must create a new ``com.maxmind.geoip2.webservice.Client``
-object with your ``userId`` and ``licenseKey``, then you call the method
+To use this API, you must create a new `com.maxmind.geoip2.WebServiceClient`
+object with your `userId` and `licenseKey`, then you call the method
 corresponding to a specific end point, passing it the IP address you want to
 look up.
 
@@ -57,39 +57,56 @@ which represents part of the data returned by the web service.
 
 See the API documentation for more details.
 
-## Example ##
+## Web Service Example ##
 
 ```java
 
-Client client = new Client.Builder(42, "abcfe12345").build();
+WebServiceClient client = new WebServiceClient.Builder(42, "abcfe12345").build();
 
-OmniLookup omni = client.omni(InetAddress.getByName("24.24.24.24"));
+Omni omni = client.omni(InetAddress.getByName("24.24.24.24"));
 
-City city = omni.getCity();
-System.out.println(city.getName());
+CountryRecord countryRecord = omni.getCountry();
+System.out.println(countryRecord.getName());
 
-Postal postal = omni.getPostal();
-System.out.println(postal.getCode());
+PostalRecord postalRecord = omni.getPostal();
+System.out.println(postalRecord.getCode());
 
 ```
+
+## Database Example ##
+
+```java
+
+DatabaseReader reader = new DatabaseReader(new File("/path/to/GeoIP2-City.mmdb");
+
+City city = reader.get(InetAddress.getByName("24.24.24.24"));
+
+System.out.println(city.getCountry().getName());
+
+PostalRecord postalRecord = city.getPostal();
+System.out.println(postalRecord.getCode());
+
+```
+
 
 ## Exceptions ##
 
 For details on the possible errors returned by the web service itself, [see
 the GeoIP2 web service documentation](http://dev.maxmind.com/geoip2/geoip/web-services).
 
-If the web service returns an explicit error document, this is thrown as a
-```WebServiceException```. If some other sort of transport error occurs,
-this is thrown as a ```HttpException```. The difference is that the web
- service error includes an error message and error code delivered by the
-web service. The latter is thrown when some sort of unanticipated error
-occurs, such as the web service returning a 500 or an invalid error document.
+If the web service returns an explicit error document, this is thrown as an
+`AddressNotFoundException`, an `AuthenticationException`, an
+`InvalidRequestException`, or an `OutOfQueriesException.
 
-If the web service returns any status code besides 200, 4xx, or 5xx, this also
-becomes a ```HttpException```.
+If some sort of transport error occurs, an `HttpException` is thrown. This
+is thrown when some sort of unanticipated error occurs, such as the web
+service returning a 500 or an invalid error document. If the web service
+request returns any status code besides 200, 4xx, or 5xx, this also becomes
+an `HttpException`.
 
 Finally, if the web service returns a 200 but the body is invalid, the client
-throws a ```GeoIP2Exception```.
+throws a `GeoIp2Exception`. This exception also is the parent exception to
+the above exceptions.
 
 ## What data is returned? ##
 
@@ -116,10 +133,10 @@ check to see if the attribute is set.
 [GeoNames](http://www.geonames.org/) offers web services and downloadable
 databases with data on geographical features around the world, including
 populated places. They offer both free and paid premium data. Each
-feature is uniquely identified by a ```geonameId```, which is an integer.
+feature is uniquely identified by a `geonameId`, which is an integer.
 
 Many of the records returned by the GeoIP2 web services and databases
-include a ```getGeonameId()``` method. This is the ID of a geographical
+include a `getGeonameId()` method. This is the ID of a geographical
 feature (city, region, country, etc.) in the GeoNames database.
 
 Some of the data that MaxMind provides is also sourced from GeoNames. We
