@@ -4,7 +4,7 @@ package com.maxmind.geoip2.exception;
  * This exception is thrown when the IP address is not found in the database.
  * This generally means that the address was a private or reserved address.
  */
-public class AddressNotFoundException extends GeoIp2Exception {
+final public class AddressNotFoundException extends GeoIp2Exception {
 
     private static final long serialVersionUID = -639962574626980783L;
 

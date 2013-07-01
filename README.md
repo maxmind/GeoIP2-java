@@ -33,7 +33,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>0.3.0</version>
+        <version>0.4.0</version>
     </dependency>
 ```
 
@@ -72,7 +72,7 @@ System.out.println(postalRecord.getCode());
 
 DatabaseReader reader = new DatabaseReader(new File("/path/to/GeoIP2-City.mmdb");
 
-City city = reader.get(InetAddress.getByName("24.24.24.24"));
+City city = reader.city(InetAddress.getByName("24.24.24.24"));
 
 System.out.println(city.getCountry().getName());
 

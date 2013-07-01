@@ -1,11 +1,14 @@
 package com.maxmind.geoip2.exception;
 
+import java.io.IOException;
 import java.net.URL;
 
 /**
- * This class represents an HTTP transport error.
+ * This class represents an HTTP transport error. This is not an error returned
+ * by the web service itself. As such, it is a IOException instead of a
+ * GeoIp2Exception.
  */
-public class HttpException extends GeoIp2Exception {
+final public class HttpException extends IOException {
     private static final long serialVersionUID = -8301101841509056974L;
     private final int httpStatus;
     private final URL url;

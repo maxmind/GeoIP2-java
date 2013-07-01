@@ -25,7 +25,6 @@ import com.maxmind.maxminddb.MaxMindDbReader;
  */
 public class DatabaseReader implements GeoIp2Provider, Closeable {
 
-    // This is sort of annoying. Rename one of the two?
     private final MaxMindDbReader reader;
 
     private final ObjectMapper om;
@@ -33,7 +32,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     /**
      * Constructs a Reader for the GeoIP2 database format. The file passed to it
      * must be a valid GeoIP2 database file.
-     * 
+     *
      * @param database
      *            the GeoIP2 database file to use.
      * @throws IOException
@@ -46,7 +45,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     /**
      * Constructs a Reader for the GeoIP2 database format. The file passed to it
      * must be a valid GeoIP2 database file.
-     * 
+     *
      * @param database
      *            the GeoIP2 database file to use.
      * @param languages
@@ -101,7 +100,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
 
     /**
      * Closes the GeoIP2 database and returns resources to the system.
-     * 
+     *
      * @throws IOException
      *             if an I/O error occurs.
      */

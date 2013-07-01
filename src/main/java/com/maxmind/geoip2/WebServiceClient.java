@@ -196,7 +196,7 @@ public class WebServiceClient implements GeoIp2Provider {
     }
 
     /**
-     * @return A Country lookup for the requesting IP address
+     * @return A Country model for the requesting IP address
      * @throws GeoIp2Exception
      * @throws IOException
      */
@@ -204,13 +204,6 @@ public class WebServiceClient implements GeoIp2Provider {
         return this.country(null);
     }
 
-    /**
-     * @param ipAddress
-     *            IPv4 or IPv6 address to lookup.
-     * @return A Country lookup for the requested IP address.
-     * @throws GeoIp2Exception
-     * @throws IOException
-     */
     @Override
     public Country country(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
@@ -218,7 +211,7 @@ public class WebServiceClient implements GeoIp2Provider {
     }
 
     /**
-     * @return A City lookup for the requesting IP address
+     * @return A City model for the requesting IP address
      * @throws GeoIp2Exception
      * @throws IOException
      */
@@ -226,20 +219,13 @@ public class WebServiceClient implements GeoIp2Provider {
         return this.city(null);
     }
 
-    /**
-     * @param ipAddress
-     *            IPv4 or IPv6 address to lookup.
-     * @return A City lookup for the requested IP address.
-     * @throws GeoIp2Exception
-     * @throws IOException
-     */
     @Override
     public City city(InetAddress ipAddress) throws IOException, GeoIp2Exception {
         return this.responseFor("city", ipAddress, City.class);
     }
 
     /**
-     * @return A City/ISP/Org lookup for the requesting IP address
+     * @return A City/ISP/Org model for the requesting IP address
      * @throws GeoIp2Exception
      * @throws IOException
      */
@@ -247,13 +233,6 @@ public class WebServiceClient implements GeoIp2Provider {
         return this.cityIspOrg(null);
     }
 
-    /**
-     * @param ipAddress
-     *            IPv4 or IPv6 address to lookup.
-     * @return A City/ISP/Org lookup for the requested IP address.
-     * @throws GeoIp2Exception
-     * @throws IOException
-     */
     @Override
     public CityIspOrg cityIspOrg(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
@@ -261,7 +240,7 @@ public class WebServiceClient implements GeoIp2Provider {
     }
 
     /**
-     * @return An Omni lookup for the requesting IP address
+     * @return An Omni model for the requesting IP address
      * @throws GeoIp2Exception
      * @throws IOException
      */
@@ -269,28 +248,20 @@ public class WebServiceClient implements GeoIp2Provider {
         return this.omni(null);
     }
 
-    /**
-     * @param ipAddress
-     *            IPv4 or IPv6 address to lookup.
-     * @return An Omni lookup for the requested IP address.
-     * @throws GeoIp2Exception
-     * @throws IOException
-     */
     @Override
     public Omni omni(InetAddress ipAddress) throws IOException, GeoIp2Exception {
         return this.responseFor("omni", ipAddress, Omni.class);
     }
 
     private <T> T responseFor(String path, InetAddress ipAddress, Class<T> cls)
-            throws GeoIp2Exception, AddressNotFoundException {
+            throws GeoIp2Exception, IOException {
         GenericUrl uri = this.createUri(path, ipAddress);
         HttpResponse response = this.getResponse(uri);
-
         Long content_length = response.getHeaders().getContentLength();
 
         if (content_length == null || content_length.intValue() <= 0) {
-            throw new GeoIp2Exception("Received a 200 response for " + uri
-                    + " but there was no message body.");
+            throw new HttpException("Received a 200 response for " + uri
+                    + " but there was no message body.", 200, uri.toURL());
         }
 
         String body = WebServiceClient.getSuccessBody(response, uri);
@@ -311,7 +282,7 @@ public class WebServiceClient implements GeoIp2Provider {
     }
 
     private HttpResponse getResponse(GenericUrl uri) throws GeoIp2Exception,
-            AddressNotFoundException {
+            IOException {
         HttpRequestFactory requestFactory = this.transport
                 .createRequestFactory();
         HttpRequest request;
@@ -329,14 +300,16 @@ public class WebServiceClient implements GeoIp2Provider {
         try {
             return request.execute();
         } catch (HttpResponseException e) {
-            WebServiceClient.handleErrorStatus(e.getContent(),
-                    e.getStatusCode(), uri);
-            throw new AssertionError(
-                    "Something very strange happened. This code should be unreachable.");
-        } catch (IOException e) {
-            throw new GeoIp2Exception(
-                    "Unknown error when connecting to web service: "
-                            + e.getMessage(), e);
+            int status = e.getStatusCode();
+            if ((status >= 400) && (status < 500)) {
+                WebServiceClient.handle4xxStatus(e.getContent(), status, uri);
+            } else if ((status >= 500) && (status < 600)) {
+                throw new HttpException("Received a server error (" + status
+                        + ") for " + uri, status, uri.toURL());
+            }
+
+            throw new HttpException("Received a very surprising HTTP status ("
+                    + status + ") for " + uri, status, uri.toURL());
         }
     }
 
@@ -359,21 +332,8 @@ public class WebServiceClient implements GeoIp2Provider {
         return body;
     }
 
-    private static void handleErrorStatus(String content, int status,
-            GenericUrl uri) throws AddressNotFoundException, GeoIp2Exception {
-        if ((status >= 400) && (status < 500)) {
-            WebServiceClient.handle4xxStatus(content, status, uri);
-        } else if ((status >= 500) && (status < 600)) {
-            throw new HttpException("Received a server error (" + status
-                    + ") for " + uri, status, uri.toURL());
-        } else {
-            throw new HttpException("Received a very surprising HTTP status ("
-                    + status + ") for " + uri, status, uri.toURL());
-        }
-    }
-
     private static void handle4xxStatus(String body, int status, GenericUrl uri)
-            throws AddressNotFoundException, GeoIp2Exception {
+            throws GeoIp2Exception, HttpException {
 
         if (body == null) {
             throw new HttpException("Received a " + status + " error for "
@@ -387,7 +347,7 @@ public class WebServiceClient implements GeoIp2Provider {
                     new TypeReference<HashMap<String, String>>() {
                     });
             handleErrorWithJsonBody(content, body, status, uri);
-        } catch (GeoIp2Exception e) {
+        } catch (HttpException e) {
             throw e;
         } catch (IOException e) {
             throw new HttpException("Received a " + status + " error for "
@@ -397,7 +357,8 @@ public class WebServiceClient implements GeoIp2Provider {
     }
 
     private static void handleErrorWithJsonBody(Map<String, String> content,
-            String body, int status, GenericUrl uri) throws GeoIp2Exception {
+            String body, int status, GenericUrl uri) throws GeoIp2Exception,
+            HttpException {
         String error = content.get("error");
         String code = content.get("code");
 
@@ -420,7 +381,6 @@ public class WebServiceClient implements GeoIp2Provider {
 
         // These should be fairly rare
         throw new InvalidRequestException(error, code, uri.toURL());
-
     }
 
     private GenericUrl createUri(String path, InetAddress ipAddress) {

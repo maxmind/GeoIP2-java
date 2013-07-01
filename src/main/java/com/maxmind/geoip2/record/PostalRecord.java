@@ -18,7 +18,6 @@ final public class PostalRecord {
     private Integer confidence;
 
     public PostalRecord() {
-        // TODO Auto-generated constructor stub
     }
 
     /**

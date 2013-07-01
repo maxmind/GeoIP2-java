@@ -3,7 +3,7 @@ package com.maxmind.geoip2.exception;
 /**
  * This exception is thrown when there is an authentication error.
  */
-public class AuthenticationException extends GeoIp2Exception {
+final public class AuthenticationException extends GeoIp2Exception {
 
     private static final long serialVersionUID = 2255398691576141427L;
 

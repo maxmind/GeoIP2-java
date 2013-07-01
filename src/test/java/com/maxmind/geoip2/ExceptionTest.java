@@ -31,7 +31,7 @@ public class ExceptionTest {
 
     @Test
     public void noBody() throws IOException, GeoIp2Exception {
-        this.exception.expect(GeoIp2Exception.class);
+        this.exception.expect(HttpException.class);
         this.exception.expectMessage(containsString("message body"));
 
         this.client.country(InetAddress.getByName("1.2.3.5"));
