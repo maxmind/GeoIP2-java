@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+0.4.0 (2013-07-XX)
+------------------
+
+* Removed class hierarchy among web-service endpoint models.
+* Refactored database-reader API to more closely match the web-service API.
+  Created a Java interface for the two classes.
+
 0.3.0 (2013-06-27)
 ------------------
 

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * This record is returned by all the end points.
  */
-public class TraitsRecord {
+final public class TraitsRecord {
     @JsonProperty("autonomous_system_number")
     private Integer autonomousSystemNumber;
 

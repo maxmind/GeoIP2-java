@@ -99,7 +99,7 @@ import com.maxmind.geoip2.model.Omni;
  * throws a {@link GeoIp2Exception}.
  * </p>
  */
-public class WebServiceClient {
+public class WebServiceClient implements GeoIp2Provider {
     private final String host;
     private final List<String> languages;
     private final String licenseKey;
@@ -211,6 +211,7 @@ public class WebServiceClient {
      * @throws GeoIp2Exception
      * @throws IOException
      */
+    @Override
     public Country country(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this.responseFor("country", ipAddress, Country.class);
@@ -232,6 +233,7 @@ public class WebServiceClient {
      * @throws GeoIp2Exception
      * @throws IOException
      */
+    @Override
     public City city(InetAddress ipAddress) throws IOException, GeoIp2Exception {
         return this.responseFor("city", ipAddress, City.class);
     }
@@ -252,6 +254,7 @@ public class WebServiceClient {
      * @throws GeoIp2Exception
      * @throws IOException
      */
+    @Override
     public CityIspOrg cityIspOrg(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this.responseFor("city_isp_org", ipAddress, CityIspOrg.class);
@@ -273,13 +276,13 @@ public class WebServiceClient {
      * @throws GeoIp2Exception
      * @throws IOException
      */
+    @Override
     public Omni omni(InetAddress ipAddress) throws IOException, GeoIp2Exception {
         return this.responseFor("omni", ipAddress, Omni.class);
     }
 
-    private <T extends Country> T responseFor(String path,
-            InetAddress ipAddress, Class<T> cls) throws GeoIp2Exception,
-            AddressNotFoundException {
+    private <T> T responseFor(String path, InetAddress ipAddress, Class<T> cls)
+            throws GeoIp2Exception, AddressNotFoundException {
         GenericUrl uri = this.createUri(path, ipAddress);
         HttpResponse response = this.getResponse(uri);
 

@@ -10,7 +10,7 @@ package com.maxmind.geoip2.model;
  * @see <a href="http://dev.maxmind.com/geoip/geoip2/web-services">GeoIP2 Web
  *      Services</a>
  */
-public class CityIspOrg extends City {
+final public class CityIspOrg extends AbstractCity {
     public CityIspOrg() {
     }
 }
