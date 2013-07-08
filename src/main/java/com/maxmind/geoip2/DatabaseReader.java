@@ -32,7 +32,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     /**
      * Constructs a Reader for the GeoIP2 database format. The file passed to it
      * must be a valid GeoIP2 database file.
-     *
+     * 
      * @param database
      *            the GeoIP2 database file to use.
      * @throws IOException
@@ -45,7 +45,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     /**
      * Constructs a Reader for the GeoIP2 database format. The file passed to it
      * must be a valid GeoIP2 database file.
-     *
+     * 
      * @param database
      *            the GeoIP2 database file to use.
      * @param languages
@@ -78,10 +78,8 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
             AddressNotFoundException {
         ObjectNode node = (ObjectNode) this.reader.get(ipAddress);
 
-        // XXX - I am not sure Java programmers would expect an exception here,
-        // but the web service code does throw an exception in this case. If we
-        // keep this exception, we should adjust the web service to throw the
-        // same exception when it gets and IP_ADDRESS_NOT_FOUND error.
+        // We throw the same exception as the web service when an IP is not in
+        // the database
         if (node == null) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
@@ -100,7 +98,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
 
     /**
      * Closes the GeoIP2 database and returns resources to the system.
-     *
+     * 
      * @throws IOException
      *             if an I/O error occurs.
      */

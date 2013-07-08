@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-0.4.0 (2013-07-XX)
+0.4.0 (2013-07-08)
 ------------------
 
 * Removed class hierarchy among web-service endpoint models.
