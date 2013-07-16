@@ -8,7 +8,7 @@ jdk:
 
 install: mvn install -DskipTests=true -Dgpg.skip=true
 
-script: mvn cobertura:cobertura coveralls:cobertura
+after_script: mvn cobertura:cobertura coveralls:cobertura
 
 notifications:
   email:
