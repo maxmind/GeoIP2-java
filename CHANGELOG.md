@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.4.x (2013-XX-XX)
+------------------
+
+* Set the user-agent header to include API information.
+
 0.4.0 (2013-07-08)
 ------------------
 

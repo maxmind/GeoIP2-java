@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.GenericUrl;
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpResponse;
@@ -293,9 +294,12 @@ public class WebServiceClient implements GeoIp2Provider {
         }
         request.setConnectTimeout(this.timeout);
 
-        request.getHeaders().setAccept("application/json");
-        request.getHeaders().setBasicAuthentication(
-                String.valueOf(this.userId), this.licenseKey);
+        HttpHeaders headers = request.getHeaders();
+        headers.setAccept("application/json");
+        headers.setBasicAuthentication(String.valueOf(this.userId),
+                this.licenseKey);
+        headers.setUserAgent("GeoIP2 Java Client v"
+                + this.getClass().getPackage().getImplementationVersion() + ";");
 
         try {
             return request.execute();
