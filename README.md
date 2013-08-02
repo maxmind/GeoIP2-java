@@ -56,7 +56,7 @@ See the API documentation for more details.
 
 WebServiceClient client = new WebServiceClient.Builder(42, "abcfe12345").build();
 
-Omni omni = client.omni(InetAddress.getByName("24.24.24.24"));
+Omni omni = client.omni(InetAddress.getByName("128.101.101.101"));
 
 System.out.println(omni.getCountry().getIsoCode()); // 'US'
 System.out.println(omni.getCountry().getName()); // 'United States'
