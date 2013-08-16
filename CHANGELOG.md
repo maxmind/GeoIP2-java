@@ -1,10 +1,12 @@
 CHANGELOG
 =========
 
-0.4.x (2013-XX-XX)
+0.4.1 (2013-08-16)
 ------------------
 
 * Set the user-agent header to include API information.
+* Updated documentation.
+* Removed unused dependency from Maven POM.
 
 0.4.0 (2013-07-08)
 ------------------
