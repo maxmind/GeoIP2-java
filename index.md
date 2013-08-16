@@ -2,7 +2,7 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v0.4.0
+version: v0.4.1
 ---
 
 # GeoIP2 Java API #
@@ -40,7 +40,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>0.4.0</version>
+        <version>0.4.1</version>
     </dependency>
 ```
 
@@ -63,13 +63,21 @@ See the API documentation for more details.
 
 WebServiceClient client = new WebServiceClient.Builder(42, "abcfe12345").build();
 
-Omni omni = client.omni(InetAddress.getByName("24.24.24.24"));
+Omni omni = client.omni(InetAddress.getByName("128.101.101.101"));
 
-CountryRecord countryRecord = omni.getCountry();
-System.out.println(countryRecord.getName());
+System.out.println(omni.getCountry().getIsoCode()); // 'US'
+System.out.println(omni.getCountry().getName()); // 'United States'
+System.out.println(omni.getCountry().getNames().get("zh-CN")); // '美国'
 
-PostalRecord postalRecord = omni.getPostal();
-System.out.println(postalRecord.getCode());
+System.out.println(omni.getMostSpecificSubdivision().getName()); // 'Minnesota'
+System.out.println(omni.getMostSpecificSubdivision().getIsoCode()); // 'MN'
+
+System.out.println(omni.getCity().getName()); // 'Minneapolis'
+
+System.out.println(omni.getPostal().getCode()); // '55455'
+
+System.out.println(omni.getLocation().getLatitude()); // 44.9733
+System.out.println(omni.getLocation().getLongitude()); // -93.2323
 
 ```
 
@@ -79,12 +87,21 @@ System.out.println(postalRecord.getCode());
 
 DatabaseReader reader = new DatabaseReader(new File("/path/to/GeoIP2-City.mmdb");
 
-City city = reader.city(InetAddress.getByName("24.24.24.24"));
+City model = reader.city(InetAddress.getByName("128.101.101.101"));
 
-System.out.println(city.getCountry().getName());
+System.out.println(model.getCountry().getIsoCode()); // 'US'
+System.out.println(model.getCountry().getName()); // 'United States'
+System.out.println(model.getCountry().getNames().get("zh-CN")); // '美国'
 
-PostalRecord postalRecord = city.getPostal();
-System.out.println(postalRecord.getCode());
+System.out.println(model.getMostSpecificSubdivision().getName()); // 'Minnesota'
+System.out.println(model.getMostSpecificSubdivision().getIsoCode()); // 'MN'
+
+System.out.println(model.getCity().getName()); // 'Minneapolis'
+
+System.out.println(model.getPostal().getCode()); // '55455'
+
+System.out.println(model.getLocation().getLatitude()); // 44.9733
+System.out.println(model.getLocation().getLongitude()); // -93.2323
 
 ```
 
