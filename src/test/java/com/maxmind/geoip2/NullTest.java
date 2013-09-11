@@ -15,16 +15,16 @@ import org.junit.Test;
 import com.google.api.client.http.HttpTransport;
 import com.maxmind.geoip2.WebServiceClient;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.Omni;
-import com.maxmind.geoip2.record.CityRecord;
-import com.maxmind.geoip2.record.ContinentRecord;
-import com.maxmind.geoip2.record.CountryRecord;
-import com.maxmind.geoip2.record.LocationRecord;
-import com.maxmind.geoip2.record.MaxMindRecord;
+import com.maxmind.geoip2.model.OmniResponse;
+import com.maxmind.geoip2.record.City;
+import com.maxmind.geoip2.record.Continent;
+import com.maxmind.geoip2.record.Country;
+import com.maxmind.geoip2.record.Location;
+import com.maxmind.geoip2.record.MaxMind;
 import com.maxmind.geoip2.record.AbstractNamedRecord;
-import com.maxmind.geoip2.record.RepresentedCountryRecord;
-import com.maxmind.geoip2.record.SubdivisionRecord;
-import com.maxmind.geoip2.record.TraitsRecord;
+import com.maxmind.geoip2.record.RepresentedCountry;
+import com.maxmind.geoip2.record.Subdivision;
+import com.maxmind.geoip2.record.Traits;
 
 public class NullTest {
 
@@ -35,22 +35,22 @@ public class NullTest {
 
     @Test
     public void testDefaults() throws IOException, GeoIp2Exception {
-        Omni omni = this.client.omni(InetAddress.getByName("1.2.3.13"));
+        OmniResponse omni = this.client.omni(InetAddress.getByName("1.2.3.13"));
 
         assertTrue(omni.toString().startsWith("Omni"));
 
-        CityRecord city = omni.getCity();
+        City city = omni.getCity();
         assertNotNull(city);
         assertNull(city.getConfidence());
 
-        ContinentRecord continent = omni.getContinent();
+        Continent continent = omni.getContinent();
         assertNotNull(continent);
         assertNull(continent.getCode());
 
-        CountryRecord country = omni.getCountry();
+        Country country = omni.getCountry();
         assertNotNull(country);
 
-        LocationRecord location = omni.getLocation();
+        Location location = omni.getLocation();
         assertNotNull(location);
         assertNull(location.getAccuracyRadius());
         assertNull(location.getLatitude());
@@ -59,29 +59,29 @@ public class NullTest {
         assertNull(location.getTimeZone());
         assertEquals("Location []", location.toString());
 
-        MaxMindRecord maxmind = omni.getMaxMind();
+        MaxMind maxmind = omni.getMaxMind();
         assertNotNull(maxmind);
         assertNull(maxmind.getQueriesRemaining());
 
         assertNotNull(omni.getPostal());
 
-        CountryRecord registeredCountry = omni.getRegisteredCountry();
+        Country registeredCountry = omni.getRegisteredCountry();
         assertNotNull(registeredCountry);
 
-        RepresentedCountryRecord representedCountry = omni.getRepresentedCountry();
+        RepresentedCountry representedCountry = omni.getRepresentedCountry();
         assertNotNull(representedCountry);
         assertNull(representedCountry.getType());
 
-        List<SubdivisionRecord> subdivisions = omni.getSubdivisionsList();
+        List<Subdivision> subdivisions = omni.getSubdivisionsList();
         assertNotNull(subdivisions);
         assertTrue(subdivisions.isEmpty());
 
-        SubdivisionRecord subdiv = omni.getMostSpecificSubdivision();
+        Subdivision subdiv = omni.getMostSpecificSubdivision();
         assertNotNull(subdiv);
         assertNull(subdiv.getIsoCode());
         assertNull(subdiv.getConfidence());
 
-        TraitsRecord traits = omni.getTraits();
+        Traits traits = omni.getTraits();
         assertNotNull(traits);
         assertNull(traits.getAutonomousSystemNumber());
         assertNull(traits.getAutonomousSystemOrganization());
@@ -96,7 +96,7 @@ public class NullTest {
                 "Traits [anonymousProxy=false, satelliteProvider=false, ]",
                 traits.toString());
 
-        for (CountryRecord c : new CountryRecord[] { country, registeredCountry,
+        for (Country c : new Country[] { country, registeredCountry,
                 representedCountry }) {
             assertNull(c.getConfidence());
             assertNull(c.getIsoCode());

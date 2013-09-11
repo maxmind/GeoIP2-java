@@ -7,14 +7,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * This record is returned by all the end points except the Country end point.
  */
-final public class SubdivisionRecord extends AbstractNamedRecord {
+final public class Subdivision extends AbstractNamedRecord {
     @JsonProperty
     private Integer confidence;
 
     @JsonProperty("iso_code")
     private String isoCode;
 
-    public SubdivisionRecord() {
+    public Subdivision() {
     }
 
     /**

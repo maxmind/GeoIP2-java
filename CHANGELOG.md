@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+0.5.0 (2013-09-XX)
+------------------
+
+* Reorganized the response and record classes. The response classes end
+  with `Response`. The record classes no longer end in `Record`.
+
+
 0.4.1 (2013-08-16)
 ------------------
 

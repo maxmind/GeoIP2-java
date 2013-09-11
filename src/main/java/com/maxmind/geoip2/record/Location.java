@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * This record is returned by all the end points except the Country end point.
  */
-final public class LocationRecord {
+final public class Location {
     @JsonProperty("accuracy_radius")
     private Integer accuracyRadius;
 
@@ -23,7 +23,7 @@ final public class LocationRecord {
     @JsonProperty("time_zone")
     private String timeZone;
 
-    public LocationRecord() {
+    public Location() {
     }
 
     /**

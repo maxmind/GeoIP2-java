@@ -7,11 +7,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * This record is returned by all the end points.
  */
-final public class MaxMindRecord {
+final public class MaxMind {
     @JsonProperty("queries_remaining")
     private Integer queriesRemaining;
 
-    public MaxMindRecord() {
+    public MaxMind() {
     }
 
     /**

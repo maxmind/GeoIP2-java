@@ -4,45 +4,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.maxmind.geoip2.record.CityRecord;
-import com.maxmind.geoip2.record.LocationRecord;
-import com.maxmind.geoip2.record.PostalRecord;
-import com.maxmind.geoip2.record.SubdivisionRecord;
+import com.maxmind.geoip2.record.City;
+import com.maxmind.geoip2.record.Location;
+import com.maxmind.geoip2.record.Postal;
+import com.maxmind.geoip2.record.Subdivision;
 
-abstract class AbstractCity extends AbstractCountry {
+abstract class AbstractCityResponse extends AbstractCountryResponse {
     @JsonProperty
-    private CityRecord city = new CityRecord();
+    private City city = new City();
     @JsonProperty
-    private LocationRecord location = new LocationRecord();
+    private Location location = new Location();
     @JsonProperty
-    private PostalRecord postal = new PostalRecord();
+    private Postal postal = new Postal();
 
     @JsonProperty("subdivisions")
-    private ArrayList<SubdivisionRecord> subdivisions = new ArrayList<SubdivisionRecord>();
+    private ArrayList<Subdivision> subdivisions = new ArrayList<Subdivision>();
 
     /**
      * @return City record for the requested IP address.
      */
-    public com.maxmind.geoip2.record.CityRecord getCity() {
+    public com.maxmind.geoip2.record.City getCity() {
         return this.city;
     }
 
     /**
      * @return Location record for the requested IP address.
      */
-    public LocationRecord getLocation() {
+    public Location getLocation() {
         return this.location;
     }
 
     /**
      * @return the postal
      */
-    public PostalRecord getPostal() {
+    public Postal getPostal() {
         return this.postal;
     }
 
     /**
-     * @return An {@link List} of {@link SubdivisionRecord} objects representing
+     * @return An {@link List} of {@link Subdivision} objects representing
      *         the country subdivisions for the requested IP address. The number
      *         and type of subdivisions varies by country, but a subdivision is
      *         typically a state, province, county, etc. Subdivisions are
@@ -50,18 +50,18 @@ abstract class AbstractCity extends AbstractCountry {
      *         If the response did not contain any subdivisions, this method
      *         returns an empty array.
      */
-    public List<SubdivisionRecord> getSubdivisionsList() {
-        return new ArrayList<SubdivisionRecord>(this.subdivisions);
+    public List<Subdivision> getSubdivisionsList() {
+        return new ArrayList<Subdivision>(this.subdivisions);
     }
 
     /**
      * @return An object representing the most specific subdivision returned. If
      *         the response did not contain any subdivisions, this method
-     *         returns an empty {@link SubdivisionRecord} object.
+     *         returns an empty {@link Subdivision} object.
      */
-    public SubdivisionRecord getMostSpecificSubdivision() {
+    public Subdivision getMostSpecificSubdivision() {
         if (this.subdivisions.isEmpty()) {
-            return new SubdivisionRecord();
+            return new Subdivision();
         }
         return this.subdivisions.get(this.subdivisions.size() - 1);
     }

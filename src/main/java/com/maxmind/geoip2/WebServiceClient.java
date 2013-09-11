@@ -25,10 +25,10 @@ import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.exception.HttpException;
 import com.maxmind.geoip2.exception.InvalidRequestException;
 import com.maxmind.geoip2.exception.OutOfQueriesException;
-import com.maxmind.geoip2.model.City;
-import com.maxmind.geoip2.model.CityIspOrg;
-import com.maxmind.geoip2.model.Country;
-import com.maxmind.geoip2.model.Omni;
+import com.maxmind.geoip2.model.CityResponse;
+import com.maxmind.geoip2.model.CityIspOrgResponse;
+import com.maxmind.geoip2.model.CountryResponse;
+import com.maxmind.geoip2.model.OmniResponse;
 
 /**
  * <p>
@@ -201,14 +201,14 @@ public class WebServiceClient implements GeoIp2Provider {
      * @throws GeoIp2Exception
      * @throws IOException
      */
-    public Country country() throws IOException, GeoIp2Exception {
+    public CountryResponse country() throws IOException, GeoIp2Exception {
         return this.country(null);
     }
 
     @Override
-    public Country country(InetAddress ipAddress) throws IOException,
+    public CountryResponse country(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.responseFor("country", ipAddress, Country.class);
+        return this.responseFor("country", ipAddress, CountryResponse.class);
     }
 
     /**
@@ -216,13 +216,13 @@ public class WebServiceClient implements GeoIp2Provider {
      * @throws GeoIp2Exception
      * @throws IOException
      */
-    public City city() throws IOException, GeoIp2Exception {
+    public CityResponse city() throws IOException, GeoIp2Exception {
         return this.city(null);
     }
 
     @Override
-    public City city(InetAddress ipAddress) throws IOException, GeoIp2Exception {
-        return this.responseFor("city", ipAddress, City.class);
+    public CityResponse city(InetAddress ipAddress) throws IOException, GeoIp2Exception {
+        return this.responseFor("city", ipAddress, CityResponse.class);
     }
 
     /**
@@ -230,14 +230,14 @@ public class WebServiceClient implements GeoIp2Provider {
      * @throws GeoIp2Exception
      * @throws IOException
      */
-    public CityIspOrg cityIspOrg() throws IOException, GeoIp2Exception {
+    public CityIspOrgResponse cityIspOrg() throws IOException, GeoIp2Exception {
         return this.cityIspOrg(null);
     }
 
     @Override
-    public CityIspOrg cityIspOrg(InetAddress ipAddress) throws IOException,
+    public CityIspOrgResponse cityIspOrg(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.responseFor("city_isp_org", ipAddress, CityIspOrg.class);
+        return this.responseFor("city_isp_org", ipAddress, CityIspOrgResponse.class);
     }
 
     /**
@@ -245,13 +245,13 @@ public class WebServiceClient implements GeoIp2Provider {
      * @throws GeoIp2Exception
      * @throws IOException
      */
-    public Omni omni() throws IOException, GeoIp2Exception {
+    public OmniResponse omni() throws IOException, GeoIp2Exception {
         return this.omni(null);
     }
 
     @Override
-    public Omni omni(InetAddress ipAddress) throws IOException, GeoIp2Exception {
-        return this.responseFor("omni", ipAddress, Omni.class);
+    public OmniResponse omni(InetAddress ipAddress) throws IOException, GeoIp2Exception {
+        return this.responseFor("omni", ipAddress, OmniResponse.class);
     }
 
     private <T> T responseFor(String path, InetAddress ipAddress, Class<T> cls)

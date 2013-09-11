@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.City;
-import com.maxmind.geoip2.model.CityIspOrg;
-import com.maxmind.geoip2.model.Country;
-import com.maxmind.geoip2.model.Omni;
+import com.maxmind.geoip2.model.CityResponse;
+import com.maxmind.geoip2.model.CityIspOrgResponse;
+import com.maxmind.geoip2.model.CountryResponse;
+import com.maxmind.geoip2.model.OmniResponse;
 
 public interface GeoIp2Provider {
 
@@ -18,7 +18,7 @@ public interface GeoIp2Provider {
      * @throws GeoIp2Exception
      * @throws IOException
      */
-    public Country country(InetAddress ipAddress) throws IOException,
+    public CountryResponse country(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
 
     /**
@@ -28,7 +28,7 @@ public interface GeoIp2Provider {
      * @throws GeoIp2Exception
      * @throws IOException
      */
-    public City city(InetAddress ipAddress) throws IOException, GeoIp2Exception;
+    public CityResponse city(InetAddress ipAddress) throws IOException, GeoIp2Exception;
 
     /**
      * @param ipAddress
@@ -37,7 +37,7 @@ public interface GeoIp2Provider {
      * @throws GeoIp2Exception
      * @throws IOException
      */
-    public CityIspOrg cityIspOrg(InetAddress ipAddress) throws IOException,
+    public CityIspOrgResponse cityIspOrg(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
 
     /**
@@ -47,5 +47,5 @@ public interface GeoIp2Provider {
      * @throws GeoIp2Exception
      * @throws IOException
      */
-    public Omni omni(InetAddress ipAddress) throws IOException, GeoIp2Exception;
+    public OmniResponse omni(InetAddress ipAddress) throws IOException, GeoIp2Exception;
 }

@@ -10,10 +10,10 @@ import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.Country;
+import com.maxmind.geoip2.model.CountryResponse;
 
 public class CountryTest {
-    private Country country;
+    private CountryResponse country;
 
     @Before
     public void setUp() throws IOException, GeoIp2Exception {

@@ -10,8 +10,8 @@ package com.maxmind.geoip2.model;
  * @see <a href="http://dev.maxmind.com/geoip/geoip2/web-services">GeoIP2 Web
  *      Services</a>
  */
-final public class City extends AbstractCity {
-    public City() {
+final public class CityResponse extends AbstractCityResponse {
+    public CityResponse() {
         // For Jackson
     }
 }

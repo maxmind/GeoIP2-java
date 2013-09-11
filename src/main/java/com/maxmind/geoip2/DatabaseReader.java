@@ -13,10 +13,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.City;
-import com.maxmind.geoip2.model.CityIspOrg;
-import com.maxmind.geoip2.model.Country;
-import com.maxmind.geoip2.model.Omni;
+import com.maxmind.geoip2.model.CityResponse;
+import com.maxmind.geoip2.model.CityIspOrgResponse;
+import com.maxmind.geoip2.model.CountryResponse;
+import com.maxmind.geoip2.model.OmniResponse;
 import com.maxmind.maxminddb.MaxMindDbReader;
 
 /**
@@ -108,24 +108,24 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     }
 
     @Override
-    public Country country(InetAddress ipAddress) throws IOException,
+    public CountryResponse country(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, Country.class);
+        return this.get(ipAddress, CountryResponse.class);
     }
 
     @Override
-    public City city(InetAddress ipAddress) throws IOException, GeoIp2Exception {
-        return this.get(ipAddress, City.class);
+    public CityResponse city(InetAddress ipAddress) throws IOException, GeoIp2Exception {
+        return this.get(ipAddress, CityResponse.class);
     }
 
     @Override
-    public CityIspOrg cityIspOrg(InetAddress ipAddress) throws IOException,
+    public CityIspOrgResponse cityIspOrg(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, CityIspOrg.class);
+        return this.get(ipAddress, CityIspOrgResponse.class);
     }
 
     @Override
-    public Omni omni(InetAddress ipAddress) throws IOException, GeoIp2Exception {
-        return this.get(ipAddress, Omni.class);
+    public OmniResponse omni(InetAddress ipAddress) throws IOException, GeoIp2Exception {
+        return this.get(ipAddress, OmniResponse.class);
     }
 }

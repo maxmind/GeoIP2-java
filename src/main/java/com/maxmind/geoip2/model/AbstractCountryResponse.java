@@ -1,35 +1,35 @@
 package com.maxmind.geoip2.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.maxmind.geoip2.record.ContinentRecord;
-import com.maxmind.geoip2.record.CountryRecord;
-import com.maxmind.geoip2.record.MaxMindRecord;
-import com.maxmind.geoip2.record.RepresentedCountryRecord;
-import com.maxmind.geoip2.record.TraitsRecord;
+import com.maxmind.geoip2.record.Continent;
+import com.maxmind.geoip2.record.Country;
+import com.maxmind.geoip2.record.MaxMind;
+import com.maxmind.geoip2.record.RepresentedCountry;
+import com.maxmind.geoip2.record.Traits;
 
-abstract class AbstractCountry {
+abstract class AbstractCountryResponse {
     @JsonProperty
-    private ContinentRecord continent = new ContinentRecord();
+    private Continent continent = new Continent();
 
     @JsonProperty
-    private CountryRecord country = new CountryRecord();
+    private Country country = new Country();
 
     @JsonProperty("registered_country")
-    private CountryRecord registeredCountry = new CountryRecord();
+    private Country registeredCountry = new Country();
 
     @JsonProperty("maxmind")
-    private MaxMindRecord maxmind = new MaxMindRecord();
+    private MaxMind maxmind = new MaxMind();
 
     @JsonProperty("represented_country")
-    private RepresentedCountryRecord representedCountry = new RepresentedCountryRecord();
+    private RepresentedCountry representedCountry = new RepresentedCountry();
 
     @JsonProperty
-    private TraitsRecord traits = new TraitsRecord();
+    private Traits traits = new Traits();
 
     /**
      * @return Continent record for the requested IP address.
      */
-    public ContinentRecord getContinent() {
+    public Continent getContinent() {
         return this.continent;
     }
 
@@ -38,14 +38,14 @@ abstract class AbstractCountry {
      *         represents the country where MaxMind believes the end user is
      *         located.
      */
-    public CountryRecord getCountry() {
+    public Country getCountry() {
         return this.country;
     }
 
     /**
      * @return MaxMind record containing data related to your account.
      */
-    public MaxMindRecord getMaxMind() {
+    public MaxMind getMaxMind() {
         return this.maxmind;
     }
 
@@ -54,7 +54,7 @@ abstract class AbstractCountry {
      *         record represents the country where the ISP has registered a
      *         given IP block and may differ from the user's country.
      */
-    public CountryRecord getRegisteredCountry() {
+    public Country getRegisteredCountry() {
         return this.registeredCountry;
     }
 
@@ -64,14 +64,14 @@ abstract class AbstractCountry {
      *         embassies. It is only present when the represented country
      *         differs from the country.
      */
-    public RepresentedCountryRecord getRepresentedCountry() {
+    public RepresentedCountry getRepresentedCountry() {
         return this.representedCountry;
     }
 
     /**
      * @return Record for the traits of the requested IP address.
      */
-    public TraitsRecord getTraits() {
+    public Traits getTraits() {
         return this.traits;
     }
 

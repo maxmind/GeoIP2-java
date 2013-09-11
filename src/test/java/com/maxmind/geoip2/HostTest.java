@@ -10,7 +10,7 @@ import org.junit.Test;
 import com.google.api.client.http.HttpTransport;
 import com.maxmind.geoip2.WebServiceClient;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.Omni;
+import com.maxmind.geoip2.model.OmniResponse;
 
 public class HostTest {
 
@@ -20,7 +20,7 @@ public class HostTest {
         WebServiceClient client = new WebServiceClient.Builder(42, "abcdef123456").host("blah.com")
                 .transport(transport).build();
 
-        Omni omni = client.omni(InetAddress.getByName("128.101.101.101"));
+        OmniResponse omni = client.omni(InetAddress.getByName("128.101.101.101"));
         assertEquals(omni.getTraits().getIpAddress(), "128.101.101.101");
     }
 }
