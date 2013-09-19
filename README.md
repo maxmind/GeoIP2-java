@@ -56,8 +56,11 @@ See the API documentation for more details.
 
 ```java
 
+// This creates a WebServiceClient object that can be reused across requests.
 WebServiceClient client = new WebServiceClient.Builder(42, "abcfe12345").build();
 
+// Replace "city" with the method corresponding to the web service that
+// you are using, e.g., "country", "cityIspOrg", "omni".
 OmniResponse response = client.omni(InetAddress.getByName("128.101.101.101"));
 
 System.out.println(response.getCountry().getIsoCode()); // 'US'
@@ -80,8 +83,12 @@ System.out.println(response.getLocation().getLongitude()); // -93.2323
 
 ```java
 
+// This creates the DatabaseReader object, which should be reused across
+// lookups.
 DatabaseReader reader = new DatabaseReader(new File("/path/to/GeoIP2-City.mmdb");
 
+// Replace "city" with the appropriate method for your database, e.g.,
+// "country".
 CityResponse response = reader.city(InetAddress.getByName("128.101.101.101"));
 
 System.out.println(response.getCountry().getIsoCode()); // 'US'
