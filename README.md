@@ -57,7 +57,7 @@ See the API documentation for more details.
 ```java
 
 // This creates a WebServiceClient object that can be reused across requests.
-// Replace 42 with your user id and license_key with your license key.
+// Replace "42" with your user ID and "license_key" with your license key.
 WebServiceClient client = new WebServiceClient.Builder(42, "license_key").build();
 
 // Replace "omni" with the method corresponding to the web service that
