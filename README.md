@@ -57,10 +57,11 @@ See the API documentation for more details.
 ```java
 
 // This creates a WebServiceClient object that can be reused across requests.
-WebServiceClient client = new WebServiceClient.Builder(42, "abcfe12345").build();
+// Replace 42 with your user id and license_key with your license key.
+WebServiceClient client = new WebServiceClient.Builder(42, "license_key").build();
 
-// Replace "city" with the method corresponding to the web service that
-// you are using, e.g., "country", "cityIspOrg", "omni".
+// Replace "omni" with the method corresponding to the web service that
+// you are using, e.g., "country", "cityIspOrg", "city".
 OmniResponse response = client.omni(InetAddress.getByName("128.101.101.101"));
 
 System.out.println(response.getCountry().getIsoCode()); // 'US'
