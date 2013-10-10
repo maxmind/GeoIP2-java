@@ -11,13 +11,13 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.maxmind.db.Reader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CityIspOrgResponse;
+import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.model.OmniResponse;
-import com.maxmind.maxminddb.MaxMindDbReader;
 
 /**
  * Instances of this class provide a reader for the GeoIP2 database format. IP
@@ -25,7 +25,7 @@ import com.maxmind.maxminddb.MaxMindDbReader;
  */
 public class DatabaseReader implements GeoIp2Provider, Closeable {
 
-    private final MaxMindDbReader reader;
+    private final Reader reader;
 
     private final ObjectMapper om;
 
@@ -56,7 +56,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
      */
     public DatabaseReader(File database, List<String> languages)
             throws IOException {
-        this.reader = new MaxMindDbReader(database);
+        this.reader = new Reader(database);
         this.om = new ObjectMapper();
         this.om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
                 false);
@@ -114,18 +114,20 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     }
 
     @Override
-    public CityResponse city(InetAddress ipAddress) throws IOException, GeoIp2Exception {
+    public CityResponse city(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
         return this.get(ipAddress, CityResponse.class);
     }
 
     @Override
-    public CityIspOrgResponse cityIspOrg(InetAddress ipAddress) throws IOException,
-            GeoIp2Exception {
+    public CityIspOrgResponse cityIspOrg(InetAddress ipAddress)
+            throws IOException, GeoIp2Exception {
         return this.get(ipAddress, CityIspOrgResponse.class);
     }
 
     @Override
-    public OmniResponse omni(InetAddress ipAddress) throws IOException, GeoIp2Exception {
+    public OmniResponse omni(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
         return this.get(ipAddress, OmniResponse.class);
     }
 }
