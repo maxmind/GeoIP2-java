@@ -37,7 +37,7 @@
   </developers>
   <dependencies>
     <dependency>
-      <groupId>com.maxmind.maxminddb</groupId>
+      <groupId>com.maxmind.db</groupId>
       <artifactId>maxminddb</artifactId>
       <version>0.2.1-SNAPSHOT</version>
     </dependency>
