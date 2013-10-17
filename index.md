@@ -2,10 +2,12 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v0.4.1
+version: v0.5.0
 ---
 
 # GeoIP2 Java API #
+
+[![Build Status](https://travis-ci.org/maxmind/GeoIP2-java.png?branch=master)](https://travis-ci.org/maxmind/GeoIP2-java)
 
 ## Beta Note ##
 
@@ -40,7 +42,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>0.4.1</version>
+        <version>0.5.0</version>
     </dependency>
 ```
 
@@ -61,23 +63,27 @@ See the API documentation for more details.
 
 ```java
 
-WebServiceClient client = new WebServiceClient.Builder(42, "abcfe12345").build();
+// This creates a WebServiceClient object that can be reused across requests.
+// Replace "42" with your user ID and "license_key" with your license key.
+WebServiceClient client = new WebServiceClient.Builder(42, "license_key").build();
 
-Omni omni = client.omni(InetAddress.getByName("128.101.101.101"));
+// Replace "omni" with the method corresponding to the web service that
+// you are using, e.g., "country", "cityIspOrg", "city".
+OmniResponse response = client.omni(InetAddress.getByName("128.101.101.101"));
 
-System.out.println(omni.getCountry().getIsoCode()); // 'US'
-System.out.println(omni.getCountry().getName()); // 'United States'
-System.out.println(omni.getCountry().getNames().get("zh-CN")); // '美国'
+System.out.println(response.getCountry().getIsoCode()); // 'US'
+System.out.println(response.getCountry().getName()); // 'United States'
+System.out.println(response.getCountry().getNames().get("zh-CN")); // '美国'
 
-System.out.println(omni.getMostSpecificSubdivision().getName()); // 'Minnesota'
-System.out.println(omni.getMostSpecificSubdivision().getIsoCode()); // 'MN'
+System.out.println(response.getMostSpecificSubdivision().getName()); // 'Minnesota'
+System.out.println(response.getMostSpecificSubdivision().getIsoCode()); // 'MN'
 
-System.out.println(omni.getCity().getName()); // 'Minneapolis'
+System.out.println(response.getCity().getName()); // 'Minneapolis'
 
-System.out.println(omni.getPostal().getCode()); // '55455'
+System.out.println(response.getPostal().getCode()); // '55455'
 
-System.out.println(omni.getLocation().getLatitude()); // 44.9733
-System.out.println(omni.getLocation().getLongitude()); // -93.2323
+System.out.println(response.getLocation().getLatitude()); // 44.9733
+System.out.println(response.getLocation().getLongitude()); // -93.2323
 
 ```
 
@@ -85,23 +91,27 @@ System.out.println(omni.getLocation().getLongitude()); // -93.2323
 
 ```java
 
+// This creates the DatabaseReader object, which should be reused across
+// lookups.
 DatabaseReader reader = new DatabaseReader(new File("/path/to/GeoIP2-City.mmdb");
 
-City model = reader.city(InetAddress.getByName("128.101.101.101"));
+// Replace "city" with the appropriate method for your database, e.g.,
+// "country".
+CityResponse response = reader.city(InetAddress.getByName("128.101.101.101"));
 
-System.out.println(model.getCountry().getIsoCode()); // 'US'
-System.out.println(model.getCountry().getName()); // 'United States'
-System.out.println(model.getCountry().getNames().get("zh-CN")); // '美国'
+System.out.println(response.getCountry().getIsoCode()); // 'US'
+System.out.println(response.getCountry().getName()); // 'United States'
+System.out.println(response.getCountry().getNames().get("zh-CN")); // '美国'
 
-System.out.println(model.getMostSpecificSubdivision().getName()); // 'Minnesota'
-System.out.println(model.getMostSpecificSubdivision().getIsoCode()); // 'MN'
+System.out.println(response.getMostSpecificSubdivision().getName()); // 'Minnesota'
+System.out.println(response.getMostSpecificSubdivision().getIsoCode()); // 'MN'
 
-System.out.println(model.getCity().getName()); // 'Minneapolis'
+System.out.println(response.getCity().getName()); // 'Minneapolis'
 
-System.out.println(model.getPostal().getCode()); // '55455'
+System.out.println(response.getPostal().getCode()); // '55455'
 
-System.out.println(model.getLocation().getLatitude()); // 44.9733
-System.out.println(model.getLocation().getLongitude()); // -93.2323
+System.out.println(response.getLocation().getLatitude()); // 44.9733
+System.out.println(response.getLocation().getLongitude()); // -93.2323
 
 ```
 
