@@ -6,9 +6,6 @@ jdk:
   - oraclejdk6
   - oraclejdk7
 
-before_install:
-  - git submodule update --init --recursive
-
 install: mvn install -DskipTests=true -Dgpg.skip=true
 
 after_script: mvn cobertura:cobertura coveralls:cobertura
