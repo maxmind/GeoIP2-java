@@ -13,15 +13,14 @@ import java.util.List;
 import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.WebServiceClient;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.OmniResponse;
+import com.maxmind.geoip2.record.AbstractNamedRecord;
 import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Continent;
 import com.maxmind.geoip2.record.Country;
 import com.maxmind.geoip2.record.Location;
 import com.maxmind.geoip2.record.MaxMind;
-import com.maxmind.geoip2.record.AbstractNamedRecord;
 import com.maxmind.geoip2.record.RepresentedCountry;
 import com.maxmind.geoip2.record.Subdivision;
 import com.maxmind.geoip2.record.Traits;
@@ -30,8 +29,8 @@ public class NullTest {
 
     private final HttpTransport transport = new TestTransport();
 
-    private final WebServiceClient client = new WebServiceClient.Builder(42, "abcdef123456")
-            .transport(this.transport).build();
+    private final WebServiceClient client = new WebServiceClient.Builder(42,
+            "abcdef123456").transport(this.transport).build();
 
     @Test
     public void testDefaults() throws IOException, GeoIp2Exception {
@@ -102,8 +101,9 @@ public class NullTest {
             assertNull(c.getIsoCode());
         }
 
-        for (AbstractNamedRecord r : new AbstractNamedRecord[] { city, continent,
-                country, registeredCountry, representedCountry, subdiv }) {
+        for (AbstractNamedRecord r : new AbstractNamedRecord[] { city,
+                continent, country, registeredCountry, representedCountry,
+                subdiv }) {
             assertNull(r.getGeoNameId());
             assertNull(r.getName());
             assertTrue(r.getNames().isEmpty());

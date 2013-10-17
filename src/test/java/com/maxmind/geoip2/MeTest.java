@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.WebServiceClient;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 
 public class MeTest {
@@ -18,8 +17,8 @@ public class MeTest {
     public void createClient() {
         HttpTransport transport = new TestTransport();
 
-        this.client = new WebServiceClient.Builder(42, "abcdef123456").transport(
-                transport).build();
+        this.client = new WebServiceClient.Builder(42, "abcdef123456")
+                .transport(transport).build();
 
     }
 

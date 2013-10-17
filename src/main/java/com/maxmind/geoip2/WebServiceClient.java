@@ -25,8 +25,8 @@ import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.exception.HttpException;
 import com.maxmind.geoip2.exception.InvalidRequestException;
 import com.maxmind.geoip2.exception.OutOfQueriesException;
-import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CityIspOrgResponse;
+import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.model.OmniResponse;
 
@@ -37,50 +37,50 @@ import com.maxmind.geoip2.model.OmniResponse;
  * returns a different set of data about an IP address, with Country returning
  * the least data and Omni the most.
  * </p>
- *
+ * 
  * <p>
  * Each web service end point is represented by a different model class, and
  * these model classes in turn contain multiple Record classes. The record
  * classes have attributes which contain data about the IP address.
  * </p>
- *
+ * 
  * <p>
  * If the web service does not return a particular piece of data for an IP
  * address, the associated attribute is not populated.
  * </p>
- *
+ * 
  * <p>
  * The web service may not return any information for an entire record, in which
  * case all of the attributes for that record class will be empty.
  * </p>
- *
+ * 
  * <h3>Usage</h3>
- *
+ * 
  * <p>
  * The basic API for this class is the same for all of the web service end
  * points. First you create a web service object with your MaxMind
  * {@code userId} and {@code licenseKey}, then you call the method corresponding
  * to a specific end point, passing it the IP address you want to look up.
  * </p>
- *
+ * 
  * <p>
  * If the request succeeds, the method call will return a model class for the
  * end point you called. This model in turn contains multiple record classes,
  * each of which represents part of the data returned by the web service.
  * </p>
- *
+ * 
  * <p>
  * If the request fails, the client class throws an exception.
  * </p>
- *
+ * 
  * <h3>Exceptions</h3>
- *
+ * 
  * <p>
  * For details on the possible errors returned by the web service itself, see <a
  * href="http://dev.maxmind.com/geoip2/geoip/web-services">the GeoIP2 web
  * service documentation</a>.
  * </p>
- *
+ * 
  * <p>
  * If the web service returns an explicit error document, this is thrown as a
  * {@link InvalidRequestException}. If some other sort of transport error
@@ -89,12 +89,12 @@ import com.maxmind.geoip2.model.OmniResponse;
  * web service. The latter is thrown when some sort of unanticipated error
  * occurs, such as the web service returning a 500 or an invalid error document.
  * </p>
- *
+ * 
  * <p>
  * If the web service returns any status code besides 200, 4xx, or 5xx, this
  * also becomes a {@link HttpException}.
  * </p>
- *
+ * 
  * <p>
  * Finally, if the web service returns a 200 but the body is invalid, the client
  * throws a {@link GeoIp2Exception}.
@@ -102,7 +102,7 @@ import com.maxmind.geoip2.model.OmniResponse;
  */
 public class WebServiceClient implements GeoIp2Provider {
     private final String host;
-    private final List<String> languages;
+    private final List<String> locales;
     private final String licenseKey;
     private final int timeout;
     private final HttpTransport transport;
@@ -111,7 +111,7 @@ public class WebServiceClient implements GeoIp2Provider {
     @SuppressWarnings("synthetic-access")
     private WebServiceClient(Builder builder) {
         this.host = builder.host;
-        this.languages = builder.languages;
+        this.locales = builder.locales;
         this.licenseKey = builder.licenseKey;
         this.timeout = builder.timeout;
         this.transport = builder.transport;
@@ -121,14 +121,14 @@ public class WebServiceClient implements GeoIp2Provider {
     /**
      * <code>Builder</code> creates instances of
      * <code>WebServiceClient</client> from values set by the methods.
-     *
+     * 
      *  This example shows how to create a <code>WebServiceClient</code> object
      * with the <code>Builder</code>:
-     *
+     * 
      * WebServiceClient client = new
      * WebServiceClient.Builder(12,"licensekey").host
      * ("geoip.maxmind.com").build();
-     *
+     * 
      * Only the values set in the <code>Builder</code> constructor are required.
      */
     public static class Builder {
@@ -136,7 +136,7 @@ public class WebServiceClient implements GeoIp2Provider {
         private final String licenseKey;
 
         private String host = "geoip.maxmind.com";
-        private List<String> languages = Arrays.asList("en");
+        private List<String> locales = Arrays.asList("en");
         private int timeout = 3000;
         private HttpTransport transport = new NetHttpTransport();
 
@@ -165,8 +165,8 @@ public class WebServiceClient implements GeoIp2Provider {
          *            List of locale codes to use in name property from most
          *            preferred to least preferred.
          */
-        public Builder languages(List<String> val) {
-            this.languages = val;
+        public Builder locales(List<String> val) {
+            this.locales = val;
             return this;
         }
 
@@ -221,7 +221,8 @@ public class WebServiceClient implements GeoIp2Provider {
     }
 
     @Override
-    public CityResponse city(InetAddress ipAddress) throws IOException, GeoIp2Exception {
+    public CityResponse city(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
         return this.responseFor("city", ipAddress, CityResponse.class);
     }
 
@@ -235,9 +236,10 @@ public class WebServiceClient implements GeoIp2Provider {
     }
 
     @Override
-    public CityIspOrgResponse cityIspOrg(InetAddress ipAddress) throws IOException,
-            GeoIp2Exception {
-        return this.responseFor("city_isp_org", ipAddress, CityIspOrgResponse.class);
+    public CityIspOrgResponse cityIspOrg(InetAddress ipAddress)
+            throws IOException, GeoIp2Exception {
+        return this.responseFor("city_isp_org", ipAddress,
+                CityIspOrgResponse.class);
     }
 
     /**
@@ -250,7 +252,8 @@ public class WebServiceClient implements GeoIp2Provider {
     }
 
     @Override
-    public OmniResponse omni(InetAddress ipAddress) throws IOException, GeoIp2Exception {
+    public OmniResponse omni(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
         return this.responseFor("omni", ipAddress, OmniResponse.class);
     }
 
@@ -268,7 +271,7 @@ public class WebServiceClient implements GeoIp2Provider {
         String body = WebServiceClient.getSuccessBody(response, uri);
 
         InjectableValues inject = new InjectableValues.Std().addValue(
-                "languages", this.languages);
+                "locales", this.locales);
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
                 false);

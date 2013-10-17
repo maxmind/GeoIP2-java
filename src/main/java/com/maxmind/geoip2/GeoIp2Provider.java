@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CityIspOrgResponse;
+import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.model.OmniResponse;
 
@@ -28,7 +28,8 @@ public interface GeoIp2Provider {
      * @throws GeoIp2Exception
      * @throws IOException
      */
-    public CityResponse city(InetAddress ipAddress) throws IOException, GeoIp2Exception;
+    public CityResponse city(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
 
     /**
      * @param ipAddress
@@ -37,8 +38,8 @@ public interface GeoIp2Provider {
      * @throws GeoIp2Exception
      * @throws IOException
      */
-    public CityIspOrgResponse cityIspOrg(InetAddress ipAddress) throws IOException,
-            GeoIp2Exception;
+    public CityIspOrgResponse cityIspOrg(InetAddress ipAddress)
+            throws IOException, GeoIp2Exception;
 
     /**
      * @param ipAddress
@@ -47,5 +48,6 @@ public interface GeoIp2Provider {
      * @throws GeoIp2Exception
      * @throws IOException
      */
-    public OmniResponse omni(InetAddress ipAddress) throws IOException, GeoIp2Exception;
+    public OmniResponse omni(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
 }

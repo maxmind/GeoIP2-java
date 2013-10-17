@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.6.0 (2013-XX-XX)
+------------------
+
+* Renamed the `languages` method on the `WebServiceClient` to `locales`.
+
 0.5.0 (2013-10-17)
 ------------------
 

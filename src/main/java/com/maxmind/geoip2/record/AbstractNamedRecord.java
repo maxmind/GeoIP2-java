@@ -17,8 +17,8 @@ public abstract class AbstractNamedRecord {
     @JsonProperty("geoname_id")
     private Integer geoNameId;
 
-    @JacksonInject("languages")
-    private List<String> languages = new ArrayList<String>();
+    @JacksonInject("locales")
+    private List<String> locales = new ArrayList<String>();
 
     AbstractNamedRecord() {
     }
@@ -32,12 +32,12 @@ public abstract class AbstractNamedRecord {
     }
 
     /**
-     * @return The name of the city based on the languages list passed to the
+     * @return The name of the city based on the locales list passed to the
      *         {@link com.maxmind.geoip2.WebServiceClient} constructor. This
      *         attribute is returned by all end points.
      */
     public String getName() {
-        for (String lang : this.languages) {
+        for (String lang : this.locales) {
             if (this.names.containsKey(lang)) {
                 return this.names.get(lang);
             }
@@ -46,8 +46,8 @@ public abstract class AbstractNamedRecord {
     }
 
     /**
-     * @return A {@link Map} from locale codes to the name in that language
-     *         names. This attribute is returned by all end points.
+     * @return A {@link Map} from locale codes to the name in that locale. This
+     *         attribute is returned by all end points.
      */
     public Map<String, String> getNames() {
         return new HashMap<String, String>(this.names);
@@ -55,7 +55,7 @@ public abstract class AbstractNamedRecord {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see java.lang.Object#toString()
      */
     @Override

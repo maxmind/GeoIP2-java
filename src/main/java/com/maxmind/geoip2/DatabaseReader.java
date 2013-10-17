@@ -32,7 +32,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     /**
      * Constructs a Reader for the GeoIP2 database format. The file passed to it
      * must be a valid GeoIP2 database file.
-     *
+     * 
      * @param database
      *            the GeoIP2 database file to use.
      * @throws IOException
@@ -45,23 +45,23 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     /**
      * Constructs a Reader for the GeoIP2 database format. The file passed to it
      * must be a valid GeoIP2 database file.
-     *
+     * 
      * @param database
      *            the GeoIP2 database file to use.
-     * @param languages
+     * @param locales
      *            List of locale codes to use in name property from most
      *            preferred to least preferred.
      * @throws IOException
      *             if there is an error opening or reading from the file.
      */
-    public DatabaseReader(File database, List<String> languages)
+    public DatabaseReader(File database, List<String> locales)
             throws IOException {
         this.reader = new Reader(database);
         this.om = new ObjectMapper();
         this.om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
                 false);
         InjectableValues inject = new InjectableValues.Std().addValue(
-                "languages", languages);
+                "locales", locales);
         this.om.setInjectableValues(inject);
     }
 
@@ -98,7 +98,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
 
     /**
      * Closes the GeoIP2 database and returns resources to the system.
-     *
+     * 
      * @throws IOException
      *             if an I/O error occurs.
      */

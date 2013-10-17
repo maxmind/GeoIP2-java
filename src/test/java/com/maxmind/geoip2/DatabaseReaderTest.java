@@ -35,7 +35,7 @@ public class DatabaseReaderTest {
     }
 
     @Test
-    public void testDefaultLanguage() throws IOException, GeoIp2Exception {
+    public void testDefaultLocale() throws IOException, GeoIp2Exception {
         DatabaseReader reader = new DatabaseReader(this.geoipFile);
         CityResponse city = reader.city(InetAddress.getByName("81.2.69.160"));
         assertEquals("London", city.getCity().getName());
@@ -43,7 +43,7 @@ public class DatabaseReaderTest {
     }
 
     @Test
-    public void testLanguageList() throws IOException, GeoIp2Exception {
+    public void testLocaleList() throws IOException, GeoIp2Exception {
         DatabaseReader reader = new DatabaseReader(this.geoipFile,
                 Arrays.asList("xx", "ru", "pt-BR", "es", "en"));
         OmniResponse city = reader.omni(InetAddress.getByName("81.2.69.160"));
@@ -68,8 +68,7 @@ public class DatabaseReaderTest {
                 .expectMessage(containsString("The address 10.10.10.10 is not in the database."));
 
         DatabaseReader reader = new DatabaseReader(this.geoipFile);
-        @SuppressWarnings("unused")
-        CityResponse city = reader.city(InetAddress.getByName("10.10.10.10"));
+        reader.city(InetAddress.getByName("10.10.10.10"));
         reader.close();
     }
 
