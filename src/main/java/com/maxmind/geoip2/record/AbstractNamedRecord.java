@@ -46,7 +46,7 @@ public abstract class AbstractNamedRecord {
     }
 
     /**
-     * @return A {@link Map} from language codes to the name in that language
+     * @return A {@link Map} from locale codes to the name in that language
      *         names. This attribute is returned by all end points.
      */
     public Map<String, String> getNames() {
@@ -55,7 +55,7 @@ public abstract class AbstractNamedRecord {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override

@@ -32,7 +32,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     /**
      * Constructs a Reader for the GeoIP2 database format. The file passed to it
      * must be a valid GeoIP2 database file.
-     * 
+     *
      * @param database
      *            the GeoIP2 database file to use.
      * @throws IOException
@@ -45,11 +45,11 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     /**
      * Constructs a Reader for the GeoIP2 database format. The file passed to it
      * must be a valid GeoIP2 database file.
-     * 
+     *
      * @param database
      *            the GeoIP2 database file to use.
      * @param languages
-     *            List of language codes to use in name property from most
+     *            List of locale codes to use in name property from most
      *            preferred to least preferred.
      * @throws IOException
      *             if there is an error opening or reading from the file.
@@ -98,7 +98,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
 
     /**
      * Closes the GeoIP2 database and returns resources to the system.
-     * 
+     *
      * @throws IOException
      *             if an I/O error occurs.
      */
