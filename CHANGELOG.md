@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-0.5.0 (2013-09-XX)
+0.5.0 (2013-10-17)
 ------------------
 
 * Reorganized the response and record classes. The response classes end
