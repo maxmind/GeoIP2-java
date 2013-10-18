@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Contains data for the continent record associated with an IP address.
- * 
+ *
  * This record is returned by all the end points.
  */
 final public class Continent extends AbstractNamedRecord {

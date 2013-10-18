@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Contains data for the location record associated with an IP address.
- * 
+ *
  * This record is returned by all the end points except the Country end point.
  */
 final public class Location {
@@ -76,7 +76,7 @@ final public class Location {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override

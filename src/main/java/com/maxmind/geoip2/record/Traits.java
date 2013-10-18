@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Contains data for the traits record associated with an IP address.
- * 
+ *
  * This record is returned by all the end points.
  */
 final public class Traits {
@@ -95,7 +95,7 @@ final public class Traits {
      * @return The name of the organization associated with the IP address. This
      *         attribute is only available from the City/ISP/Org and Omni end
      *         points.
-     * 
+     *
      */
     public String getOrganization() {
         return this.organization;
@@ -151,7 +151,7 @@ final public class Traits {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override

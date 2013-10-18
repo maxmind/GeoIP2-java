@@ -55,7 +55,7 @@ public abstract class AbstractNamedRecord {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override

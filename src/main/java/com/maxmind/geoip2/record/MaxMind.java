@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Contains data related to your MaxMind account.
- * 
+ *
  * This record is returned by all the end points.
  */
 final public class MaxMind {
@@ -24,7 +24,7 @@ final public class MaxMind {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override

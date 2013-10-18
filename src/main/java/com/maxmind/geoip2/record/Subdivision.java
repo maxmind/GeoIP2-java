@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Contains data for the subdivisions associated with an IP address.
- * 
+ *
  * This record is returned by all the end points except the Country end point.
  */
 final public class Subdivision extends AbstractNamedRecord {
