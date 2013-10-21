@@ -36,7 +36,8 @@ public class DatabaseReaderTest {
 
     @Test
     public void testDefaultLocale() throws IOException, GeoIp2Exception {
-        DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile).build();
+        DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
+                .build();
         CityResponse city = reader.city(InetAddress.getByName("81.2.69.160"));
         assertEquals("London", city.getCity().getName());
         reader.close();
@@ -44,17 +45,27 @@ public class DatabaseReaderTest {
 
     @Test
     public void testLocaleList() throws IOException, GeoIp2Exception {
-        DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile).locales(
-                Arrays.asList("xx", "ru", "pt-BR", "es", "en")).build();
+        DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
+                .locales(Arrays.asList("xx", "ru", "pt-BR", "es", "en"))
+                .build();
         OmniResponse city = reader.omni(InetAddress.getByName("81.2.69.160"));
         assertEquals("Лондон", city.getCity().getName());
         reader.close();
+    }
 
+    @Test
+    public void testMemoryMode() throws IOException, GeoIp2Exception {
+        DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
+                .fileMode(com.maxmind.db.Reader.FileMode.MEMORY).build();
+        CityResponse city = reader.city(InetAddress.getByName("81.2.69.160"));
+        assertEquals("London", city.getCity().getName());
+        reader.close();
     }
 
     @Test
     public void hasIpAddress() throws IOException, GeoIp2Exception {
-        DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile).build();
+        DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
+                .build();
         CityIspOrgResponse cio = reader.cityIspOrg(InetAddress
                 .getByName("81.2.69.160"));
         assertEquals("81.2.69.160", cio.getTraits().getIpAddress());
@@ -67,7 +78,8 @@ public class DatabaseReaderTest {
         this.exception
                 .expectMessage(containsString("The address 10.10.10.10 is not in the database."));
 
-        DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile).build();
+        DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
+                .build();
         reader.city(InetAddress.getByName("10.10.10.10"));
         reader.close();
     }

@@ -53,7 +53,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     public static class Builder {
         protected List<String> locales = Arrays.asList("en");
         protected File database;
-        protected FileMode mode;
+        protected FileMode mode = FileMode.MEMORY_MAPPED;
 
         /**
          * @param database
