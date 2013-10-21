@@ -81,9 +81,12 @@ System.out.println(response.getLocation().getLongitude()); // -93.2323
 
 ```java
 
+// A File object pointing to your GeoIP2 or GeoLite2 database
+File database = new File("/path/to/GeoIP2-City.mmdb");
+
 // This creates the DatabaseReader object, which should be reused across
 // lookups.
-DatabaseReader reader = new DatabaseReader(new File("/path/to/GeoIP2-City.mmdb");
+DatabaseReader reader = new DatabaseReader.Builder(database).build();
 
 // Replace "city" with the appropriate method for your database, e.g.,
 // "country".

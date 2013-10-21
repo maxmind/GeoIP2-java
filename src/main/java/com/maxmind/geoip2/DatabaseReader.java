@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.maxmind.db.Reader;
+import com.maxmind.db.Reader.FileMode;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityIspOrgResponse;
@@ -29,40 +30,66 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
 
     private final ObjectMapper om;
 
-    /**
-     * Constructs a Reader for the GeoIP2 database format. The file passed to it
-     * must be a valid GeoIP2 database file.
-     *
-     * @param database
-     *            the GeoIP2 database file to use.
-     * @throws IOException
-     *             if there is an error opening or reading from the file.
-     */
-    public DatabaseReader(File database) throws IOException {
-        this(database, Arrays.asList("en"));
-    }
-
-    /**
-     * Constructs a Reader for the GeoIP2 database format. The file passed to it
-     * must be a valid GeoIP2 database file.
-     *
-     * @param database
-     *            the GeoIP2 database file to use.
-     * @param locales
-     *            List of locale codes to use in name property from most
-     *            preferred to least preferred.
-     * @throws IOException
-     *             if there is an error opening or reading from the file.
-     */
-    public DatabaseReader(File database, List<String> locales)
-            throws IOException {
-        this.reader = new Reader(database);
+    DatabaseReader(Builder builder) throws IOException {
+        this.reader = new Reader(builder.database, builder.mode);
         this.om = new ObjectMapper();
         this.om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
                 false);
         InjectableValues inject = new InjectableValues.Std().addValue(
-                "locales", locales);
+                "locales", builder.locales);
         this.om.setInjectableValues(inject);
+    }
+
+    /**
+     * Constructs a Builder for the DatabaseReader. The file passed to it must
+     * be a valid GeoIP2 database file.
+     *
+     * <code>Builder</code> creates instances of
+     * <code>DatabaseReader</client> from values set by the methods.
+     *
+     * Only the values set in the <code>Builder</code> constructor are
+     * required.
+     */
+    public static class Builder {
+        protected List<String> locales = Arrays.asList("en");
+        protected File database;
+        protected FileMode mode;
+
+        /**
+         * @param database
+         *            the GeoIP2 database file to use.
+         */
+        public Builder(File database) {
+            this.database = database;
+        }
+
+        /**
+         * @param val
+         *            List of locale codes to use in name property from most
+         *            preferred to least preferred.
+         */
+        public Builder locales(List<String> val) {
+            this.locales = val;
+            return this;
+        }
+
+        /**
+         * @param mode
+         *            The file mode used to open the GeoIP2 database
+         * */
+        public Builder fileMode(FileMode val) {
+            this.mode = val;
+            return this;
+        }
+
+        /**
+         * @return an instance of <code>DatabaseReader</code> created from the
+         *         fields set on this builder.
+         * @throws IOException
+         */
+        public DatabaseReader build() throws IOException {
+            return new DatabaseReader(this);
+        }
     }
 
     /**

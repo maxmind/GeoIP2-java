@@ -4,7 +4,11 @@ CHANGELOG
 0.6.0 (2013-XX-XX)
 ------------------
 
-* Renamed the `languages` method on the `WebServiceClient` to `locales`.
+* IMPORTANT API CHANGE: The `DatabaseReader` class now uses a builder to
+  construct the object. The class constructor on `DatabaseReader` is no longer
+  public.
+* Renamed the `languages` method on the `WebServiceClient.Builder` to
+  `locales`.
 
 0.5.0 (2013-10-17)
 ------------------
