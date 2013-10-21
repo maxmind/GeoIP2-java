@@ -108,8 +108,7 @@ public class WebServiceClient implements GeoIp2Provider {
     private final HttpTransport transport;
     private final int userId;
 
-    @SuppressWarnings("synthetic-access")
-    private WebServiceClient(Builder builder) {
+    WebServiceClient(Builder builder) {
         this.host = builder.host;
         this.locales = builder.locales;
         this.licenseKey = builder.licenseKey;
@@ -131,14 +130,14 @@ public class WebServiceClient implements GeoIp2Provider {
      *
      * Only the values set in the <code>Builder</code> constructor are required.
      */
-    public static class Builder {
-        private final int userId;
-        private final String licenseKey;
+    public final static class Builder {
+        final int userId;
+        final String licenseKey;
 
-        private String host = "geoip.maxmind.com";
-        private List<String> locales = Arrays.asList("en");
-        private int timeout = 3000;
-        private HttpTransport transport = new NetHttpTransport();
+        String host = "geoip.maxmind.com";
+        List<String> locales = Arrays.asList("en");
+        int timeout = 3000;
+        HttpTransport transport = new NetHttpTransport();
 
         /**
          * @param userId
@@ -190,7 +189,6 @@ public class WebServiceClient implements GeoIp2Provider {
          * @return an instance of <code>WebServiceClient</code> created from the
          *         fields set on this builder.
          */
-        @SuppressWarnings("synthetic-access")
         public WebServiceClient build() {
             return new WebServiceClient(this);
         }

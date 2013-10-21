@@ -50,10 +50,11 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
      * Only the values set in the <code>Builder</code> constructor are
      * required.
      */
-    public static class Builder {
-        protected List<String> locales = Arrays.asList("en");
-        protected File database;
-        protected FileMode mode = FileMode.MEMORY_MAPPED;
+    public final static class Builder {
+        final File database;
+
+        List<String> locales = Arrays.asList("en");
+        FileMode mode = FileMode.MEMORY_MAPPED;
 
         /**
          * @param database
