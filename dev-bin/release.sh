@@ -1,7 +1,6 @@
 #!/bin/bash
 
 TAG=$1
-SKIP_MAVEN=$2
 
 if [ -z $TAG ]; then
     echo "Please specify a tag"
@@ -44,7 +43,10 @@ EOF
 cat README.md >> $PAGE
 
 # could be combined with the primary build
+mvn release:clean
+mvn release:prepare
 mvn javadoc:javadoc
+mvn release:perform
 rm -fr ".gh-pages/doc/$TAG"
 cp -r target/apidocs .gh-pages/doc/$TAG
 
@@ -63,10 +65,6 @@ fi
 git push
 
 cd ..
-if [ -z $TAG ]; then
-    mvn release:clean
-    mvn release:prepare
-    mvn release:perform
-fi
+
 git push
 git push --tags
