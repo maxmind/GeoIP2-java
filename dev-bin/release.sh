@@ -45,7 +45,6 @@ cat README.md >> $PAGE
 # could be combined with the primary build
 mvn release:clean
 mvn release:prepare
-mvn javadoc:javadoc
 mvn release:perform
 rm -fr ".gh-pages/doc/$TAG"
 cp -r target/apidocs .gh-pages/doc/$TAG
@@ -68,3 +67,5 @@ cd ..
 
 git push
 git push --tags
+
+echo "Remember to do the release on https://oss.sonatype.org/!"
