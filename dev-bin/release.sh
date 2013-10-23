@@ -1,6 +1,7 @@
 #!/bin/bash
 
 TAG=$1
+SKIP_MAVEN=$2
 
 if [ -z $TAG ]; then
     echo "Please specify a tag"
@@ -59,12 +60,13 @@ if [ "$SHOULD_PUSH" != "y" ]; then
     exit 1
 fi
 
-# If we don't push directly to github, the page doesn't get built for some
-# reason.
-git push git@github.com:maxmind/GeoIP2-java.git
 git push
 
 cd ..
-git tag $TAG
+if [ -z $TAG ]; then
+    mvn release:clean
+    mvn release:prepare
+    mvn release:perform
+fi
 git push
 git push --tags
