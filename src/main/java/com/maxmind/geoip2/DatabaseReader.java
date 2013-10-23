@@ -75,7 +75,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
         }
 
         /**
-         * @param mode
+         * @param val
          *            The file mode used to open the GeoIP2 database
          * */
         public Builder fileMode(FileMode val) {
