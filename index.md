@@ -2,7 +2,7 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v0.5.0
+version: v0.6.0
 ---
 
 # GeoIP2 Java API #
@@ -16,9 +16,6 @@ release, which will be numbered 2.0.0.
 
 You may find information on the GeoIP2 beta release process on [our
 website](http://www.maxmind.com/en/geoip2_beta).
-
-To provide feedback or get support during the beta, please see the
-[MaxMind Customer Community](https://getsatisfaction.com/maxmind).
 
 ## Description ##
 
@@ -42,7 +39,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>0.5.0</version>
+        <version>0.6.0</version>
     </dependency>
 ```
 
@@ -91,9 +88,12 @@ System.out.println(response.getLocation().getLongitude()); // -93.2323
 
 ```java
 
+// A File object pointing to your GeoIP2 or GeoLite2 database
+File database = new File("/path/to/GeoIP2-City.mmdb");
+
 // This creates the DatabaseReader object, which should be reused across
 // lookups.
-DatabaseReader reader = new DatabaseReader(new File("/path/to/GeoIP2-City.mmdb");
+DatabaseReader reader = new DatabaseReader.Builder(database).build();
 
 // Replace "city" with the appropriate method for your database, e.g.,
 // "country".
