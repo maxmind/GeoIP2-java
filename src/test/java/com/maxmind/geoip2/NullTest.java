@@ -71,7 +71,7 @@ public class NullTest {
         assertNotNull(representedCountry);
         assertNull(representedCountry.getType());
 
-        List<Subdivision> subdivisions = omni.getSubdivisionsList();
+        List<Subdivision> subdivisions = omni.getSubdivisions();
         assertNotNull(subdivisions);
         assertTrue(subdivisions.isEmpty());
 

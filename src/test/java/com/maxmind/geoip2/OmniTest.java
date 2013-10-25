@@ -35,7 +35,7 @@ public class OmniTest {
 
     @Test
     public void testSubdivisionsList() {
-        List<Subdivision> subdivisionsList = this.omni.getSubdivisionsList();
+        List<Subdivision> subdivisionsList = this.omni.getSubdivisions();
         assertNotNull("city.getSubdivisionsList returns null", subdivisionsList);
         if (subdivisionsList.size() == 0) {
             fail("subdivisionsList is empty");

@@ -50,7 +50,7 @@ abstract class AbstractCityResponse extends AbstractCountryResponse {
      *         If the response did not contain any subdivisions, this method
      *         returns an empty array.
      */
-    public List<Subdivision> getSubdivisionsList() {
+    public List<Subdivision> getSubdivisions() {
         return new ArrayList<Subdivision>(this.subdivisions);
     }
 
@@ -76,8 +76,8 @@ abstract class AbstractCityResponse extends AbstractCountryResponse {
                         + this.getLocation() + ", " : "")
                 + (this.getPostal() != null ? "getPostal()=" + this.getPostal()
                         + ", " : "")
-                + (this.getSubdivisionsList() != null ? "getSubdivisionsList()="
-                        + this.getSubdivisionsList() + ", "
+                + (this.getSubdivisions() != null ? "getSubdivisionsList()="
+                        + this.getSubdivisions() + ", "
                         : "")
                 + (this.getContinent() != null ? "getContinent()="
                         + this.getContinent() + ", " : "")

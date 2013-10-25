@@ -1,7 +1,12 @@
 CHANGELOG
 =========
 
-0.6.0 (2013-XX-XX)
+0.7.0 (2013-10-XX)
+------------------
+
+* Renamed `getSubdivisionsList` to `getSubdivisions` on `AbstractNamedRecord`.
+
+0.6.0 (2013-10-23)
 ------------------
 
 * IMPORTANT API CHANGE: The `DatabaseReader` class now uses a builder to
