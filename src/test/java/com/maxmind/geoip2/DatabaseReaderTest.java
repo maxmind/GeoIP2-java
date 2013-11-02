@@ -6,8 +6,8 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Arrays;
 
 import org.junit.Before;
@@ -15,6 +15,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.maxmind.db.Reader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityIspOrgResponse;
@@ -26,46 +27,85 @@ public class DatabaseReaderTest {
     @Rule
     public ExpectedException exception = ExpectedException.none();
     private File geoipFile;
+    private URL geoipResource;
 
     @Before
     public void setup() throws URISyntaxException {
-        URI uri = DatabaseReaderTest.class.getResource(
-                "/maxmind-db/test-data/GeoIP2-City-Test.mmdb").toURI();
-        this.geoipFile = new File(uri);
+        URL resource = DatabaseReaderTest.class.getResource(
+                "/maxmind-db/test-data/GeoIP2-City-Test.mmdb");
+        this.geoipResource  =resource;
+        this.geoipFile = new File(resource.toURI());
     }
 
     @Test
-    public void testDefaultLocale() throws IOException, GeoIp2Exception {
+    public void testDefaultLocaleFile() throws IOException, GeoIp2Exception {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
                 .build();
+        testDefaultLocale(reader);
+    }
+    @Test
+    public void testDefaultLocaleURL() throws IOException, GeoIp2Exception {
+        DatabaseReader reader = new DatabaseReader.Builder(this.geoipResource)
+                .build();
+        testDefaultLocale(reader);
+    }
+    private void testDefaultLocale(DatabaseReader reader) throws IOException, GeoIp2Exception {
         CityResponse city = reader.city(InetAddress.getByName("81.2.69.160"));
         assertEquals("London", city.getCity().getName());
         reader.close();
     }
 
     @Test
-    public void testLocaleList() throws IOException, GeoIp2Exception {
+    public void testLocaleListFile() throws IOException, GeoIp2Exception {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
                 .locales(Arrays.asList("xx", "ru", "pt-BR", "es", "en"))
                 .build();
+        testLocaleList(reader);
+    }
+    @Test
+    public void testLocaleListURL() throws IOException, GeoIp2Exception {
+        DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
+                .locales(Arrays.asList("xx", "ru", "pt-BR", "es", "en"))
+                .build();
+        testLocaleList(reader);
+    }
+    private void testLocaleList(DatabaseReader reader) throws IOException, GeoIp2Exception {
         OmniResponse city = reader.omni(InetAddress.getByName("81.2.69.160"));
         assertEquals("Лондон", city.getCity().getName());
         reader.close();
     }
 
     @Test
-    public void testMemoryMode() throws IOException, GeoIp2Exception {
+    public void testMemoryModeFile() throws IOException, GeoIp2Exception {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
-                .fileMode(com.maxmind.db.Reader.FileMode.MEMORY).build();
+                .fileMode(Reader.FileMode.MEMORY).build();
+        testMemoryMode(reader);
+    }
+    @Test
+    public void testMemoryModeURL() throws IOException, GeoIp2Exception {
+        DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
+                .fileMode(Reader.FileMode.MEMORY).build();
+        testMemoryMode(reader);
+    }
+    private void testMemoryMode(DatabaseReader reader) throws IOException, GeoIp2Exception {
         CityResponse city = reader.city(InetAddress.getByName("81.2.69.160"));
         assertEquals("London", city.getCity().getName());
         reader.close();
     }
 
     @Test
-    public void hasIpAddress() throws IOException, GeoIp2Exception {
+    public void hasIpAddressFile() throws IOException, GeoIp2Exception {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
                 .build();
+        hasIpAddress(reader);
+    }
+    @Test
+    public void hasIpAddressURL() throws IOException, GeoIp2Exception {
+        DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
+                .build();
+        hasIpAddress(reader);
+    }
+    private void hasIpAddress(DatabaseReader reader) throws IOException, GeoIp2Exception {
         CityIspOrgResponse cio = reader.cityIspOrg(InetAddress
                 .getByName("81.2.69.160"));
         assertEquals("81.2.69.160", cio.getTraits().getIpAddress());
@@ -73,15 +113,33 @@ public class DatabaseReaderTest {
     }
 
     @Test
-    public void unknownAddress() throws IOException, GeoIp2Exception {
+    public void unknownAddressFile() throws IOException, GeoIp2Exception {
+        DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
+                .build();
+        unknownAddress(reader);
+    }
+    @Test
+    public void unknownAddressURL() throws IOException, GeoIp2Exception {
+        DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
+                .build();
+        unknownAddress(reader);
+    }
+    private void unknownAddress(DatabaseReader reader) throws IOException, GeoIp2Exception {
         this.exception.expect(AddressNotFoundException.class);
         this.exception
                 .expectMessage(containsString("The address 10.10.10.10 is not in the database."));
 
-        DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
-                .build();
         reader.city(InetAddress.getByName("10.10.10.10"));
         reader.close();
     }
 
+    @Test
+    public void testUnsupportedFileMode() throws IOException, GeoIp2Exception {
+        this.exception.expect(IllegalArgumentException.class);
+        this.exception
+                .expectMessage(containsString("do not support FileMode"));
+        new DatabaseReader.Builder(this.geoipResource)
+                .fileMode(Reader.FileMode.MEMORY_MAPPED)
+                .build();
+    }
 }
