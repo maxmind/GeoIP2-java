@@ -3,8 +3,8 @@ package com.maxmind.geoip2;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,8 +32,8 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     private final ObjectMapper om;
 
     DatabaseReader(Builder builder) throws IOException {
-        if (null != builder.resource) {
-            this.reader = new Reader(builder.resource);
+        if (null != builder.stream) {
+            this.reader = new Reader(builder.stream);
         } else if (null != builder.database) {
             this.reader = new Reader(builder.database, builder.mode);
         } else {
@@ -60,17 +60,16 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
      */
     public final static class Builder {
         final File database;
-        final URL resource;
+        final InputStream stream;
 
         List<String> locales = Arrays.asList("en");
         FileMode mode = FileMode.MEMORY_MAPPED;
 
         /**
-         * @param resource
-         *            the GeoIP2 database file to use.
+         * @param stream the stream containing the GeoIP2 database to use.
          */
-        public Builder(URL resource) {
-            this.resource = resource;
+        public Builder(InputStream stream) {
+            this.stream = stream;
             this.database = null;
         }
         /**
@@ -79,7 +78,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
          */
         public Builder(File database) {
             this.database = database;
-            this.resource = null;
+            this.stream = null;
         }
 
         /**
@@ -100,9 +99,9 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
          * but you provided a different FileMode to this method.
          * */
         public Builder fileMode(FileMode val) {
-            if (null != this.resource && !FileMode.MEMORY.equals(val)) {
+            if (null != this.stream && !FileMode.MEMORY.equals(val)) {
                 throw new IllegalArgumentException(
-                        "I do not support FileMode when using a URL");
+                        "I do not support FileMode when using an InputStream");
             }
             this.mode = val;
             return this;

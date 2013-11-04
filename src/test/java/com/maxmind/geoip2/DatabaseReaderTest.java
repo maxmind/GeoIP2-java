@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -27,13 +28,13 @@ public class DatabaseReaderTest {
     @Rule
     public ExpectedException exception = ExpectedException.none();
     private File geoipFile;
-    private URL geoipResource;
+    private InputStream geoipStream;
 
     @Before
-    public void setup() throws URISyntaxException {
+    public void setup() throws URISyntaxException, IOException {
         URL resource = DatabaseReaderTest.class.getResource(
                 "/maxmind-db/test-data/GeoIP2-City-Test.mmdb");
-        this.geoipResource  =resource;
+        this.geoipStream =resource.openStream();
         this.geoipFile = new File(resource.toURI());
     }
 
@@ -45,7 +46,7 @@ public class DatabaseReaderTest {
     }
     @Test
     public void testDefaultLocaleURL() throws IOException, GeoIp2Exception {
-        DatabaseReader reader = new DatabaseReader.Builder(this.geoipResource)
+        DatabaseReader reader = new DatabaseReader.Builder(this.geoipStream)
                 .build();
         testDefaultLocale(reader);
     }
@@ -138,7 +139,7 @@ public class DatabaseReaderTest {
         this.exception.expect(IllegalArgumentException.class);
         this.exception
                 .expectMessage(containsString("do not support FileMode"));
-        new DatabaseReader.Builder(this.geoipResource)
+        new DatabaseReader.Builder(this.geoipStream)
                 .fileMode(Reader.FileMode.MEMORY_MAPPED)
                 .build();
     }
