@@ -32,13 +32,15 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     private final ObjectMapper om;
 
     DatabaseReader(Builder builder) throws IOException {
-        if (null != builder.stream) {
+        if (builder.stream != null) {
             this.reader = new Reader(builder.stream);
-        } else if (null != builder.database) {
+        } else if (builder.database != null) {
             this.reader = new Reader(builder.database, builder.mode);
         } else {
+            // This should never happen. If it does, review the Builder class
+            // constructors for errors.
             throw new IllegalArgumentException(
-                    "Unsupported Builder configuration; expected either File or URL");
+                    "Unsupported Builder configuration: expected either File or URL");
         }
         this.om = new ObjectMapper();
         this.om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
@@ -66,12 +68,14 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
         FileMode mode = FileMode.MEMORY_MAPPED;
 
         /**
-         * @param stream the stream containing the GeoIP2 database to use.
+         * @param stream
+         *            the stream containing the GeoIP2 database to use.
          */
         public Builder(InputStream stream) {
             this.stream = stream;
             this.database = null;
         }
+
         /**
          * @param database
          *            the GeoIP2 database file to use.
@@ -94,14 +98,15 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
         /**
          * @param val
          *            The file mode used to open the GeoIP2 database
-         * @throws java.lang.IllegalArgumentException if you initialized
-         * the Builder with a URL, which uses {@link FileMode#MEMORY},
-         * but you provided a different FileMode to this method.
+         * @throws java.lang.IllegalArgumentException
+         *             if you initialized the Builder with a URL, which uses
+         *             {@link FileMode#MEMORY}, but you provided a different
+         *             FileMode to this method.
          * */
         public Builder fileMode(FileMode val) {
-            if (null != this.stream && !FileMode.MEMORY.equals(val)) {
+            if (this.stream != null && !FileMode.MEMORY.equals(val)) {
                 throw new IllegalArgumentException(
-                        "I do not support FileMode when using an InputStream");
+                        "Only FileMode.MEMORY is supported when using an InputStream.");
             }
             this.mode = val;
             return this;
