@@ -1,10 +1,14 @@
 CHANGELOG
 =========
 
-0.7.0 (2013-10-XX)
+0.7.0 (2013-11-05)
 ------------------
 
 * Renamed `getSubdivisionsList` to `getSubdivisions` on `AbstractNamedRecord`.
+* An `InputStream` constructor was added to the `DatabaseReader.Builder`
+  class. This reads the stream into memory as if it was using the
+  `FileMode.MEMORY` mode. Patch by Matthew Daniel.
+* The source code is now attached during packaging. Patch by Matthew Daniel.
 
 0.6.0 (2013-10-23)
 ------------------
