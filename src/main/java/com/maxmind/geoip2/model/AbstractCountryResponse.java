@@ -1,6 +1,10 @@
 package com.maxmind.geoip2.model;
 
+import java.io.IOException;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maxmind.geoip2.record.Continent;
 import com.maxmind.geoip2.record.Country;
 import com.maxmind.geoip2.record.MaxMind;
@@ -45,6 +49,7 @@ abstract class AbstractCountryResponse {
     /**
      * @return MaxMind record containing data related to your account.
      */
+    @JsonProperty("maxmind")
     public MaxMind getMaxMind() {
         return this.maxmind;
     }
@@ -73,6 +78,13 @@ abstract class AbstractCountryResponse {
      */
     public Traits getTraits() {
         return this.traits;
+    }
+
+    public String toJson() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(Include.NON_NULL);
+        mapper.setSerializationInclusion(Include.NON_EMPTY);
+        return mapper.writeValueAsString(this);
     }
 
     /*

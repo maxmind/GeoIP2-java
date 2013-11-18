@@ -3,6 +3,7 @@ package com.maxmind.geoip2.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Location;
@@ -59,6 +60,7 @@ abstract class AbstractCityResponse extends AbstractCountryResponse {
      *         the response did not contain any subdivisions, this method
      *         returns an empty {@link Subdivision} object.
      */
+    @JsonIgnore
     public Subdivision getMostSpecificSubdivision() {
         if (this.subdivisions.isEmpty()) {
             return new Subdivision();
