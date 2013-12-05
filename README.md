@@ -32,12 +32,15 @@ To do this, add the dependency to your pom.xml:
     </dependency>
 ```
 
-## Usage ##
+## Web Service Usage ##
 
-To use this API, you must create a new `com.maxmind.geoip2.WebServiceClient`
-object with your `userId` and `licenseKey`, then you call the method
-corresponding to a specific end point, passing it the IP address you want to
-look up.
+To use the web service API, you must create a new `WebServiceClient` using the
+`WebServiceClient.Builder`. You must provide the `Builder` constructor your
+MaxMind `userId` and `licenseKey`. You may also set a `timeout`, specify a
+specific `host`, or set the `locales` fallback order using the methods on the
+`Builder`. After you have created the `WebServiceClient`, you may then call
+the method corresponding to a specific end point, passing it the IP address
+you want to look up.
 
 If the request succeeds, the method call will return a model class for the end
 point you called. This model in turn contains multiple record classes, each of
@@ -73,6 +76,27 @@ System.out.println(response.getLocation().getLongitude()); // -93.2323
 
 ```
 
+## Database Usage ##
+
+To use the web service API, you must create a new `DatabaseReader` using the
+`DatabaseReader.Builder`. You must provide the `Builder` constructor either an
+`InputStream` or `File` for your GeoIP2 database. You may also specify the
+`fileMode` and the `locales` fallback order using the methods on the `Builder`
+object. After you have created the `DatabaseReader`, you may then call the
+appropriate method (e.g., `city`) for your database, passing it the IP address
+you want to look up.
+
+If the lookup succeeds, the method call will return a model class for the end
+point you called. This model in turn contains multiple record classes, each of
+which represents part of the data returned by the web service.
+
+We recommend reusing the `DatabaseReader` object rather than creating a new
+one for each lookup. The creation of this object is relatively expensive as it
+must read in metadata for the file.
+
+See the API documentation for more details.
+
+
 ## Database Example ##
 
 ```java
@@ -104,7 +128,6 @@ System.out.println(response.getLocation().getLongitude()); // -93.2323
 
 ```
 
-
 ## Exceptions ##
 
 For details on the possible errors returned by the web service itself, [see
@@ -123,6 +146,12 @@ an `HttpException`.
 Finally, if the web service returns a 200 but the body is invalid, the client
 throws a `GeoIp2Exception`. This exception also is the parent exception to
 the above exceptions.
+
+## Multi-Threaded Use ##
+
+This API fully supports use in multi-threaded applications. When using the
+`DatabaseReader` in a multi-threaded application, we suggest creating one
+object and sharing that among threads.
 
 ## What data is returned? ##
 

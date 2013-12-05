@@ -5,6 +5,9 @@ CHANGELOG
 ------------------
 
 * Added `toJson` method to response objects.
+* Fixed a potential issue when using the `WebServiceClient` in multi-threaded
+  applications.
+* Updated documentation.
 
 0.7.0 (2013-11-05)
 ------------------
