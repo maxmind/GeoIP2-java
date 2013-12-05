@@ -86,9 +86,9 @@ object. After you have created the `DatabaseReader`, you may then call the
 appropriate method (e.g., `city`) for your database, passing it the IP address
 you want to look up.
 
-If the lookup succeeds, the method call will return a model class for the end
-point you called. This model in turn contains multiple record classes, each of
-which represents part of the data returned by the web service.
+If the lookup succeeds, the method call will return a response class for the
+GeoIP lookup. The class in turn contains multiple record classes, each of
+which represents part of the data returned by the database.
 
 We recommend reusing the `DatabaseReader` object rather than creating a new
 one for each lookup. The creation of this object is relatively expensive as it
