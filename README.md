@@ -78,7 +78,7 @@ System.out.println(response.getLocation().getLongitude()); // -93.2323
 
 ## Database Usage ##
 
-To use the web service API, you must create a new `DatabaseReader` using the
+To use the database API, you must create a new `DatabaseReader` using the
 `DatabaseReader.Builder`. You must provide the `Builder` constructor either an
 `InputStream` or `File` for your GeoIP2 database. You may also specify the
 `fileMode` and the `locales` fallback order using the methods on the `Builder`
