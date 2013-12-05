@@ -20,7 +20,7 @@ public class NamesTest {
     @Test
     public void testNames() throws IOException, GeoIp2Exception {
         WebServiceClient client = new WebServiceClient.Builder(42,
-                "abcdef123456").transport(this.transport)
+                "abcdef123456").testTransport(this.transport)
                 .locales(Arrays.asList("zh-CN", "ru")).build();
 
         CityIspOrgResponse cio = client.cityIspOrg(InetAddress
@@ -36,7 +36,7 @@ public class NamesTest {
     @Test
     public void russianFallback() throws IOException, GeoIp2Exception {
         WebServiceClient client = new WebServiceClient.Builder(42,
-                "abcdef123456").transport(this.transport)
+                "abcdef123456").testTransport(this.transport)
                 .locales(Arrays.asList("as", "ru")).build();
 
         CityIspOrgResponse cio = client.cityIspOrg(InetAddress
@@ -50,7 +50,7 @@ public class NamesTest {
     @Test
     public void testFallback() throws IOException, GeoIp2Exception {
         WebServiceClient client = new WebServiceClient.Builder(42,
-                "abcdef123456").transport(this.transport)
+                "abcdef123456").testTransport(this.transport)
                 .locales(Arrays.asList("pt", "en", "zh-CN")).build();
         CityIspOrgResponse cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
@@ -62,7 +62,7 @@ public class NamesTest {
     @Test
     public void noFallback() throws IOException, GeoIp2Exception {
         WebServiceClient client = new WebServiceClient.Builder(42,
-                "abcdef123456").transport(this.transport)
+                "abcdef123456").testTransport(this.transport)
                 .locales(Arrays.asList("pt", "es", "af")).build();
         CityIspOrgResponse cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
@@ -74,7 +74,7 @@ public class NamesTest {
     @Test
     public void noLocale() throws IOException, GeoIp2Exception {
         WebServiceClient client = new WebServiceClient.Builder(42,
-                "abcdef123456").transport(this.transport).build();
+                "abcdef123456").testTransport(this.transport).build();
         CityIspOrgResponse cio = client.cityIspOrg(InetAddress
                 .getByName("1.1.1.2"));
         assertEquals("en is returned when no locales are specified", cio
@@ -85,7 +85,7 @@ public class NamesTest {
     @Test
     public void testMissing() throws IOException, GeoIp2Exception {
         WebServiceClient client = new WebServiceClient.Builder(42,
-                "abcdef123456").transport(this.transport)
+                "abcdef123456").testTransport(this.transport)
                 .locales(Arrays.asList("en")).build();
 
         CityIspOrgResponse cio = client.cityIspOrg(InetAddress

@@ -28,7 +28,7 @@ public class OmniTest {
         HttpTransport transport = new TestTransport();
 
         WebServiceClient client = new WebServiceClient.Builder(42, "012345689")
-                .transport(transport).build();
+                .testTransport(transport).build();
 
         this.omni = client.omni(InetAddress.getByName("1.1.1.1"));
     }
