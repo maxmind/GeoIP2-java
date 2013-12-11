@@ -105,7 +105,7 @@ public class WebServiceClient implements GeoIp2Provider {
     private final List<String> locales;
     private final String licenseKey;
     private final int timeout;
-    private final HttpTransport transport;
+    private final HttpTransport testTransport;
     private final int userId;
 
     WebServiceClient(Builder builder) {
@@ -113,7 +113,7 @@ public class WebServiceClient implements GeoIp2Provider {
         this.locales = builder.locales;
         this.licenseKey = builder.licenseKey;
         this.timeout = builder.timeout;
-        this.transport = builder.transport;
+        this.testTransport = builder.testTransport;
         this.userId = builder.userId;
     }
 
@@ -137,7 +137,7 @@ public class WebServiceClient implements GeoIp2Provider {
         String host = "geoip.maxmind.com";
         List<String> locales = Arrays.asList("en");
         int timeout = 3000;
-        HttpTransport transport = new NetHttpTransport();
+        HttpTransport testTransport;
 
         /**
          * @param userId
@@ -179,9 +179,11 @@ public class WebServiceClient implements GeoIp2Provider {
             return this;
         }
 
-        // For unit testing
-        Builder transport(HttpTransport val) {
-            this.transport = val;
+        /**
+         * @param val Transport for unit testing.
+         */
+        Builder testTransport(HttpTransport val) {
+            this.testTransport = val;
             return this;
         }
 
@@ -285,8 +287,10 @@ public class WebServiceClient implements GeoIp2Provider {
 
     private HttpResponse getResponse(GenericUrl uri) throws GeoIp2Exception,
             IOException {
-        HttpRequestFactory requestFactory = this.transport
-                .createRequestFactory();
+        // We only use a instance variable for HttpTransport when unit testing as
+        // HttpTransport is not thread safe.
+        HttpTransport transport = this.testTransport == null ? new NetHttpTransport() : this.testTransport;
+        HttpRequestFactory requestFactory = transport.createRequestFactory();
         HttpRequest request;
         try {
             request = requestFactory.buildGetRequest(uri);

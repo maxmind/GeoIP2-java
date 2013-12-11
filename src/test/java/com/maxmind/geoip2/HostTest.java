@@ -17,7 +17,7 @@ public class HostTest {
     public void omni() throws IOException, GeoIp2Exception {
         HttpTransport transport = new TestTransport();
         WebServiceClient client = new WebServiceClient.Builder(42,
-                "abcdef123456").host("blah.com").transport(transport).build();
+                "abcdef123456").host("blah.com").testTransport(transport).build();
 
         OmniResponse omni = client.omni(InetAddress
                 .getByName("128.101.101.101"));

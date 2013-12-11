@@ -19,7 +19,7 @@ public class CountryTest {
     public void setUp() throws IOException, GeoIp2Exception {
         HttpTransport transport = new TestTransport();
         WebServiceClient client = new WebServiceClient.Builder(42,
-                "abcdef123456").transport(transport).build();
+                "abcdef123456").testTransport(transport).build();
 
         this.country = client.country(InetAddress.getByName("1.1.1.3"));
     }
