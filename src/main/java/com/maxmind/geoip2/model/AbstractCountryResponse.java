@@ -1,7 +1,5 @@
 package com.maxmind.geoip2.model;
 
-import java.io.IOException;
-
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,7 +9,10 @@ import com.maxmind.geoip2.record.MaxMind;
 import com.maxmind.geoip2.record.RepresentedCountry;
 import com.maxmind.geoip2.record.Traits;
 
-abstract class AbstractCountryResponse {
+import java.io.IOException;
+import java.io.Serializable;
+
+abstract class AbstractCountryResponse implements Serializable {
     @JsonProperty
     private Continent continent = new Continent();
 
