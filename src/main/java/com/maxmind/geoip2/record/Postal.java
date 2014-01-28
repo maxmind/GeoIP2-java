@@ -5,12 +5,14 @@ package com.maxmind.geoip2.record;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
+
 /**
  * Contains data for the postal record associated with an IP address.
  *
  * This record is returned by all the end points except the Country end point.
  */
-final public class Postal {
+final public class Postal implements Serializable {
     @JsonProperty
     private String code;
 
