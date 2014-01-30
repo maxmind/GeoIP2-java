@@ -8,8 +8,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This record is returned by all the end points except the Country end point.
  */
 final public class City extends AbstractNamedRecord {
-    private static final long serialVersionUID = -6456295129038664182L;
-
     @JsonProperty
     private Integer confidence;
 

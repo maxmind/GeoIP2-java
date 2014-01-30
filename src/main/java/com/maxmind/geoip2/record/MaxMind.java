@@ -1,8 +1,8 @@
 package com.maxmind.geoip2.record;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
 
 /**
  * Contains data related to your MaxMind account.
@@ -10,8 +10,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This record is returned by all the end points.
  */
 final public class MaxMind implements Serializable {
-    private static final long serialVersionUID = -7827300875468506591L;
-
     @JsonProperty("queries_remaining")
     private Integer queriesRemaining;
 

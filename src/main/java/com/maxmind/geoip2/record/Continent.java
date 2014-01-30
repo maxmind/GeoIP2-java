@@ -8,8 +8,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This record is returned by all the end points.
  */
 final public class Continent extends AbstractNamedRecord {
-    private static final long serialVersionUID = 110519426569211412L;
-
     @JsonProperty("code")
     private String code;
 

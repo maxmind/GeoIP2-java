@@ -11,8 +11,6 @@ package com.maxmind.geoip2.model;
  *      Services</a>
  */
 final public class CountryResponse extends AbstractCountryResponse {
-    private static final long serialVersionUID = 972441499405038943L;
-
     public CountryResponse() {
         // For Jackson
     }

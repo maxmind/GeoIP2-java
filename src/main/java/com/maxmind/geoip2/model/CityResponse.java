@@ -11,8 +11,6 @@ package com.maxmind.geoip2.model;
  *      Services</a>
  */
 final public class CityResponse extends AbstractCityResponse {
-    private static final long serialVersionUID = -7125724130268776656L;
-
     public CityResponse() {
         // For Jackson
     }
