@@ -1,18 +1,17 @@
 package com.maxmind.geoip2.record;
 
-import com.fasterxml.jackson.annotation.JacksonInject;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Abstract class for records with name maps.
  */
-public abstract class AbstractNamedRecord implements Serializable {
+public abstract class AbstractNamedRecord {
     @JsonProperty
     private HashMap<String, String> names = new HashMap<String, String>();
     @JsonProperty("geoname_id")
