@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This record is returned by all the end points.
  */
 final public class RepresentedCountry extends Country {
+    private static final long serialVersionUID = 3196560357730362797L;
+
     @JsonProperty
     private String type;
 

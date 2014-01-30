@@ -11,6 +11,8 @@ package com.maxmind.geoip2.model;
  *      Services</a>
  */
 final public class OmniResponse extends AbstractCityResponse {
+    private static final long serialVersionUID = 4889001929735064944L;
+
     public OmniResponse() {
     }
 }

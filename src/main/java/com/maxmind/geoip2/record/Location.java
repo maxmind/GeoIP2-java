@@ -1,8 +1,8 @@
 package com.maxmind.geoip2.record;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Contains data for the location record associated with an IP address.
@@ -10,6 +10,8 @@ import java.io.Serializable;
  * This record is returned by all the end points except the Country end point.
  */
 final public class Location implements Serializable {
+    private static final long serialVersionUID = -6203017702697105870L;
+
     @JsonProperty("accuracy_radius")
     private Integer accuracyRadius;
 

@@ -1,8 +1,8 @@
 package com.maxmind.geoip2.record;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Contains data for the traits record associated with an IP address.
@@ -10,6 +10,8 @@ import java.io.Serializable;
  * This record is returned by all the end points.
  */
 final public class Traits implements Serializable {
+    private static final long serialVersionUID = 1806152181745052290L;
+
     @JsonProperty("autonomous_system_number")
     private Integer autonomousSystemNumber;
 

@@ -11,6 +11,9 @@ import com.maxmind.geoip2.record.Postal;
 import com.maxmind.geoip2.record.Subdivision;
 
 abstract class AbstractCityResponse extends AbstractCountryResponse {
+
+    private static final long serialVersionUID = 4921442874245012349L;
+
     @JsonProperty
     private City city = new City();
     @JsonProperty
