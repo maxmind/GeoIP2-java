@@ -135,7 +135,7 @@ the GeoIP2 web service documentation](http://dev.maxmind.com/geoip2/geoip/web-se
 
 If the web service returns an explicit error document, this is thrown as an
 `AddressNotFoundException`, an `AuthenticationException`, an
-`InvalidRequestException`, or an `OutOfQueriesException.
+`InvalidRequestException`, or an `OutOfQueriesException`.
 
 If some sort of transport error occurs, an `HttpException` is thrown. This
 is thrown when some sort of unanticipated error occurs, such as the web
