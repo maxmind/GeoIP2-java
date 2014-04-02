@@ -21,8 +21,8 @@
     </organization>
     <scm>
         <url>https://github.com/maxmind/GeoIP2-java</url>
-        <connection>scm:git:git@git.maxmind.com:GeoIP2-java</connection>
-        <developerConnection>scm:git:git@git.maxmind.com:GeoIP2-java</developerConnection>
+        <connection>scm:git:git://github.com:maxmind/GeoIP2-java.git</connection>
+        <developerConnection>sscm:git:git@github.com:maxmind/GeoIP2-java.git</developerConnection>
     </scm>
     <issueManagement>
         <url>https://github.com/maxmind/GeoIP2-java/issues</url>
@@ -39,7 +39,7 @@
         <dependency>
             <groupId>com.maxmind.db</groupId>
             <artifactId>maxmind-db</artifactId>
-            <version>0.3.1</version>
+            <version>0.3.2</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

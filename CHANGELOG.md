@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-0.7.1 (2013-XX-XX)
+0.7.1 (2014-04-02)
 ------------------
 
 * Added `toJson` method to response objects.
