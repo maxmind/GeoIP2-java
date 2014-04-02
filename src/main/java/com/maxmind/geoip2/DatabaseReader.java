@@ -55,7 +55,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
      * be a valid GeoIP2 database file.
      *
      * <code>Builder</code> creates instances of
-     * <code>DatabaseReader</client> from values set by the methods.
+     * <code>DatabaseReader</code> from values set by the methods.
      *
      * Only the values set in the <code>Builder</code> constructor are
      * required.
