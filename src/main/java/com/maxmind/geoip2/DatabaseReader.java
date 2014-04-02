@@ -89,6 +89,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
          * @param val
          *            List of locale codes to use in name property from most
          *            preferred to least preferred.
+         * @return Builder object
          */
         public Builder locales(List<String> val) {
             this.locales = val;
@@ -102,6 +103,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
          *             if you initialized the Builder with a URL, which uses
          *             {@link FileMode#MEMORY}, but you provided a different
          *             FileMode to this method.
+         * @return Builder object
          * */
         public Builder fileMode(FileMode val) {
             if (this.stream != null && !FileMode.MEMORY.equals(val)) {
@@ -115,7 +117,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
         /**
          * @return an instance of <code>DatabaseReader</code> created from the
          *         fields set on this builder.
-         * @throws IOException
+         * @throws IOException if there is an error reading the database
          */
         public DatabaseReader build() throws IOException {
             return new DatabaseReader(this);

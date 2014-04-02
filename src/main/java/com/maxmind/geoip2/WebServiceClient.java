@@ -153,6 +153,7 @@ public class WebServiceClient implements GeoIp2Provider {
         /**
          * @param val
          *            The host to use.
+         * @return Builder object
          */
         public Builder host(String val) {
             this.host = val;
@@ -163,6 +164,7 @@ public class WebServiceClient implements GeoIp2Provider {
          * @param val
          *            List of locale codes to use in name property from most
          *            preferred to least preferred.
+         * @return Builder object
          */
         public Builder locales(List<String> val) {
             this.locales = val;
@@ -173,6 +175,7 @@ public class WebServiceClient implements GeoIp2Provider {
          * @param val
          *            Timeout in milliseconds for connection to web service. The
          *            default is 3000 (3 seconds).
+         * @return Builder object
          */
         public Builder timeout(int val) {
             this.timeout = val;
@@ -181,6 +184,7 @@ public class WebServiceClient implements GeoIp2Provider {
 
         /**
          * @param val Transport for unit testing.
+         * @return Builder object
          */
         Builder testTransport(HttpTransport val) {
             this.testTransport = val;
