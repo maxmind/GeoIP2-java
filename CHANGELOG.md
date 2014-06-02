@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+0.7.2 (2014-06-02)
+------------------
+
+* Updated to version 0.3.3 of `maxmind-db`, which fixes a potential resource
+  leak when used with a thread pool.
+* Updated Google HTTP Client dependency.
+* The Maven build was updated to include a zip file with all dependencies.
+
 0.7.1 (2014-04-02)
 ------------------
 
