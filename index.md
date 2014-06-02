@@ -2,7 +2,7 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v0.7.1
+version: v0.7.2
 ---
 
 # GeoIP2 Java API #
