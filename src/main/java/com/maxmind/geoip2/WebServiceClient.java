@@ -118,10 +118,10 @@ public class WebServiceClient implements GeoIp2Provider {
     }
 
     /**
-     * <code>Builder</code> creates instances of
-     * <code>WebServiceClient</code> from values set by the methods.
+     * <code>Builder</code> creates instances of <code>WebServiceClient</code>
+     * from values set by the methods.
      *
-     *  This example shows how to create a <code>WebServiceClient</code> object
+     * This example shows how to create a <code>WebServiceClient</code> object
      * with the <code>Builder</code>:
      *
      * WebServiceClient client = new
@@ -183,7 +183,8 @@ public class WebServiceClient implements GeoIp2Provider {
         }
 
         /**
-         * @param val Transport for unit testing.
+         * @param val
+         *            Transport for unit testing.
          * @return Builder object
          */
         Builder testTransport(HttpTransport val) {
@@ -202,8 +203,10 @@ public class WebServiceClient implements GeoIp2Provider {
 
     /**
      * @return A Country model for the requesting IP address
-     * @throws GeoIp2Exception if there is an error from the web service
-     * @throws IOException if an IO error happens during the request
+     * @throws GeoIp2Exception
+     *             if there is an error from the web service
+     * @throws IOException
+     *             if an IO error happens during the request
      */
     public CountryResponse country() throws IOException, GeoIp2Exception {
         return this.country(null);
@@ -217,8 +220,10 @@ public class WebServiceClient implements GeoIp2Provider {
 
     /**
      * @return A City model for the requesting IP address
-     * @throws GeoIp2Exception if there is an error from the web service
-     * @throws IOException if an IO error happens during the request
+     * @throws GeoIp2Exception
+     *             if there is an error from the web service
+     * @throws IOException
+     *             if an IO error happens during the request
      */
     public CityResponse city() throws IOException, GeoIp2Exception {
         return this.city(null);
@@ -232,8 +237,10 @@ public class WebServiceClient implements GeoIp2Provider {
 
     /**
      * @return A City/ISP/Org model for the requesting IP address
-     * @throws GeoIp2Exception if there is an error from the web service
-     * @throws IOException if an IO error happens during the request
+     * @throws GeoIp2Exception
+     *             if there is an error from the web service
+     * @throws IOException
+     *             if an IO error happens during the request
      */
     public CityIspOrgResponse cityIspOrg() throws IOException, GeoIp2Exception {
         return this.cityIspOrg(null);
@@ -248,8 +255,10 @@ public class WebServiceClient implements GeoIp2Provider {
 
     /**
      * @return An Omni model for the requesting IP address
-     * @throws GeoIp2Exception if there is an error from the web service
-     * @throws IOException if an IO error happens during the request
+     * @throws GeoIp2Exception
+     *             if there is an error from the web service
+     * @throws IOException
+     *             if an IO error happens during the request
      */
     public OmniResponse omni() throws IOException, GeoIp2Exception {
         return this.omni(null);
@@ -291,9 +300,11 @@ public class WebServiceClient implements GeoIp2Provider {
 
     private HttpResponse getResponse(GenericUrl uri) throws GeoIp2Exception,
             IOException {
-        // We only use a instance variable for HttpTransport when unit testing as
+        // We only use a instance variable for HttpTransport when unit testing
+        // as
         // HttpTransport is not thread safe.
-        HttpTransport transport = this.testTransport == null ? new NetHttpTransport() : this.testTransport;
+        HttpTransport transport = this.testTransport == null ? new NetHttpTransport()
+                : this.testTransport;
         HttpRequestFactory requestFactory = transport.createRequestFactory();
         HttpRequest request;
         try {

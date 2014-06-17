@@ -1,17 +1,13 @@
 package com.maxmind.geoip2.model;
 
-import java.io.IOException;
-
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maxmind.geoip2.record.Continent;
 import com.maxmind.geoip2.record.Country;
 import com.maxmind.geoip2.record.MaxMind;
 import com.maxmind.geoip2.record.RepresentedCountry;
 import com.maxmind.geoip2.record.Traits;
 
-abstract class AbstractCountryResponse {
+abstract class AbstractCountryResponse extends AbstractResponse {
     @JsonProperty
     private Continent continent = new Continent();
 
@@ -78,19 +74,6 @@ abstract class AbstractCountryResponse {
      */
     public Traits getTraits() {
         return this.traits;
-    }
-
-    /**
-     * @return JSON representation of this object. The structure is the same as
-     *         the JSON provided by the GeoIP2 web service.
-     * @throws IOException
-     *             if there is an error serializing the object to JSON.
-     */
-    public String toJson() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setSerializationInclusion(Include.NON_NULL);
-        mapper.setSerializationInclusion(Include.NON_EMPTY);
-        return mapper.writeValueAsString(this);
     }
 
     /*
