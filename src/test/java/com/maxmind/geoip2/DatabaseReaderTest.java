@@ -191,14 +191,14 @@ public class DatabaseReaderTest {
     public void testIsp() throws IOException, URISyntaxException,
             GeoIp2Exception {
         DatabaseReader reader = new DatabaseReader.Builder(
-                this.getFile("GeoIP2-ISP-Org-Test.mmdb")).build();
-        InetAddress ipAddress = InetAddress.getByName("2001:1700::");
+                this.getFile("GeoIP2-ISP-Test.mmdb")).build();
+        InetAddress ipAddress = InetAddress.getByName("1.128.0.0");
         IspResponse response = reader.isp(ipAddress);
-        assertEquals(6730, response.getAutonomousSystemNumber().intValue());
-        assertEquals("Sunrise Communications AG",
+        assertEquals(1221, response.getAutonomousSystemNumber().intValue());
+        assertEquals("Telstra Pty Ltd",
                 response.getAutonomousSystemOrganization());
-
-        // XXX - Add org/isp when available
+        assertEquals("Telstra Internet",             response.getIsp());
+        assertEquals("Telstra Internet",             response.getOrganization());
 
         assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
         reader.close();
