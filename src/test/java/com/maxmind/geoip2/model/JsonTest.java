@@ -49,10 +49,11 @@ public class JsonTest {
                 false);
         InjectableValues inject = new InjectableValues.Std().addValue(
                 "locales", new ArrayList<String>());
-        OmniResponse response = mapper.reader(OmniResponse.class).with(inject).readValue(
-                this.omniBody);
+        OmniResponse response = mapper.reader(OmniResponse.class).with(inject)
+                .readValue(this.omniBody);
         JsonNode expectedNode = mapper.readValue(this.omniBody, JsonNode.class);
-        JsonNode actualNode = mapper.readValue(response.toJson(), JsonNode.class);
+        JsonNode actualNode = mapper.readValue(response.toJson(),
+                JsonNode.class);
 
         assertEquals(expectedNode, actualNode);
     }

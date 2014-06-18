@@ -18,7 +18,10 @@ import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityIspOrgResponse;
 import com.maxmind.geoip2.model.CityResponse;
+import com.maxmind.geoip2.model.ConnectionTypeResponse;
 import com.maxmind.geoip2.model.CountryResponse;
+import com.maxmind.geoip2.model.DomainResponse;
+import com.maxmind.geoip2.model.IspResponse;
 import com.maxmind.geoip2.model.OmniResponse;
 
 /**
@@ -45,6 +48,8 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
         this.om = new ObjectMapper();
         this.om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
                 false);
+        this.om.configure(
+                DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
         InjectableValues inject = new InjectableValues.Std().addValue(
                 "locales", builder.locales);
         this.om.setInjectableValues(inject);
@@ -54,11 +59,10 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
      * Constructs a Builder for the DatabaseReader. The file passed to it must
      * be a valid GeoIP2 database file.
      *
-     * <code>Builder</code> creates instances of
-     * <code>DatabaseReader</code> from values set by the methods.
+     * <code>Builder</code> creates instances of <code>DatabaseReader</code>
+     * from values set by the methods.
      *
-     * Only the values set in the <code>Builder</code> constructor are
-     * required.
+     * Only the values set in the <code>Builder</code> constructor are required.
      */
     public final static class Builder {
         final File database;
@@ -117,7 +121,8 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
         /**
          * @return an instance of <code>DatabaseReader</code> created from the
          *         fields set on this builder.
-         * @throws IOException if there is an error reading the database
+         * @throws IOException
+         *             if there is an error reading the database
          */
         public DatabaseReader build() throws IOException {
             return new DatabaseReader(this);
@@ -135,6 +140,11 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
      */
     private <T> T get(InetAddress ipAddress, Class<T> cls) throws IOException,
             AddressNotFoundException {
+        return this.get(ipAddress, cls, true);
+    }
+
+    private <T> T get(InetAddress ipAddress, Class<T> cls, boolean hasTraits)
+            throws IOException, AddressNotFoundException {
         ObjectNode node = (ObjectNode) this.reader.get(ipAddress);
 
         // We throw the same exception as the web service when an IP is not in
@@ -144,11 +154,16 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
                     + ipAddress.getHostAddress() + " is not in the database.");
         }
 
-        if (!node.has("traits")) {
-            node.put("traits", this.om.createObjectNode());
+        ObjectNode ipNode;
+        if (hasTraits) {
+            if (!node.has("traits")) {
+                node.put("traits", this.om.createObjectNode());
+            }
+            ipNode = (ObjectNode) node.get("traits");
+        } else {
+            ipNode = node;
         }
-        ObjectNode traits = (ObjectNode) node.get("traits");
-        traits.put("ip_address", ipAddress.getHostAddress());
+        ipNode.put("ip_address", ipAddress.getHostAddress());
 
         // The cast and the Omni.class are sort of ugly. There might be a
         // better way
@@ -188,5 +203,20 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     public OmniResponse omni(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this.get(ipAddress, OmniResponse.class);
+    }
+
+    public ConnectionTypeResponse connectionType(InetAddress ipAddress)
+            throws IOException, GeoIp2Exception {
+        return this.get(ipAddress, ConnectionTypeResponse.class, false);
+    }
+
+    public DomainResponse domain(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.get(ipAddress, DomainResponse.class, false);
+    }
+
+    public IspResponse isp(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.get(ipAddress, IspResponse.class, false);
     }
 }

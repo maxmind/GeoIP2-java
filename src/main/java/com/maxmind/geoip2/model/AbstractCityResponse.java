@@ -79,8 +79,7 @@ abstract class AbstractCityResponse extends AbstractCountryResponse {
                 + (this.getPostal() != null ? "getPostal()=" + this.getPostal()
                         + ", " : "")
                 + (this.getSubdivisions() != null ? "getSubdivisionsList()="
-                        + this.getSubdivisions() + ", "
-                        : "")
+                        + this.getSubdivisions() + ", " : "")
                 + (this.getContinent() != null ? "getContinent()="
                         + this.getContinent() + ", " : "")
                 + (this.getCountry() != null ? "getCountry()="

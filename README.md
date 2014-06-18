@@ -99,6 +99,7 @@ See the API documentation for more details.
 
 ## Database Example ##
 
+### City ###
 ```java
 
 // A File object pointing to your GeoIP2 or GeoLite2 database
@@ -125,6 +126,66 @@ System.out.println(response.getPostal().getCode()); // '55455'
 
 System.out.println(response.getLocation().getLatitude()); // 44.9733
 System.out.println(response.getLocation().getLongitude()); // -93.2323
+
+```
+
+### Connection-Type ###
+
+```java
+
+// A File object pointing to your GeoIP2 Connection-Type database
+File database = new File("/path/to/GeoIP2-Connection-Type.mmdb");
+
+// This creates the DatabaseReader object, which should be reused across
+// lookups.
+DatabaseReader reader = new DatabaseReader.Builder(database).build();
+
+
+ConnectionTypeResponse response = reader.connectionType(
+        InetAddress.getByName("128.101.101.101"));
+
+// getConnectionType() returns a ConnectionType enum
+ConnectionType type = response.getConnectionType();
+
+System.out.println(type); // 'Corporate'
+```
+
+### Domain ###
+
+```java
+
+// A File object pointing to your GeoIP2 Domain database
+File database = new File("/path/to/GeoIP2-Domain.mmdb");
+
+// This creates the DatabaseReader object, which should be reused across
+// lookups.
+DatabaseReader reader = new DatabaseReader.Builder(database).build();
+
+
+DomainResponse response = reader.domain(
+        InetAddress.getByName("128.101.101.101"));
+
+System.out.println(response.getDomain()); // 'Corporate'
+```
+
+### ISP ###
+
+```java
+
+// A File object pointing to your GeoIP2 ISP database
+File database = new File("/path/to/GeoIP2-ISP.mmdb");
+
+// This creates the DatabaseReader object, which should be reused across
+// lookups.
+DatabaseReader reader = new DatabaseReader.Builder(database).build();
+
+
+IspResponse response = reader.isp(InetAddress.getByName("128.101.101.101"));
+
+System.out.println(response.getAutonomousSystemNumber()); // 217
+System.out.println(response.getAutonomousSystemOrganization()); // 'University of Minnesota'
+System.out.println(response.getIsp()); // 'University of Minnesota'
+System.out.println(response.getOrganization()); // 'University of Minnesota'
 
 ```
 
