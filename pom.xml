@@ -3,10 +3,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.maxmind.geoip2</groupId>
     <artifactId>geoip2</artifactId>
-    <version>0.7.3-SNAPSHOT</version>
+    <version>0.8.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>MaxMind GeoIP2 API</name>
-    <description>API for accessing MaxMind's GeoIP2 web service</description>
+    <description>GeoIP2 webservice client and database reader</description>
     <url>http://dev.maxmind.com/geoip/geoip2/web-services</url>
     <licenses>
         <license>
