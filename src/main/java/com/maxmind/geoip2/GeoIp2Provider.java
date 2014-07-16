@@ -9,6 +9,7 @@ import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.model.OmniResponse;
 
+@SuppressWarnings("deprecation")
 public interface GeoIp2Provider {
 
     /**
@@ -43,7 +44,10 @@ public interface GeoIp2Provider {
      *             if there is an error looking up the IP
      * @throws IOException
      *             if there is an IO error
+     *
+     * @deprecated As of 0.8.0, this has been replaced by {@link #city(InetAddress)}.
      */
+    @Deprecated
     public CityIspOrgResponse cityIspOrg(InetAddress ipAddress)
             throws IOException, GeoIp2Exception;
 
@@ -55,7 +59,10 @@ public interface GeoIp2Provider {
      *             if there is an error looking up the IP
      * @throws IOException
      *             if there is an IO error
+     *
+     * @deprecated As of 0.8.0, use {@link WebServiceClient#insights(InetAddress)} instead.
      */
+    @Deprecated
     public OmniResponse omni(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
 }

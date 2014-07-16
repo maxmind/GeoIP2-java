@@ -19,13 +19,8 @@ import org.junit.rules.ExpectedException;
 import com.maxmind.db.Reader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.CityIspOrgResponse;
-import com.maxmind.geoip2.model.CityResponse;
-import com.maxmind.geoip2.model.ConnectionTypeResponse;
+import com.maxmind.geoip2.model.*;
 import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
-import com.maxmind.geoip2.model.DomainResponse;
-import com.maxmind.geoip2.model.IspResponse;
-import com.maxmind.geoip2.model.OmniResponse;
 
 public class DatabaseReaderTest {
 
@@ -54,6 +49,8 @@ public class DatabaseReaderTest {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipStream)
                 .build();
         this.testDefaultLocale(reader);
+        reader.close();
+
     }
 
     private void testDefaultLocale(DatabaseReader reader) throws IOException,
