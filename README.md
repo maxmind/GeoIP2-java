@@ -12,7 +12,7 @@ website](http://www.maxmind.com/en/geoip2_beta).
 
 ## Description ##
 
-This distribution provides an API for the GeoIP2 [web services]
+This distribution provides an API for the GeoIP2 [Precision web services]
 (http://dev.maxmind.com/geoip/geoip2/web-services) and [databases]
 (http://dev.maxmind.com/geoip/geoip2/downloadable). The API also works with
 the free [GeoLite2 databases](http://dev.maxmind.com/geoip/geoip2/geolite2/).
@@ -28,7 +28,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>0.7.2</version>
+        <version>0.8.0-SNAPSHOT</version>
     </dependency>
 ```
 
@@ -56,9 +56,9 @@ See the API documentation for more details.
 // Replace "42" with your user ID and "license_key" with your license key.
 WebServiceClient client = new WebServiceClient.Builder(42, "license_key").build();
 
-// Replace "omni" with the method corresponding to the web service that
-// you are using, e.g., "country", "cityIspOrg", "city".
-OmniResponse response = client.omni(InetAddress.getByName("128.101.101.101"));
+// Replace "city" with the method corresponding to the web service that
+// you are using, e.g., "country" or "insights".
+CityResponse response = client.city(InetAddress.getByName("128.101.101.101"));
 
 System.out.println(response.getCountry().getIsoCode()); // 'US'
 System.out.println(response.getCountry().getName()); // 'United States'
@@ -87,7 +87,7 @@ appropriate method (e.g., `city`) for your database, passing it the IP address
 you want to look up.
 
 If the lookup succeeds, the method call will return a response class for the
-GeoIP lookup. The class in turn contains multiple record classes, each of
+GeoIP2 lookup. The class in turn contains multiple record classes, each of
 which represents part of the data returned by the database.
 
 We recommend reusing the `DatabaseReader` object rather than creating a new
@@ -192,7 +192,8 @@ System.out.println(response.getOrganization()); // 'University of Minnesota'
 ## Exceptions ##
 
 For details on the possible errors returned by the web service itself, [see
-the GeoIP2 web service documentation](http://dev.maxmind.com/geoip2/geoip/web-services).
+the GeoIP2 Precision web service
+documentation](http://dev.maxmind.com/geoip2/geoip/web-services).
 
 If the web service returns an explicit error document, this is thrown as an
 `AddressNotFoundException`, an `AuthenticationException`, an

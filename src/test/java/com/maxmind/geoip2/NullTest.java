@@ -14,16 +14,8 @@ import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.OmniResponse;
-import com.maxmind.geoip2.record.AbstractNamedRecord;
-import com.maxmind.geoip2.record.City;
-import com.maxmind.geoip2.record.Continent;
-import com.maxmind.geoip2.record.Country;
-import com.maxmind.geoip2.record.Location;
-import com.maxmind.geoip2.record.MaxMind;
-import com.maxmind.geoip2.record.RepresentedCountry;
-import com.maxmind.geoip2.record.Subdivision;
-import com.maxmind.geoip2.record.Traits;
+import com.maxmind.geoip2.model.InsightsResponse;
+import com.maxmind.geoip2.record.*;
 
 public class NullTest {
 
@@ -34,22 +26,22 @@ public class NullTest {
 
     @Test
     public void testDefaults() throws IOException, GeoIp2Exception {
-        OmniResponse omni = this.client.omni(InetAddress.getByName("1.2.3.13"));
+        InsightsResponse insights = this.client.insights(InetAddress.getByName("1.2.3.13"));
 
-        assertTrue(omni.toString().startsWith("Omni"));
+        assertTrue(insights.toString().startsWith("Insights"));
 
-        City city = omni.getCity();
+        City city = insights.getCity();
         assertNotNull(city);
         assertNull(city.getConfidence());
 
-        Continent continent = omni.getContinent();
+        Continent continent = insights.getContinent();
         assertNotNull(continent);
         assertNull(continent.getCode());
 
-        Country country = omni.getCountry();
+        Country country = insights.getCountry();
         assertNotNull(country);
 
-        Location location = omni.getLocation();
+        Location location = insights.getLocation();
         assertNotNull(location);
         assertNull(location.getAccuracyRadius());
         assertNull(location.getLatitude());
@@ -58,29 +50,29 @@ public class NullTest {
         assertNull(location.getTimeZone());
         assertEquals("Location []", location.toString());
 
-        MaxMind maxmind = omni.getMaxMind();
+        MaxMind maxmind = insights.getMaxMind();
         assertNotNull(maxmind);
         assertNull(maxmind.getQueriesRemaining());
 
-        assertNotNull(omni.getPostal());
+        assertNotNull(insights.getPostal());
 
-        Country registeredCountry = omni.getRegisteredCountry();
+        Country registeredCountry = insights.getRegisteredCountry();
         assertNotNull(registeredCountry);
 
-        RepresentedCountry representedCountry = omni.getRepresentedCountry();
+        RepresentedCountry representedCountry = insights.getRepresentedCountry();
         assertNotNull(representedCountry);
         assertNull(representedCountry.getType());
 
-        List<Subdivision> subdivisions = omni.getSubdivisions();
+        List<Subdivision> subdivisions = insights.getSubdivisions();
         assertNotNull(subdivisions);
         assertTrue(subdivisions.isEmpty());
 
-        Subdivision subdiv = omni.getMostSpecificSubdivision();
+        Subdivision subdiv = insights.getMostSpecificSubdivision();
         assertNotNull(subdiv);
         assertNull(subdiv.getIsoCode());
         assertNull(subdiv.getConfidence());
 
-        Traits traits = omni.getTraits();
+        Traits traits = insights.getTraits();
         assertNotNull(traits);
         assertNull(traits.getAutonomousSystemNumber());
         assertNull(traits.getAutonomousSystemOrganization());

@@ -13,15 +13,11 @@ import org.junit.Test;
 
 import com.google.api.client.http.HttpTransport;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.OmniResponse;
-import com.maxmind.geoip2.record.Location;
-import com.maxmind.geoip2.record.MaxMind;
-import com.maxmind.geoip2.record.Postal;
-import com.maxmind.geoip2.record.Subdivision;
-import com.maxmind.geoip2.record.Traits;
+import com.maxmind.geoip2.model.InsightsResponse;
+import com.maxmind.geoip2.record.*;
 
-public class OmniTest {
-    private OmniResponse omni;
+public class InsightsTest {
+    private InsightsResponse insights;
 
     @Before
     public void createClient() throws IOException, GeoIp2Exception {
@@ -30,12 +26,12 @@ public class OmniTest {
         WebServiceClient client = new WebServiceClient.Builder(42, "012345689")
                 .testTransport(transport).build();
 
-        this.omni = client.omni(InetAddress.getByName("1.1.1.1"));
+        this.insights = client.insights(InetAddress.getByName("1.1.1.1"));
     }
 
     @Test
     public void testSubdivisionsList() {
-        List<Subdivision> subdivisionsList = this.omni.getSubdivisions();
+        List<Subdivision> subdivisionsList = this.insights.getSubdivisions();
         assertNotNull("city.getSubdivisionsList returns null", subdivisionsList);
         if (subdivisionsList.size() == 0) {
             fail("subdivisionsList is empty");
@@ -52,13 +48,13 @@ public class OmniTest {
     @Test
     public void mostSpecificSubdivision() {
         assertEquals("Most specific subdivision returns last subdivision",
-                "TT", this.omni.getMostSpecificSubdivision().getIsoCode());
+                "TT", this.insights.getMostSpecificSubdivision().getIsoCode());
     }
 
     @SuppressWarnings("boxing")
     @Test
     public void testTraits() {
-        Traits traits = this.omni.getTraits();
+        Traits traits = this.insights.getTraits();
 
         assertNotNull("city.getTraits() returns null", traits);
         assertEquals("traits.getAutonomousSystemNumber() does not return 1234",
@@ -86,7 +82,7 @@ public class OmniTest {
     @Test
     public void testLocation() {
 
-        Location location = this.omni.getLocation();
+        Location location = this.insights.getLocation();
 
         assertNotNull("city.getLocation() returns null", location);
 
@@ -107,7 +103,7 @@ public class OmniTest {
 
     @Test
     public void testMaxMind() {
-        MaxMind maxmind = this.omni.getMaxMind();
+        MaxMind maxmind = this.insights.getMaxMind();
         assertEquals("Correct number of queries remaining", 11, maxmind
                 .getQueriesRemaining().intValue());
     }
@@ -115,7 +111,7 @@ public class OmniTest {
     @Test
     public void testPostal() {
 
-        Postal postal = this.omni.getPostal();
+        Postal postal = this.insights.getPostal();
         assertEquals("postal.getCode() does not return 55401", "55401",
                 postal.getCode());
         assertEquals("postal.getConfidence() does not return 33", new Integer(
@@ -126,10 +122,10 @@ public class OmniTest {
     @Test
     public void testRepresentedCountry() {
         assertNotNull("city.getRepresentedCountry() returns null",
-                this.omni.getRepresentedCountry());
+                this.insights.getRepresentedCountry());
 
         assertEquals(
                 "city.getRepresentedCountry().getType() does not return C<military>",
-                "C<military>", this.omni.getRepresentedCountry().getType());
+                "C<military>", this.insights.getRepresentedCountry().getType());
     }
 }

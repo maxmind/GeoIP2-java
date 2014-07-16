@@ -10,12 +10,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.exception.AddressNotFoundException;
-import com.maxmind.geoip2.exception.AuthenticationException;
-import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.exception.HttpException;
-import com.maxmind.geoip2.exception.InvalidRequestException;
-import com.maxmind.geoip2.exception.OutOfQueriesException;
+import com.maxmind.geoip2.exception.*;
 import com.maxmind.geoip2.matchers.CodeMatcher;
 import com.maxmind.geoip2.matchers.HttpStatusMatcher;
 
@@ -51,7 +46,7 @@ public class ExceptionTest {
     public void noErrorBody() throws IOException, GeoIp2Exception {
         this.exception.expect(HttpException.class);
         this.exception
-                .expectMessage(containsString("Received a 400 error for https://geoip.maxmind.com/geoip/v2.0/country/1.2.3.7 with no body"));
+                .expectMessage(containsString("Received a 400 error for https://geoip.maxmind.com/geoip/v2.1/country/1.2.3.7 with no body"));
         this.exception.expect(HttpStatusMatcher.hasStatus(400));
 
         this.client.country(InetAddress.getByName("1.2.3.7"));
@@ -105,7 +100,7 @@ public class ExceptionTest {
         this.exception.expect(GeoIp2Exception.class);
         this.exception
                 .expectMessage(containsString(" but it does not appear to be JSON"));
-        this.client.omni(InetAddress.getByName("1.2.3.14"));
+        this.client.insights(InetAddress.getByName("1.2.3.14"));
     }
 
     @Test
@@ -113,7 +108,7 @@ public class ExceptionTest {
         this.exception.expect(GeoIp2Exception.class);
         this.exception
                 .expectMessage(containsString("Received a 200 response but not decode it as JSON: "));
-        this.client.cityIspOrg(InetAddress.getByName("1.2.3.15"));
+        this.client.city(InetAddress.getByName("1.2.3.15"));
     }
 
     @Test

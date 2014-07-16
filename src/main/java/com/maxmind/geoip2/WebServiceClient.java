@@ -11,31 +11,17 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.client.http.GenericUrl;
-import com.google.api.client.http.HttpHeaders;
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpRequestFactory;
-import com.google.api.client.http.HttpResponse;
-import com.google.api.client.http.HttpResponseException;
-import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.*;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.maxmind.geoip2.exception.AddressNotFoundException;
-import com.maxmind.geoip2.exception.AuthenticationException;
-import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.exception.HttpException;
-import com.maxmind.geoip2.exception.InvalidRequestException;
-import com.maxmind.geoip2.exception.OutOfQueriesException;
-import com.maxmind.geoip2.model.CityIspOrgResponse;
-import com.maxmind.geoip2.model.CityResponse;
-import com.maxmind.geoip2.model.CountryResponse;
-import com.maxmind.geoip2.model.OmniResponse;
+import com.maxmind.geoip2.exception.*;
+import com.maxmind.geoip2.model.*;
 
 /**
  * <p>
- * This class provides a client API for all the GeoIP2 web service's end points.
- * The end points are Country, City, City/ISP/Org, and Omni. Each end point
+ * This class provides a client API for all the GeoIP2 Precision web service end points.
+ * The end points are Country and Insights. Each end point
  * returns a different set of data about an IP address, with Country returning
- * the least data and Omni the most.
+ * the least data and Insights the most.
  * </p>
  *
  * <p>
@@ -241,16 +227,48 @@ public class WebServiceClient implements GeoIp2Provider {
      *             if there is an error from the web service
      * @throws IOException
      *             if an IO error happens during the request
+     *
+     * @deprecated As of 0.8.0, use {@link #city()} instead.
      */
+@SuppressWarnings("deprecation")
+@Deprecated
     public CityIspOrgResponse cityIspOrg() throws IOException, GeoIp2Exception {
         return this.cityIspOrg(null);
     }
 
+    @SuppressWarnings("deprecation")
+    @Deprecated
     @Override
     public CityIspOrgResponse cityIspOrg(InetAddress ipAddress)
             throws IOException, GeoIp2Exception {
-        return this.responseFor("city_isp_org", ipAddress,
+        return this.responseFor("city", ipAddress,
                 CityIspOrgResponse.class);
+    }
+
+    /**
+     * @return An Insights model for the requesting IP address
+     * @throws GeoIp2Exception
+     *             if there is an error from the web service
+     * @throws IOException
+     *             if an IO error happens during the request
+     */
+    public InsightsResponse insights() throws IOException, GeoIp2Exception {
+        return this.insights(null);
+    }
+
+
+    /**
+     * @param ipAddress
+     *            IPv4 or IPv6 address to lookup.
+     * @return A Insight model for the requested IP address.
+     * @throws GeoIp2Exception
+     *             if there is an error looking up the IP
+     * @throws IOException
+     *             if there is an IO error
+     */
+    public InsightsResponse insights(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.responseFor("insights", ipAddress, InsightsResponse.class);
     }
 
     /**
@@ -259,15 +277,21 @@ public class WebServiceClient implements GeoIp2Provider {
      *             if there is an error from the web service
      * @throws IOException
      *             if an IO error happens during the request
+     *
+     * @deprecated As of 0.8.0, use {@link #insights()} instead.
      */
+    @SuppressWarnings("deprecation")
+    @Deprecated
     public OmniResponse omni() throws IOException, GeoIp2Exception {
         return this.omni(null);
     }
 
+    @SuppressWarnings("deprecation")
+    @Deprecated
     @Override
     public OmniResponse omni(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.responseFor("omni", ipAddress, OmniResponse.class);
+        return this.responseFor("insights", ipAddress, OmniResponse.class);
     }
 
     private <T> T responseFor(String path, InetAddress ipAddress, Class<T> cls)
@@ -408,7 +432,7 @@ public class WebServiceClient implements GeoIp2Provider {
     }
 
     private GenericUrl createUri(String path, InetAddress ipAddress) {
-        return new GenericUrl("https://" + this.host + "/geoip/v2.0/" + path
+        return new GenericUrl("https://" + this.host + "/geoip/v2.1/" + path
                 + "/" + (ipAddress == null ? "me" : ipAddress.getHostAddress()));
 
     }

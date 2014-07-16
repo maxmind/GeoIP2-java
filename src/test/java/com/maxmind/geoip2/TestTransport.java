@@ -9,7 +9,7 @@ import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 
 public final class TestTransport extends MockHttpTransport {
-    private final static String omniBody = "{" + "\"city\":{"
+    private final static String insightsBody = "{" + "\"city\":{"
             + "\"confidence\":76," + "\"geoname_id\":9876," + "\"names\":{"
             + "\"en\":\"Minneapolis\"" + "}" + "}," + "\"continent\":{"
             + "\"code\":\"NA\"," + "\"geoname_id\":42," + "\"names\":{"
@@ -68,15 +68,15 @@ public final class TestTransport extends MockHttpTransport {
             @Override
             public LowLevelHttpResponse execute() throws IOException {
                 String path = url.replaceFirst(
-                        "https://geoip.maxmind.com/geoip/v2.0/", "");
+                        "https://geoip.maxmind.com/geoip/v2.1/", "");
                 // only 1.7 supports switching on strings
                 // XXX - This could probably be cleaned up by dispatching to
                 // separate
                 // methods for the different endpoints
-                if (path.equals("omni/1.1.1.1")) {
+                if (path.equals("insights/1.1.1.1")) {
                     return this.getResponse("country", 200,
-                            TestTransport.omniBody);
-                } else if (path.equals("city_isp_org/1.1.1.2")) {
+                            TestTransport.insightsBody);
+                } else if (path.equals("city/1.1.1.2")) {
                     return this.getResponse("country", 200,
                             TestTransport.namesBody);
                 } else if (path.equals("country/1.1.1.3")) {
@@ -102,13 +102,13 @@ public final class TestTransport extends MockHttpTransport {
                     return this.getResponse("error", 406,
                             "Cannot satisfy your Accept-Charset requirements",
                             "text/plain");
-                } else if (path.equals("omni/1.2.3.13")) {
-                    return this.getResponse("omni", 200, "{}");
-                } else if (path.equals("omni/1.2.3.14")) {
-                    return this.getResponse("omni", 200, countryBody,
+                } else if (path.equals("insights/1.2.3.13")) {
+                    return this.getResponse("insights", 200, "{}");
+                } else if (path.equals("insights/1.2.3.14")) {
+                    return this.getResponse("insights", 200, countryBody,
                             "bad/content-type");
-                } else if (path.equals("city_isp_org/1.2.3.15")) {
-                    return this.getResponse("omni", 200, "{\"invalid\":yes}");
+                } else if (path.equals("city/1.2.3.15")) {
+                    return this.getResponse("insights", 200, "{\"invalid\":yes}");
                 } else if (path.equals("country/1.2.3.16")) {
                     String body = "{\"code\":\"IP_ADDRESS_NOT_FOUND\","
                             + "\"error\":\"The value 1.2.3.16 is not in the database.\"}";
@@ -134,12 +134,12 @@ public final class TestTransport extends MockHttpTransport {
                             + "\"error\":\"The license key you have provided is out of queries. Please purchase more queries to use this service.\"}";
                     return this.getResponse("error", 402, body);
                 } else if (path
-                        .equals("https://blah.com/geoip/v2.0/omni/128.101.101.101")) {
+                        .equals("https://blah.com/geoip/v2.1/insights/128.101.101.101")) {
                     return this
-                            .getResponse("omni", 200,
+                            .getResponse("insights", 200,
                                     "{\"traits\":{\"ip_address\": \"128.101.101.101\"}}");
                 } else if (path.endsWith("me")) {
-                    return this.getResponse("omni", 200,
+                    return this.getResponse("insights", 200,
                             "{\"traits\":{\"ip_address\": \"24.24.24.24\"}}");
                 } else {
                     return this.getResponse("", 404);

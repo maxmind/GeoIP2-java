@@ -43,7 +43,7 @@ final public class Traits {
      * @return The <a
      *         href="http://en.wikipedia.org/wiki/Autonomous_system_(Internet)"
      *         >autonomous system number</a> associated with the IP address.
-     *         This attribute is only available from the City/ISP/Org and Omni
+     *         This attribute is only available from the City and Insights web service
      *         end points.
      */
     public Integer getAutonomousSystemNumber() {
@@ -54,7 +54,8 @@ final public class Traits {
      * @return The organization associated with the registered <a
      *         href="http://en.wikipedia.org/wiki/Autonomous_system_(Internet)"
      *         >autonomous system number</a> for the IP address. This attribute
-     *         is only available from the City/ISP/Org and Omni end points.
+     *         is only available from the City and Insights web service
+     *         end points.
      */
     public String getAutonomousSystemOrganization() {
         return this.autonomousSystemOrganization;
@@ -63,8 +64,8 @@ final public class Traits {
     /**
      * @return The second level domain associated with the IP address. This will
      *         be something like "example.com" or "example.co.uk", not
-     *         "foo.example.com". This attribute is only available from the
-     *         City/ISP/Org and Omni end points.
+     *         "foo.example.com". This attribute is only available from the City and Insights web service
+     *         end points.
      */
     public String getDomain() {
         return this.domain;
@@ -84,8 +85,8 @@ final public class Traits {
 
     /**
      * @return The name of the ISP associated with the IP address. This
-     *         attribute is only available from the City/ISP/Org and Omni end
-     *         points.
+     *         attribute is only available from the City and Insights web service
+     *         end points.
      */
     public String getIsp() {
         return this.isp;
@@ -93,8 +94,8 @@ final public class Traits {
 
     /**
      * @return The name of the organization associated with the IP address. This
-     *         attribute is only available from the City/ISP/Org and Omni end
-     *         points.
+     *         attribute is only available from the City and Insights web service
+     *         end points.
      *
      */
     public String getOrganization() {
@@ -124,7 +125,7 @@ final public class Traits {
      *         <li>traveler
      *         </ul>
      *         <p>
-     *         This attribute is only available from the Omni end point.
+     *         This attribute is only available from the Insights end point.
      *         </p>
      */
     public String getUserType() {
