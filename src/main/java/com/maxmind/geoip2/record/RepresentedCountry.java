@@ -7,9 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * This class contains the country-level data associated with an IP address for
  * the IP's represented country. The represented country is the country
- * represented by something like a military base or embassy.
- *
- * This record is returned by all the end points.
+ * represented by something like a military base.
  */
 final public class RepresentedCountry extends Country {
     @JsonProperty
@@ -21,8 +19,7 @@ final public class RepresentedCountry extends Country {
     /**
      * @return A string indicating the type of entity that is representing the
      *         country. Currently we only return {@code military} but this could
-     *         expand to include other types such as {@code embassy} in the
-     *         future. Returned by all end points.
+     *         expand to include other types in the future.
      */
     public String getType() {
         return this.type;
