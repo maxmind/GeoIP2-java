@@ -91,6 +91,7 @@ public class WebServiceClient implements GeoIp2Provider {
     private final List<String> locales;
     private final String licenseKey;
     private final int timeout;
+    private final int readTimeout;
     private final HttpTransport testTransport;
     private final int userId;
 
@@ -99,6 +100,7 @@ public class WebServiceClient implements GeoIp2Provider {
         this.locales = builder.locales;
         this.licenseKey = builder.licenseKey;
         this.timeout = builder.timeout;
+        this.readTimeout = builder.readTimeout;
         this.testTransport = builder.testTransport;
         this.userId = builder.userId;
     }
@@ -123,6 +125,7 @@ public class WebServiceClient implements GeoIp2Provider {
         String host = "geoip.maxmind.com";
         List<String> locales = Arrays.asList("en");
         int timeout = 3000;
+        int readTimeout = 20000;
         HttpTransport testTransport;
 
         /**
@@ -157,6 +160,16 @@ public class WebServiceClient implements GeoIp2Provider {
             return this;
         }
 
+        /**
+         * @param val
+         *            readTimeout in milliseconds for connection to web service. The
+         *            default is 20000 (20 seconds).
+         * @return Builder object
+         */
+        public Builder readTimeout(int val) {
+            this.readTimeout = val;
+            return this;
+        }
         /**
          * @param val
          *            Timeout in milliseconds for connection to web service. The
@@ -337,6 +350,7 @@ public class WebServiceClient implements GeoIp2Provider {
             throw new GeoIp2Exception("Error building request", e);
         }
         request.setConnectTimeout(this.timeout);
+        request.setReadTimeout(this.readTimeout);
 
         HttpHeaders headers = request.getHeaders();
         headers.setAccept("application/json");
