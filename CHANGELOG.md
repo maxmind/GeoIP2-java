@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+0.8.1 (2014-08-27)
+------------------
+
+* Updated to depend on the latest version of `com.maxmind.db` and
+  `com.fasterxml.jackson.core`.
+
 0.8.0 (2014-07-22)
 ------------------
 
