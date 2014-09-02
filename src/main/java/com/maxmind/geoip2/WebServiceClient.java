@@ -160,7 +160,7 @@ public class WebServiceClient implements GeoIp2Provider {
          *            web service. The default is 3000 (3 seconds).
          * @return Builder object
          */
-        public Builder connectionTimeout(int val) {
+        public Builder connectTimeout(int val) {
             this.connectTimeout = val;
             return this;
         }
