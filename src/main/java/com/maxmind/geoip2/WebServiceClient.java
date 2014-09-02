@@ -166,6 +166,15 @@ public class WebServiceClient implements GeoIp2Provider {
         }
 
         /**
+         * @deprecated As of 0.9.0, use connectTimeout instead.
+         */
+        @Deprecated
+        public Builder timeout(int val) {
+            this.connectTimeout = val;
+            return this;
+        }
+
+        /**
          * @param val
          *            The host to use.
          * @return Builder object
