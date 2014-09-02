@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-0.9.0 (2014-09-XX)
+0.9.0 (2014-09-02)
 ------------------
 
 * The `timeout` setter on `WebServiceClient.Builder` was renamed to
