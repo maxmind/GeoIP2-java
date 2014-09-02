@@ -11,17 +11,32 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.client.http.*;
+import com.google.api.client.http.GenericUrl;
+import com.google.api.client.http.HttpHeaders;
+import com.google.api.client.http.HttpRequest;
+import com.google.api.client.http.HttpRequestFactory;
+import com.google.api.client.http.HttpResponse;
+import com.google.api.client.http.HttpResponseException;
+import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.maxmind.geoip2.exception.*;
-import com.maxmind.geoip2.model.*;
+import com.maxmind.geoip2.exception.AddressNotFoundException;
+import com.maxmind.geoip2.exception.AuthenticationException;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.maxmind.geoip2.exception.HttpException;
+import com.maxmind.geoip2.exception.InvalidRequestException;
+import com.maxmind.geoip2.exception.OutOfQueriesException;
+import com.maxmind.geoip2.model.CityIspOrgResponse;
+import com.maxmind.geoip2.model.CityResponse;
+import com.maxmind.geoip2.model.CountryResponse;
+import com.maxmind.geoip2.model.InsightsResponse;
+import com.maxmind.geoip2.model.OmniResponse;
 
 /**
  * <p>
- * This class provides a client API for all the GeoIP2 Precision web service end points.
- * The end points are Country and Insights. Each end point
- * returns a different set of data about an IP address, with Country returning
- * the least data and Insights the most.
+ * This class provides a client API for all the GeoIP2 Precision web service end
+ * points. The end points are Country and Insights. Each end point returns a
+ * different set of data about an IP address, with Country returning the least
+ * data and Insights the most.
  * </p>
  *
  * <p>
@@ -90,7 +105,7 @@ public class WebServiceClient implements GeoIp2Provider {
     private final String host;
     private final List<String> locales;
     private final String licenseKey;
-    private final int timeout;
+    private final int connectTimeout;
     private final int readTimeout;
     private final HttpTransport testTransport;
     private final int userId;
@@ -99,7 +114,7 @@ public class WebServiceClient implements GeoIp2Provider {
         this.host = builder.host;
         this.locales = builder.locales;
         this.licenseKey = builder.licenseKey;
-        this.timeout = builder.timeout;
+        this.connectTimeout = builder.connectTimeout;
         this.readTimeout = builder.readTimeout;
         this.testTransport = builder.testTransport;
         this.userId = builder.userId;
@@ -124,7 +139,7 @@ public class WebServiceClient implements GeoIp2Provider {
 
         String host = "geoip.maxmind.com";
         List<String> locales = Arrays.asList("en");
-        int timeout = 3000;
+        int connectTimeout = 3000;
         int readTimeout = 20000;
         HttpTransport testTransport;
 
@@ -137,6 +152,17 @@ public class WebServiceClient implements GeoIp2Provider {
         public Builder(int userId, String licenseKey) {
             this.userId = userId;
             this.licenseKey = licenseKey;
+        }
+
+        /**
+         * @param val
+         *            Timeout in milliseconds to establish a connection to the
+         *            web service. The default is 3000 (3 seconds).
+         * @return Builder object
+         */
+        public Builder connectionTimeout(int val) {
+            this.connectTimeout = val;
+            return this;
         }
 
         /**
@@ -162,22 +188,13 @@ public class WebServiceClient implements GeoIp2Provider {
 
         /**
          * @param val
-         *            readTimeout in milliseconds for connection to web service. The
-         *            default is 20000 (20 seconds).
+         *            readTimeout in milliseconds to read data from an
+         *            established connection to the web service. The default is
+         *            20000 (20 seconds).
          * @return Builder object
          */
         public Builder readTimeout(int val) {
             this.readTimeout = val;
-            return this;
-        }
-        /**
-         * @param val
-         *            Timeout in milliseconds for connection to web service. The
-         *            default is 3000 (3 seconds).
-         * @return Builder object
-         */
-        public Builder timeout(int val) {
-            this.timeout = val;
             return this;
         }
 
@@ -243,8 +260,8 @@ public class WebServiceClient implements GeoIp2Provider {
      *
      * @deprecated As of 0.8.0, use {@link #city()} instead.
      */
-@SuppressWarnings("deprecation")
-@Deprecated
+    @SuppressWarnings("deprecation")
+    @Deprecated
     public CityIspOrgResponse cityIspOrg() throws IOException, GeoIp2Exception {
         return this.cityIspOrg(null);
     }
@@ -254,8 +271,7 @@ public class WebServiceClient implements GeoIp2Provider {
     @Override
     public CityIspOrgResponse cityIspOrg(InetAddress ipAddress)
             throws IOException, GeoIp2Exception {
-        return this.responseFor("city", ipAddress,
-                CityIspOrgResponse.class);
+        return this.responseFor("city", ipAddress, CityIspOrgResponse.class);
     }
 
     /**
@@ -268,7 +284,6 @@ public class WebServiceClient implements GeoIp2Provider {
     public InsightsResponse insights() throws IOException, GeoIp2Exception {
         return this.insights(null);
     }
-
 
     /**
      * @param ipAddress
@@ -349,7 +364,7 @@ public class WebServiceClient implements GeoIp2Provider {
         } catch (IOException e) {
             throw new GeoIp2Exception("Error building request", e);
         }
-        request.setConnectTimeout(this.timeout);
+        request.setConnectTimeout(this.connectTimeout);
         request.setReadTimeout(this.readTimeout);
 
         HttpHeaders headers = request.getHeaders();

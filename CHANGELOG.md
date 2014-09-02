@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+0.9.0 (2014-09-XX)
+------------------
+
+* The `timeout` setter on `WebServiceClient.Builder` was renamed to
+  `connectTimeout` and a `readTimeout` setter was added. The former timeout
+  sets the timeout to establish a connection and the latter sets the timeout
+  for reading from an established connection.
+
 0.8.1 (2014-08-27)
 ------------------
 
