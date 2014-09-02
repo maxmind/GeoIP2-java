@@ -28,7 +28,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>0.8.1</version>
+        <version>0.9.0</version>
     </dependency>
 ```
 
