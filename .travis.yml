@@ -16,3 +16,17 @@ notifications:
       - dev@maxmind.com
     on_success: change
     on_failure: always
+
+env:
+  global:
+   - secure: "NZPWyoQ7lDzSMf6zAUxXNRgwPIWGAIN6eDgTD/vnFxOPYTJX8HEvIAEuoKAqajmJMqRwUl4D1s/cANBY8+IV//KDNiOZY1Hr070Wf2FIrAyxZ13sR3YVHzK6isKF6ISgVub2qyr028Wu1y1Qv2ggx6pRvRfCIBpth3r4l4sKeQU="
+
+addons:
+  coverity_scan:
+    project:
+      name: "maxmind/GeoIP2-java"
+      description: "Build submitted via Travis CI"
+    notification_email: dev@maxmind.com
+    build_command_prepend: "mvn clean"
+    build_command:   "mvn -DskipTests=true compile"
+    branch_pattern: .*coverity.*
