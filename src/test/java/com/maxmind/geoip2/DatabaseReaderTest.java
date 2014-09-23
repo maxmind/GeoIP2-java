@@ -23,7 +23,6 @@ import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.ConnectionTypeResponse;
 import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
 import com.maxmind.geoip2.model.DomainResponse;
-import com.maxmind.geoip2.model.InsightsResponse;
 import com.maxmind.geoip2.model.IspResponse;
 
 public class DatabaseReaderTest {
@@ -82,7 +81,7 @@ public class DatabaseReaderTest {
 
     private void testLocaleList(DatabaseReader reader) throws IOException,
             GeoIp2Exception {
-        InsightsResponse city = reader.insights(InetAddress.getByName("81.2.69.160"));
+        CityResponse city = reader.city(InetAddress.getByName("81.2.69.160"));
         assertEquals("Лондон", city.getCity().getName());
         reader.close();
     }

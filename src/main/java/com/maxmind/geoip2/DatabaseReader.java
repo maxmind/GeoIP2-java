@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.maxmind.db.Metadata;
 import com.maxmind.db.Reader;
 import com.maxmind.db.Reader.FileMode;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
@@ -20,7 +21,6 @@ import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.ConnectionTypeResponse;
 import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.model.DomainResponse;
-import com.maxmind.geoip2.model.InsightsResponse;
 import com.maxmind.geoip2.model.IspResponse;
 
 /**
@@ -137,13 +137,15 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
      * @throws AddressNotFoundException
      *             if the IP address is not in our database
      */
-    private <T> T get(InetAddress ipAddress, Class<T> cls) throws IOException,
-            AddressNotFoundException {
-        return this.get(ipAddress, cls, true);
-    }
-
-    private <T> T get(InetAddress ipAddress, Class<T> cls, boolean hasTraits)
+    private <T> T get(InetAddress ipAddress, Class<T> cls, boolean hasTraits, String type)
             throws IOException, AddressNotFoundException {
+
+        String databaseType = this.getMetadata().getDatabaseType();
+        if (!databaseType.contains(type)) {
+            String caller = Thread.currentThread().getStackTrace()[2].getMethodName();
+            throw new UnsupportedOperationException("Invalid attempt to open a " + databaseType + " database using the " + caller + " method");
+        }
+
         ObjectNode node = (ObjectNode) this.reader.get(ipAddress);
 
         // We throw the same exception as the web service when an IP is not in
@@ -183,32 +185,67 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     @Override
     public CountryResponse country(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, CountryResponse.class);
+        return this.get(ipAddress, CountryResponse.class, true, "Country");
     }
 
     @Override
     public CityResponse city(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, CityResponse.class);
+        return this.get(ipAddress, CityResponse.class, true, "City");
     }
 
-    public InsightsResponse insights(InetAddress ipAddress) throws IOException,
-    GeoIp2Exception {
-            return this.get(ipAddress, InsightsResponse.class);
-}
-
+    /**
+     * Look up an IP address in a GeoIP2 Connection Type database.
+     *
+     * @param ipAddress
+     *            IPv4 or IPv6 address to lookup.
+     * @return a ConnectTypeResponse for the requested IP address.
+     * @throws GeoIp2Exception
+     *             if there is an error looking up the IP
+     * @throws IOException
+     *             if there is an IO error
+     */
     public ConnectionTypeResponse connectionType(InetAddress ipAddress)
             throws IOException, GeoIp2Exception {
-        return this.get(ipAddress, ConnectionTypeResponse.class, false);
+        return this.get(ipAddress, ConnectionTypeResponse.class, false, "GeoIP2-Connection-Type");
     }
 
+    /**
+     * Look up an IP address in a GeoIP2 Domain database.
+     *
+     * @param ipAddress
+     *            IPv4 or IPv6 address to lookup.
+     * @return a DomainResponse for the requested IP address.
+     * @throws GeoIp2Exception
+     *             if there is an error looking up the IP
+     * @throws IOException
+     *             if there is an IO error
+     */
     public DomainResponse domain(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, DomainResponse.class, false);
+        return this.get(ipAddress, DomainResponse.class, false, "GeoIP2-Domain");
     }
 
+    /**
+     * Look up an IP address in a GeoIP2 ISP database.
+     *
+     * @param ipAddress
+     *            IPv4 or IPv6 address to lookup.
+     * @return an IspResponse for the requested IP address.
+     * @throws GeoIp2Exception
+     *             if there is an error looking up the IP
+     * @throws IOException
+     *             if there is an IO error
+     */
     public IspResponse isp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, IspResponse.class, false);
+        return this.get(ipAddress, IspResponse.class, false, "GeoIP2-ISP");
+    }
+
+    /**
+     * @return the metadata for the open MaxMind DB file.
+     */
+    public Metadata getMetadata() {
+        return this.reader.getMetadata();
     }
 }
