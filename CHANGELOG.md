@@ -1,6 +1,18 @@
 CHANGELOG
 =========
 
+0.10.0 (2014-09-23)
+-------------------
+
+* The deprecated `cityIspOrg()` and `omni()` methods have been removed from
+  `DatabaseReader` and `WebServiceClient`.
+* The lookup methods on `DatabaseReader` now throw an
+  `UnsupportedOperationException` if the incorrect method is used for the
+  database.
+* `DatabaseReader` now provides the metadata for the database through the
+  `getDatabase()` method.
+* All of our dependencies were updated to the latest available version.
+
 0.9.0 (2014-09-02)
 ------------------
 
