@@ -21,7 +21,7 @@ public class Country extends AbstractNamedRecord {
     /**
      * @return A value from 0-100 indicating MaxMind's confidence that the
      *         country is correct. This attribute is only available from the
-     *         Omni end point.
+     *         Insights end point.
      */
     public Integer getConfidence() {
         return this.confidence;

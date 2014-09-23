@@ -29,7 +29,7 @@ final public class Location {
     /**
      * @return The radius in kilometers around the specified location where the
      *         IP address is likely to be. This attribute is only available from
-     *         the Omni end point.
+     *         the Insights end point.
      */
     public Integer getAccuracyRadius() {
         return this.accuracyRadius;

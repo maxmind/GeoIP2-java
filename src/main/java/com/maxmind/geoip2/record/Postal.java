@@ -33,7 +33,7 @@ final public class Postal {
     /**
      * @return A value from 0-100 indicating MaxMind's confidence that the
      *         postal code is correct. This attribute is only available from the
-     *         Omni end point.
+     *         Insights end point.
      */
     public Integer getConfidence() {
         return this.confidence;

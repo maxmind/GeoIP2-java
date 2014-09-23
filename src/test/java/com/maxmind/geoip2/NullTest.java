@@ -26,7 +26,8 @@ public class NullTest {
 
     @Test
     public void testDefaults() throws IOException, GeoIp2Exception {
-        InsightsResponse insights = this.client.insights(InetAddress.getByName("1.2.3.13"));
+        InsightsResponse insights = this.client.insights(InetAddress
+                .getByName("1.2.3.13"));
 
         assertTrue(insights.toString().startsWith("Insights"));
 
@@ -59,7 +60,8 @@ public class NullTest {
         Country registeredCountry = insights.getRegisteredCountry();
         assertNotNull(registeredCountry);
 
-        RepresentedCountry representedCountry = insights.getRepresentedCountry();
+        RepresentedCountry representedCountry = insights
+                .getRepresentedCountry();
         assertNotNull(representedCountry);
         assertNull(representedCountry.getType());
 

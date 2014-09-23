@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonTest {
 
-    private String omniBody = "{" + "\"city\":{" + "\"confidence\":76,"
+    private String insightsBody = "{" + "\"city\":{" + "\"confidence\":76,"
             + "\"geoname_id\":9876," + "\"names\":{" + "\"en\":\"Minneapolis\""
             + "}" + "}," + "\"continent\":{" + "\"code\":\"NA\","
             + "\"geoname_id\":42," + "\"names\":{" + "\"en\":\"North America\""
@@ -49,9 +49,10 @@ public class JsonTest {
                 false);
         InjectableValues inject = new InjectableValues.Std().addValue(
                 "locales", new ArrayList<String>());
-        OmniResponse response = mapper.reader(OmniResponse.class).with(inject)
-                .readValue(this.omniBody);
-        JsonNode expectedNode = mapper.readValue(this.omniBody, JsonNode.class);
+        InsightsResponse response = mapper.reader(InsightsResponse.class)
+                .with(inject).readValue(this.insightsBody);
+        JsonNode expectedNode = mapper.readValue(this.insightsBody,
+                JsonNode.class);
         JsonNode actualNode = mapper.readValue(response.toJson(),
                 JsonNode.class);
 

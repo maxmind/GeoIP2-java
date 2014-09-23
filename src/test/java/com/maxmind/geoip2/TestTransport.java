@@ -108,7 +108,8 @@ public final class TestTransport extends MockHttpTransport {
                     return this.getResponse("insights", 200, countryBody,
                             "bad/content-type");
                 } else if (path.equals("city/1.2.3.15")) {
-                    return this.getResponse("insights", 200, "{\"invalid\":yes}");
+                    return this.getResponse("insights", 200,
+                            "{\"invalid\":yes}");
                 } else if (path.equals("country/1.2.3.16")) {
                     String body = "{\"code\":\"IP_ADDRESS_NOT_FOUND\","
                             + "\"error\":\"The value 1.2.3.16 is not in the database.\"}";

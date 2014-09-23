@@ -19,8 +19,11 @@ import org.junit.rules.ExpectedException;
 import com.maxmind.db.Reader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.*;
+import com.maxmind.geoip2.model.CityResponse;
+import com.maxmind.geoip2.model.ConnectionTypeResponse;
 import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
+import com.maxmind.geoip2.model.DomainResponse;
+import com.maxmind.geoip2.model.IspResponse;
 
 public class DatabaseReaderTest {
 
@@ -78,7 +81,7 @@ public class DatabaseReaderTest {
 
     private void testLocaleList(DatabaseReader reader) throws IOException,
             GeoIp2Exception {
-        OmniResponse city = reader.omni(InetAddress.getByName("81.2.69.160"));
+        CityResponse city = reader.city(InetAddress.getByName("81.2.69.160"));
         assertEquals("Лондон", city.getCity().getName());
         reader.close();
     }
@@ -105,6 +108,14 @@ public class DatabaseReaderTest {
     }
 
     @Test
+    public void metadata() throws IOException {
+        DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
+                .fileMode(Reader.FileMode.MEMORY).build();
+        assertEquals("GeoIP2-City", reader.getMetadata().getDatabaseType());
+        reader.close();
+    }
+
+    @Test
     public void hasIpAddressFile() throws IOException, GeoIp2Exception {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
                 .build();
@@ -120,8 +131,7 @@ public class DatabaseReaderTest {
 
     private void hasIpAddress(DatabaseReader reader) throws IOException,
             GeoIp2Exception {
-        CityIspOrgResponse cio = reader.cityIspOrg(InetAddress
-                .getByName("81.2.69.160"));
+        CityResponse cio = reader.city(InetAddress.getByName("81.2.69.160"));
         assertEquals("81.2.69.160", cio.getTraits().getIpAddress());
         reader.close();
     }
@@ -145,9 +155,11 @@ public class DatabaseReaderTest {
         this.exception.expect(AddressNotFoundException.class);
         this.exception
                 .expectMessage(containsString("The address 10.10.10.10 is not in the database."));
-
-        reader.city(InetAddress.getByName("10.10.10.10"));
-        reader.close();
+        try {
+            reader.city(InetAddress.getByName("10.10.10.10"));
+        } finally {
+            reader.close();
+        }
     }
 
     @Test
@@ -156,6 +168,19 @@ public class DatabaseReaderTest {
         this.exception.expectMessage(containsString("Only FileMode.MEMORY"));
         new DatabaseReader.Builder(this.geoipStream).fileMode(
                 Reader.FileMode.MEMORY_MAPPED).build();
+    }
+
+    @Test
+    public void incorrectDatabaseMethod() throws IOException, GeoIp2Exception {
+        this.exception.expect(UnsupportedOperationException.class);
+        this.exception
+                .expectMessage(containsString("GeoIP2-City database using the isp method"));
+        DatabaseReader db = new DatabaseReader.Builder(this.geoipFile).build();
+        try {
+            db.isp(InetAddress.getByName("1.1.1.1"));
+        } finally {
+            db.close();
+        }
     }
 
     @Test
@@ -194,8 +219,8 @@ public class DatabaseReaderTest {
         assertEquals(1221, response.getAutonomousSystemNumber().intValue());
         assertEquals("Telstra Pty Ltd",
                 response.getAutonomousSystemOrganization());
-        assertEquals("Telstra Internet",             response.getIsp());
-        assertEquals("Telstra Internet",             response.getOrganization());
+        assertEquals("Telstra Internet", response.getIsp());
+        assertEquals("Telstra Internet", response.getOrganization());
 
         assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
         reader.close();

@@ -43,8 +43,8 @@ final public class Traits {
      * @return The <a
      *         href="http://en.wikipedia.org/wiki/Autonomous_system_(Internet)"
      *         >autonomous system number</a> associated with the IP address.
-     *         This attribute is only available from the City and Insights web service
-     *         end points.
+     *         This attribute is only available from the City and Insights web
+     *         service end points.
      */
     public Integer getAutonomousSystemNumber() {
         return this.autonomousSystemNumber;
@@ -54,8 +54,8 @@ final public class Traits {
      * @return The organization associated with the registered <a
      *         href="http://en.wikipedia.org/wiki/Autonomous_system_(Internet)"
      *         >autonomous system number</a> for the IP address. This attribute
-     *         is only available from the City and Insights web service
-     *         end points.
+     *         is only available from the City and Insights web service end
+     *         points.
      */
     public String getAutonomousSystemOrganization() {
         return this.autonomousSystemOrganization;
@@ -64,8 +64,8 @@ final public class Traits {
     /**
      * @return The second level domain associated with the IP address. This will
      *         be something like "example.com" or "example.co.uk", not
-     *         "foo.example.com". This attribute is only available from the City and Insights web service
-     *         end points.
+     *         "foo.example.com". This attribute is only available from the City
+     *         and Insights web service end points.
      */
     public String getDomain() {
         return this.domain;
@@ -85,8 +85,8 @@ final public class Traits {
 
     /**
      * @return The name of the ISP associated with the IP address. This
-     *         attribute is only available from the City and Insights web service
-     *         end points.
+     *         attribute is only available from the City and Insights web
+     *         service end points.
      */
     public String getIsp() {
         return this.isp;
@@ -94,8 +94,8 @@ final public class Traits {
 
     /**
      * @return The name of the organization associated with the IP address. This
-     *         attribute is only available from the City and Insights web service
-     *         end points.
+     *         attribute is only available from the City and Insights web
+     *         service end points.
      *
      */
     public String getOrganization() {
