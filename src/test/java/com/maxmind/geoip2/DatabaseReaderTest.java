@@ -108,6 +108,14 @@ public class DatabaseReaderTest {
     }
 
     @Test
+    public void metadata() throws IOException {
+        DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
+                .fileMode(Reader.FileMode.MEMORY).build();
+        assertEquals("GeoIP2-City", reader.getMetadata().getDatabaseType());
+        reader.close();
+    }
+
+        @Test
     public void hasIpAddressFile() throws IOException, GeoIp2Exception {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
                 .build();
@@ -148,9 +156,11 @@ public class DatabaseReaderTest {
         this.exception.expect(AddressNotFoundException.class);
         this.exception
                 .expectMessage(containsString("The address 10.10.10.10 is not in the database."));
-
-        reader.city(InetAddress.getByName("10.10.10.10"));
-        reader.close();
+        try {
+            reader.city(InetAddress.getByName("10.10.10.10"));
+        } finally {
+            reader.close();
+        }
     }
 
     @Test
@@ -159,6 +169,19 @@ public class DatabaseReaderTest {
         this.exception.expectMessage(containsString("Only FileMode.MEMORY"));
         new DatabaseReader.Builder(this.geoipStream).fileMode(
                 Reader.FileMode.MEMORY_MAPPED).build();
+    }
+
+    @Test
+    public void incorrectDatabaseMethod() throws IOException, GeoIp2Exception {
+        this.exception.expect(UnsupportedOperationException.class);
+        this.exception.expectMessage(containsString("GeoIP2-City database using the isp method"));
+        DatabaseReader db = new DatabaseReader.Builder(this.geoipFile).build();
+        try {
+            db.isp(InetAddress.getByName("1.1.1.1"));
+        }
+        finally {
+            db.close();
+        }
     }
 
     @Test
