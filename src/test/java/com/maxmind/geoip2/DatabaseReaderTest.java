@@ -115,7 +115,7 @@ public class DatabaseReaderTest {
         reader.close();
     }
 
-        @Test
+    @Test
     public void hasIpAddressFile() throws IOException, GeoIp2Exception {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
                 .build();
@@ -131,8 +131,7 @@ public class DatabaseReaderTest {
 
     private void hasIpAddress(DatabaseReader reader) throws IOException,
             GeoIp2Exception {
-        CityResponse cio = reader.city(InetAddress
-                .getByName("81.2.69.160"));
+        CityResponse cio = reader.city(InetAddress.getByName("81.2.69.160"));
         assertEquals("81.2.69.160", cio.getTraits().getIpAddress());
         reader.close();
     }
@@ -174,12 +173,12 @@ public class DatabaseReaderTest {
     @Test
     public void incorrectDatabaseMethod() throws IOException, GeoIp2Exception {
         this.exception.expect(UnsupportedOperationException.class);
-        this.exception.expectMessage(containsString("GeoIP2-City database using the isp method"));
+        this.exception
+                .expectMessage(containsString("GeoIP2-City database using the isp method"));
         DatabaseReader db = new DatabaseReader.Builder(this.geoipFile).build();
         try {
             db.isp(InetAddress.getByName("1.1.1.1"));
-        }
-        finally {
+        } finally {
             db.close();
         }
     }
@@ -220,8 +219,8 @@ public class DatabaseReaderTest {
         assertEquals(1221, response.getAutonomousSystemNumber().intValue());
         assertEquals("Telstra Pty Ltd",
                 response.getAutonomousSystemOrganization());
-        assertEquals("Telstra Internet",             response.getIsp());
-        assertEquals("Telstra Internet",             response.getOrganization());
+        assertEquals("Telstra Internet", response.getIsp());
+        assertEquals("Telstra Internet", response.getOrganization());
 
         assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
         reader.close();

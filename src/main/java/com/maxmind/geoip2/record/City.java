@@ -17,8 +17,8 @@ final public class City extends AbstractNamedRecord {
 
     /**
      * @return A value from 0-100 indicating MaxMind's confidence that the city
-     *         is correct. This attribute is only available from the Omni end
-     *         point.
+     *         is correct. This attribute is only available from the Insights
+     *         end point.
      */
     public Integer getConfidence() {
         return this.confidence;

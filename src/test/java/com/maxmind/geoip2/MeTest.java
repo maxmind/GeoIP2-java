@@ -23,20 +23,8 @@ public class MeTest {
     }
 
     @Test
-    public void omni() throws IOException, GeoIp2Exception {
-        assertEquals(this.client.insights().getTraits().getIpAddress(),
-                "24.24.24.24");
-    }
-
-    @Test
     public void insights() throws IOException, GeoIp2Exception {
         assertEquals(this.client.insights().getTraits().getIpAddress(),
-                "24.24.24.24");
-    }
-
-    @Test
-    public void cityIspOrg() throws IOException, GeoIp2Exception {
-        assertEquals(this.client.city().getTraits().getIpAddress(),
                 "24.24.24.24");
     }
 

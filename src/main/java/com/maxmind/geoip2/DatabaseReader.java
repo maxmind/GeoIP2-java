@@ -137,13 +137,16 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
      * @throws AddressNotFoundException
      *             if the IP address is not in our database
      */
-    private <T> T get(InetAddress ipAddress, Class<T> cls, boolean hasTraits, String type)
-            throws IOException, AddressNotFoundException {
+    private <T> T get(InetAddress ipAddress, Class<T> cls, boolean hasTraits,
+            String type) throws IOException, AddressNotFoundException {
 
         String databaseType = this.getMetadata().getDatabaseType();
         if (!databaseType.contains(type)) {
-            String caller = Thread.currentThread().getStackTrace()[2].getMethodName();
-            throw new UnsupportedOperationException("Invalid attempt to open a " + databaseType + " database using the " + caller + " method");
+            String caller = Thread.currentThread().getStackTrace()[2]
+                    .getMethodName();
+            throw new UnsupportedOperationException(
+                    "Invalid attempt to open a " + databaseType
+                            + " database using the " + caller + " method");
         }
 
         ObjectNode node = (ObjectNode) this.reader.get(ipAddress);
@@ -166,8 +169,6 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
         }
         ipNode.put("ip_address", ipAddress.getHostAddress());
 
-        // The cast and the Omni.class are sort of ugly. There might be a
-        // better way
         return this.om.treeToValue(node, cls);
     }
 
@@ -207,7 +208,8 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
      */
     public ConnectionTypeResponse connectionType(InetAddress ipAddress)
             throws IOException, GeoIp2Exception {
-        return this.get(ipAddress, ConnectionTypeResponse.class, false, "GeoIP2-Connection-Type");
+        return this.get(ipAddress, ConnectionTypeResponse.class, false,
+                "GeoIP2-Connection-Type");
     }
 
     /**
@@ -223,7 +225,8 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
      */
     public DomainResponse domain(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, DomainResponse.class, false, "GeoIP2-Domain");
+        return this
+                .get(ipAddress, DomainResponse.class, false, "GeoIP2-Domain");
     }
 
     /**

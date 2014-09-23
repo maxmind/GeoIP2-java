@@ -61,9 +61,9 @@ abstract class AbstractCountryResponse extends AbstractResponse {
 
     /**
      * @return Represented country record for the requested IP address. The
-     *         represented country is used for things like military bases.
-     *         It is only present when the represented country differs from
-     *         the country.
+     *         represented country is used for things like military bases. It is
+     *         only present when the represented country differs from the
+     *         country.
      */
     public RepresentedCountry getRepresentedCountry() {
         return this.representedCountry;

@@ -20,7 +20,7 @@ final public class Subdivision extends AbstractNamedRecord {
     /**
      * @return This is a value from 0-100 indicating MaxMind's confidence that
      *         the subdivision is correct. This attribute is only available from
-     *         the Omni end point.
+     *         the Insights end point.
      */
     public Integer getConfidence() {
         return this.confidence;
