@@ -16,7 +16,12 @@ import com.maxmind.db.Reader;
 import com.maxmind.db.Reader.FileMode;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.*;
+import com.maxmind.geoip2.model.CityResponse;
+import com.maxmind.geoip2.model.ConnectionTypeResponse;
+import com.maxmind.geoip2.model.CountryResponse;
+import com.maxmind.geoip2.model.DomainResponse;
+import com.maxmind.geoip2.model.InsightsResponse;
+import com.maxmind.geoip2.model.IspResponse;
 
 /**
  * Instances of this class provide a reader for the GeoIP2 database format. IP
@@ -185,23 +190,6 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     public CityResponse city(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this.get(ipAddress, CityResponse.class);
-    }
-
-
-    @SuppressWarnings("deprecation")
-    @Override
-    @Deprecated
-    public CityIspOrgResponse cityIspOrg(InetAddress ipAddress)
-            throws IOException, GeoIp2Exception {
-        return this.get(ipAddress, CityIspOrgResponse.class);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    @Deprecated
-    public OmniResponse omni(InetAddress ipAddress) throws IOException,
-            GeoIp2Exception {
-        return this.get(ipAddress, OmniResponse.class);
     }
 
     public InsightsResponse insights(InetAddress ipAddress) throws IOException,

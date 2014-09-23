@@ -22,10 +22,9 @@ public class MeTest {
 
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void omni() throws IOException, GeoIp2Exception {
-        assertEquals(this.client.omni().getTraits().getIpAddress(),
+        assertEquals(this.client.insights().getTraits().getIpAddress(),
                 "24.24.24.24");
     }
 
@@ -35,10 +34,9 @@ public class MeTest {
                 "24.24.24.24");
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void cityIspOrg() throws IOException, GeoIp2Exception {
-        assertEquals(this.client.cityIspOrg().getTraits().getIpAddress(),
+        assertEquals(this.client.city().getTraits().getIpAddress(),
                 "24.24.24.24");
     }
 

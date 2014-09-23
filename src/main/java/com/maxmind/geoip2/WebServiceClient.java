@@ -25,11 +25,9 @@ import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.exception.HttpException;
 import com.maxmind.geoip2.exception.InvalidRequestException;
 import com.maxmind.geoip2.exception.OutOfQueriesException;
-import com.maxmind.geoip2.model.CityIspOrgResponse;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.model.InsightsResponse;
-import com.maxmind.geoip2.model.OmniResponse;
 
 /**
  * <p>
@@ -166,15 +164,6 @@ public class WebServiceClient implements GeoIp2Provider {
         }
 
         /**
-         * @deprecated As of 0.9.0, use connectTimeout instead.
-         */
-        @Deprecated
-        public Builder timeout(int val) {
-            this.connectTimeout = val;
-            return this;
-        }
-
-        /**
          * @param val
          *            The host to use.
          * @return Builder object
@@ -261,29 +250,6 @@ public class WebServiceClient implements GeoIp2Provider {
     }
 
     /**
-     * @return A City/ISP/Org model for the requesting IP address
-     * @throws GeoIp2Exception
-     *             if there is an error from the web service
-     * @throws IOException
-     *             if an IO error happens during the request
-     *
-     * @deprecated As of 0.8.0, use {@link #city()} instead.
-     */
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    public CityIspOrgResponse cityIspOrg() throws IOException, GeoIp2Exception {
-        return this.cityIspOrg(null);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    @Override
-    public CityIspOrgResponse cityIspOrg(InetAddress ipAddress)
-            throws IOException, GeoIp2Exception {
-        return this.responseFor("city", ipAddress, CityIspOrgResponse.class);
-    }
-
-    /**
      * @return An Insights model for the requesting IP address
      * @throws GeoIp2Exception
      *             if there is an error from the web service
@@ -306,29 +272,6 @@ public class WebServiceClient implements GeoIp2Provider {
     public InsightsResponse insights(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this.responseFor("insights", ipAddress, InsightsResponse.class);
-    }
-
-    /**
-     * @return An Omni model for the requesting IP address
-     * @throws GeoIp2Exception
-     *             if there is an error from the web service
-     * @throws IOException
-     *             if an IO error happens during the request
-     *
-     * @deprecated As of 0.8.0, use {@link #insights()} instead.
-     */
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    public OmniResponse omni() throws IOException, GeoIp2Exception {
-        return this.omni(null);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    @Override
-    public OmniResponse omni(InetAddress ipAddress) throws IOException,
-            GeoIp2Exception {
-        return this.responseFor("insights", ipAddress, OmniResponse.class);
     }
 
     private <T> T responseFor(String path, InetAddress ipAddress, Class<T> cls)

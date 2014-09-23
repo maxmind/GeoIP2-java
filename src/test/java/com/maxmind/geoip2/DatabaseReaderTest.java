@@ -19,8 +19,12 @@ import org.junit.rules.ExpectedException;
 import com.maxmind.db.Reader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.*;
+import com.maxmind.geoip2.model.CityResponse;
+import com.maxmind.geoip2.model.ConnectionTypeResponse;
 import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
+import com.maxmind.geoip2.model.DomainResponse;
+import com.maxmind.geoip2.model.InsightsResponse;
+import com.maxmind.geoip2.model.IspResponse;
 
 public class DatabaseReaderTest {
 
@@ -78,7 +82,7 @@ public class DatabaseReaderTest {
 
     private void testLocaleList(DatabaseReader reader) throws IOException,
             GeoIp2Exception {
-        OmniResponse city = reader.omni(InetAddress.getByName("81.2.69.160"));
+        InsightsResponse city = reader.insights(InetAddress.getByName("81.2.69.160"));
         assertEquals("Лондон", city.getCity().getName());
         reader.close();
     }
@@ -120,7 +124,7 @@ public class DatabaseReaderTest {
 
     private void hasIpAddress(DatabaseReader reader) throws IOException,
             GeoIp2Exception {
-        CityIspOrgResponse cio = reader.cityIspOrg(InetAddress
+        CityResponse cio = reader.city(InetAddress
                 .getByName("81.2.69.160"));
         assertEquals("81.2.69.160", cio.getTraits().getIpAddress());
         reader.close();
