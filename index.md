@@ -2,20 +2,12 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v0.9.0
+version: v0.10.0
 ---
 
 # GeoIP2 Java API #
 
 [![Build Status](https://travis-ci.org/maxmind/GeoIP2-java.png?branch=master)](https://travis-ci.org/maxmind/GeoIP2-java)
-
-## Beta Note ##
-
-This is a beta release. The API may change before the first production
-release, which will be numbered 2.0.0.
-
-You may find information on the GeoIP2 beta release process on [our
-website](http://www.maxmind.com/en/geoip2_beta).
 
 ## Description ##
 
@@ -35,7 +27,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>0.9.0</version>
+        <version>0.10.0</version>
     </dependency>
 ```
 
