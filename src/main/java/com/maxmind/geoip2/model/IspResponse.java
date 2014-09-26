@@ -34,7 +34,7 @@ public class IspResponse extends AbstractResponse {
 
     /**
      * @return The organization associated with the registered autonomous system
-     *         number for the IP addres
+     * number for the IP addres
      */
     public String getAutonomousSystemOrganization() {
         return this.autonomousSystemOrganization;

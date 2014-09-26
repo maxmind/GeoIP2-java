@@ -36,50 +36,50 @@ import com.maxmind.geoip2.model.InsightsResponse;
  * different set of data about an IP address, with Country returning the least
  * data and Insights the most.
  * </p>
- *
+ * <p/>
  * <p>
  * Each web service end point is represented by a different model class, and
  * these model classes in turn contain multiple Record classes. The record
  * classes have attributes which contain data about the IP address.
  * </p>
- *
+ * <p/>
  * <p>
  * If the web service does not return a particular piece of data for an IP
  * address, the associated attribute is not populated.
  * </p>
- *
+ * <p/>
  * <p>
  * The web service may not return any information for an entire record, in which
  * case all of the attributes for that record class will be empty.
  * </p>
- *
+ * <p/>
  * <h3>Usage</h3>
- *
+ * <p/>
  * <p>
  * The basic API for this class is the same for all of the web service end
  * points. First you create a web service object with your MaxMind
  * {@code userId} and {@code licenseKey}, then you call the method corresponding
  * to a specific end point, passing it the IP address you want to look up.
  * </p>
- *
+ * <p/>
  * <p>
  * If the request succeeds, the method call will return a model class for the
  * end point you called. This model in turn contains multiple record classes,
  * each of which represents part of the data returned by the web service.
  * </p>
- *
+ * <p/>
  * <p>
  * If the request fails, the client class throws an exception.
  * </p>
- *
+ * <p/>
  * <h3>Exceptions</h3>
- *
+ * <p/>
  * <p>
  * For details on the possible errors returned by the web service itself, see <a
  * href="http://dev.maxmind.com/geoip2/geoip/web-services">the GeoIP2 web
  * service documentation</a>.
  * </p>
- *
+ * <p/>
  * <p>
  * If the web service returns an explicit error document, this is thrown as a
  * {@link InvalidRequestException}. If some other sort of transport error
@@ -88,12 +88,12 @@ import com.maxmind.geoip2.model.InsightsResponse;
  * web service. The latter is thrown when some sort of unanticipated error
  * occurs, such as the web service returning a 500 or an invalid error document.
  * </p>
- *
+ * <p/>
  * <p>
  * If the web service returns any status code besides 200, 4xx, or 5xx, this
  * also becomes a {@link HttpException}.
  * </p>
- *
+ * <p/>
  * <p>
  * Finally, if the web service returns a 200 but the body is invalid, the client
  * throws a {@link GeoIp2Exception}.
@@ -108,7 +108,7 @@ public class WebServiceClient implements GeoIp2Provider {
     private final HttpTransport testTransport;
     private final int userId;
 
-    WebServiceClient(Builder builder) {
+    private WebServiceClient(Builder builder) {
         this.host = builder.host;
         this.locales = builder.locales;
         this.licenseKey = builder.licenseKey;
@@ -121,14 +121,14 @@ public class WebServiceClient implements GeoIp2Provider {
     /**
      * <code>Builder</code> creates instances of <code>WebServiceClient</code>
      * from values set by the methods.
-     *
+     * <p/>
      * This example shows how to create a <code>WebServiceClient</code> object
      * with the <code>Builder</code>:
-     *
+     * <p/>
      * WebServiceClient client = new
      * WebServiceClient.Builder(12,"licensekey").host
      * ("geoip.maxmind.com").build();
-     *
+     * <p/>
      * Only the values set in the <code>Builder</code> constructor are required.
      */
     public final static class Builder {
@@ -142,10 +142,8 @@ public class WebServiceClient implements GeoIp2Provider {
         HttpTransport testTransport;
 
         /**
-         * @param userId
-         *            Your MaxMind user ID.
-         * @param licenseKey
-         *            Your MaxMind license key.
+         * @param userId     Your MaxMind user ID.
+         * @param licenseKey Your MaxMind license key.
          */
         public Builder(int userId, String licenseKey) {
             this.userId = userId;
@@ -153,8 +151,7 @@ public class WebServiceClient implements GeoIp2Provider {
         }
 
         /**
-         * @param val
-         *            Timeout in milliseconds to establish a connection to the
+         * @param val Timeout in milliseconds to establish a connection to the
          *            web service. The default is 3000 (3 seconds).
          * @return Builder object
          */
@@ -164,8 +161,7 @@ public class WebServiceClient implements GeoIp2Provider {
         }
 
         /**
-         * @param val
-         *            The host to use.
+         * @param val The host to use.
          * @return Builder object
          */
         public Builder host(String val) {
@@ -174,8 +170,7 @@ public class WebServiceClient implements GeoIp2Provider {
         }
 
         /**
-         * @param val
-         *            List of locale codes to use in name property from most
+         * @param val List of locale codes to use in name property from most
          *            preferred to least preferred.
          * @return Builder object
          */
@@ -185,8 +180,7 @@ public class WebServiceClient implements GeoIp2Provider {
         }
 
         /**
-         * @param val
-         *            readTimeout in milliseconds to read data from an
+         * @param val readTimeout in milliseconds to read data from an
          *            established connection to the web service. The default is
          *            20000 (20 seconds).
          * @return Builder object
@@ -197,8 +191,7 @@ public class WebServiceClient implements GeoIp2Provider {
         }
 
         /**
-         * @param val
-         *            Transport for unit testing.
+         * @param val Transport for unit testing.
          * @return Builder object
          */
         Builder testTransport(HttpTransport val) {
@@ -208,7 +201,7 @@ public class WebServiceClient implements GeoIp2Provider {
 
         /**
          * @return an instance of <code>WebServiceClient</code> created from the
-         *         fields set on this builder.
+         * fields set on this builder.
          */
         public WebServiceClient build() {
             return new WebServiceClient(this);
@@ -217,10 +210,8 @@ public class WebServiceClient implements GeoIp2Provider {
 
     /**
      * @return A Country model for the requesting IP address
-     * @throws GeoIp2Exception
-     *             if there is an error from the web service
-     * @throws IOException
-     *             if an IO error happens during the request
+     * @throws GeoIp2Exception if there is an error from the web service
+     * @throws IOException     if an IO error happens during the request
      */
     public CountryResponse country() throws IOException, GeoIp2Exception {
         return this.country(null);
@@ -234,10 +225,8 @@ public class WebServiceClient implements GeoIp2Provider {
 
     /**
      * @return A City model for the requesting IP address
-     * @throws GeoIp2Exception
-     *             if there is an error from the web service
-     * @throws IOException
-     *             if an IO error happens during the request
+     * @throws GeoIp2Exception if there is an error from the web service
+     * @throws IOException     if an IO error happens during the request
      */
     public CityResponse city() throws IOException, GeoIp2Exception {
         return this.city(null);
@@ -251,23 +240,18 @@ public class WebServiceClient implements GeoIp2Provider {
 
     /**
      * @return An Insights model for the requesting IP address
-     * @throws GeoIp2Exception
-     *             if there is an error from the web service
-     * @throws IOException
-     *             if an IO error happens during the request
+     * @throws GeoIp2Exception if there is an error from the web service
+     * @throws IOException     if an IO error happens during the request
      */
     public InsightsResponse insights() throws IOException, GeoIp2Exception {
         return this.insights(null);
     }
 
     /**
-     * @param ipAddress
-     *            IPv4 or IPv6 address to lookup.
+     * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return A Insight model for the requested IP address.
-     * @throws GeoIp2Exception
-     *             if there is an error looking up the IP
-     * @throws IOException
-     *             if there is an IO error
+     * @throws GeoIp2Exception if there is an error looking up the IP
+     * @throws IOException     if there is an IO error
      */
     public InsightsResponse insights(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
@@ -386,7 +370,7 @@ public class WebServiceClient implements GeoIp2Provider {
     }
 
     private static void handleErrorWithJsonBody(Map<String, String> content,
-            String body, int status, GenericUrl uri) throws GeoIp2Exception,
+                                                String body, int status, GenericUrl uri) throws GeoIp2Exception,
             HttpException {
         String error = content.get("error");
         String code = content.get("code");

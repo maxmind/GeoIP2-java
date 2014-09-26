@@ -14,12 +14,9 @@ final public class HttpException extends IOException {
     private final URL url;
 
     /**
-     * @param message
-     *            A message describing the reason why the exception was thrown.
-     * @param httpStatus
-     *            The HTTP status of the response that caused the exception.
-     * @param url
-     *            The URL queried.
+     * @param message    A message describing the reason why the exception was thrown.
+     * @param httpStatus The HTTP status of the response that caused the exception.
+     * @param url        The URL queried.
      */
     public HttpException(String message, int httpStatus, URL url) {
         super(message);
@@ -28,17 +25,13 @@ final public class HttpException extends IOException {
     }
 
     /**
-     * @param message
-     *            A message describing the reason why the exception was thrown.
-     * @param httpStatus
-     *            The HTTP status of the response that caused the exception.
-     * @param url
-     *            The URL queried.
-     * @param cause
-     *            The cause of the exception.
+     * @param message    A message describing the reason why the exception was thrown.
+     * @param httpStatus The HTTP status of the response that caused the exception.
+     * @param url        The URL queried.
+     * @param cause      The cause of the exception.
      */
     public HttpException(String message, int httpStatus, URL url,
-            Throwable cause) {
+                         Throwable cause) {
         super(message, cause);
         this.httpStatus = httpStatus;
         this.url = url;

@@ -89,10 +89,10 @@ public class InsightsTest {
         assertEquals("location.getAccuracyRadius() does not return 1500",
                 new Integer(1500), location.getAccuracyRadius());
 
-        double latitude = location.getLatitude().doubleValue();
+        double latitude = location.getLatitude();
         assertEquals("location.getLatitude() does not return 44.98", 44.98,
                 latitude, 0.1);
-        double longitude = location.getLongitude().doubleValue();
+        double longitude = location.getLongitude();
         assertEquals("location.getLongitude() does not return 93.2636",
                 93.2636, longitude, 0.1);
         assertEquals("location.getMetroCode() does not return 765",

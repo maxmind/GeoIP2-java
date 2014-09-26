@@ -152,12 +152,12 @@ public final class TestTransport extends MockHttpTransport {
             }
 
             private LowLevelHttpResponse getResponse(String endpoint,
-                    int status, String body) {
+                                                     int status, String body) {
                 return this.getResponse(endpoint, status, body, null);
             }
 
             private LowLevelHttpResponse getResponse(String endpoint,
-                    int status, String body, String content_type) {
+                                                     int status, String body, String content_type) {
                 MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
 
                 response.addHeader("Content-Length",

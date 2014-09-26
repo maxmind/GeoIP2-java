@@ -89,15 +89,15 @@ public class NullTest {
                 "Traits [anonymousProxy=false, satelliteProvider=false, ]",
                 traits.toString());
 
-        for (Country c : new Country[] { country, registeredCountry,
-                representedCountry }) {
+        for (Country c : new Country[]{country, registeredCountry,
+                representedCountry}) {
             assertNull(c.getConfidence());
             assertNull(c.getIsoCode());
         }
 
-        for (AbstractNamedRecord r : new AbstractNamedRecord[] { city,
+        for (AbstractNamedRecord r : new AbstractNamedRecord[]{city,
                 continent, country, registeredCountry, representedCountry,
-                subdiv }) {
+                subdiv}) {
             assertNull(r.getGeoNameId());
             assertNull(r.getName());
             assertTrue(r.getNames().isEmpty());

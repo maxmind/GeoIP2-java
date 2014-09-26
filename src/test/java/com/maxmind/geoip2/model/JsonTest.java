@@ -43,7 +43,7 @@ public class JsonTest {
             + "}," + "\"maxmind\":{\"queries_remaining\":11}" + "}";
 
     @Test
-    public void testSerialization() throws JsonProcessingException, IOException {
+    public void testSerialization() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
                 false);

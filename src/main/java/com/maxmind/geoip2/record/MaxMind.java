@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Contains data related to your MaxMind account.
- *
+ * <p/>
  * This record is returned by all the end points.
  */
 final public class MaxMind {
@@ -16,7 +16,7 @@ final public class MaxMind {
 
     /**
      * @return The number of remaining queried in your account for the current
-     *         end point.
+     * end point.
      */
     public Integer getQueriesRemaining() {
         return this.queriesRemaining;
@@ -31,7 +31,7 @@ final public class MaxMind {
     public String toString() {
         return "MaxMind ["
                 + (this.getQueriesRemaining() != null ? "getQueriesRemaining()="
-                        + this.getQueriesRemaining()
-                        : "") + "]";
+                + this.getQueriesRemaining()
+                : "") + "]";
     }
 }

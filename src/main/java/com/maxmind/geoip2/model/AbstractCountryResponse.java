@@ -9,22 +9,22 @@ import com.maxmind.geoip2.record.Traits;
 
 abstract class AbstractCountryResponse extends AbstractResponse {
     @JsonProperty
-    private Continent continent = new Continent();
+    private final Continent continent = new Continent();
 
     @JsonProperty
-    private Country country = new Country();
+    private final Country country = new Country();
 
     @JsonProperty("registered_country")
-    private Country registeredCountry = new Country();
+    private final Country registeredCountry = new Country();
 
     @JsonProperty("maxmind")
-    private MaxMind maxmind = new MaxMind();
+    private final MaxMind maxmind = new MaxMind();
 
     @JsonProperty("represented_country")
-    private RepresentedCountry representedCountry = new RepresentedCountry();
+    private final RepresentedCountry representedCountry = new RepresentedCountry();
 
     @JsonProperty
-    private Traits traits = new Traits();
+    private final Traits traits = new Traits();
 
     /**
      * @return Continent record for the requested IP address.
@@ -35,8 +35,8 @@ abstract class AbstractCountryResponse extends AbstractResponse {
 
     /**
      * @return Country record for the requested IP address. This object
-     *         represents the country where MaxMind believes the end user is
-     *         located.
+     * represents the country where MaxMind believes the end user is
+     * located.
      */
     public Country getCountry() {
         return this.country;
@@ -52,8 +52,8 @@ abstract class AbstractCountryResponse extends AbstractResponse {
 
     /**
      * @return Registered country record for the requested IP address. This
-     *         record represents the country where the ISP has registered a
-     *         given IP block and may differ from the user's country.
+     * record represents the country where the ISP has registered a
+     * given IP block and may differ from the user's country.
      */
     public Country getRegisteredCountry() {
         return this.registeredCountry;
@@ -61,9 +61,9 @@ abstract class AbstractCountryResponse extends AbstractResponse {
 
     /**
      * @return Represented country record for the requested IP address. The
-     *         represented country is used for things like military bases. It is
-     *         only present when the represented country differs from the
-     *         country.
+     * represented country is used for things like military bases. It is
+     * only present when the represented country differs from the
+     * country.
      */
     public RepresentedCountry getRepresentedCountry() {
         return this.representedCountry;
@@ -85,16 +85,16 @@ abstract class AbstractCountryResponse extends AbstractResponse {
     public String toString() {
         return "Country ["
                 + (this.getContinent() != null ? "getContinent()="
-                        + this.getContinent() + ", " : "")
+                + this.getContinent() + ", " : "")
                 + (this.getCountry() != null ? "getCountry()="
-                        + this.getCountry() + ", " : "")
+                + this.getCountry() + ", " : "")
                 + (this.getRegisteredCountry() != null ? "getRegisteredCountry()="
-                        + this.getRegisteredCountry() + ", "
-                        : "")
+                + this.getRegisteredCountry() + ", "
+                : "")
                 + (this.getRepresentedCountry() != null ? "getRepresentedCountry()="
-                        + this.getRepresentedCountry() + ", "
-                        : "")
+                + this.getRepresentedCountry() + ", "
+                : "")
                 + (this.getTraits() != null ? "getTraits()=" + this.getTraits()
-                        : "") + "]";
+                : "") + "]";
     }
 }

@@ -13,19 +13,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public abstract class AbstractNamedRecord {
     @JsonProperty
-    private HashMap<String, String> names = new HashMap<String, String>();
+    private final HashMap<String, String> names = new HashMap<String, String>();
     @JsonProperty("geoname_id")
     private Integer geoNameId;
 
     @JacksonInject("locales")
-    private List<String> locales = new ArrayList<String>();
+    private final List<String> locales = new ArrayList<String>();
 
     AbstractNamedRecord() {
     }
 
     /**
      * @return The GeoName ID for the city. This attribute is returned by all
-     *         end points.
+     * end points.
      */
     public Integer getGeoNameId() {
         return this.geoNameId;
@@ -33,8 +33,8 @@ public abstract class AbstractNamedRecord {
 
     /**
      * @return The name of the city based on the locales list passed to the
-     *         {@link com.maxmind.geoip2.WebServiceClient} constructor. This
-     *         attribute is returned by all end points.
+     * {@link com.maxmind.geoip2.WebServiceClient} constructor. This
+     * attribute is returned by all end points.
      */
     public String getName() {
         for (String lang : this.locales) {
@@ -47,7 +47,7 @@ public abstract class AbstractNamedRecord {
 
     /**
      * @return A {@link Map} from locale codes to the name in that locale. This
-     *         attribute is returned by all end points.
+     * attribute is returned by all end points.
      */
     public Map<String, String> getNames() {
         return new HashMap<String, String>(this.names);

@@ -18,8 +18,8 @@ public class DomainResponse extends AbstractResponse {
 
     /**
      * @return the The second level domain associated with the IP address. This
-     *         will be something like "example.com" or "example.co.uk", not
-     *         "foo.example.com".
+     * will be something like "example.com" or "example.co.uk", not
+     * "foo.example.com".
      */
     public String getDomain() {
         return this.domain;

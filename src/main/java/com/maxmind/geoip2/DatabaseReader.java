@@ -33,7 +33,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
 
     private final ObjectMapper om;
 
-    DatabaseReader(Builder builder) throws IOException {
+    private DatabaseReader(Builder builder) throws IOException {
         if (builder.stream != null) {
             this.reader = new Reader(builder.stream);
         } else if (builder.database != null) {
@@ -57,10 +57,10 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     /**
      * Constructs a Builder for the DatabaseReader. The file passed to it must
      * be a valid GeoIP2 database file.
-     *
+     * <p/>
      * <code>Builder</code> creates instances of <code>DatabaseReader</code>
      * from values set by the methods.
-     *
+     * <p/>
      * Only the values set in the <code>Builder</code> constructor are required.
      */
     public final static class Builder {
@@ -71,8 +71,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
         FileMode mode = FileMode.MEMORY_MAPPED;
 
         /**
-         * @param stream
-         *            the stream containing the GeoIP2 database to use.
+         * @param stream the stream containing the GeoIP2 database to use.
          */
         public Builder(InputStream stream) {
             this.stream = stream;
@@ -80,8 +79,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
         }
 
         /**
-         * @param database
-         *            the GeoIP2 database file to use.
+         * @param database the GeoIP2 database file to use.
          */
         public Builder(File database) {
             this.database = database;
@@ -89,8 +87,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
         }
 
         /**
-         * @param val
-         *            List of locale codes to use in name property from most
+         * @param val List of locale codes to use in name property from most
          *            preferred to least preferred.
          * @return Builder object
          */
@@ -100,14 +97,12 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
         }
 
         /**
-         * @param val
-         *            The file mode used to open the GeoIP2 database
-         * @throws java.lang.IllegalArgumentException
-         *             if you initialized the Builder with a URL, which uses
-         *             {@link FileMode#MEMORY}, but you provided a different
-         *             FileMode to this method.
+         * @param val The file mode used to open the GeoIP2 database
          * @return Builder object
-         * */
+         * @throws java.lang.IllegalArgumentException if you initialized the Builder with a URL, which uses
+         *                                            {@link FileMode#MEMORY}, but you provided a different
+         *                                            FileMode to this method.
+         */
         public Builder fileMode(FileMode val) {
             if (this.stream != null && !FileMode.MEMORY.equals(val)) {
                 throw new IllegalArgumentException(
@@ -119,9 +114,8 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
 
         /**
          * @return an instance of <code>DatabaseReader</code> created from the
-         *         fields set on this builder.
-         * @throws IOException
-         *             if there is an error reading the database
+         * fields set on this builder.
+         * @throws IOException if there is an error reading the database
          */
         public DatabaseReader build() throws IOException {
             return new DatabaseReader(this);
@@ -129,16 +123,13 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     }
 
     /**
-     * @param ipAddress
-     *            IPv4 or IPv6 address to lookup.
+     * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return A <T> object with the data for the IP address
-     * @throws IOException
-     *             if there is an error opening or reading from the file.
-     * @throws AddressNotFoundException
-     *             if the IP address is not in our database
+     * @throws IOException              if there is an error opening or reading from the file.
+     * @throws AddressNotFoundException if the IP address is not in our database
      */
     private <T> T get(InetAddress ipAddress, Class<T> cls, boolean hasTraits,
-            String type) throws IOException, AddressNotFoundException {
+                      String type) throws IOException, AddressNotFoundException {
 
         String databaseType = this.getMetadata().getDatabaseType();
         if (!databaseType.contains(type)) {
@@ -161,7 +152,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
         ObjectNode ipNode;
         if (hasTraits) {
             if (!node.has("traits")) {
-                node.put("traits", this.om.createObjectNode());
+                node.set("traits", this.om.createObjectNode());
             }
             ipNode = (ObjectNode) node.get("traits");
         } else {
@@ -175,8 +166,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     /**
      * Closes the GeoIP2 database and returns resources to the system.
      *
-     * @throws IOException
-     *             if an I/O error occurs.
+     * @throws IOException if an I/O error occurs.
      */
     @Override
     public void close() throws IOException {
@@ -198,13 +188,10 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     /**
      * Look up an IP address in a GeoIP2 Connection Type database.
      *
-     * @param ipAddress
-     *            IPv4 or IPv6 address to lookup.
+     * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return a ConnectTypeResponse for the requested IP address.
-     * @throws GeoIp2Exception
-     *             if there is an error looking up the IP
-     * @throws IOException
-     *             if there is an IO error
+     * @throws GeoIp2Exception if there is an error looking up the IP
+     * @throws IOException     if there is an IO error
      */
     public ConnectionTypeResponse connectionType(InetAddress ipAddress)
             throws IOException, GeoIp2Exception {
@@ -215,13 +202,10 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     /**
      * Look up an IP address in a GeoIP2 Domain database.
      *
-     * @param ipAddress
-     *            IPv4 or IPv6 address to lookup.
+     * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return a DomainResponse for the requested IP address.
-     * @throws GeoIp2Exception
-     *             if there is an error looking up the IP
-     * @throws IOException
-     *             if there is an IO error
+     * @throws GeoIp2Exception if there is an error looking up the IP
+     * @throws IOException     if there is an IO error
      */
     public DomainResponse domain(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
@@ -232,13 +216,10 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     /**
      * Look up an IP address in a GeoIP2 ISP database.
      *
-     * @param ipAddress
-     *            IPv4 or IPv6 address to lookup.
+     * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return an IspResponse for the requested IP address.
-     * @throws GeoIp2Exception
-     *             if there is an error looking up the IP
-     * @throws IOException
-     *             if there is an IO error
+     * @throws GeoIp2Exception if there is an error looking up the IP
+     * @throws IOException     if there is an IO error
      */
     public IspResponse isp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {

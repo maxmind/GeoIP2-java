@@ -15,7 +15,7 @@ import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
 
 public class NamesTest {
-    HttpTransport transport = new TestTransport();
+    private final HttpTransport transport = new TestTransport();
 
     @Test
     public void testNames() throws IOException, GeoIp2Exception {

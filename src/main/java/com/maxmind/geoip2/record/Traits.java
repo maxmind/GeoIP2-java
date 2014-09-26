@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Contains data for the traits record associated with an IP address.
- *
+ * <p/>
  * This record is returned by all the end points.
  */
 final public class Traits {
@@ -41,10 +41,10 @@ final public class Traits {
 
     /**
      * @return The <a
-     *         href="http://en.wikipedia.org/wiki/Autonomous_system_(Internet)"
-     *         >autonomous system number</a> associated with the IP address.
-     *         This attribute is only available from the City and Insights web
-     *         service end points.
+     * href="http://en.wikipedia.org/wiki/Autonomous_system_(Internet)"
+     * >autonomous system number</a> associated with the IP address.
+     * This attribute is only available from the City and Insights web
+     * service end points.
      */
     public Integer getAutonomousSystemNumber() {
         return this.autonomousSystemNumber;
@@ -52,10 +52,10 @@ final public class Traits {
 
     /**
      * @return The organization associated with the registered <a
-     *         href="http://en.wikipedia.org/wiki/Autonomous_system_(Internet)"
-     *         >autonomous system number</a> for the IP address. This attribute
-     *         is only available from the City and Insights web service end
-     *         points.
+     * href="http://en.wikipedia.org/wiki/Autonomous_system_(Internet)"
+     * >autonomous system number</a> for the IP address. This attribute
+     * is only available from the City and Insights web service end
+     * points.
      */
     public String getAutonomousSystemOrganization() {
         return this.autonomousSystemOrganization;
@@ -63,9 +63,9 @@ final public class Traits {
 
     /**
      * @return The second level domain associated with the IP address. This will
-     *         be something like "example.com" or "example.co.uk", not
-     *         "foo.example.com". This attribute is only available from the City
-     *         and Insights web service end points.
+     * be something like "example.com" or "example.co.uk", not
+     * "foo.example.com". This attribute is only available from the City
+     * and Insights web service end points.
      */
     public String getDomain() {
         return this.domain;
@@ -73,11 +73,11 @@ final public class Traits {
 
     /**
      * @return The IP address that the data in the model is for. If you
-     *         performed a "me" lookup against the web service, this will be the
-     *         externally routable IP address for the system the code is running
-     *         on. If the system is behind a NAT, this may differ from the IP
-     *         address locally assigned to it. This attribute is returned by all
-     *         end points.
+     * performed a "me" lookup against the web service, this will be the
+     * externally routable IP address for the system the code is running
+     * on. If the system is behind a NAT, this may differ from the IP
+     * address locally assigned to it. This attribute is returned by all
+     * end points.
      */
     public String getIpAddress() {
         return this.ipAddress;
@@ -85,8 +85,8 @@ final public class Traits {
 
     /**
      * @return The name of the ISP associated with the IP address. This
-     *         attribute is only available from the City and Insights web
-     *         service end points.
+     * attribute is only available from the City and Insights web
+     * service end points.
      */
     public String getIsp() {
         return this.isp;
@@ -94,9 +94,8 @@ final public class Traits {
 
     /**
      * @return The name of the organization associated with the IP address. This
-     *         attribute is only available from the City and Insights web
-     *         service end points.
-     *
+     * attribute is only available from the City and Insights web
+     * service end points.
      */
     public String getOrganization() {
         return this.organization;
@@ -104,29 +103,29 @@ final public class Traits {
 
     /**
      * @return <p>
-     *         The user type associated with the IP address. This can be one of
-     *         the following values:
-     *         </p>
-     *         <ul>
-     *         <li>business
-     *         <li>cafe
-     *         <li>cellular
-     *         <li>college
-     *         <li>content_delivery_network
-     *         <li>dialup
-     *         <li>government
-     *         <li>hosting
-     *         <li>library
-     *         <li>military
-     *         <li>residential
-     *         <li>router
-     *         <li>school
-     *         <li>search_engine_spider
-     *         <li>traveler
-     *         </ul>
-     *         <p>
-     *         This attribute is only available from the Insights end point.
-     *         </p>
+     * The user type associated with the IP address. This can be one of
+     * the following values:
+     * </p>
+     * <ul>
+     * <li>business
+     * <li>cafe
+     * <li>cellular
+     * <li>college
+     * <li>content_delivery_network
+     * <li>dialup
+     * <li>government
+     * <li>hosting
+     * <li>library
+     * <li>military
+     * <li>residential
+     * <li>router
+     * <li>school
+     * <li>search_engine_spider
+     * <li>traveler
+     * </ul>
+     * <p>
+     * This attribute is only available from the Insights end point.
+     * </p>
      */
     public String getUserType() {
         return this.userType;
@@ -134,9 +133,9 @@ final public class Traits {
 
     /**
      * @return This is true if the IP is an anonymous proxy. This attribute is
-     *         returned by all end points.
+     * returned by all end points.
      * @see <a href="http://dev.maxmind.com/faq/geoip#anonproxy">MaxMind's GeoIP
-     *      FAQ</a>
+     * FAQ</a>
      */
     public boolean isAnonymousProxy() {
         return this.anonymousProxy;
@@ -144,7 +143,7 @@ final public class Traits {
 
     /**
      * @return This is true if the IP belong to a satellite internet provider.
-     *         This attribute is returned by all end points.
+     * This attribute is returned by all end points.
      */
     public boolean isSatelliteProvider() {
         return this.satelliteProvider;
@@ -159,14 +158,14 @@ final public class Traits {
     public String toString() {
         return "Traits ["
                 + (this.autonomousSystemNumber != null ? "autonomousSystemNumber="
-                        + this.autonomousSystemNumber + ", "
-                        : "")
+                + this.autonomousSystemNumber + ", "
+                : "")
                 + (this.autonomousSystemOrganization != null ? "autonomousSystemOrganization="
-                        + this.autonomousSystemOrganization + ", "
-                        : "")
+                + this.autonomousSystemOrganization + ", "
+                : "")
                 + (this.domain != null ? "domain=" + this.domain + ", " : "")
                 + (this.ipAddress != null ? "ipAddress=" + this.ipAddress
-                        + ", " : "")
+                + ", " : "")
                 + "anonymousProxy="
                 + this.anonymousProxy
                 + ", satelliteProvider="
@@ -174,7 +173,7 @@ final public class Traits {
                 + ", "
                 + (this.isp != null ? "isp=" + this.isp + ", " : "")
                 + (this.organization != null ? "organization="
-                        + this.organization + ", " : "")
+                + this.organization + ", " : "")
                 + (this.userType != null ? "userType=" + this.userType : "")
                 + "]";
     }

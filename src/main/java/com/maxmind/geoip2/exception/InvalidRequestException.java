@@ -13,12 +13,9 @@ final public class InvalidRequestException extends GeoIp2Exception {
     private final URL url;
 
     /**
-     * @param message
-     *            A message explaining the cause of the error.
-     * @param code
-     *            The error code returned by the web service.
-     * @param url
-     *            The URL queried.
+     * @param message A message explaining the cause of the error.
+     * @param code    The error code returned by the web service.
+     * @param url     The URL queried.
      */
     public InvalidRequestException(String message, String code, URL url) {
         super(message);
@@ -27,19 +24,14 @@ final public class InvalidRequestException extends GeoIp2Exception {
     }
 
     /**
-     * @param message
-     *            A message explaining the cause of the error.
-     * @param code
-     *            The error code returned by the web service.
-     * @param httpStatus
-     *            The HTTP status of the response.
-     * @param url
-     *            The URL queried.
-     * @param e
-     *            The cause of the exception.
+     * @param message    A message explaining the cause of the error.
+     * @param code       The error code returned by the web service.
+     * @param httpStatus The HTTP status of the response.
+     * @param url        The URL queried.
+     * @param e          The cause of the exception.
      */
     public InvalidRequestException(String message, String code, int httpStatus,
-            URL url, Throwable e) {
+                                   URL url, Throwable e) {
         super(message, e);
         this.code = code;
         this.url = url;
