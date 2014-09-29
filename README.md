@@ -79,7 +79,7 @@ System.out.println(country.getNames().get("zh-CN")); // '美国'
 
 Subdivision subdivision = response.getMostSpecificSubdivision();
 System.out.println(subdivision.getName());       // 'Minnesota'
-System.out.println(subdivision).getIsoCode());   // 'MN'
+System.out.println(subdivision.getIsoCode());    // 'MN'
 
 City city = response.getCity();
 System.out.println(city.getName());       // 'Minneapolis'
@@ -112,7 +112,7 @@ System.out.println(country.getConfidence());         // 99
 
 Subdivision subdivision = response.getMostSpecificSubdivision();
 System.out.println(subdivision.getName());       // 'Minnesota'
-System.out.println(subdivision).getIsoCode());   // 'MN'
+System.out.println(subdivision.getIsoCode());    // 'MN'
 System.out.println(subdivision.getConfidence()); // 90
 
 City city = response.getCity();
