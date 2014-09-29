@@ -2,7 +2,7 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v0.10.0
+version: v2.0.0
 ---
 
 # GeoIP2 Java API #
@@ -27,7 +27,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>0.10.0</version>
+        <version>2.0.0</version>
     </dependency>
 ```
 
@@ -49,30 +49,94 @@ See the API documentation for more details.
 
 ## Web Service Example ##
 
-```java
+### Country Service ###
 
+```java
 // This creates a WebServiceClient object that can be reused across requests.
 // Replace "42" with your user ID and "license_key" with your license key.
 WebServiceClient client = new WebServiceClient.Builder(42, "license_key").build();
 
-// Replace "city" with the method corresponding to the web service that
-// you are using, e.g., "country" or "insights".
-CityResponse response = client.city(InetAddress.getByName("128.101.101.101"));
+InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
-System.out.println(response.getCountry().getIsoCode()); // 'US'
-System.out.println(response.getCountry().getName()); // 'United States'
-System.out.println(response.getCountry().getNames().get("zh-CN")); // '美国'
+// Do the lookup
+CountryResponse response = client.country(ipAddress);
 
-System.out.println(response.getMostSpecificSubdivision().getName()); // 'Minnesota'
-System.out.println(response.getMostSpecificSubdivision().getIsoCode()); // 'MN'
+Country country = response.getCountry();
+System.out.println(country.getIsoCode());            // 'US'
+System.out.println(country.getName());               // 'United States'
+System.out.println(country.getNames().get("zh-CN")); // '美国'
+```
 
-System.out.println(response.getCity().getName()); // 'Minneapolis'
+### City Service ###
 
-System.out.println(response.getPostal().getCode()); // '55455'
+```java
+// This creates a WebServiceClient object that can be reused across requests.
+// Replace "42" with your user ID and "license_key" with your license key.
+WebServiceClient client = new WebServiceClient.Builder(42, "license_key").build();
 
-System.out.println(response.getLocation().getLatitude()); // 44.9733
-System.out.println(response.getLocation().getLongitude()); // -93.2323
+InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
+// Do the lookup
+CityResponse response = client.city(ipAddress);
+
+Country country = response.getCountry();
+System.out.println(country.getIsoCode());            // 'US'
+System.out.println(country.getName());               // 'United States'
+System.out.println(country.getNames().get("zh-CN")); // '美国'
+
+Subdivision subdivision = response.getMostSpecificSubdivision();
+System.out.println(subdivision.getName());       // 'Minnesota'
+System.out.println(subdivision.getIsoCode());    // 'MN'
+
+City city = response.getCity();
+System.out.println(city.getName());       // 'Minneapolis'
+
+Postal postal = response.getPostal();
+System.out.println(postal.getCode());       // '55455'
+
+Location location = response.getLocation();
+System.out.println(location.getLatitude());        // 44.9733
+System.out.println(location.getLongitude());       // -93.2323
+```
+
+### Insights Service ###
+
+```java
+// This creates a WebServiceClient object that can be reused across requests.
+// Replace "42" with your user ID and "license_key" with your license key.
+WebServiceClient client = new WebServiceClient.Builder(42, "license_key").build();
+
+InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
+
+// Do the lookup
+InsightsResponse response = client.insights(ipAddress);
+
+Country country = response.getCountry();
+System.out.println(country.getIsoCode());            // 'US'
+System.out.println(country.getName());               // 'United States'
+System.out.println(country.getNames().get("zh-CN")); // '美国'
+System.out.println(country.getConfidence());         // 99
+
+Subdivision subdivision = response.getMostSpecificSubdivision();
+System.out.println(subdivision.getName());       // 'Minnesota'
+System.out.println(subdivision.getIsoCode());    // 'MN'
+System.out.println(subdivision.getConfidence()); // 90
+
+City city = response.getCity();
+System.out.println(city.getName());       // 'Minneapolis'
+System.out.println(city.getConfidence()); // 50
+
+Postal postal = response.getPostal();
+System.out.println(postal.getCode());       // '55455'
+System.out.println(postal.getConfidence()); // 40
+
+Location location = response.getLocation();
+System.out.println(location.getLatitude());        // 44.9733
+System.out.println(location.getLongitude());       // -93.2323
+System.out.println(location.getAccuracyRadius());  // 3
+System.out.println(location.getTimeZone());        // 'America/Chicago'
+
+System.out.println(response.getTraits().getUserType()); // 'college'
 ```
 
 ## Database Usage ##
@@ -99,8 +163,8 @@ See the API documentation for more details.
 ## Database Example ##
 
 ### City ###
-```java
 
+```java
 // A File object pointing to your GeoIP2 or GeoLite2 database
 File database = new File("/path/to/GeoIP2-City.mmdb");
 
@@ -108,30 +172,35 @@ File database = new File("/path/to/GeoIP2-City.mmdb");
 // lookups.
 DatabaseReader reader = new DatabaseReader.Builder(database).build();
 
+InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
+
 // Replace "city" with the appropriate method for your database, e.g.,
 // "country".
-CityResponse response = reader.city(InetAddress.getByName("128.101.101.101"));
+CityResponse response = reader.city(ipAddress);
 
-System.out.println(response.getCountry().getIsoCode()); // 'US'
-System.out.println(response.getCountry().getName()); // 'United States'
-System.out.println(response.getCountry().getNames().get("zh-CN")); // '美国'
+Country country = response.getCountry();
+System.out.println(country.getIsoCode());            // 'US'
+System.out.println(country.getName());               // 'United States'
+System.out.println(country.getNames().get("zh-CN")); // '美国'
 
-System.out.println(response.getMostSpecificSubdivision().getName()); // 'Minnesota'
-System.out.println(response.getMostSpecificSubdivision().getIsoCode()); // 'MN'
+Subdivision subdivision = response.getMostSpecificSubdivision();
+System.out.println(subdivision.getName());    // 'Minnesota'
+System.out.println(subdivision.getIsoCode()); // 'MN'
 
-System.out.println(response.getCity().getName()); // 'Minneapolis'
+City city = response.getCity();
+System.out.println(city.getName()); // 'Minneapolis'
 
-System.out.println(response.getPostal().getCode()); // '55455'
+Postal postal = response.getPostal();
+System.out.println(postal.getCode()); // '55455'
 
-System.out.println(response.getLocation().getLatitude()); // 44.9733
-System.out.println(response.getLocation().getLongitude()); // -93.2323
-
+Location location = response.getLocation();
+System.out.println(location.getLatitude());  // 44.9733
+System.out.println(location.getLongitude()); // -93.2323
 ```
 
 ### Connection-Type ###
 
 ```java
-
 // A File object pointing to your GeoIP2 Connection-Type database
 File database = new File("/path/to/GeoIP2-Connection-Type.mmdb");
 
@@ -139,9 +208,9 @@ File database = new File("/path/to/GeoIP2-Connection-Type.mmdb");
 // lookups.
 DatabaseReader reader = new DatabaseReader.Builder(database).build();
 
+InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
-ConnectionTypeResponse response = reader.connectionType(
-        InetAddress.getByName("128.101.101.101"));
+ConnectionTypeResponse response = reader.connectionType(ipAddress);
 
 // getConnectionType() returns a ConnectionType enum
 ConnectionType type = response.getConnectionType();
@@ -152,7 +221,6 @@ System.out.println(type); // 'Corporate'
 ### Domain ###
 
 ```java
-
 // A File object pointing to your GeoIP2 Domain database
 File database = new File("/path/to/GeoIP2-Domain.mmdb");
 
@@ -160,9 +228,9 @@ File database = new File("/path/to/GeoIP2-Domain.mmdb");
 // lookups.
 DatabaseReader reader = new DatabaseReader.Builder(database).build();
 
+InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
-DomainResponse response = reader.domain(
-        InetAddress.getByName("128.101.101.101"));
+DomainResponse response = reader.domain(ipAddress);
 
 System.out.println(response.getDomain()); // 'Corporate'
 ```
@@ -170,7 +238,6 @@ System.out.println(response.getDomain()); // 'Corporate'
 ### ISP ###
 
 ```java
-
 // A File object pointing to your GeoIP2 ISP database
 File database = new File("/path/to/GeoIP2-ISP.mmdb");
 
@@ -178,14 +245,14 @@ File database = new File("/path/to/GeoIP2-ISP.mmdb");
 // lookups.
 DatabaseReader reader = new DatabaseReader.Builder(database).build();
 
+InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
-IspResponse response = reader.isp(InetAddress.getByName("128.101.101.101"));
+IspResponse response = reader.isp(ipAddress);
 
-System.out.println(response.getAutonomousSystemNumber()); // 217
+System.out.println(response.getAutonomousSystemNumber());       // 217
 System.out.println(response.getAutonomousSystemOrganization()); // 'University of Minnesota'
-System.out.println(response.getIsp()); // 'University of Minnesota'
-System.out.println(response.getOrganization()); // 'University of Minnesota'
-
+System.out.println(response.getIsp());                          // 'University of Minnesota'
+System.out.println(response.getOrganization());                 // 'University of Minnesota'
 ```
 
 ## Exceptions ##
