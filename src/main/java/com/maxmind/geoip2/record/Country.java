@@ -3,9 +3,12 @@ package com.maxmind.geoip2.record;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * <p>
  * Contains data for the country record associated with an IP address.
- * <p/>
+ * </p>
+ * <p>
  * This record is returned by all the end points.
+ * </p>
  */
 public class Country extends AbstractNamedRecord {
     @JsonProperty

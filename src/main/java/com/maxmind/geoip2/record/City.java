@@ -3,9 +3,12 @@ package com.maxmind.geoip2.record;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * <p>
  * City-level data associated with an IP address.
- * <p/>
+ * </p>
+ * <p>
  * This record is returned by all the end points except the Country end point.
+ * </p>
  */
 final public class City extends AbstractNamedRecord {
     @JsonProperty

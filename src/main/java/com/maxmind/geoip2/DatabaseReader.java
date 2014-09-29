@@ -55,13 +55,17 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     }
 
     /**
+     * <p>
      * Constructs a Builder for the DatabaseReader. The file passed to it must
      * be a valid GeoIP2 database file.
-     * <p/>
+     * </p>
+     * <p>
      * <code>Builder</code> creates instances of <code>DatabaseReader</code>
      * from values set by the methods.
-     * <p/>
+     * </p>
+     * <p>
      * Only the values set in the <code>Builder</code> constructor are required.
+     * </p>
      */
     public final static class Builder {
         final File database;

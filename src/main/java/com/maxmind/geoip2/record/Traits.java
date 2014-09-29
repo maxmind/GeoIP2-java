@@ -3,9 +3,12 @@ package com.maxmind.geoip2.record;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * <p>
  * Contains data for the traits record associated with an IP address.
- * <p/>
+ * </p>
+ * <p>
  * This record is returned by all the end points.
+ * </p>
  */
 final public class Traits {
     @JsonProperty("autonomous_system_number")

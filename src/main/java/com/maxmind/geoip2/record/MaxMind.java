@@ -3,9 +3,12 @@ package com.maxmind.geoip2.record;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * <p>
  * Contains data related to your MaxMind account.
- * <p/>
+ * </p>
+ * <p>
  * This record is returned by all the end points.
+ * </p>
  */
 final public class MaxMind {
     @JsonProperty("queries_remaining")
