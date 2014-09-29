@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 TAG=$1
 
 if [ -z $TAG ]; then
@@ -28,6 +30,15 @@ if [ -n "$(git status --porcelain)" ]; then
 fi
 
 cd ..
+
+mvn versions:display-dependency-updates
+
+read -e -p "Continue given above dependencies? (y/n) " SHOULD_CONTINUE
+
+if [ "$SHOULD_CONTINUE" != "y" ]; then
+    echo "Aborting"
+    exit 1
+fi
 
 PAGE=.gh-pages/index.md
 cat <<EOF > $PAGE
