@@ -17,6 +17,7 @@ import com.maxmind.db.Reader;
 import com.maxmind.db.Reader.FileMode;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.maxmind.geoip2.model.AnonymousIpResponse;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.ConnectionTypeResponse;
 import com.maxmind.geoip2.model.CountryResponse;
@@ -196,6 +197,19 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
     public CityResponse city(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this.get(ipAddress, CityResponse.class, true, "City");
+    }
+
+    /**
+     * Look up an IP address in a GeoIP2 Anonymous IP.
+     *
+     * @param ipAddress IPv4 or IPv6 address to lookup.
+     * @return a AnonymousIpResponse for the requested IP address.
+     * @throws GeoIp2Exception if there is an error looking up the IP
+     * @throws IOException     if there is an IO error
+     */
+    public AnonymousIpResponse anonymousIp(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.get(ipAddress, AnonymousIpResponse.class, false, "GeoIP2-Anonymous-IP");
     }
 
     /**

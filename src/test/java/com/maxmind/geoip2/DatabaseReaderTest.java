@@ -2,6 +2,8 @@ package com.maxmind.geoip2;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +13,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
 
+import com.maxmind.geoip2.model.*;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,11 +22,7 @@ import org.junit.rules.ExpectedException;
 import com.maxmind.db.Reader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.CityResponse;
-import com.maxmind.geoip2.model.ConnectionTypeResponse;
 import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
-import com.maxmind.geoip2.model.DomainResponse;
-import com.maxmind.geoip2.model.IspResponse;
 
 public class DatabaseReaderTest {
 
@@ -181,6 +180,22 @@ public class DatabaseReaderTest {
         } finally {
             db.close();
         }
+    }
+
+
+    @Test
+    public void testAnonymousIp() throws URISyntaxException, IOException, GeoIp2Exception {
+        DatabaseReader reader = new DatabaseReader.Builder(
+                this.getFile("GeoIP2-Anonymous-IP-Test.mmdb")).build();
+        InetAddress ipAddress = InetAddress.getByName("1.2.0.1");
+        AnonymousIpResponse response = reader.anonymousIp(ipAddress);
+        assertTrue(response.isAnonymous());
+        assertTrue(response.isAnonymousVpn());
+        assertFalse(response.isHostingProvider());
+        assertFalse(response.isPublicProxy());
+        assertFalse(response.isTorExitNode());
+        assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
+        reader.close();
     }
 
     @Test
