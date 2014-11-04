@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+2.1.0 (2014-11-XX)
+------------------
+
+* Added support for the GeoIP2 Anonymous IP database. The `DatabaseReader`
+  class now has an `anonymousIp()` method which returns an
+  `AnonymousIpResponse` object.
+
 2.0.0 (2014-09-29)
 ------------------
 

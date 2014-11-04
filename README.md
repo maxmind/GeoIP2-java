@@ -191,6 +191,32 @@ System.out.println(location.getLatitude());  // 44.9733
 System.out.println(location.getLongitude()); // -93.2323
 ```
 
+### Anonymous IP ###
+
+```java
+// A File object pointing to your GeoIP2 Anonymous IP database
+File database = new File("/path/to/GeoIP2-Anonymous-IP.mmdb");
+
+// This creates the DatabaseReader object, which should be reused across
+// lookups.
+DatabaseReader reader = new DatabaseReader.Builder(database).build());
+
+try {
+    InetAddress ipAddress = InetAddress.getByName("85.25.43.84");
+
+    AnonymousIpResponse response = reader.anonymousIp(ipAddress);
+
+    System.out.println(response.isAnonymous()); // true
+    System.out.println(response.isAnonymousVpn()); // false
+    System.out.println(response.isHostingProvider()); // false
+    System.out.println(response.isPublicProxy()); // false
+    System.out.println(response.isTorExitNode()); //true
+} finally {
+    reader.close();
+}
+
+```
+
 ### Connection-Type ###
 
 ```java
