@@ -2,7 +2,7 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v2.0.0
+version: v2.1.0
 ---
 
 # GeoIP2 Java API #
@@ -27,7 +27,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>2.0.0</version>
+        <version>2.1.0</version>
     </dependency>
 ```
 
@@ -196,6 +196,32 @@ System.out.println(postal.getCode()); // '55455'
 Location location = response.getLocation();
 System.out.println(location.getLatitude());  // 44.9733
 System.out.println(location.getLongitude()); // -93.2323
+```
+
+### Anonymous IP ###
+
+```java
+// A File object pointing to your GeoIP2 Anonymous IP database
+File database = new File("/path/to/GeoIP2-Anonymous-IP.mmdb");
+
+// This creates the DatabaseReader object, which should be reused across
+// lookups.
+DatabaseReader reader = new DatabaseReader.Builder(database).build());
+
+try {
+    InetAddress ipAddress = InetAddress.getByName("85.25.43.84");
+
+    AnonymousIpResponse response = reader.anonymousIp(ipAddress);
+
+    System.out.println(response.isAnonymous()); // true
+    System.out.println(response.isAnonymousVpn()); // false
+    System.out.println(response.isHostingProvider()); // false
+    System.out.println(response.isPublicProxy()); // false
+    System.out.println(response.isTorExitNode()); //true
+} finally {
+    reader.close();
+}
+
 ```
 
 ### Connection-Type ###
