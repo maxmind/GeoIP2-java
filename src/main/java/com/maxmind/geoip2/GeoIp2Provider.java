@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.CityResponse;
-import com.maxmind.geoip2.model.CountryResponse;
+import com.maxmind.geoip2.model.*;
 
 public interface GeoIp2Provider {
 
