@@ -74,6 +74,11 @@ public class NullTest {
         assertNull(subdiv.getIsoCode());
         assertNull(subdiv.getConfidence());
 
+        Subdivision leastSpecificSubdiv = insights.getLeastSpecificSubdivision();
+        assertNotNull(leastSpecificSubdiv);
+        assertNull(leastSpecificSubdiv.getIsoCode());
+        assertNull(leastSpecificSubdiv.getConfidence());
+
         Traits traits = insights.getTraits();
         assertNotNull(traits);
         assertNull(traits.getAutonomousSystemNumber());
