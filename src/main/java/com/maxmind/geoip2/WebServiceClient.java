@@ -255,9 +255,9 @@ public class WebServiceClient implements GeoIp2Provider {
             throws GeoIp2Exception, IOException {
         GenericUrl uri = this.createUri(path, ipAddress);
         HttpResponse response = this.getResponse(uri);
-        Long content_length = response.getHeaders().getContentLength();
+        Long contentLength = response.getHeaders().getContentLength();
 
-        if (content_length == null || content_length.intValue() <= 0) {
+        if (contentLength == null || contentLength.intValue() <= 0) {
             throw new HttpException("Received a 200 response for " + uri
                     + " but there was no message body.", 200, uri.toURL());
         }
