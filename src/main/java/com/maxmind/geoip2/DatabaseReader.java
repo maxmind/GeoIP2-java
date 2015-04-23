@@ -28,7 +28,7 @@ import com.maxmind.geoip2.model.IspResponse;
  * Instances of this class provide a reader for the GeoIP2 database format. IP
  * addresses can be looked up using the <code>get</code> method.
  */
-public class DatabaseReader implements GeoIp2Provider, Closeable {
+public class DatabaseReader implements IDatabaseReader, Closeable {
 
     private final Reader reader;
 
@@ -207,6 +207,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
      */
+    @Override
     public AnonymousIpResponse anonymousIp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this.get(ipAddress, AnonymousIpResponse.class, false, "GeoIP2-Anonymous-IP");
@@ -220,6 +221,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
      */
+    @Override
     public ConnectionTypeResponse connectionType(InetAddress ipAddress)
             throws IOException, GeoIp2Exception {
         return this.get(ipAddress, ConnectionTypeResponse.class, false,
@@ -234,6 +236,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
      */
+    @Override
     public DomainResponse domain(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this
@@ -248,6 +251,7 @@ public class DatabaseReader implements GeoIp2Provider, Closeable {
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
      */
+    @Override
     public IspResponse isp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this.get(ipAddress, IspResponse.class, false, "GeoIP2-ISP");
