@@ -26,10 +26,6 @@ public class AnonymousIpResponse extends AbstractResponse {
     private String ipAddress;
 
 
-    public AnonymousIpResponse() {
-
-    }
-
     /**
      * @return whether the IP address belongs to any sort of anonymous network.
      */

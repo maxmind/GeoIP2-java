@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -26,9 +27,9 @@ import com.maxmind.geoip2.model.IspResponse;
 
 /**
  * Instances of this class provide a reader for the GeoIP2 database format. IP
- * addresses can be looked up using the <code>get</code> method.
+ * addresses can be looked up using the {@code get} method.
  */
-public class DatabaseReader implements IDatabaseReader, Closeable {
+public class DatabaseReader implements DatabaseProvider, Closeable {
 
     private final Reader reader;
 
@@ -68,11 +69,11 @@ public class DatabaseReader implements IDatabaseReader, Closeable {
      * Only the values set in the <code>Builder</code> constructor are required.
      * </p>
      */
-    public final static class Builder {
+    public static final class Builder {
         final File database;
         final InputStream stream;
 
-        List<String> locales = Arrays.asList("en");
+        List<String> locales = Collections.singletonList("en");
         FileMode mode = FileMode.MEMORY_MAPPED;
 
         /**

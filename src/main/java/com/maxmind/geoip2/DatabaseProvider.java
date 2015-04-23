@@ -9,7 +9,7 @@ import com.maxmind.geoip2.model.IspResponse;
 import java.io.IOException;
 import java.net.InetAddress;
 
-public interface IDatabaseReader extends GeoIp2Provider {
+public interface DatabaseProvider extends GeoIp2Provider {
     /**
      * Look up an IP address in a GeoIP2 Anonymous IP.
      *

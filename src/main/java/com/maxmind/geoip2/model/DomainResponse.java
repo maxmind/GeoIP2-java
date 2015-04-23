@@ -13,9 +13,6 @@ public class DomainResponse extends AbstractResponse {
     @JsonProperty("ip_address")
     private String ipAddress;
 
-    public DomainResponse() {
-    }
-
     /**
      * @return the The second level domain associated with the IP address. This
      * will be something like "example.com" or "example.co.uk", not

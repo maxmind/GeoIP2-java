@@ -10,12 +10,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This record is returned by all the end points.
  * </p>
  */
-final public class MaxMind {
+public final class MaxMind {
     @JsonProperty("queries_remaining")
     private Integer queriesRemaining;
-
-    public MaxMind() {
-    }
 
     /**
      * @return The number of remaining queried in your account for the current

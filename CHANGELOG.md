@@ -1,6 +1,18 @@
 CHANGELOG
 =========
 
+2.2.0 (2015-04-23)
+------------------
+
+* A `DatabaseProvider` interface has been added to facilitate mocking of
+  `DatabaseReader`. Pull request by Yonatan Most. GitHub #34.
+* A `getLeastSpecificSubdivision` method has been added to the
+  `CityResponse` and `InsightsResponse` model classes. This returns the
+  least specific subdivision for the location, e.g., England for Oxford,
+  GB. Pull request by Daniel Kaneider. GitHub #35.
+* `InsightsResponse` is no longer declared final.
+* `AbstractResponse` is now declared `abstract`.
+
 2.1.0 (2014-11-06)
 ------------------
 

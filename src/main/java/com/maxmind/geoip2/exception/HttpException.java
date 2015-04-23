@@ -8,7 +8,7 @@ import java.net.URL;
  * by the web service itself. As such, it is a IOException instead of a
  * GeoIp2Exception.
  */
-final public class HttpException extends IOException {
+public final class HttpException extends IOException {
     private static final long serialVersionUID = -8301101841509056974L;
     private final int httpStatus;
     private final URL url;

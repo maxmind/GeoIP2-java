@@ -12,12 +12,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * represented by something like a military base.
  * </p>
  */
-final public class RepresentedCountry extends Country {
+public final class RepresentedCountry extends Country {
     @JsonProperty
     private String type;
-
-    public RepresentedCountry() {
-    }
 
     /**
      * @return A string indicating the type of entity that is representing the

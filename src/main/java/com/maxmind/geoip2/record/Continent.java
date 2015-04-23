@@ -10,13 +10,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This record is returned by all the end points.
  * </p>
  */
-final public class Continent extends AbstractNamedRecord {
+public final class Continent extends AbstractNamedRecord {
     @JsonProperty("code")
     private String code;
-
-    public Continent() {
-        super();
-    }
 
     /**
      * @return A two character continent code like "NA" (North America) or "OC"
