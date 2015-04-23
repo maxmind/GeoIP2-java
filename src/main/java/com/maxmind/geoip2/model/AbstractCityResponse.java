@@ -68,6 +68,19 @@ abstract class AbstractCityResponse extends AbstractCountryResponse {
         return this.subdivisions.get(this.subdivisions.size() - 1);
     }
 
+    /**
+     * @return An object representing the least specific subdivision returned. If
+     * the response did not contain any subdivisions, this method
+     * returns an empty {@link Subdivision} object.
+     */
+    @JsonIgnore
+    public Subdivision getLeastSpecificSubdivision() {
+        if (this.subdivisions.isEmpty()) {
+            return new Subdivision();
+        }
+        return this.subdivisions.get(0);
+    }
+    
     @Override
     public String toString() {
         return this.getClass().getSimpleName()

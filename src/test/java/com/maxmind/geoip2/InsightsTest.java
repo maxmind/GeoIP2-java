@@ -51,6 +51,12 @@ public class InsightsTest {
                 "TT", this.insights.getMostSpecificSubdivision().getIsoCode());
     }
 
+    @Test
+    public void leastSpecificSubdivision() {
+    	assertEquals("Most specific subdivision returns first subdivision",
+    		"MN", this.insights.getLeastSpecificSubdivision().getIsoCode());
+    }
+
     @SuppressWarnings("boxing")
     @Test
     public void testTraits() {
