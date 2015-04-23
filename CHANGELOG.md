@@ -10,7 +10,7 @@ CHANGELOG
   `CityResponse` and `InsightsResponse` model classes. This returns the
   least specific subdivision for the location, e.g., England for Oxford,
   GB. Pull request by Daniel Kaneider. GitHub #35.
-* `InsightsResponse` is no longer declared final.
+* The `InsightsResponse` and `Location` classes are no longer declared final.
 * `AbstractResponse` is now declared `abstract`.
 
 2.1.0 (2014-11-06)
