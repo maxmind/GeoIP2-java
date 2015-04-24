@@ -22,9 +22,6 @@ public class IspResponse extends AbstractResponse {
     @JsonProperty("ip_address")
     private String ipAddress;
 
-    public IspResponse() {
-    }
-
     /**
      * @return The autonomous system number associated with the IP address.
      */
@@ -34,7 +31,7 @@ public class IspResponse extends AbstractResponse {
 
     /**
      * @return The organization associated with the registered autonomous system
-     * number for the IP addres
+     * number for the IP address
      */
     public String getAutonomousSystemOrganization() {
         return this.autonomousSystemOrganization;

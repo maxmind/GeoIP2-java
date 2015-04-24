@@ -23,20 +23,20 @@ public class MeTest {
     }
 
     @Test
-    public void insights() throws IOException, GeoIp2Exception {
-        assertEquals(this.client.insights().getTraits().getIpAddress(),
-                "24.24.24.24");
+    public void insights() throws Exception {
+        assertEquals("24.24.24.24",
+                this.client.insights().getTraits().getIpAddress());
     }
 
     @Test
-    public void city() throws IOException, GeoIp2Exception {
-        assertEquals(this.client.city().getTraits().getIpAddress(),
-                "24.24.24.24");
+    public void city() throws Exception {
+        assertEquals("24.24.24.24",
+                this.client.city().getTraits().getIpAddress());
     }
 
     @Test
-    public void country() throws IOException, GeoIp2Exception {
-        assertEquals(this.client.country().getTraits().getIpAddress(),
-                "24.24.24.24");
+    public void country() throws Exception {
+        assertEquals("24.24.24.24",
+                this.client.country().getTraits().getIpAddress());
     }
 }

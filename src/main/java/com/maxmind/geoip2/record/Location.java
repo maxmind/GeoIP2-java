@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This record is returned by all the end points except the Country end point.
  * </p>
  */
-final public class Location {
+public class Location {
     @JsonProperty("accuracy_radius")
     private Integer accuracyRadius;
 
@@ -25,9 +25,6 @@ final public class Location {
 
     @JsonProperty("time_zone")
     private String timeZone;
-
-    public Location() {
-    }
 
     /**
      * @return The radius in kilometers around the specified location where the

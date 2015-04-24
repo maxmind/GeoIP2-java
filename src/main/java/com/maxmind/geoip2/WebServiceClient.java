@@ -2,10 +2,7 @@ package com.maxmind.geoip2;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -108,12 +105,12 @@ public class WebServiceClient implements GeoIp2Provider {
 
     /**
      * <p>
-     * <code>Builder</code> creates instances of <code>WebServiceClient</code>
+     * {@code Builder} creates instances of {@code WebServiceClient}
      * from values set by the methods.
      * </p>
      * <p>
-     * This example shows how to create a <code>WebServiceClient</code> object
-     * with the <code>Builder</code>:
+     * This example shows how to create a {@code WebServiceClient} object
+     * with the {@code Builder}:
      * </p>
      * <p>
      * WebServiceClient client = new
@@ -121,15 +118,15 @@ public class WebServiceClient implements GeoIp2Provider {
      * ("geoip.maxmind.com").build();
      * </p>
      * <p>
-     * Only the values set in the <code>Builder</code> constructor are required.
+     * Only the values set in the {@code Builder} constructor are required.
      * </p>
      */
-    public final static class Builder {
+    public static final class Builder {
         final int userId;
         final String licenseKey;
 
         String host = "geoip.maxmind.com";
-        List<String> locales = Arrays.asList("en");
+        List<String> locales = Collections.singletonList("en");
         int connectTimeout = 3000;
         int readTimeout = 20000;
         HttpTransport testTransport;
@@ -193,7 +190,7 @@ public class WebServiceClient implements GeoIp2Provider {
         }
 
         /**
-         * @return an instance of <code>WebServiceClient</code> created from the
+         * @return an instance of {@code WebServiceClient} created from the
          * fields set on this builder.
          */
         public WebServiceClient build() {
@@ -346,10 +343,9 @@ public class WebServiceClient implements GeoIp2Provider {
                     + uri + " with no body", status, uri.toURL());
         }
 
-        Map<String, String> content;
         try {
             ObjectMapper mapper = new ObjectMapper();
-            content = mapper.readValue(body,
+            Map<String, String> content = mapper.readValue(body,
                     new TypeReference<HashMap<String, String>>() {
                     });
             handleErrorWithJsonBody(content, body, status, uri);

@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public class ConnectionTypeResponse extends AbstractResponse {
 
     /**
-     * The enumarated values that connection-type may take.
+     * The enumerated values that connection-type may take.
      */
     public enum ConnectionType {
         DIALUP("Dialup"), CABLE_DSL("Cable/DSL"), CORPORATE("Corporate"), CELLULAR(
@@ -17,7 +17,7 @@ public class ConnectionTypeResponse extends AbstractResponse {
 
         private final String name;
 
-        private ConnectionType(final String name) {
+        private ConnectionType(String name) {
             this.name = name;
         }
 
@@ -38,9 +38,6 @@ public class ConnectionTypeResponse extends AbstractResponse {
 
     @JsonProperty("ip_address")
     private String ipAddress;
-
-    public ConnectionTypeResponse() {
-    }
 
     /**
      * @return The connection type of the IP address.

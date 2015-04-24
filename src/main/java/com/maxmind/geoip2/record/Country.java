@@ -17,10 +17,6 @@ public class Country extends AbstractNamedRecord {
     @JsonProperty("iso_code")
     private String isoCode;
 
-    public Country() {
-        super();
-    }
-
     /**
      * @return A value from 0-100 indicating MaxMind's confidence that the
      * country is correct. This attribute is only available from the

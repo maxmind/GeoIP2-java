@@ -14,7 +14,5 @@ package com.maxmind.geoip2.model;
  * Services</a>
  * </p>
  */
-final public class InsightsResponse extends AbstractCityResponse {
-    public InsightsResponse() {
-    }
+public class InsightsResponse extends AbstractCityResponse {
 }

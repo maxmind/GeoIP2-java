@@ -1,9 +1,5 @@
 package com.maxmind.geoip2;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.List;
@@ -15,6 +11,8 @@ import com.google.api.client.http.HttpTransport;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.InsightsResponse;
 import com.maxmind.geoip2.record.*;
+
+import static org.junit.Assert.*;
 
 public class InsightsTest {
     private InsightsResponse insights;
@@ -33,7 +31,7 @@ public class InsightsTest {
     public void testSubdivisionsList() {
         List<Subdivision> subdivisionsList = this.insights.getSubdivisions();
         assertNotNull("city.getSubdivisionsList returns null", subdivisionsList);
-        if (subdivisionsList.size() == 0) {
+        if (subdivisionsList.isEmpty()) {
             fail("subdivisionsList is empty");
         }
         Subdivision subdivision = subdivisionsList.get(0);
@@ -73,10 +71,8 @@ public class InsightsTest {
                 "example.com", traits.getDomain());
         assertEquals("traits.getIpAddress() does not return 1.2.3.4",
                 "1.2.3.4", traits.getIpAddress());
-        assertEquals("traits.isAnonymousProxy() returns true", true,
-                traits.isAnonymousProxy());
-        assertEquals("traits.isSatelliteProvider() returns true", true,
-                traits.isSatelliteProvider());
+        assertTrue("traits.isAnonymousProxy() returns true", traits.isAnonymousProxy());
+        assertTrue("traits.isSatelliteProvider() returns true", traits.isSatelliteProvider());
         assertEquals("traits.getIsp() does not return Comcast", "Comcast",
                 traits.getIsp());
         assertEquals("traits.getOrganization() does not return Blorg", "Blorg",

@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class AbstractResponse {
+public abstract class AbstractResponse {
 
     /**
      * @return JSON representation of this object. The structure is the same as

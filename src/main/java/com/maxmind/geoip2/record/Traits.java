@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This record is returned by all the end points.
  * </p>
  */
-final public class Traits {
+public final class Traits {
     @JsonProperty("autonomous_system_number")
     private Integer autonomousSystemNumber;
 
@@ -37,10 +37,6 @@ final public class Traits {
 
     @JsonProperty("user_type")
     private String userType;
-
-    public Traits() {
-        // Empty traits object
-    }
 
     /**
      * @return The <a
