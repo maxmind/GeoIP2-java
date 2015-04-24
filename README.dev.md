@@ -11,5 +11,8 @@ We release to the Maven Central Repository through Sonatype OSSRH. They
 provide [detailed directions](http://central.sonatype.org/pages/apache-maven.html)
 on the steps of the release or snapshot release process.
 
+After releasing, update the
+[GitHub Release](https://github.com/maxmind/GeoIP2-java/releases), including
+attaching `target/geoip2-2.2.0-with-dependencies.zip*` to the release.
 
 All releases should follow [Semantic Versioning](http://semver.org/).
