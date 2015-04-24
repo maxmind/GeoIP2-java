@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-2.2.0 (2015-04-23)
+2.2.0 (2015-04-24)
 ------------------
 
 * A `DatabaseProvider` interface has been added to facilitate mocking of
