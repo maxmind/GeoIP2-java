@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNull;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.Test;
 
@@ -18,7 +19,7 @@ public class NamesTest {
     private final HttpTransport transport = new TestTransport();
 
     @Test
-    public void testNames() throws IOException, GeoIp2Exception {
+    public void testNames() throws Exception {
         WebServiceClient client = new WebServiceClient.Builder(42,
                 "abcdef123456").testTransport(this.transport)
                 .locales(Arrays.asList("zh-CN", "ru")).build();
@@ -33,7 +34,7 @@ public class NamesTest {
     }
 
     @Test
-    public void russianFallback() throws IOException, GeoIp2Exception {
+    public void russianFallback() throws Exception {
         WebServiceClient client = new WebServiceClient.Builder(42,
                 "abcdef123456").testTransport(this.transport)
                 .locales(Arrays.asList("as", "ru")).build();
@@ -46,18 +47,18 @@ public class NamesTest {
     }
 
     @Test
-    public void testFallback() throws IOException, GeoIp2Exception {
+    public void testFallback() throws Exception {
         WebServiceClient client = new WebServiceClient.Builder(42,
                 "abcdef123456").testTransport(this.transport)
                 .locales(Arrays.asList("pt", "en", "zh-CN")).build();
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
-        assertEquals("en is returned when pt is missing", city.getContinent()
-                .getName(), "North America");
+        assertEquals("en is returned when pt is missing", "North America", city.getContinent()
+                .getName());
 
     }
 
     @Test
-    public void noFallback() throws IOException, GeoIp2Exception {
+    public void noFallback() throws Exception {
         WebServiceClient client = new WebServiceClient.Builder(42,
                 "abcdef123456").testTransport(this.transport)
                 .locales(Arrays.asList("pt", "es", "af")).build();
@@ -68,20 +69,20 @@ public class NamesTest {
     }
 
     @Test
-    public void noLocale() throws IOException, GeoIp2Exception {
+    public void noLocale() throws Exception {
         WebServiceClient client = new WebServiceClient.Builder(42,
                 "abcdef123456").testTransport(this.transport).build();
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
-        assertEquals("en is returned when no locales are specified", city
-                .getContinent().getName(), "North America");
+        assertEquals("en is returned when no locales are specified", "North America", city
+                .getContinent().getName());
 
     }
 
     @Test
-    public void testMissing() throws IOException, GeoIp2Exception {
+    public void testMissing() throws Exception {
         WebServiceClient client = new WebServiceClient.Builder(42,
                 "abcdef123456").testTransport(this.transport)
-                .locales(Arrays.asList("en")).build();
+                .locales(Collections.singletonList("en")).build();
 
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
         assertNotNull(city.getCity());

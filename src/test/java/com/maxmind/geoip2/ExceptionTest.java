@@ -25,7 +25,7 @@ public class ExceptionTest {
     public ExpectedException exception = ExpectedException.none();
 
     @Test
-    public void noBody() throws IOException, GeoIp2Exception {
+    public void noBody() throws Exception {
         this.exception.expect(HttpException.class);
         this.exception.expectMessage(containsString("message body"));
 
@@ -33,7 +33,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void webServiceError() throws IOException, GeoIp2Exception {
+    public void webServiceError() throws Exception {
         this.exception.expect(InvalidRequestException.class);
         this.exception.expect(CodeMatcher.hasCode("IP_ADDRESS_INVALID"));
         this.exception
@@ -43,7 +43,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void noErrorBody() throws IOException, GeoIp2Exception {
+    public void noErrorBody() throws Exception {
         this.exception.expect(HttpException.class);
         this.exception
                 .expectMessage(containsString("Received a 400 error for https://geoip.maxmind.com/geoip/v2.1/country/1.2.3.7 with no body"));
@@ -53,7 +53,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void weirdErrorBody() throws IOException, GeoIp2Exception {
+    public void weirdErrorBody() throws Exception {
         this.exception.expect(HttpException.class);
         this.exception
                 .expectMessage(containsString("Response contains JSON but it does not specify code or error keys"));
@@ -62,7 +62,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void unexpectedErrorBody() throws IOException, GeoIp2Exception {
+    public void unexpectedErrorBody() throws Exception {
         this.exception.expect(HttpException.class);
         this.exception
                 .expectMessage(containsString("it did not include the expected JSON body:"));
@@ -71,7 +71,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void internalServerError() throws IOException, GeoIp2Exception {
+    public void internalServerError() throws Exception {
         this.exception.expect(HttpException.class);
         this.exception
                 .expectMessage(containsString("Received a server error (500) for"));
@@ -79,7 +79,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void surprisingStatus() throws IOException, GeoIp2Exception {
+    public void surprisingStatus() throws Exception {
         this.exception.expect(HttpException.class);
         this.exception
                 .expectMessage(containsString("Received a very surprising HTTP status (300) for"));
@@ -88,7 +88,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void cannotAccept() throws GeoIp2Exception, IOException {
+    public void cannotAccept() throws Exception {
         this.exception.expect(HttpException.class);
         this.exception
                 .expectMessage(containsString("Cannot satisfy your Accept-Charset requirements"));
@@ -96,7 +96,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void badContentType() throws GeoIp2Exception, IOException {
+    public void badContentType() throws Exception {
         this.exception.expect(GeoIp2Exception.class);
         this.exception
                 .expectMessage(containsString(" but it does not appear to be JSON"));
@@ -104,7 +104,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void badJsonOn200() throws IOException, GeoIp2Exception {
+    public void badJsonOn200() throws Exception {
         this.exception.expect(GeoIp2Exception.class);
         this.exception
                 .expectMessage(containsString("Received a 200 response but not decode it as JSON: "));
@@ -112,7 +112,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void addressNotFound() throws IOException, GeoIp2Exception {
+    public void addressNotFound() throws Exception {
         this.exception.expect(AddressNotFoundException.class);
         this.exception
                 .expectMessage(containsString("The value 1.2.3.16 is not in the database."));
@@ -121,7 +121,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void addressReserved() throws IOException, GeoIp2Exception {
+    public void addressReserved() throws Exception {
         this.exception.expect(AddressNotFoundException.class);
         this.exception
                 .expectMessage(containsString("The value 1.2.3.17 belongs to a reserved or private range."));
@@ -130,7 +130,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void invalidAuth() throws IOException, GeoIp2Exception {
+    public void invalidAuth() throws Exception {
         this.exception.expect(AuthenticationException.class);
         this.exception
                 .expectMessage(containsString("You have supplied an invalid MaxMind user ID and/or license key in the Authorization header."));
@@ -139,7 +139,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void missingLicense() throws IOException, GeoIp2Exception {
+    public void missingLicense() throws Exception {
         this.exception.expect(AuthenticationException.class);
         this.exception
                 .expectMessage(containsString("You have not supplied a MaxMind license key in the Authorization header."));
@@ -148,7 +148,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void missingUserID() throws IOException, GeoIp2Exception {
+    public void missingUserID() throws Exception {
         this.exception.expect(AuthenticationException.class);
         this.exception
                 .expectMessage(containsString("You have not supplied a MaxMind user ID in the Authorization header."));
@@ -157,7 +157,7 @@ public class ExceptionTest {
     }
 
     @Test
-    public void outOfQueries() throws IOException, GeoIp2Exception {
+    public void outOfQueries() throws Exception {
         this.exception.expect(OutOfQueriesException.class);
         this.exception
                 .expectMessage(containsString("The license key you have provided is out of queries."));

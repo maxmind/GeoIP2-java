@@ -40,14 +40,14 @@ public class DatabaseReaderTest {
     }
 
     @Test
-    public void testDefaultLocaleFile() throws IOException, GeoIp2Exception {
+    public void testDefaultLocaleFile() throws Exception {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
                 .build();
         this.testDefaultLocale(reader);
     }
 
     @Test
-    public void testDefaultLocaleURL() throws IOException, GeoIp2Exception {
+    public void testDefaultLocaleURL() throws Exception {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipStream)
                 .build();
         this.testDefaultLocale(reader);
@@ -63,7 +63,7 @@ public class DatabaseReaderTest {
     }
 
     @Test
-    public void testLocaleListFile() throws IOException, GeoIp2Exception {
+    public void testLocaleListFile() throws Exception {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
                 .locales(Arrays.asList("xx", "ru", "pt-BR", "es", "en"))
                 .build();
@@ -71,7 +71,7 @@ public class DatabaseReaderTest {
     }
 
     @Test
-    public void testLocaleListURL() throws IOException, GeoIp2Exception {
+    public void testLocaleListURL() throws Exception {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
                 .locales(Arrays.asList("xx", "ru", "pt-BR", "es", "en"))
                 .build();
@@ -86,14 +86,14 @@ public class DatabaseReaderTest {
     }
 
     @Test
-    public void testMemoryModeFile() throws IOException, GeoIp2Exception {
+    public void testMemoryModeFile() throws Exception {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
                 .fileMode(Reader.FileMode.MEMORY).build();
         this.testMemoryMode(reader);
     }
 
     @Test
-    public void testMemoryModeURL() throws IOException, GeoIp2Exception {
+    public void testMemoryModeURL() throws Exception {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
                 .fileMode(Reader.FileMode.MEMORY).build();
         this.testMemoryMode(reader);
@@ -115,14 +115,14 @@ public class DatabaseReaderTest {
     }
 
     @Test
-    public void hasIpAddressFile() throws IOException, GeoIp2Exception {
+    public void hasIpAddressFile() throws Exception {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
                 .build();
         this.hasIpAddress(reader);
     }
 
     @Test
-    public void hasIpAddressURL() throws IOException, GeoIp2Exception {
+    public void hasIpAddressURL() throws Exception {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
                 .build();
         this.hasIpAddress(reader);
@@ -136,14 +136,14 @@ public class DatabaseReaderTest {
     }
 
     @Test
-    public void unknownAddressFile() throws IOException, GeoIp2Exception {
+    public void unknownAddressFile() throws Exception {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
                 .build();
         this.unknownAddress(reader);
     }
 
     @Test
-    public void unknownAddressURL() throws IOException, GeoIp2Exception {
+    public void unknownAddressURL() throws Exception {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
                 .build();
         this.unknownAddress(reader);
@@ -170,7 +170,7 @@ public class DatabaseReaderTest {
     }
 
     @Test
-    public void incorrectDatabaseMethod() throws IOException, GeoIp2Exception {
+    public void incorrectDatabaseMethod() throws Exception {
         this.exception.expect(UnsupportedOperationException.class);
         this.exception
                 .expectMessage(containsString("GeoIP2-City database using the isp method"));
@@ -184,7 +184,7 @@ public class DatabaseReaderTest {
 
 
     @Test
-    public void testAnonymousIp() throws URISyntaxException, IOException, GeoIp2Exception {
+    public void testAnonymousIp() throws Exception {
         DatabaseReader reader = new DatabaseReader.Builder(
                 this.getFile("GeoIP2-Anonymous-IP-Test.mmdb")).build();
         InetAddress ipAddress = InetAddress.getByName("1.2.0.1");
@@ -199,8 +199,7 @@ public class DatabaseReaderTest {
     }
 
     @Test
-    public void testConnectionType() throws IOException, URISyntaxException,
-            GeoIp2Exception {
+    public void testConnectionType() throws Exception {
         DatabaseReader reader = new DatabaseReader.Builder(
                 this.getFile("GeoIP2-Connection-Type-Test.mmdb")).build();
         InetAddress ipAddress = InetAddress.getByName("1.0.1.0");
@@ -213,8 +212,7 @@ public class DatabaseReaderTest {
     }
 
     @Test
-    public void testDomain() throws IOException, URISyntaxException,
-            GeoIp2Exception {
+    public void testDomain() throws Exception {
         DatabaseReader reader = new DatabaseReader.Builder(
                 this.getFile("GeoIP2-Domain-Test.mmdb")).build();
         InetAddress ipAddress = InetAddress.getByName("1.2.0.0");
@@ -225,8 +223,7 @@ public class DatabaseReaderTest {
     }
 
     @Test
-    public void testIsp() throws IOException, URISyntaxException,
-            GeoIp2Exception {
+    public void testIsp() throws Exception {
         DatabaseReader reader = new DatabaseReader.Builder(
                 this.getFile("GeoIP2-ISP-Test.mmdb")).build();
         InetAddress ipAddress = InetAddress.getByName("1.128.0.0");

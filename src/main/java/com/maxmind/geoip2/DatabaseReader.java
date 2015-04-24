@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -62,11 +61,11 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * be a valid GeoIP2 database file.
      * </p>
      * <p>
-     * <code>Builder</code> creates instances of <code>DatabaseReader</code>
+     * {@code Builder} creates instances of {@code DatabaseReader}
      * from values set by the methods.
      * </p>
      * <p>
-     * Only the values set in the <code>Builder</code> constructor are required.
+     * Only the values set in the {@code Builder} constructor are required.
      * </p>
      */
     public static final class Builder {
@@ -110,7 +109,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
          *                                            FileMode to this method.
          */
         public Builder fileMode(FileMode val) {
-            if (this.stream != null && !FileMode.MEMORY.equals(val)) {
+            if (this.stream != null && FileMode.MEMORY != val) {
                 throw new IllegalArgumentException(
                         "Only FileMode.MEMORY is supported when using an InputStream.");
             }
@@ -119,7 +118,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         }
 
         /**
-         * @return an instance of <code>DatabaseReader</code> created from the
+         * @return an instance of {@code DatabaseReader} created from the
          * fields set on this builder.
          * @throws IOException if there is an error reading the database
          */
@@ -174,10 +173,10 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * Closes the database.
      * </p>
      * <p>
-     * If you are using <code>FileMode.MEMORY_MAPPED</code>, this will
+     * If you are using {@code FileMode.MEMORY_MAPPED}, this will
      * <em>not</em> unmap the underlying file due to a limitation in Java's
-     * <code>MappedByteBuffer</code>. It will however set the reference to
-     * the buffer to <code>null</code>, allowing the garbage collector to
+     * {@code MappedByteBuffer}. It will however set the reference to
+     * the buffer to {@code null}, allowing the garbage collector to
      * collect it.
      * </p>
      *
