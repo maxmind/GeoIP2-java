@@ -9,56 +9,153 @@ import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 
 public final class TestTransport extends MockHttpTransport {
-    private final static String insightsBody = "{" + "\"city\":{"
-            + "\"confidence\":76," + "\"geoname_id\":9876," + "\"names\":{"
-            + "\"en\":\"Minneapolis\"" + "}" + "}," + "\"continent\":{"
-            + "\"code\":\"NA\"," + "\"geoname_id\":42," + "\"names\":{"
-            + "\"en\":\"North America\"" + "}" + "}," + "\"country\":{"
-            + "\"confidence\":99," + "\"iso_code\":\"US\","
-            + "\"geoname_id\":1," + "\"names\":{"
-            + "\"en\":\"United States of America\"" + "}" + "},"
-            + "\"location\":{" + "\"accuracy_radius\":1500,"
-            + "\"latitude\":44.98," + "\"longitude\":93.2636,"
-            + "\"metro_code\":765," + "\"time_zone\":\"America/Chicago\""
-            + "}," + "\"postal\":{\"confidence\": 33, \"code\":\"55401\"},"
-            + "\"registered_country\":{" + "\"geoname_id\":2,"
-            + "\"iso_code\":\"CA\"," + "\"names\":{" + "\"en\":\"Canada\""
-            + "}" + "}," + "\"represented_country\":{" + "\"geoname_id\":3,"
-            + "\"iso_code\":\"GB\"," + "\"names\":{"
-            + "\"en\":\"United Kingdom\"" + "}," + "\"type\":\"C<military>\""
-            + "}," + "\"subdivisions\":[{" + "\"confidence\":88,"
-            + "\"geoname_id\":574635," + "\"iso_code\":\"MN\"," + "\"names\":{"
-            + "\"en\":\"Minnesota\"" + "}" + "}," + "{\"iso_code\":\"TT\"}],"
-            + "\"traits\":{" + "\"autonomous_system_number\":1234,"
-            + "\"autonomous_system_organization\":\"AS Organization\","
-            + "\"domain\":\"example.com\"," + "\"ip_address\":\"1.2.3.4\","
-            + "\"is_anonymous_proxy\":true,"
-            + "\"is_satellite_provider\":true," + "\"isp\":\"Comcast\","
-            + "\"organization\":\"Blorg\"," + "\"user_type\":\"college\""
-            + "}," + "\"maxmind\":{\"queries_remaining\":11}" + "}";
+    private final static String insightsBody =
+        "{" +
+        "   \"city\" : {" +
+        "      \"confidence\" : 76," +
+        "      \"geoname_id\" : 9876," +
+        "      \"names\" : {" +
+        "         \"en\" : \"Minneapolis\"" +
+        "      }" +
+        "   }," +
+        "   \"continent\" : {" +
+        "      \"code\" : \"NA\"," +
+        "      \"geoname_id\" : 42," +
+        "      \"names\" : {" +
+        "         \"en\" : \"North America\"" +
+        "      }" +
+        "   }," +
+        "   \"country\" : {" +
+        "      \"confidence\" : 99," +
+        "      \"geoname_id\" : 1," +
+        "      \"iso_code\" : \"US\"," +
+        "      \"names\" : {" +
+        "         \"en\" : \"United States of America\"" +
+        "      }" +
+        "   }," +
+        "   \"location\" : {" +
+        "      \"accuracy_radius\" : 1500," +
+        "      \"latitude\" : 44.98," +
+        "      \"longitude\" : 93.2636," +
+        "      \"metro_code\" : 765," +
+        "      \"time_zone\" : \"America/Chicago\"" +
+        "   }," +
+        "   \"maxmind\" : {" +
+        "      \"queries_remaining\" : 11" +
+        "   }," +
+        "   \"postal\" : {" +
+        "      \"code\" : \"55401\"," +
+        "      \"confidence\" : 33" +
+        "   }," +
+        "   \"registered_country\" : {" +
+        "      \"geoname_id\" : 2," +
+        "      \"iso_code\" : \"CA\"," +
+        "      \"names\" : {" +
+        "         \"en\" : \"Canada\"" +
+        "      }" +
+        "   }," +
+        "   \"represented_country\" : {" +
+        "      \"geoname_id\" : 3," +
+        "      \"iso_code\" : \"GB\"," +
+        "      \"names\" : {" +
+        "         \"en\" : \"United Kingdom\"" +
+        "      }," +
+        "      \"type\" : \"C<military>\"" +
+        "   }," +
+        "   \"subdivisions\" : [" +
+        "      {" +
+        "         \"confidence\" : 88," +
+        "         \"geoname_id\" : 574635," +
+        "         \"iso_code\" : \"MN\"," +
+        "         \"names\" : {" +
+        "            \"en\" : \"Minnesota\"" +
+        "         }" +
+        "      }," +
+        "      {" +
+        "         \"iso_code\" : \"TT\"" +
+        "      }" +
+        "   ]," +
+        "   \"traits\" : {" +
+        "      \"autonomous_system_number\" : 1234," +
+        "      \"autonomous_system_organization\" : \"AS Organization\"," +
+        "      \"domain\" : \"example.com\"," +
+        "      \"ip_address\" : \"1.2.3.4\"," +
+        "      \"isp\" : \"Comcast\"," +
+        "      \"is_anonymous_proxy\" : true," +
+        "      \"is_satellite_provider\" : true," +
+        "      \"organization\" : \"Blorg\"," +
+        "      \"user_type\" : \"college\"" +
+        "   }" +
+        "}";
 
-    private final static String namesBody = "{\"continent\":{"
-            + "\"code\":\"NA\"," + "\"geoname_id\":42," + "\"names\":{"
-            + "\"en\":\"North America\"," + "\"zh-CN\":\"北美洲\"" + "}" + "},"
-            + "\"country\":{" + "\"geoname_id\":1," + "\"iso_code\":\"US\","
-            + "\"confidence\":56," + "\"names\":{"
-            + "\"en\":\"United States\","
-            + "\"ru\":\"объединяет государства\"," + "\"zh-CN\":\"美国\"" + "}"
-            + "}," + "\"registered_country\":{" + "\"geoname_id\":2,"
-            + "\"iso_code\":\"CA\"," + "\"names\":{\"en\":\"Canada\"}" + "},"
-            + "\"traits\":{" + "\"ip_address\":\"1.2.3.4\"" + "}}";
+    private final static String namesBody = 
+        "{" +
+        "   \"continent\" : {" +
+        "      \"code\" : \"NA\"," +
+        "      \"geoname_id\" : 42," +
+        "      \"names\" : {" +
+        "         \"zh-CN\" : \"北美洲\"," +
+        "         \"en\" : \"North America\"" +
+        "      }" +
+        "   }," +
+        "   \"country\" : {" +
+        "      \"confidence\" : 56," +
+        "      \"geoname_id\" : 1," +
+        "      \"iso_code\" : \"US\"," +
+        "      \"names\" : {" +
+        "         \"ru\" : \"объединяет государства\"," +
+        "         \"en\" : \"United States\"," +
+        "         \"zh-CN\" : \"美国\"" +
+        "      }" +
+        "   }," +
+        "   \"registered_country\" : {" +
+        "      \"geoname_id\" : 2," +
+        "      \"iso_code\" : \"CA\"," +
+        "      \"names\" : {" +
+        "         \"en\" : \"Canada\"" +
+        "      }" +
+        "   }," +
+        "   \"traits\" : {" +
+        "      \"ip_address\" : \"1.2.3.4\"" +
+        "   }" +
+        "}";
 
-    private final static String countryBody = "{\"continent\":{"
-            + "\"code\":\"NA\"," + "\"geoname_id\":42,"
-            + "\"names\":{\"en\":\"North America\"}" + "}," + "\"country\":{"
-            + "\"geoname_id\":1," + "\"iso_code\":\"US\","
-            + "\"confidence\":56," + "\"names\":{\"en\":\"United States\"}"
-            + "}," + "\"registered_country\":{" + "\"geoname_id\":2,"
-            + "\"iso_code\":\"CA\"," + "\"names\":{\"en\":\"Canada\"}},"
-            + "\"represented_country\":{" + "\"geoname_id\":4,"
-            + "\"iso_code\":\"GB\"," + "\"names\":{\"en\":\"United Kingdom\"},"
-            + "\"type\":\"military\"}," + "\"traits\":{"
-            + "\"ip_address\":\"1.2.3.4\"" + "}}";
+    private final static String countryBody = 
+        "{" +
+        "   \"traits\" : {" +
+        "      \"ip_address\" : \"1.2.3.4\"" +
+        "   }," +
+        "   \"continent\" : {" +
+        "      \"names\" : {" +
+        "         \"en\" : \"North America\"" +
+        "      }," +
+        "      \"geoname_id\" : 42," +
+        "      \"code\" : \"NA\"" +
+        "   }," +
+        "   \"country\" : {" +
+        "      \"geoname_id\" : 1," +
+        "      \"confidence\" : 56," +
+        "      \"names\" : {" +
+        "         \"en\" : \"United States\"" +
+        "      }," +
+        "      \"iso_code\" : \"US\"" +
+        "   }," +
+        "   \"registered_country\" : {" +
+        "      \"geoname_id\" : 2," +
+        "      \"names\" : {" +
+        "         \"en\" : \"Canada\"" +
+        "      }," +
+        "      \"iso_code\" : \"CA\"" +
+        "   }," +
+        "   \"represented_country\" : {" +
+        "      \"geoname_id\" : 4," +
+        "      \"type\" : \"military\"," +
+        "      \"names\" : {" +
+        "         \"en\" : \"United Kingdom\"" +
+        "      }," +
+        "      \"iso_code\" : \"GB\"" +
+        "   }" +
+        "}";
 
     @Override
     public LowLevelHttpRequest buildRequest(String method, final String url)
