@@ -35,9 +35,11 @@ public final class TestTransport extends MockHttpTransport {
         "   }," +
         "   \"location\" : {" +
         "      \"accuracy_radius\" : 1500," +
+        "      \"average_income\" : 24626," +
         "      \"latitude\" : 44.98," +
         "      \"longitude\" : 93.2636," +
         "      \"metro_code\" : 765," +
+        "      \"population_density\" : 1341," +
         "      \"time_zone\" : \"America/Chicago\"" +
         "   }," +
         "   \"maxmind\" : {" +

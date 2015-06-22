@@ -88,6 +88,9 @@ public class InsightsTest {
 
         assertNotNull("city.getLocation() returns null", location);
 
+        assertEquals("location.getAverageIncome() does not return 24626,",
+                new Integer(24626), location.getAverageIncome());
+
         assertEquals("location.getAccuracyRadius() does not return 1500",
                 new Integer(1500), location.getAccuracyRadius());
 
@@ -99,6 +102,8 @@ public class InsightsTest {
                 93.2636, longitude, 0.1);
         assertEquals("location.getMetroCode() does not return 765",
                 new Integer(765), location.getMetroCode());
+        assertEquals("location.getPopulationDensity() does not return 1341,",
+                new Integer(1341), location.getPopulationDensity());
         assertEquals("location.getTimeZone() does not return America/Chicago",
                 "America/Chicago", location.getTimeZone());
     }

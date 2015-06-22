@@ -52,6 +52,8 @@ public class JsonTest {
             + "       \"geoname_id\" : 42\n"
             + "    },\n"
             + "    \"location\" : {\n"
+            + "       \"average_income\" : 24626,\n"
+            + "       \"population_density\" : 1341,\n"
             + "       \"time_zone\" : \"America/Chicago\",\n"
             + "       \"accuracy_radius\" : 1500,\n"
             + "       \"metro_code\" : 765,\n"
