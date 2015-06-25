@@ -5,6 +5,11 @@ CHANGELOG
 ------------------
 
 * Add support for the `average_income` and `population_density` fields.
+* The `isAnonymousProxy()` and `isSatelliteProvider()` methods on
+  `com.maxmind.geoip2.record.Traits` have been deprecated. Please use our
+  [GeoIP2 Anonymous IP database](https://www.maxmind.com/en/geoip2-anonymous-
+  ip-database) to determine whether an IP address is used by an anonymizing
+  service.
 
 2.2.0 (2015-04-24)
 ------------------
