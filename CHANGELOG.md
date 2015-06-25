@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.3.0 (2015-06-29)
+------------------
+
+* Add support for the `average_income` and `population_density` fields.
+
 2.2.0 (2015-04-24)
 ------------------
 
