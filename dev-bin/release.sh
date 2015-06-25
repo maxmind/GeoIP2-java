@@ -14,6 +14,7 @@ if [ -n "$(git status --porcelain)" ]; then
     exit 1
 fi
 
+
 if [ ! -d .gh-pages ]; then
     echo "Checking out gh-pages in .gh-pages"
     git clone -b gh-pages git@git.maxmind.com:GeoIP2-java .gh-pages
@@ -59,6 +60,11 @@ mvn release:prepare
 mvn release:perform
 rm -fr ".gh-pages/doc/$TAG"
 cp -r target/apidocs .gh-pages/doc/$TAG
+
+# alter the documentation to point to this version
+TAG=$TAG perl -pi -e 's/<version>[^<]*/<version>$ENV{TAG}/' README.md
+git add README.md
+git commit -m 'update version number in README.md'
 
 cd .gh-pages
 
