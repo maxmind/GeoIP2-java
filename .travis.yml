@@ -17,6 +17,8 @@ notifications:
     on_success: change
     on_failure: always
 
+sudo: false
+
 env:
   global:
    - secure: "NZPWyoQ7lDzSMf6zAUxXNRgwPIWGAIN6eDgTD/vnFxOPYTJX8HEvIAEuoKAqajmJMqRwUl4D1s/cANBY8+IV//KDNiOZY1Hr070Wf2FIrAyxZ13sR3YVHzK6isKF6ISgVub2qyr028Wu1y1Qv2ggx6pRvRfCIBpth3r4l4sKeQU="
