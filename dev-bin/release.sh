@@ -2,12 +2,16 @@
 
 set -e
 
-TAG=$1
+VERSION=$(perl -MFile::Slurp::Tiny=read_file -MDateTime <<EOF
+use v5.16;
+my \$log = read_file(q{CHANGELOG.md});
+\$log =~ /\n(\d+\.\d+\.\d+) \((\d{4}-\d{2}-\d{2})\)\n/;
+die 'Release time is not today!' unless DateTime->now->ymd eq \$2;
+say \$1;
+EOF
+)
 
-if [ -z $TAG ]; then
-    echo "Please specify a tag"
-    exit 1
-fi
+TAG="v$VERSION"
 
 if [ -n "$(git status --porcelain)" ]; then
     echo ". is not clean." >&2
@@ -17,11 +21,11 @@ fi
 
 if [ ! -d .gh-pages ]; then
     echo "Checking out gh-pages in .gh-pages"
-    git clone -b gh-pages git@git.maxmind.com:GeoIP2-java .gh-pages
-    cd .gh-pages
+    git clone -b gh-pages git@github.com:maxmind/GeoIP2-java .gh-pages
+    pushd .gh-pages
 else
     echo "Updating .gh-pages"
-    cd .gh-pages
+    pushd .gh-pages
     git pull
 fi
 
@@ -30,7 +34,7 @@ if [ -n "$(git status --porcelain)" ]; then
     exit 1
 fi
 
-cd ..
+popd
 
 mvn versions:display-dependency-updates
 
@@ -56,7 +60,7 @@ cat README.md >> $PAGE
 
 # could be combined with the primary build
 mvn release:clean
-mvn release:prepare
+mvn release:prepare -DreleaseVersion=$VERSION -Dtag=$TAG
 mvn release:perform
 rm -fr ".gh-pages/doc/$TAG"
 cp -r target/apidocs .gh-pages/doc/$TAG
@@ -66,7 +70,7 @@ TAG=$TAG perl -pi -e 's/<version>[^<]*/<version>$ENV{TAG}/' README.md
 git add README.md
 git commit -m 'update version number in README.md'
 
-cd .gh-pages
+pushd .gh-pages
 
 git add doc/
 git commit -m "Updated for $TAG" -a
@@ -80,7 +84,7 @@ fi
 
 git push
 
-cd ..
+popd
 
 git push
 git push --tags
