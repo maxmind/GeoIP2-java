@@ -2,7 +2,7 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v2.2.0
+version: v2.3.0
 ---
 
 # GeoIP2 Java API #
@@ -27,7 +27,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>2.1.0</version>
+        <version>2.2.0</version>
     </dependency>
 ```
 
