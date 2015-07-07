@@ -2,7 +2,7 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v2.3.0
+version: v2.3.1
 ---
 
 # GeoIP2 Java API #
@@ -27,7 +27,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>2.2.0</version>
+        <version>v2.3.0</version>
     </dependency>
 ```
 
@@ -156,6 +156,10 @@ which represents part of the data returned by the database.
 We recommend reusing the `DatabaseReader` object rather than creating a new
 one for each lookup. The creation of this object is relatively expensive as it
 must read in metadata for the file.
+
+Please note that to use the `DatabaseReader` class you must also import the
+[MaxMind DB Reader libraries](https://github.com/maxmind/MaxMind-DB-Reader-java)
+into your project.
 
 See the API documentation for more details.
 
