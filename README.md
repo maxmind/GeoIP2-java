@@ -150,6 +150,10 @@ We recommend reusing the `DatabaseReader` object rather than creating a new
 one for each lookup. The creation of this object is relatively expensive as it
 must read in metadata for the file.
 
+Please note that to use the `DatabaseReader` class you must also import the
+[MaxMind DB Reader libraries](https://github.com/maxmind/MaxMind-DB-Reader-java)
+into your project.
+
 See the API documentation for more details.
 
 
