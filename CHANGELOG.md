@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+2.3.1 (2015-07-07)
+------------------
+* No code changes in this release
+* Fix for version number in pom.xml example in README.md
+* Slight documentation improvement referring to MaxMind-DB-Reader-java
+
 2.3.0 (2015-06-29)
 ------------------
 
