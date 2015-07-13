@@ -12,6 +12,7 @@ on the steps of the release or snapshot release process.
 
 After releasing, update the
 [GitHub Release](https://github.com/maxmind/GeoIP2-java/releases), including
-attaching `target/geoip2-2.2.0-with-dependencies.zip*` to the release.
+attaching `target/geoip2-2.2.0-with-dependencies.zip*` to the release (both
+the zip file and the `.asc`.)
 
 All releases should follow [Semantic Versioning](http://semver.org/).
