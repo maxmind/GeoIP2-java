@@ -66,7 +66,8 @@ rm -fr ".gh-pages/doc/$TAG"
 cp -r target/apidocs .gh-pages/doc/$TAG
 
 # alter the documentation to point to this version
-V=$VERSION perl -pi -e 's/<version>[^<]*/<version>$ENV{V}/' README.md
+perl -pi -e 's/(?=<version>)[^<]*/$ENV{VERSION}/' README.md
+perl -pi -e 's/(?<=com\.maxmind\.geoip2\:geoip2\:)\d+\.\d+\.\d+([\w\-]+)?/$ENV{VERSION}/' README.md
 git add README.md
 git commit -m 'update version number in README.md'
 
