@@ -136,7 +136,7 @@ public final class Traits {
      * @see <a href="http://dev.maxmind.com/faq/geoip#anonproxy">MaxMind's GeoIP
      * FAQ</a>
      *
-     * @deprecated use our
+     * @deprecated Use our
      * <a href="https://www.maxmind.com/en/geoip2-anonymous-ip-database">GeoIP2
      * Anonymous IP database</a> instead.
      */
@@ -149,9 +149,8 @@ public final class Traits {
      * @return This is true if the IP belong to a satellite internet provider.
      * This attribute is returned by all end points.
      *
-     * @deprecated use our
-     * <a href="https://www.maxmind.com/en/geoip2-anonymous-ip-database">GeoIP2
-     * Anonymous IP database</a> instead.
+     * @deprecated Due to increased mobile usage, we have insufficient data to
+     * maintain this field.
      */
     @Deprecated
     public boolean isSatelliteProvider() {
