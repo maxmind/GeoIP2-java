@@ -1,5 +1,18 @@
 package com.maxmind.geoip2;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.InjectableValues;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.maxmind.db.InvalidDatabaseException;
+import com.maxmind.db.Metadata;
+import com.maxmind.db.Reader;
+import com.maxmind.db.Reader.FileMode;
+import com.maxmind.geoip2.exception.AddressNotFoundException;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.maxmind.geoip2.model.*;
+
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
@@ -7,22 +20,6 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.util.Collections;
 import java.util.List;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.InjectableValues;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.maxmind.db.Metadata;
-import com.maxmind.db.Reader;
-import com.maxmind.db.Reader.FileMode;
-import com.maxmind.geoip2.exception.AddressNotFoundException;
-import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.AnonymousIpResponse;
-import com.maxmind.geoip2.model.CityResponse;
-import com.maxmind.geoip2.model.ConnectionTypeResponse;
-import com.maxmind.geoip2.model.CountryResponse;
-import com.maxmind.geoip2.model.DomainResponse;
-import com.maxmind.geoip2.model.IspResponse;
 
 /**
  * Instances of this class provide a reader for the GeoIP2 database format. IP
@@ -145,7 +142,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                             + " database using the " + caller + " method");
         }
 
-        ObjectNode node = (ObjectNode) this.reader.get(ipAddress);
+        ObjectNode node = jsonNodeToObjectNode(reader.get(ipAddress));
 
         // We throw the same exception as the web service when an IP is not in
         // the database
@@ -156,16 +153,27 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
 
         ObjectNode ipNode;
         if (hasTraits) {
-            if (!node.has("traits")) {
-                node.set("traits", this.om.createObjectNode());
+            if (node.has("traits")) {
+                ipNode = jsonNodeToObjectNode(node.get("traits"));
+            } else {
+                ipNode = om.createObjectNode();
+                node.set("traits", ipNode);
             }
-            ipNode = (ObjectNode) node.get("traits");
         } else {
             ipNode = node;
         }
         ipNode.put("ip_address", ipAddress.getHostAddress());
 
         return this.om.treeToValue(node, cls);
+    }
+
+    private ObjectNode jsonNodeToObjectNode(JsonNode node)
+            throws InvalidDatabaseException {
+        if (node == null || node instanceof ObjectNode) {
+            return (ObjectNode) node;
+        }
+        throw new InvalidDatabaseException(
+                "Unexpected data type returned. The GeoIP2 database may be corrupt.");
     }
 
     /**
