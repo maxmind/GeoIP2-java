@@ -20,6 +20,10 @@ public class Location {
     private final Integer populationDensity;
     private final String timeZone;
 
+    public Location() {
+        this(null, null, null, null, null, null, null);
+    }
+
     public Location(@JsonProperty("average_income") Integer averageIncome, @JsonProperty("population_density") Integer populationDensity,
                     @JsonProperty("time_zone") String timeZone, @JsonProperty("accuracy_radius") Integer accuracyRadius,
                     @JsonProperty("metro_code") Integer metroCode, @JsonProperty("latitude") Double latitude,
@@ -120,10 +124,6 @@ public class Location {
                 + ", " : "")
                 + (this.timeZone != null ? "timeZone=" + this.timeZone : "")
                 + "]";
-    }
-
-    public static Location empty() {
-        return new Location(null, null, null, null, null, null, null);
     }
 
 }

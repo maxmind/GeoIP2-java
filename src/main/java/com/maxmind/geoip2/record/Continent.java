@@ -18,6 +18,10 @@ public final class Continent extends AbstractNamedRecord {
 
     private final String code;
 
+    public Continent() {
+        this(null, null, null, null);
+    }
+
     public Continent(@JsonProperty("names") HashMap<String, String> names, @JsonProperty("code") String code,
                      @JsonProperty("geoname_id") Integer geoNameId, @JacksonInject("locales") List<String> locales) {
         super(names, geoNameId, locales);
@@ -30,10 +34,6 @@ public final class Continent extends AbstractNamedRecord {
      */
     public String getCode() {
         return this.code;
-    }
-
-    public static Continent empty() {
-        return new Continent(null, null, null, null);
     }
 
 }

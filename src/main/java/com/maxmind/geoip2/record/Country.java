@@ -19,6 +19,10 @@ public class Country extends AbstractNamedRecord {
     private final Integer confidence;
     private final String isoCode;
 
+    public Country() {
+        this(null, null, null, null, null);
+    }
+
     public Country(@JsonProperty("names") HashMap<String, String> names, @JsonProperty("geoname_id") Integer geoNameId,
                    @JsonProperty("iso_code") String isoCode, @JsonProperty("confidence") Integer confidence, @JacksonInject("locales") List<String> locales) {
         super(names, geoNameId, locales);
@@ -44,10 +48,6 @@ public class Country extends AbstractNamedRecord {
     @JsonProperty("iso_code")
     public String getIsoCode() {
         return this.isoCode;
-    }
-
-    public static Country empty() {
-        return new Country(null, null, null, null, null);
     }
 
 }

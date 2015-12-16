@@ -17,12 +17,12 @@ abstract class AbstractCountryResponse extends AbstractResponse {
     private final Traits traits;
 
     AbstractCountryResponse(Continent continent, Country country, Country registeredCountry, MaxMind maxmind, RepresentedCountry representedCountry, Traits traits) {
-        this.continent = continent != null ? continent : Continent.empty();
-        this.country = country != null ? country : Country.empty();
-        this.registeredCountry = registeredCountry != null ? registeredCountry : Country.empty();
-        this.maxmind = maxmind != null ? maxmind : MaxMind.empty();
-        this.representedCountry = representedCountry != null ? representedCountry : RepresentedCountry.empty();
-        this.traits = traits != null ? traits : Traits.empty();
+        this.continent = continent != null ? continent : new Continent();
+        this.country = country != null ? country : new Country();
+        this.registeredCountry = registeredCountry != null ? registeredCountry : new Country();
+        this.maxmind = maxmind != null ? maxmind : new MaxMind();
+        this.representedCountry = representedCountry != null ? representedCountry : new RepresentedCountry();
+        this.traits = traits != null ? traits : new Traits();
     }
 
     /**

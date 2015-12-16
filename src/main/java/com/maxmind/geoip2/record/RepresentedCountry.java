@@ -20,6 +20,10 @@ public final class RepresentedCountry extends Country {
 
     private final String type;
 
+    public RepresentedCountry() {
+        this(null, null, null, null, null, null);
+    }
+
     public RepresentedCountry(@JsonProperty("names") HashMap<String, String> names, @JsonProperty("geoname_id") Integer geoNameId,
                               @JacksonInject("locales") List<String> locales, @JsonProperty("confidence") Integer confidence,
                               @JsonProperty("iso_code") String isoCode, @JsonProperty("type") String type) {
@@ -34,10 +38,6 @@ public final class RepresentedCountry extends Country {
      */
     public String getType() {
         return this.type;
-    }
-
-    public static RepresentedCountry empty() {
-        return new RepresentedCountry(null, null, null, null, null, null);
     }
 
 }

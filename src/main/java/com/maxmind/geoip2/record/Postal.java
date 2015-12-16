@@ -18,6 +18,10 @@ public final class Postal {
     private final String code;
     private final Integer confidence;
 
+    public Postal() {
+        this(null, null);
+    }
+
     public Postal(@JsonProperty("code") String code, @JsonProperty("confidence") Integer confidence) {
         this.code = code;
         this.confidence = confidence;
@@ -50,10 +54,6 @@ public final class Postal {
     @Override
     public String toString() {
         return this.code != null ? this.code : "";
-    }
-
-    public static Postal empty() {
-        return new Postal(null, null);
     }
 
 }

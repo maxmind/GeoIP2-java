@@ -18,6 +18,10 @@ public final class City extends AbstractNamedRecord {
 
     private final Integer confidence;
 
+    public City() {
+        this(null, null, null, null);
+    }
+
     public City(@JsonProperty("names") HashMap<String, String> names, @JsonProperty("geoname_id") Integer geoNameId,
                 @JacksonInject("locales") List<String> locales, @JsonProperty("confidence") Integer confidence) {
         super(names, geoNameId, locales);
@@ -33,8 +37,5 @@ public final class City extends AbstractNamedRecord {
         return this.confidence;
     }
 
-    public static City empty() {
-        return new City(null, null, null, null);
-    }
 
 }

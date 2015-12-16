@@ -16,9 +16,9 @@ abstract class AbstractCityResponse extends AbstractCountryResponse {
     AbstractCityResponse(MaxMind maxmind, Country registeredCountry, Traits traits, Country country, Continent continent,
                          Location location, List<Subdivision> subdivisions, RepresentedCountry representedCountry, Postal postal, City city) {
         super(continent, country, registeredCountry, maxmind, representedCountry, traits);
-        this.city = city != null ? city : City.empty();
-        this.location = location != null ? location : Location.empty();
-        this.postal = postal != null ? postal : Postal.empty();
+        this.city = city != null ? city : new City();
+        this.location = location != null ? location : new Location();
+        this.postal = postal != null ? postal : new Postal();
         this.subdivisions = subdivisions != null ? subdivisions : new ArrayList<Subdivision>();
     }
 
@@ -64,7 +64,7 @@ abstract class AbstractCityResponse extends AbstractCountryResponse {
     @JsonIgnore
     public Subdivision getMostSpecificSubdivision() {
         if (this.subdivisions.isEmpty()) {
-            return Subdivision.empty();
+            return new Subdivision();
         }
         return this.subdivisions.get(this.subdivisions.size() - 1);
     }
@@ -77,7 +77,7 @@ abstract class AbstractCityResponse extends AbstractCountryResponse {
     @JsonIgnore
     public Subdivision getLeastSpecificSubdivision() {
         if (this.subdivisions.isEmpty()) {
-            return Subdivision.empty();
+            return new Subdivision();
         }
         return this.subdivisions.get(0);
     }

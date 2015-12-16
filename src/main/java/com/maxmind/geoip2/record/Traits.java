@@ -22,6 +22,10 @@ public final class Traits {
     private final String organization;
     private final String userType;
 
+    public Traits() {
+        this(false, null, null, null, false, null, null, null, null);
+    }
+
     public Traits(@JsonProperty("is_anonymous_proxy") boolean anonymousProxy,
                   @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
                   @JsonProperty("isp") String isp, @JsonProperty("ip_address") String ipAddress,
@@ -198,7 +202,4 @@ public final class Traits {
                 + "]";
     }
 
-    public static Traits empty() {
-        return new Traits(false, null, null, null, false, null, null, null, null);
-    }
 }

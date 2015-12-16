@@ -14,6 +14,10 @@ public final class MaxMind {
 
     private final Integer queriesRemaining;
 
+    public MaxMind() {
+        this(null);
+    }
+
     public MaxMind(@JsonProperty("queries_remaining") Integer queriesRemaining) {
         this.queriesRemaining = queriesRemaining;
     }
@@ -38,10 +42,6 @@ public final class MaxMind {
                 + (this.getQueriesRemaining() != null ? "getQueriesRemaining()="
                 + this.getQueriesRemaining()
                 : "") + "]";
-    }
-
-    public static MaxMind empty() {
-        return new MaxMind(null);
     }
 
 }

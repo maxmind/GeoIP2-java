@@ -18,6 +18,10 @@ public final class Subdivision extends AbstractNamedRecord {
     private final Integer confidence;
     private final String isoCode;
 
+    public Subdivision() {
+        this(null, null, null, new HashMap<String, String>(), new ArrayList<String>());
+    }
+
     public Subdivision(@JsonProperty("confidence") Integer confidence, @JsonProperty("iso_code") String isoCode,
                        @JsonProperty("geoname_id") Integer geoNameId, @JsonProperty("names") Map<String, String> names,
                        @JacksonInject("locales") List<String> locales) {
@@ -48,8 +52,4 @@ public final class Subdivision extends AbstractNamedRecord {
         return this.isoCode;
     }
 
-
-    public static Subdivision empty() {
-        return new Subdivision(null, null, null, new HashMap<String, String>(), new ArrayList<String>());
-    }
 }
