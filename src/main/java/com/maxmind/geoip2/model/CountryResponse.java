@@ -12,11 +12,14 @@ import com.maxmind.geoip2.record.*;
  */
 public final class CountryResponse extends AbstractCountryResponse {
 
-    public CountryResponse(@JsonProperty("continent") Continent continent, @JsonProperty("country") Country country,
-                        @JsonProperty("registered_country") Country registeredCountry,
-                        @JsonProperty("maxmind") MaxMind maxmind,
-                        @JsonProperty("represented_country") RepresentedCountry representedCountry,
-                        @JsonProperty("traits") Traits traits) {
-        super(continent, country, registeredCountry, maxmind, representedCountry, traits);
+    public CountryResponse(
+            @JsonProperty("continent") Continent continent,
+            @JsonProperty("country") Country country,
+            @JsonProperty("maxmind") MaxMind maxmind,
+            @JsonProperty("registered_country") Country registeredCountry,
+            @JsonProperty("represented_country") RepresentedCountry representedCountry,
+            @JsonProperty("traits") Traits traits
+    ) {
+        super(continent, country, maxmind, registeredCountry, representedCountry, traits);
     }
 }

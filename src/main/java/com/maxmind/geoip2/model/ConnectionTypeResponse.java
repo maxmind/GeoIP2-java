@@ -36,7 +36,10 @@ public class ConnectionTypeResponse extends AbstractResponse {
     private final ConnectionType connectionType;
     private final String ipAddress;
 
-    public ConnectionTypeResponse(@JsonProperty("connection_type") ConnectionType connectionType, @JsonProperty("ip_address") String ipAddress) {
+    public ConnectionTypeResponse(
+            @JsonProperty("connection_type") ConnectionType connectionType,
+            @JsonProperty("ip_address") String ipAddress
+    ) {
         this.connectionType = connectionType;
         this.ipAddress = ipAddress;
     }

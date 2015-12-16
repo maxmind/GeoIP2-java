@@ -21,12 +21,19 @@ import java.util.ArrayList;
  */
 public final class CityResponse extends AbstractCityResponse {
 
-    public CityResponse(@JsonProperty("continent") Continent continent, @JsonProperty("country") Country country,
-                        @JsonProperty("registered_country") Country registeredCountry,
-                        @JsonProperty("maxmind") MaxMind maxmind,
-                        @JsonProperty("represented_country") RepresentedCountry representedCountry,
-                        @JsonProperty("traits") Traits traits, @JsonProperty("city") City city, @JsonProperty("location") Location location,
-                        @JsonProperty("postal") Postal postal, @JsonProperty("subdivisions") ArrayList<Subdivision> subdivisions) {
-        super(maxmind, registeredCountry, traits, country, continent, location, subdivisions, representedCountry, postal, city);
+    public CityResponse(
+            @JsonProperty("city") City city,
+            @JsonProperty("continent") Continent continent,
+            @JsonProperty("country") Country country,
+            @JsonProperty("location") Location location,
+            @JsonProperty("maxmind") MaxMind maxmind,
+            @JsonProperty("postal") Postal postal,
+            @JsonProperty("registered_country") Country registeredCountry,
+            @JsonProperty("represented_country") RepresentedCountry representedCountry,
+            @JsonProperty("subdivisions") ArrayList<Subdivision> subdivisions,
+            @JsonProperty("traits") Traits traits
+    ) {
+        super(city, continent, country, location, maxmind, postal, registeredCountry,
+                representedCountry, subdivisions, traits);
     }
 }

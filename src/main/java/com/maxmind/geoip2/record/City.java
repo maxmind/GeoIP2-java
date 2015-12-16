@@ -22,9 +22,13 @@ public final class City extends AbstractNamedRecord {
         this(null, null, null, null);
     }
 
-    public City(@JsonProperty("names") Map<String, String> names, @JsonProperty("geoname_id") Integer geoNameId,
-                @JacksonInject("locales") List<String> locales, @JsonProperty("confidence") Integer confidence) {
-        super(names, geoNameId, locales);
+    public City(
+            @JacksonInject("locales") List<String> locales,
+            @JsonProperty("confidence") Integer confidence,
+            @JsonProperty("geoname_id") Integer geoNameId,
+            @JsonProperty("names") Map<String, String> names
+    ) {
+        super(geoNameId, locales, names);
         this.confidence = confidence;
     }
 

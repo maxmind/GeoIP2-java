@@ -22,9 +22,13 @@ public final class Continent extends AbstractNamedRecord {
         this(null, null, null, null);
     }
 
-    public Continent(@JsonProperty("names") Map<String, String> names, @JsonProperty("code") String code,
-                     @JsonProperty("geoname_id") Integer geoNameId, @JacksonInject("locales") List<String> locales) {
-        super(names, geoNameId, locales);
+    public Continent(
+            @JacksonInject("locales") List<String> locales,
+            @JsonProperty("code") String code,
+            @JsonProperty("geoname_id") Integer geoNameId,
+            @JsonProperty("names") Map<String, String> names
+    ) {
+        super(geoNameId, locales, names);
         this.code = code;
     }
 

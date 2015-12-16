@@ -13,9 +13,19 @@ abstract class AbstractCityResponse extends AbstractCountryResponse {
     private final Postal postal;
     private final List<Subdivision> subdivisions;
 
-    AbstractCityResponse(MaxMind maxmind, Country registeredCountry, Traits traits, Country country, Continent continent,
-                         Location location, List<Subdivision> subdivisions, RepresentedCountry representedCountry, Postal postal, City city) {
-        super(continent, country, registeredCountry, maxmind, representedCountry, traits);
+    AbstractCityResponse(
+            City city,
+            Continent continent,
+            Country country,
+            Location location,
+            MaxMind maxmind,
+            Postal postal,
+            Country registeredCountry,
+            RepresentedCountry representedCountry,
+            List<Subdivision> subdivisions,
+            Traits traits
+    ) {
+        super(continent, country, maxmind, registeredCountry, representedCountry, traits);
         this.city = city != null ? city : new City();
         this.location = location != null ? location : new Location();
         this.postal = postal != null ? postal : new Postal();

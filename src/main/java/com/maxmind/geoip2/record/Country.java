@@ -23,9 +23,14 @@ public class Country extends AbstractNamedRecord {
         this(null, null, null, null, null);
     }
 
-    public Country(@JsonProperty("names") Map<String, String> names, @JsonProperty("geoname_id") Integer geoNameId,
-                   @JsonProperty("iso_code") String isoCode, @JsonProperty("confidence") Integer confidence, @JacksonInject("locales") List<String> locales) {
-        super(names, geoNameId, locales);
+    public Country(
+            @JacksonInject("locales") List<String> locales,
+            @JsonProperty("confidence") Integer confidence,
+            @JsonProperty("geoname_id") Integer geoNameId,
+            @JsonProperty("iso_code") String isoCode,
+            @JsonProperty("names") Map<String, String> names
+    ) {
+        super(geoNameId, locales, names);
         this.confidence = confidence;
         this.isoCode = isoCode;
     }

@@ -24,10 +24,15 @@ public final class RepresentedCountry extends Country {
         this(null, null, null, null, null, null);
     }
 
-    public RepresentedCountry(@JsonProperty("names") Map<String, String> names, @JsonProperty("geoname_id") Integer geoNameId,
-                              @JacksonInject("locales") List<String> locales, @JsonProperty("confidence") Integer confidence,
-                              @JsonProperty("iso_code") String isoCode, @JsonProperty("type") String type) {
-        super(names, geoNameId, isoCode, confidence, locales);
+    public RepresentedCountry(
+            @JacksonInject("locales") List<String> locales,
+            @JsonProperty("confidence") Integer confidence,
+            @JsonProperty("geoname_id") Integer geoNameId,
+            @JsonProperty("iso_code") String isoCode,
+            @JsonProperty("names") Map<String, String> names,
+            @JsonProperty("type") String type
+    ) {
+        super(locales, confidence, geoNameId, isoCode, names);
         this.type = type;
     }
 

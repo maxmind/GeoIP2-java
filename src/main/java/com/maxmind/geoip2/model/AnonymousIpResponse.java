@@ -14,9 +14,14 @@ public class AnonymousIpResponse extends AbstractResponse {
     private final boolean isTorExitNode;
     private final String ipAddress;
 
-    public AnonymousIpResponse(@JsonProperty("is_anonymous") boolean isAnonymous, @JsonProperty("is_anonymous_vpn") boolean isAnonymousVpn,
-                               @JsonProperty("is_hosting_provider") boolean isHostingProvider, @JsonProperty("is_public_proxy") boolean isPublicProxy,
-                               @JsonProperty("is_tor_exit_node") boolean isTorExitNode, @JsonProperty("ip_address") String ipAddress) {
+    public AnonymousIpResponse(
+            @JsonProperty("ip_address") String ipAddress,
+            @JsonProperty("is_anonymous") boolean isAnonymous,
+            @JsonProperty("is_anonymous_vpn") boolean isAnonymousVpn,
+            @JsonProperty("is_hosting_provider") boolean isHostingProvider,
+            @JsonProperty("is_public_proxy") boolean isPublicProxy,
+            @JsonProperty("is_tor_exit_node") boolean isTorExitNode
+    ) {
         this.isAnonymous = isAnonymous;
         this.isAnonymousVpn = isAnonymousVpn;
         this.isHostingProvider = isHostingProvider;

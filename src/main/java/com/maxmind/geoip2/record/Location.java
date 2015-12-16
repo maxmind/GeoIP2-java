@@ -24,10 +24,15 @@ public class Location {
         this(null, null, null, null, null, null, null);
     }
 
-    public Location(@JsonProperty("average_income") Integer averageIncome, @JsonProperty("population_density") Integer populationDensity,
-                    @JsonProperty("time_zone") String timeZone, @JsonProperty("accuracy_radius") Integer accuracyRadius,
-                    @JsonProperty("metro_code") Integer metroCode, @JsonProperty("latitude") Double latitude,
-                    @JsonProperty("longitude") Double longitude) {
+    public Location(
+            @JsonProperty("accuracy_radius") Integer accuracyRadius,
+            @JsonProperty("average_income") Integer averageIncome,
+            @JsonProperty("latitude") Double latitude,
+            @JsonProperty("longitude") Double longitude,
+            @JsonProperty("metro_code") Integer metroCode,
+            @JsonProperty("population_density") Integer populationDensity,
+            @JsonProperty("time_zone") String timeZone
+    ) {
         this.accuracyRadius = accuracyRadius;
         this.averageIncome = averageIncome;
         this.latitude = latitude;

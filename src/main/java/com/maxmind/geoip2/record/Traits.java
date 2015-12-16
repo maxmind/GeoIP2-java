@@ -23,17 +23,20 @@ public final class Traits {
     private final String userType;
 
     public Traits() {
-        this(false, null, null, null, false, null, null, null, null);
+        this(null, null, null, null, false, false, null, null, null);
     }
 
-    public Traits(@JsonProperty("is_anonymous_proxy") boolean anonymousProxy,
-                  @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
-                  @JsonProperty("isp") String isp, @JsonProperty("ip_address") String ipAddress,
-                  @JsonProperty("is_satellite_provider") boolean satelliteProvider,
-                  @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
-                  @JsonProperty("user_type") String userType,
-                  @JsonProperty("organization") String organization,
-                  @JsonProperty("domain") String domain) {
+    public Traits(
+            @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
+            @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
+            @JsonProperty("domain") String domain,
+            @JsonProperty("ip_address") String ipAddress,
+            @JsonProperty("is_anonymous_proxy") boolean anonymousProxy,
+            @JsonProperty("is_satellite_provider") boolean satelliteProvider,
+            @JsonProperty("isp") String isp,
+            @JsonProperty("organization") String organization,
+            @JsonProperty("user_type") String userType
+    ) {
         this.autonomousSystemNumber = autonomousSystemNumber;
         this.autonomousSystemOrganization = autonomousSystemOrganization;
         this.domain = domain;

@@ -21,13 +21,19 @@ import java.util.List;
  */
 public class InsightsResponse extends AbstractCityResponse {
 
-    public InsightsResponse(@JsonProperty("maxmind") MaxMind maxmind, @JsonProperty("registered_country") Country registeredCountry,
-                            @JsonProperty("traits") Traits traits, @JsonProperty("country") Country country,
-                            @JsonProperty("continent") Continent continent, @JsonProperty("location") Location location,
-                            @JsonProperty("subdivisions") List<Subdivision> subdivisions,
-                            @JsonProperty("represented_country") RepresentedCountry representedCountry,
-                            @JsonProperty("postal") Postal postal, @JsonProperty("city") City city) {
-        super(maxmind, registeredCountry, traits, country, continent, location, subdivisions, representedCountry, postal, city);
+    public InsightsResponse(
+            @JsonProperty("city") City city,
+            @JsonProperty("continent") Continent continent,
+            @JsonProperty("country") Country country,
+            @JsonProperty("location") Location location,
+            @JsonProperty("maxmind") MaxMind maxmind,
+            @JsonProperty("postal") Postal postal,
+            @JsonProperty("registered_country") Country registeredCountry,
+            @JsonProperty("represented_country") RepresentedCountry representedCountry,
+            @JsonProperty("subdivisions") List<Subdivision> subdivisions,
+            @JsonProperty("traits") Traits traits
+    ) {
+        super(city, continent, country, location, maxmind, postal, registeredCountry,
+                representedCountry, subdivisions, traits);
     }
-
 }
