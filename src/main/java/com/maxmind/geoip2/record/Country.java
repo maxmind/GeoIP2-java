@@ -3,8 +3,8 @@ package com.maxmind.geoip2.record;
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -23,7 +23,7 @@ public class Country extends AbstractNamedRecord {
         this(null, null, null, null, null);
     }
 
-    public Country(@JsonProperty("names") HashMap<String, String> names, @JsonProperty("geoname_id") Integer geoNameId,
+    public Country(@JsonProperty("names") Map<String, String> names, @JsonProperty("geoname_id") Integer geoNameId,
                    @JsonProperty("iso_code") String isoCode, @JsonProperty("confidence") Integer confidence, @JacksonInject("locales") List<String> locales) {
         super(names, geoNameId, locales);
         this.confidence = confidence;
