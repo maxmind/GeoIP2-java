@@ -7,6 +7,7 @@ import java.util.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.InjectableValues;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpHeaders;
@@ -266,6 +267,7 @@ public class WebServiceClient implements GeoIp2Provider {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
                 false);
+        mapper.configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, false);
 
         try {
             return mapper.reader(cls).with(inject).readValue(body);

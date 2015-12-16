@@ -1,5 +1,8 @@
 package com.maxmind.geoip2.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.maxmind.geoip2.record.*;
+
 /**
  * This class provides a model for the data returned by the GeoIP2 Precision:
  * Country end point.
@@ -8,4 +11,12 @@ package com.maxmind.geoip2.model;
  * Services</a>
  */
 public final class CountryResponse extends AbstractCountryResponse {
+
+    public CountryResponse(@JsonProperty("continent") Continent continent, @JsonProperty("country") Country country,
+                        @JsonProperty("registered_country") Country registeredCountry,
+                        @JsonProperty("maxmind") MaxMind maxmind,
+                        @JsonProperty("represented_country") RepresentedCountry representedCountry,
+                        @JsonProperty("traits") Traits traits) {
+        super(continent, country, registeredCountry, maxmind, representedCountry, traits);
+    }
 }

@@ -33,15 +33,18 @@ public class ConnectionTypeResponse extends AbstractResponse {
         }
     }
 
-    @JsonProperty("connection_type")
-    private ConnectionType connectionType;
+    private final ConnectionType connectionType;
+    private final String ipAddress;
 
-    @JsonProperty("ip_address")
-    private String ipAddress;
+    public ConnectionTypeResponse(@JsonProperty("connection_type") ConnectionType connectionType, @JsonProperty("ip_address") String ipAddress) {
+        this.connectionType = connectionType;
+        this.ipAddress = ipAddress;
+    }
 
     /**
      * @return The connection type of the IP address.
      */
+    @JsonProperty("connection_type")
     public ConnectionType getConnectionType() {
         return this.connectionType;
     }
@@ -49,6 +52,7 @@ public class ConnectionTypeResponse extends AbstractResponse {
     /**
      * @return The IP address that the data in the model is for.
      */
+    @JsonProperty("ip_address")
     public String getIpAddress() {
         return this.ipAddress;
     }

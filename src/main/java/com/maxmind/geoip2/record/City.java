@@ -1,6 +1,10 @@
 package com.maxmind.geoip2.record;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -11,8 +15,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * </p>
  */
 public final class City extends AbstractNamedRecord {
-    @JsonProperty
-    private Integer confidence;
+
+    private final Integer confidence;
+
+    public City() {
+        this(null, null, null, null);
+    }
+
+    public City(@JsonProperty("names") Map<String, String> names, @JsonProperty("geoname_id") Integer geoNameId,
+                @JacksonInject("locales") List<String> locales, @JsonProperty("confidence") Integer confidence) {
+        super(names, geoNameId, locales);
+        this.confidence = confidence;
+    }
 
     /**
      * @return A value from 0-100 indicating MaxMind's confidence that the city
@@ -22,5 +36,6 @@ public final class City extends AbstractNamedRecord {
     public Integer getConfidence() {
         return this.confidence;
     }
+
 
 }

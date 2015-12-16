@@ -1,5 +1,10 @@
 package com.maxmind.geoip2.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.maxmind.geoip2.record.*;
+
+import java.util.ArrayList;
+
 /**
  * <p>
  * This class provides a model for the data returned by the GeoIP2 Precision:
@@ -15,4 +20,13 @@ package com.maxmind.geoip2.model;
  * </p>
  */
 public final class CityResponse extends AbstractCityResponse {
+
+    public CityResponse(@JsonProperty("continent") Continent continent, @JsonProperty("country") Country country,
+                        @JsonProperty("registered_country") Country registeredCountry,
+                        @JsonProperty("maxmind") MaxMind maxmind,
+                        @JsonProperty("represented_country") RepresentedCountry representedCountry,
+                        @JsonProperty("traits") Traits traits, @JsonProperty("city") City city, @JsonProperty("location") Location location,
+                        @JsonProperty("postal") Postal postal, @JsonProperty("subdivisions") ArrayList<Subdivision> subdivisions) {
+        super(maxmind, registeredCountry, traits, country, continent, location, subdivisions, representedCountry, postal, city);
+    }
 }

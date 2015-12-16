@@ -11,42 +11,81 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * </p>
  */
 public class Location {
-    @JsonProperty("accuracy_radius")
-    private Integer accuracyRadius;
 
-    @JsonProperty("average_income")
-    private Integer averageIncome;
+    private final Integer accuracyRadius;
+    private final Integer averageIncome;
+    private final Double latitude;
+    private final Double longitude;
+    private final Integer metroCode;
+    private final Integer populationDensity;
+    private final String timeZone;
 
-    @JsonProperty
-    private Double latitude;
+    public Location() {
+        this(null, null, null, null, null, null, null);
+    }
 
-    @JsonProperty
-    private Double longitude;
-
-    @JsonProperty("metro_code")
-    private Integer metroCode;
-
-    @JsonProperty("population_density")
-    private Integer populationDensity;
-
-    @JsonProperty("time_zone")
-    private String timeZone;
-
-    /**
-     * @return The radius in kilometers around the specified location where the
-     * IP address is likely to be. This attribute is only available from
-     * the Insights end point.
-     */
-    public Integer getAccuracyRadius() {
-        return this.accuracyRadius;
+    public Location(@JsonProperty("average_income") Integer averageIncome, @JsonProperty("population_density") Integer populationDensity,
+                    @JsonProperty("time_zone") String timeZone, @JsonProperty("accuracy_radius") Integer accuracyRadius,
+                    @JsonProperty("metro_code") Integer metroCode, @JsonProperty("latitude") Double latitude,
+                    @JsonProperty("longitude") Double longitude) {
+        this.accuracyRadius = accuracyRadius;
+        this.averageIncome = averageIncome;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.metroCode = metroCode;
+        this.populationDensity = populationDensity;
+        this.timeZone = timeZone;
     }
 
     /**
      * @return The average income in US dollars associated with the requested
      * IP address. This attribute is only available from the Insights end point.
      */
+    @JsonProperty("average_income")
     public Integer getAverageIncome() {
         return this.averageIncome;
+    }
+
+    /**
+     * @return The estimated population per square kilometer associated with the
+     * IP address. This attribute is only available from the Insights end point.
+     */
+    @JsonProperty("population_density")
+    public Integer getPopulationDensity() {
+        return this.populationDensity;
+    }
+
+    /**
+     * @return The time zone associated with location, as specified by the <a
+     * href="http://www.iana.org/time-zones">IANA Time Zone
+     * Database</a>, e.g., "America/New_York". This attribute is
+     * returned by all end points except the Country end point.
+     */
+    @JsonProperty("time_zone")
+    public String getTimeZone() {
+        return this.timeZone;
+    }
+
+    /**
+     * @return The radius in kilometers around the specified location where the
+     * IP address is likely to be. This attribute is only available from
+     * the Insights end point.
+     */
+    @JsonProperty("accuracy_radius")
+    public Integer getAccuracyRadius() {
+        return this.accuracyRadius;
+    }
+
+    /**
+     * @return The metro code of the location if the location is in the US.
+     * MaxMind returns the same metro codes as the <a href=
+     * "https://developers.google.com/adwords/api/docs/appendix/cities-DMAregions"
+     * >Google AdWords API</a>. This attribute is returned by all end
+     * points except the Country end point.
+     */
+    @JsonProperty("metro_code")
+    public Integer getMetroCode() {
+        return this.metroCode;
     }
 
     /**
@@ -65,35 +104,6 @@ public class Location {
      */
     public Double getLongitude() {
         return this.longitude;
-    }
-
-    /**
-     * @return The metro code of the location if the location is in the US.
-     * MaxMind returns the same metro codes as the <a href=
-     * "https://developers.google.com/adwords/api/docs/appendix/cities-DMAregions"
-     * >Google AdWords API</a>. This attribute is returned by all end
-     * points except the Country end point.
-     */
-    public Integer getMetroCode() {
-        return this.metroCode;
-    }
-
-    /**
-     * @return The estimated population per square kilometer associated with the
-     * IP address. This attribute is only available from the Insights end point.
-     */
-    public Integer getPopulationDensity() {
-        return this.populationDensity;
-    }
-
-    /**
-     * @return The time zone associated with location, as specified by the <a
-     * href="http://www.iana.org/time-zones">IANA Time Zone
-     * Database</a>, e.g., "America/New_York". This attribute is
-     * returned by all end points except the Country end point.
-     */
-    public String getTimeZone() {
-        return this.timeZone;
     }
 
     /*
@@ -115,4 +125,5 @@ public class Location {
                 + (this.timeZone != null ? "timeZone=" + this.timeZone : "")
                 + "]";
     }
+
 }
