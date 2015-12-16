@@ -1,10 +1,10 @@
 package com.maxmind.geoip2.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maxmind.geoip2.record.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 abstract class AbstractCityResponse extends AbstractCountryResponse {
 
@@ -95,7 +95,7 @@ abstract class AbstractCityResponse extends AbstractCountryResponse {
         }
         return this.subdivisions.get(0);
     }
-    
+
     @Override
     public String toString() {
         return this.getClass().getSimpleName()

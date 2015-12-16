@@ -1,16 +1,15 @@
 package com.maxmind.geoip2;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import com.google.api.client.http.HttpTransport;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.InsightsResponse;
 import com.maxmind.geoip2.record.*;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.net.InetAddress;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -51,8 +50,8 @@ public class InsightsTest {
 
     @Test
     public void leastSpecificSubdivision() {
-    	assertEquals("Most specific subdivision returns first subdivision",
-    		"MN", this.insights.getLeastSpecificSubdivision().getIsoCode());
+        assertEquals("Most specific subdivision returns first subdivision",
+                "MN", this.insights.getLeastSpecificSubdivision().getIsoCode());
     }
 
     @SuppressWarnings("boxing")

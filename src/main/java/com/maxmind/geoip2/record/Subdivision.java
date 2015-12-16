@@ -3,7 +3,8 @@ package com.maxmind.geoip2.record;
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>

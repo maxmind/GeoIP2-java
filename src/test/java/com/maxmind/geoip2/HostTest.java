@@ -1,15 +1,12 @@
 package com.maxmind.geoip2;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.net.InetAddress;
-
+import com.google.api.client.http.HttpTransport;
+import com.maxmind.geoip2.model.InsightsResponse;
 import org.junit.Test;
 
-import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.InsightsResponse;
+import java.net.InetAddress;
+
+import static org.junit.Assert.assertEquals;
 
 public class HostTest {
 

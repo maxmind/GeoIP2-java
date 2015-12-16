@@ -1,9 +1,8 @@
 package com.maxmind.geoip2.matchers;
 
+import com.maxmind.geoip2.exception.InvalidRequestException;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
-
-import com.maxmind.geoip2.exception.InvalidRequestException;
 
 public class CodeMatcher extends TypeSafeMatcher<InvalidRequestException> {
 

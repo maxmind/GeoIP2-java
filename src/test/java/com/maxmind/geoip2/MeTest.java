@@ -1,14 +1,10 @@
 package com.maxmind.geoip2;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
+import com.google.api.client.http.HttpTransport;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.exception.GeoIp2Exception;
+import static org.junit.Assert.assertEquals;
 
 public class MeTest {
     private WebServiceClient client;

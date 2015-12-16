@@ -1,9 +1,9 @@
 package com.maxmind.geoip2.model;
 
-import java.io.IOException;
-
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 
 public abstract class AbstractResponse {
 

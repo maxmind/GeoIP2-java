@@ -1,11 +1,7 @@
 package com.maxmind.geoip2.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.maxmind.geoip2.record.Continent;
-import com.maxmind.geoip2.record.Country;
-import com.maxmind.geoip2.record.MaxMind;
-import com.maxmind.geoip2.record.RepresentedCountry;
-import com.maxmind.geoip2.record.Traits;
+import com.maxmind.geoip2.record.*;
 
 abstract class AbstractCountryResponse extends AbstractResponse {
 

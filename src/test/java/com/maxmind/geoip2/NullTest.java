@@ -1,21 +1,14 @@
 package com.maxmind.geoip2;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import com.google.api.client.http.HttpTransport;
+import com.maxmind.geoip2.model.InsightsResponse;
+import com.maxmind.geoip2.record.*;
+import org.junit.Test;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.util.List;
 
-import org.junit.Test;
-
-import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.InsightsResponse;
-import com.maxmind.geoip2.record.*;
+import static org.junit.Assert.*;
 
 public class NullTest {
 
