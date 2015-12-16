@@ -21,6 +21,10 @@ import java.util.ArrayList;
  */
 public final class CityResponse extends AbstractCityResponse {
 
+    CityResponse() {
+        this(null, null, null, null, null, null, null, null, null, null);
+    }
+
     public CityResponse(
             @JsonProperty("city") City city,
             @JsonProperty("continent") Continent continent,

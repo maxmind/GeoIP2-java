@@ -13,6 +13,10 @@ abstract class AbstractCityResponse extends AbstractCountryResponse {
     private final Postal postal;
     private final List<Subdivision> subdivisions;
 
+    AbstractCityResponse() {
+        this(null, null, null, null, null, null, null, null, null, null);
+    }
+
     AbstractCityResponse(
             City city,
             Continent continent,

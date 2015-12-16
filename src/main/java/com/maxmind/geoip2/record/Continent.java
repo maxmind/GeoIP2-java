@@ -28,7 +28,7 @@ public final class Continent extends AbstractNamedRecord {
             @JsonProperty("geoname_id") Integer geoNameId,
             @JsonProperty("names") Map<String, String> names
     ) {
-        super(geoNameId, locales, names);
+        super(locales, geoNameId, names);
         this.code = code;
     }
 

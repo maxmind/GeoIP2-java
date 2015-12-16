@@ -12,6 +12,10 @@ import com.maxmind.geoip2.record.*;
  */
 public final class CountryResponse extends AbstractCountryResponse {
 
+    CountryResponse() {
+        this(null, null, null, null, null, null);
+    }
+
     public CountryResponse(
             @JsonProperty("continent") Continent continent,
             @JsonProperty("country") Country country,

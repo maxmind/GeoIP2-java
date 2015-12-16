@@ -13,6 +13,10 @@ public class IspResponse extends AbstractResponse {
     private final String organization;
     private final String ipAddress;
 
+    IspResponse() {
+        this(null, null, null, null, null);
+    }
+
     public IspResponse(
             @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
             @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,

@@ -10,6 +10,10 @@ public class DomainResponse extends AbstractResponse {
     private final String domain;
     private final String ipAddress;
 
+    DomainResponse() {
+        this(null, null);
+    }
+
     public DomainResponse(
             @JsonProperty("domain") String domain,
             @JsonProperty("ip_address") String ipAddress

@@ -17,7 +17,11 @@ public abstract class AbstractNamedRecord {
     private final Integer geoNameId;
     private final List<String> locales;
 
-    AbstractNamedRecord( Integer geoNameId, List<String> locales, Map<String, String> names) {
+    AbstractNamedRecord() {
+        this(null, null, null);
+    }
+
+    AbstractNamedRecord(List<String> locales, Integer geoNameId, Map<String, String> names) {
         this.names = names != null ? names : new HashMap<String, String>();
         this.geoNameId = geoNameId;
         this.locales = locales != null ? locales : new ArrayList<String>();

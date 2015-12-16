@@ -14,6 +14,10 @@ public class AnonymousIpResponse extends AbstractResponse {
     private final boolean isTorExitNode;
     private final String ipAddress;
 
+    AnonymousIpResponse() {
+        this(null, false, false, false, false, false);
+    }
+
     public AnonymousIpResponse(
             @JsonProperty("ip_address") String ipAddress,
             @JsonProperty("is_anonymous") boolean isAnonymous,

@@ -29,7 +29,7 @@ public final class Subdivision extends AbstractNamedRecord {
             @JsonProperty("iso_code") String isoCode,
             @JsonProperty("names") Map<String, String> names
     ) {
-        super(geoNameId, locales, names);
+        super(locales, geoNameId, names);
         this.confidence = confidence;
         this.isoCode = isoCode;
     }
