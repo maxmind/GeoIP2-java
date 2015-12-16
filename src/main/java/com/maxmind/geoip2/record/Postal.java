@@ -14,11 +14,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * </p>
  */
 public final class Postal {
-    @JsonProperty
-    private String code;
 
-    @JsonProperty
-    private Integer confidence;
+    private final String code;
+    private final Integer confidence;
+
+    public Postal(@JsonProperty("code") String code, @JsonProperty("confidence") Integer confidence) {
+        this.code = code;
+        this.confidence = confidence;
+    }
 
     /**
      * @return The postal code of the location. Postal codes are not available
@@ -48,4 +51,9 @@ public final class Postal {
     public String toString() {
         return this.code != null ? this.code : "";
     }
+
+    public static Postal empty() {
+        return new Postal(null, null);
+    }
+
 }

@@ -4,27 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.maxmind.geoip2.record.City;
-import com.maxmind.geoip2.record.Location;
-import com.maxmind.geoip2.record.Postal;
-import com.maxmind.geoip2.record.Subdivision;
+import com.maxmind.geoip2.record.*;
 
 abstract class AbstractCityResponse extends AbstractCountryResponse {
-    @JsonProperty
-    private final City city = new City();
-    @JsonProperty
-    private final Location location = new Location();
-    @JsonProperty
-    private final Postal postal = new Postal();
 
-    @JsonProperty("subdivisions")
-    private final ArrayList<Subdivision> subdivisions = new ArrayList<Subdivision>();
+    private final City city;
+    private final Location location;
+    private final Postal postal;
+    private final List<Subdivision> subdivisions;
+
+    AbstractCityResponse(MaxMind maxmind, Country registeredCountry, Traits traits, Country country, Continent continent,
+                         Location location, List<Subdivision> subdivisions, RepresentedCountry representedCountry, Postal postal, City city) {
+        super(continent, country, registeredCountry, maxmind, representedCountry, traits);
+        this.city = city != null ? city : City.empty();
+        this.location = location != null ? location : Location.empty();
+        this.postal = postal != null ? postal : Postal.empty();
+        this.subdivisions = subdivisions != null ? subdivisions : new ArrayList<Subdivision>();
+    }
 
     /**
      * @return City record for the requested IP address.
      */
-    public com.maxmind.geoip2.record.City getCity() {
+    public City getCity() {
         return this.city;
     }
 
@@ -63,7 +64,7 @@ abstract class AbstractCityResponse extends AbstractCountryResponse {
     @JsonIgnore
     public Subdivision getMostSpecificSubdivision() {
         if (this.subdivisions.isEmpty()) {
-            return new Subdivision();
+            return Subdivision.empty();
         }
         return this.subdivisions.get(this.subdivisions.size() - 1);
     }
@@ -76,7 +77,7 @@ abstract class AbstractCityResponse extends AbstractCountryResponse {
     @JsonIgnore
     public Subdivision getLeastSpecificSubdivision() {
         if (this.subdivisions.isEmpty()) {
-            return new Subdivision();
+            return Subdivision.empty();
         }
         return this.subdivisions.get(0);
     }

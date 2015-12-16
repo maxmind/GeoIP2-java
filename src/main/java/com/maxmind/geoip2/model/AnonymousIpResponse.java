@@ -7,24 +7,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class AnonymousIpResponse extends AbstractResponse {
 
-    @JsonProperty("is_anonymous")
-    private boolean isAnonymous;
+    private final boolean isAnonymous;
+    private final boolean isAnonymousVpn;
+    private final boolean isHostingProvider;
+    private final boolean isPublicProxy;
+    private final boolean isTorExitNode;
+    private final String ipAddress;
 
-    @JsonProperty("is_anonymous_vpn")
-    private boolean isAnonymousVpn;
-
-    @JsonProperty("is_hosting_provider")
-    private boolean isHostingProvider;
-
-    @JsonProperty("is_public_proxy")
-    private boolean isPublicProxy;
-
-    @JsonProperty("is_tor_exit_node")
-    private boolean isTorExitNode;
-
-    @JsonProperty("ip_address")
-    private String ipAddress;
-
+    public AnonymousIpResponse(@JsonProperty("is_anonymous") boolean isAnonymous, @JsonProperty("is_anonymous_vpn") boolean isAnonymousVpn,
+                               @JsonProperty("is_hosting_provider") boolean isHostingProvider, @JsonProperty("is_public_proxy") boolean isPublicProxy,
+                               @JsonProperty("is_tor_exit_node") boolean isTorExitNode, @JsonProperty("ip_address") String ipAddress) {
+        this.isAnonymous = isAnonymous;
+        this.isAnonymousVpn = isAnonymousVpn;
+        this.isHostingProvider = isHostingProvider;
+        this.isPublicProxy = isPublicProxy;
+        this.isTorExitNode = isTorExitNode;
+        this.ipAddress = ipAddress;
+    }
 
     /**
      * @return whether the IP address belongs to any sort of anonymous network.

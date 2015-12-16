@@ -7,11 +7,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class DomainResponse extends AbstractResponse {
 
-    @JsonProperty
-    private String domain;
+    private final String domain;
+    private final String ipAddress;
 
-    @JsonProperty("ip_address")
-    private String ipAddress;
+    public DomainResponse(@JsonProperty("domain") String domain, @JsonProperty("ip_address") String ipAddress) {
+        this.domain = domain;
+        this.ipAddress = ipAddress;
+    }
 
     /**
      * @return the The second level domain associated with the IP address. This

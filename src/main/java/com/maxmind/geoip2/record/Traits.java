@@ -11,32 +11,51 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * </p>
  */
 public final class Traits {
-    @JsonProperty("autonomous_system_number")
-    private Integer autonomousSystemNumber;
 
-    @JsonProperty("autonomous_system_organization")
-    private String autonomousSystemOrganization;
+    private final Integer autonomousSystemNumber;
+    private final String autonomousSystemOrganization;
+    private final String domain;
+    private final String ipAddress;
+    private final boolean anonymousProxy;
+    private final boolean satelliteProvider;
+    private final String isp;
+    private final String organization;
+    private final String userType;
 
-    @JsonProperty
-    private String domain;
+    public Traits(@JsonProperty("is_anonymous_proxy") boolean anonymousProxy,
+                  @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
+                  @JsonProperty("isp") String isp, @JsonProperty("ip_address") String ipAddress,
+                  @JsonProperty("is_satellite_provider") boolean satelliteProvider,
+                  @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
+                  @JsonProperty("user_type") String userType,
+                  @JsonProperty("organization") String organization,
+                  @JsonProperty("domain") String domain) {
+        this.autonomousSystemNumber = autonomousSystemNumber;
+        this.autonomousSystemOrganization = autonomousSystemOrganization;
+        this.domain = domain;
+        this.ipAddress = ipAddress;
+        this.anonymousProxy = anonymousProxy;
+        this.satelliteProvider = satelliteProvider;
+        this.isp = isp;
+        this.organization = organization;
+        this.userType = userType;
+    }
 
-    @JsonProperty("ip_address")
-    private String ipAddress;
-
+    /**
+     * @return This is true if the IP is an anonymous proxy. This attribute is
+     * returned by all end points.
+     * @see <a href="http://dev.maxmind.com/faq/geoip#anonproxy">MaxMind's GeoIP
+     * FAQ</a>
+     *
+     * @deprecated Use our
+     * <a href="https://www.maxmind.com/en/geoip2-anonymous-ip-database">GeoIP2
+     * Anonymous IP database</a> instead.
+     */
+    @Deprecated
     @JsonProperty("is_anonymous_proxy")
-    private boolean anonymousProxy;
-
-    @JsonProperty("is_satellite_provider")
-    private boolean satelliteProvider;
-
-    @JsonProperty
-    private String isp;
-
-    @JsonProperty
-    private String organization;
-
-    @JsonProperty("user_type")
-    private String userType;
+    public boolean isAnonymousProxy() {
+        return this.anonymousProxy;
+    }
 
     /**
      * @return The <a
@@ -45,42 +64,11 @@ public final class Traits {
      * This attribute is only available from the City and Insights web
      * service end points.
      */
+    @JsonProperty("autonomous_system_number")
     public Integer getAutonomousSystemNumber() {
         return this.autonomousSystemNumber;
     }
 
-    /**
-     * @return The organization associated with the registered <a
-     * href="http://en.wikipedia.org/wiki/Autonomous_system_(Internet)"
-     * >autonomous system number</a> for the IP address. This attribute
-     * is only available from the City and Insights web service end
-     * points.
-     */
-    public String getAutonomousSystemOrganization() {
-        return this.autonomousSystemOrganization;
-    }
-
-    /**
-     * @return The second level domain associated with the IP address. This will
-     * be something like "example.com" or "example.co.uk", not
-     * "foo.example.com". This attribute is only available from the City
-     * and Insights web service end points.
-     */
-    public String getDomain() {
-        return this.domain;
-    }
-
-    /**
-     * @return The IP address that the data in the model is for. If you
-     * performed a "me" lookup against the web service, this will be the
-     * externally routable IP address for the system the code is running
-     * on. If the system is behind a NAT, this may differ from the IP
-     * address locally assigned to it. This attribute is returned by all
-     * end points.
-     */
-    public String getIpAddress() {
-        return this.ipAddress;
-    }
 
     /**
      * @return The name of the ISP associated with the IP address. This
@@ -92,12 +80,41 @@ public final class Traits {
     }
 
     /**
-     * @return The name of the organization associated with the IP address. This
-     * attribute is only available from the City and Insights web
-     * service end points.
+     * @return The IP address that the data in the model is for. If you
+     * performed a "me" lookup against the web service, this will be the
+     * externally routable IP address for the system the code is running
+     * on. If the system is behind a NAT, this may differ from the IP
+     * address locally assigned to it. This attribute is returned by all
+     * end points.
      */
-    public String getOrganization() {
-        return this.organization;
+    @JsonProperty("ip_address")
+    public String getIpAddress() {
+        return this.ipAddress;
+    }
+
+    /**
+     * @return This is true if the IP belong to a satellite internet provider.
+     * This attribute is returned by all end points.
+     *
+     * @deprecated Due to increased mobile usage, we have insufficient data to
+     * maintain this field.
+     */
+    @Deprecated
+    @JsonProperty("is_satellite_provider")
+    public boolean isSatelliteProvider() {
+        return this.satelliteProvider;
+    }
+
+    /**
+     * @return The organization associated with the registered <a
+     * href="http://en.wikipedia.org/wiki/Autonomous_system_(Internet)"
+     * >autonomous system number</a> for the IP address. This attribute
+     * is only available from the City and Insights web service end
+     * points.
+     */
+    @JsonProperty("autonomous_system_organization")
+    public String getAutonomousSystemOrganization() {
+        return this.autonomousSystemOrganization;
     }
 
     /**
@@ -126,35 +143,30 @@ public final class Traits {
      * This attribute is only available from the Insights end point.
      * </p>
      */
+    @JsonProperty("user_type")
     public String getUserType() {
         return this.userType;
     }
 
     /**
-     * @return This is true if the IP is an anonymous proxy. This attribute is
-     * returned by all end points.
-     * @see <a href="http://dev.maxmind.com/faq/geoip#anonproxy">MaxMind's GeoIP
-     * FAQ</a>
-     *
-     * @deprecated Use our
-     * <a href="https://www.maxmind.com/en/geoip2-anonymous-ip-database">GeoIP2
-     * Anonymous IP database</a> instead.
+     * @return The name of the organization associated with the IP address. This
+     * attribute is only available from the City and Insights web
+     * service end points.
      */
-    @Deprecated
-    public boolean isAnonymousProxy() {
-        return this.anonymousProxy;
+    @JsonProperty
+    public String getOrganization() {
+        return this.organization;
     }
 
     /**
-     * @return This is true if the IP belong to a satellite internet provider.
-     * This attribute is returned by all end points.
-     *
-     * @deprecated Due to increased mobile usage, we have insufficient data to
-     * maintain this field.
+     * @return The second level domain associated with the IP address. This will
+     * be something like "example.com" or "example.co.uk", not
+     * "foo.example.com". This attribute is only available from the City
+     * and Insights web service end points.
      */
-    @Deprecated
-    public boolean isSatelliteProvider() {
-        return this.satelliteProvider;
+    @JsonProperty
+    public String getDomain() {
+        return this.domain;
     }
 
     /*
@@ -184,5 +196,9 @@ public final class Traits {
                 + this.organization + ", " : "")
                 + (this.userType != null ? "userType=" + this.userType : "")
                 + "]";
+    }
+
+    public static Traits empty() {
+        return new Traits(false, null, null, null, false, null, null, null, null);
     }
 }

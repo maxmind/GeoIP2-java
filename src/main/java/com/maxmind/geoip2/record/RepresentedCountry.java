@@ -1,6 +1,10 @@
 package com.maxmind.geoip2.record;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -13,8 +17,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * </p>
  */
 public final class RepresentedCountry extends Country {
-    @JsonProperty
-    private String type;
+
+    private final String type;
+
+    public RepresentedCountry(@JsonProperty("names") HashMap<String, String> names, @JsonProperty("geoname_id") Integer geoNameId,
+                              @JacksonInject("locales") List<String> locales, @JsonProperty("confidence") Integer confidence,
+                              @JsonProperty("iso_code") String isoCode, @JsonProperty("type") String type) {
+        super(names, geoNameId, isoCode, confidence, locales);
+        this.type = type;
+    }
 
     /**
      * @return A string indicating the type of entity that is representing the
@@ -24,4 +35,9 @@ public final class RepresentedCountry extends Country {
     public String getType() {
         return this.type;
     }
+
+    public static RepresentedCountry empty() {
+        return new RepresentedCountry(null, null, null, null, null, null);
+    }
+
 }

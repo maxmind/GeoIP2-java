@@ -1,6 +1,10 @@
 package com.maxmind.geoip2.record;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -11,11 +15,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * </p>
  */
 public class Country extends AbstractNamedRecord {
-    @JsonProperty
-    private Integer confidence;
 
-    @JsonProperty("iso_code")
-    private String isoCode;
+    private final Integer confidence;
+    private final String isoCode;
+
+    public Country(@JsonProperty("names") HashMap<String, String> names, @JsonProperty("geoname_id") Integer geoNameId,
+                   @JsonProperty("iso_code") String isoCode, @JsonProperty("confidence") Integer confidence, @JacksonInject("locales") List<String> locales) {
+        super(names, geoNameId, locales);
+        this.confidence = confidence;
+        this.isoCode = isoCode;
+    }
 
     /**
      * @return A value from 0-100 indicating MaxMind's confidence that the
@@ -32,7 +41,13 @@ public class Country extends AbstractNamedRecord {
      * 3166-1 alpha code</a> for the country. This attribute is returned
      * by all end points.
      */
+    @JsonProperty("iso_code")
     public String getIsoCode() {
         return this.isoCode;
     }
+
+    public static Country empty() {
+        return new Country(null, null, null, null, null);
+    }
+
 }

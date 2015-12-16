@@ -1,9 +1,6 @@
 package com.maxmind.geoip2;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.InjectableValues;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.maxmind.db.InvalidDatabaseException;
 import com.maxmind.db.Metadata;
@@ -43,6 +40,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                     "Unsupported Builder configuration: expected either File or URL");
         }
         this.om = new ObjectMapper();
+        this.om.configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, false);
         this.om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
                 false);
         this.om.configure(

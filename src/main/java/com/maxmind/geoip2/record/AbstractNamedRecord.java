@@ -1,32 +1,32 @@
 package com.maxmind.geoip2.record;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JacksonInject;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * Abstract class for records with name maps.
  */
 public abstract class AbstractNamedRecord {
-    @JsonProperty
-    private final HashMap<String, String> names = new HashMap<String, String>();
-    @JsonProperty("geoname_id")
-    private Integer geoNameId;
 
-    @JacksonInject("locales")
-    private final List<String> locales = new ArrayList<String>();
+    private final Map<String, String> names;
+    private final Integer geoNameId;
+    private final List<String> locales;
 
-    AbstractNamedRecord() {
+    AbstractNamedRecord(Map<String, String> names, Integer geoNameId, List<String> locales) {
+        this.names = names != null ? names : new HashMap<String, String>();
+        this.geoNameId = geoNameId;
+        this.locales = locales != null ? locales : new ArrayList<String>();
     }
 
     /**
      * @return The GeoName ID for the city. This attribute is returned by all
      * end points.
      */
+    @JsonProperty("geoname_id")
     public Integer getGeoNameId() {
         return this.geoNameId;
     }
@@ -49,6 +49,7 @@ public abstract class AbstractNamedRecord {
      * @return A {@link Map} from locale codes to the name in that locale. This
      * attribute is returned by all end points.
      */
+    @JsonProperty("names")
     public Map<String, String> getNames() {
         return new HashMap<String, String>(this.names);
     }

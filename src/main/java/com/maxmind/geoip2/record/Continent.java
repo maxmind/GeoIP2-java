@@ -1,6 +1,10 @@
 package com.maxmind.geoip2.record;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -11,8 +15,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * </p>
  */
 public final class Continent extends AbstractNamedRecord {
-    @JsonProperty("code")
-    private String code;
+
+    private final String code;
+
+    public Continent(@JsonProperty("names") HashMap<String, String> names, @JsonProperty("code") String code,
+                     @JsonProperty("geoname_id") Integer geoNameId, @JacksonInject("locales") List<String> locales) {
+        super(names, geoNameId, locales);
+        this.code = code;
+    }
 
     /**
      * @return A two character continent code like "NA" (North America) or "OC"
@@ -21,4 +31,9 @@ public final class Continent extends AbstractNamedRecord {
     public String getCode() {
         return this.code;
     }
+
+    public static Continent empty() {
+        return new Continent(null, null, null, null);
+    }
+
 }

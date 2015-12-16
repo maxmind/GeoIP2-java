@@ -11,13 +11,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * </p>
  */
 public final class MaxMind {
-    @JsonProperty("queries_remaining")
-    private Integer queriesRemaining;
+
+    private final Integer queriesRemaining;
+
+    public MaxMind(@JsonProperty("queries_remaining") Integer queriesRemaining) {
+        this.queriesRemaining = queriesRemaining;
+    }
 
     /**
      * @return The number of remaining queried in your account for the current
      * end point.
      */
+    @JsonProperty("queries_remaining")
     public Integer getQueriesRemaining() {
         return this.queriesRemaining;
     }
@@ -34,4 +39,9 @@ public final class MaxMind {
                 + this.getQueriesRemaining()
                 : "") + "]";
     }
+
+    public static MaxMind empty() {
+        return new MaxMind(null);
+    }
+
 }
