@@ -46,14 +46,12 @@ public final class Postal {
         return this.confidence;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
-        return this.code != null ? this.code : "";
+        final StringBuilder sb = new StringBuilder("Postal{");
+        sb.append("code='").append(code).append('\'');
+        sb.append(", confidence=").append(confidence);
+        sb.append('}');
+        return sb.toString();
     }
-
 }

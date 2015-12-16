@@ -84,25 +84,16 @@ abstract class AbstractCountryResponse extends AbstractResponse {
         return this.traits;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
-        return "Country ["
-                + (this.getContinent() != null ? "getContinent()="
-                + this.getContinent() + ", " : "")
-                + (this.getCountry() != null ? "getCountry()="
-                + this.getCountry() + ", " : "")
-                + (this.getRegisteredCountry() != null ? "getRegisteredCountry()="
-                + this.getRegisteredCountry() + ", "
-                : "")
-                + (this.getRepresentedCountry() != null ? "getRepresentedCountry()="
-                + this.getRepresentedCountry() + ", "
-                : "")
-                + (this.getTraits() != null ? "getTraits()=" + this.getTraits()
-                : "") + "]";
+        final StringBuilder sb = new StringBuilder("AbstractCountryResponse{");
+        sb.append("continent=").append(continent);
+        sb.append(", country=").append(country);
+        sb.append(", registeredCountry=").append(registeredCountry);
+        sb.append(", maxmind=").append(maxmind);
+        sb.append(", representedCountry=").append(representedCountry);
+        sb.append(", traits=").append(traits);
+        sb.append('}');
+        return sb.toString();
     }
 }

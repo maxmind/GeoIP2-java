@@ -160,12 +160,11 @@ public final class TestTransport extends MockHttpTransport {
         "}";
 
     @Override
-    public LowLevelHttpRequest buildRequest(String method, final String url)
-            throws IOException {
+    public LowLevelHttpRequest buildRequest(String method, final String url) {
         return new MockLowLevelHttpRequest() {
 
             @Override
-            public LowLevelHttpResponse execute() throws IOException {
+            public LowLevelHttpResponse execute() {
                 String path = url.replaceFirst(
                         "https://geoip.maxmind.com/geoip/v2.1/", "");
                 // only 1.7 supports switching on strings

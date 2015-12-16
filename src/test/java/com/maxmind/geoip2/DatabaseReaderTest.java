@@ -235,7 +235,7 @@ public class DatabaseReaderTest {
         reader.close();
     }
 
-    File getFile(String filename) throws URISyntaxException {
+    private File getFile(String filename) throws URISyntaxException {
         URL resource = DatabaseReaderTest.class
                 .getResource("/maxmind-db/test-data/" + filename);
         return new File(resource.toURI());

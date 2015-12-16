@@ -111,24 +111,17 @@ public class Location {
         return this.longitude;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
-        return "Location ["
-                + (this.accuracyRadius != null ? "accuracyRadius="
-                + this.accuracyRadius + ", " : "")
-                + (this.latitude != null ? "latitude=" + this.latitude + ", "
-                : "")
-                + (this.longitude != null ? "longitude=" + this.longitude
-                + ", " : "")
-                + (this.metroCode != null ? "metroCode=" + this.metroCode
-                + ", " : "")
-                + (this.timeZone != null ? "timeZone=" + this.timeZone : "")
-                + "]";
+        final StringBuilder sb = new StringBuilder("Location{");
+        sb.append("accuracyRadius=").append(accuracyRadius);
+        sb.append(", averageIncome=").append(averageIncome);
+        sb.append(", latitude=").append(latitude);
+        sb.append(", longitude=").append(longitude);
+        sb.append(", metroCode=").append(metroCode);
+        sb.append(", populationDensity=").append(populationDensity);
+        sb.append(", timeZone='").append(timeZone).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
-
 }

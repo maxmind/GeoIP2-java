@@ -60,13 +60,13 @@ public abstract class AbstractNamedRecord {
         return new HashMap<String, String>(this.names);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
-        return this.getName() != null ? this.getName() : "";
+        final StringBuilder sb = new StringBuilder("AbstractNamedRecord{");
+        sb.append("locales=").append(locales);
+        sb.append(", names=").append(names);
+        sb.append(", geoNameId=").append(geoNameId);
+        sb.append('}');
+        return sb.toString();
     }
 }
