@@ -64,15 +64,4 @@ public class ConnectionTypeResponse extends AbstractResponse {
     public String getIpAddress() {
         return this.ipAddress;
     }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return "ConnectionTypeResponse [connectionType=" + this.connectionType
-                + ", ipAddress=" + this.ipAddress + "]";
-    }
 }

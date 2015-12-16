@@ -82,16 +82,4 @@ public class AnonymousIpResponse extends AbstractResponse {
     public String getIpAddress() {
         return this.ipAddress;
     }
-
-    @Override
-    public String toString() {
-        return "AnonymousIpResponse[" +
-                "isAnonymous=" + isAnonymous +
-                ", isAnonymousVpn=" + isAnonymousVpn +
-                ", isHostingProvider=" + isHostingProvider +
-                ", isPublicProxy=" + isPublicProxy +
-                ", isTorExitNode=" + isTorExitNode +
-                ", ipAddress='" + ipAddress + '\'' +
-                ']';
-    }
 }

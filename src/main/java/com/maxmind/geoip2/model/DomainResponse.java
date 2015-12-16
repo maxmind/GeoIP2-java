@@ -38,15 +38,4 @@ public class DomainResponse extends AbstractResponse {
     public String getIpAddress() {
         return this.ipAddress;
     }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return "DomainResponse [domain=" + this.domain + ", ipAddress="
-                + this.ipAddress + "]";
-    }
 }

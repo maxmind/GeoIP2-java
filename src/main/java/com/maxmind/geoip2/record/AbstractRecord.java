@@ -1,11 +1,11 @@
-package com.maxmind.geoip2.model;
+package com.maxmind.geoip2.record;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
-public abstract class AbstractResponse {
+public class AbstractRecord {
 
     /**
      * @return JSON representation of this object. The structure is the same as
@@ -14,8 +14,8 @@ public abstract class AbstractResponse {
      */
     public String toJson() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.setSerializationInclusion(Include.NON_NULL);
-        mapper.setSerializationInclusion(Include.NON_EMPTY);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         return mapper.writeValueAsString(this);
     }
 

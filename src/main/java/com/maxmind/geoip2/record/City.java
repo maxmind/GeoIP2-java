@@ -40,6 +40,4 @@ public final class City extends AbstractNamedRecord {
     public Integer getConfidence() {
         return this.confidence;
     }
-
-
 }

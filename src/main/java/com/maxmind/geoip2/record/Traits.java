@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This record is returned by all the end points.
  * </p>
  */
-public final class Traits {
+public final class Traits extends AbstractRecord  {
 
     private final Integer autonomousSystemNumber;
     private final String autonomousSystemOrganization;
@@ -173,34 +173,4 @@ public final class Traits {
     public String getDomain() {
         return this.domain;
     }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return "Traits ["
-                + (this.autonomousSystemNumber != null ? "autonomousSystemNumber="
-                + this.autonomousSystemNumber + ", "
-                : "")
-                + (this.autonomousSystemOrganization != null ? "autonomousSystemOrganization="
-                + this.autonomousSystemOrganization + ", "
-                : "")
-                + (this.domain != null ? "domain=" + this.domain + ", " : "")
-                + (this.ipAddress != null ? "ipAddress=" + this.ipAddress
-                + ", " : "")
-                + "anonymousProxy="
-                + this.anonymousProxy
-                + ", satelliteProvider="
-                + this.satelliteProvider
-                + ", "
-                + (this.isp != null ? "isp=" + this.isp + ", " : "")
-                + (this.organization != null ? "organization="
-                + this.organization + ", " : "")
-                + (this.userType != null ? "userType=" + this.userType : "")
-                + "]";
-    }
-
 }

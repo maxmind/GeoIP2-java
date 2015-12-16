@@ -69,19 +69,4 @@ public class IspResponse extends AbstractResponse {
     public String getIpAddress() {
         return this.ipAddress;
     }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return "IspResponse [autonomousSystemNumber="
-                + this.autonomousSystemNumber
-                + ", autonomousSystemOrganization="
-                + this.autonomousSystemOrganization + ", isp=" + this.isp
-                + ", organization=" + this.organization + ", ipAddress="
-                + this.ipAddress + "]";
-    }
 }

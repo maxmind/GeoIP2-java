@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This record is returned by all the end points.
  * </p>
  */
-public final class MaxMind {
+public final class MaxMind extends AbstractRecord  {
 
     private final Integer queriesRemaining;
 
@@ -30,18 +30,4 @@ public final class MaxMind {
     public Integer getQueriesRemaining() {
         return this.queriesRemaining;
     }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return "MaxMind ["
-                + (this.getQueriesRemaining() != null ? "getQueriesRemaining()="
-                + this.getQueriesRemaining()
-                : "") + "]";
-    }
-
 }

@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Abstract class for records with name maps.
  */
-public abstract class AbstractNamedRecord {
+public abstract class AbstractNamedRecord extends AbstractRecord {
 
     private final Map<String, String> names;
     private final Integer geoNameId;
@@ -58,15 +58,5 @@ public abstract class AbstractNamedRecord {
     @JsonProperty("names")
     public Map<String, String> getNames() {
         return new HashMap<String, String>(this.names);
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("AbstractNamedRecord{");
-        sb.append("locales=").append(locales);
-        sb.append(", names=").append(names);
-        sb.append(", geoNameId=").append(geoNameId);
-        sb.append('}');
-        return sb.toString();
     }
 }

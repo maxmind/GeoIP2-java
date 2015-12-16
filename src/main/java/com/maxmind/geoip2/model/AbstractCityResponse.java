@@ -95,31 +95,4 @@ abstract class AbstractCityResponse extends AbstractCountryResponse {
         }
         return this.subdivisions.get(0);
     }
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName()
-                + " ["
-                + (this.getCity() != null ? "getCity()=" + this.getCity()
-                + ", " : "")
-                + (this.getLocation() != null ? "getLocation()="
-                + this.getLocation() + ", " : "")
-                + (this.getPostal() != null ? "getPostal()=" + this.getPostal()
-                + ", " : "")
-                + (this.getSubdivisions() != null ? "getSubdivisionsList()="
-                + this.getSubdivisions() + ", " : "")
-                + (this.getContinent() != null ? "getContinent()="
-                + this.getContinent() + ", " : "")
-                + (this.getCountry() != null ? "getCountry()="
-                + this.getCountry() + ", " : "")
-                + (this.getRegisteredCountry() != null ? "getRegisteredCountry()="
-                + this.getRegisteredCountry() + ", "
-                : "")
-                + (this.getRepresentedCountry() != null ? "getRepresentedCountry()="
-                + this.getRepresentedCountry() + ", "
-                : "")
-                + (this.getTraits() != null ? "getTraits()=" + this.getTraits()
-                : "") + "]";
-    }
-
 }

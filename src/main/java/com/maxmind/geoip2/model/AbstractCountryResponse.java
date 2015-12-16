@@ -83,17 +83,4 @@ abstract class AbstractCountryResponse extends AbstractResponse {
     public Traits getTraits() {
         return this.traits;
     }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("AbstractCountryResponse{");
-        sb.append("continent=").append(continent);
-        sb.append(", country=").append(country);
-        sb.append(", registeredCountry=").append(registeredCountry);
-        sb.append(", maxmind=").append(maxmind);
-        sb.append(", representedCountry=").append(representedCountry);
-        sb.append(", traits=").append(traits);
-        sb.append('}');
-        return sb.toString();
-    }
 }

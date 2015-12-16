@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This record is returned by all the end points except the Country end point.
  * </p>
  */
-public class Location {
+public class Location extends AbstractRecord  {
 
     private final Integer accuracyRadius;
     private final Integer averageIncome;
@@ -109,19 +109,5 @@ public class Location {
      */
     public Double getLongitude() {
         return this.longitude;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Location{");
-        sb.append("accuracyRadius=").append(accuracyRadius);
-        sb.append(", averageIncome=").append(averageIncome);
-        sb.append(", latitude=").append(latitude);
-        sb.append(", longitude=").append(longitude);
-        sb.append(", metroCode=").append(metroCode);
-        sb.append(", populationDensity=").append(populationDensity);
-        sb.append(", timeZone='").append(timeZone).append('\'');
-        sb.append('}');
-        return sb.toString();
     }
 }
