@@ -27,6 +27,7 @@ public class DomainResponse extends AbstractResponse {
     /**
      * @return The IP address that the data in the model is for.
      */
+    @JsonProperty("ip_address")
     public String getIpAddress() {
         return this.ipAddress;
     }

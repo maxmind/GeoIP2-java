@@ -28,6 +28,7 @@ public class AnonymousIpResponse extends AbstractResponse {
     /**
      * @return whether the IP address belongs to any sort of anonymous network.
      */
+    @JsonProperty("is_anonymous")
     public boolean isAnonymous() {
         return isAnonymous;
     }
@@ -35,6 +36,7 @@ public class AnonymousIpResponse extends AbstractResponse {
     /**
      * @return whether the IP address belongs to an anonymous VPN system.
      */
+    @JsonProperty("is_anonymous_vpn")
     public boolean isAnonymousVpn() {
         return isAnonymousVpn;
     }
@@ -42,6 +44,7 @@ public class AnonymousIpResponse extends AbstractResponse {
     /**
      * @return whether the IP address belongs to a hosting provider.
      */
+    @JsonProperty("is_hosting_provider")
     public boolean isHostingProvider() {
         return isHostingProvider;
     }
@@ -49,6 +52,7 @@ public class AnonymousIpResponse extends AbstractResponse {
     /**
      * @return whether the IP address belongs to a public proxy.
      */
+    @JsonProperty("is_public_proxy")
     public boolean isPublicProxy() {
         return isPublicProxy;
     }
@@ -56,6 +60,7 @@ public class AnonymousIpResponse extends AbstractResponse {
     /**
      * @return whether the IP address is a Tor exit node.
      */
+    @JsonProperty("is_tor_exit_node")
     public boolean isTorExitNode() {
         return isTorExitNode;
     }
@@ -64,6 +69,7 @@ public class AnonymousIpResponse extends AbstractResponse {
     /**
      * @return The IP address that the data in the model is for.
      */
+    @JsonProperty("ip_address")
     public String getIpAddress() {
         return this.ipAddress;
     }
