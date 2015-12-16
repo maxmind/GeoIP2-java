@@ -1,5 +1,6 @@
 package com.maxmind.geoip2.record;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public abstract class AbstractNamedRecord {
      * {@link com.maxmind.geoip2.WebServiceClient} constructor. This
      * attribute is returned by all end points.
      */
+    @JsonIgnore
     public String getName() {
         for (String lang : this.locales) {
             if (this.names.containsKey(lang)) {
