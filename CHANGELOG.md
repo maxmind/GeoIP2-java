@@ -1,8 +1,16 @@
 CHANGELOG
 =========
 
+2.4.0 (201X-XX-XX)
+------------------
+
+* Jackson now uses the constructors on model classes when mapping JSON and
+  database records to them rather than overriding the access modifiers on
+  them. Pull request by Martijn van Groningen. GitHub #51 & #52.
+
 2.3.1 (2015-07-07)
 ------------------
+
 * No code changes in this release
 * Fix for version number in pom.xml example in README.md
 * Slight documentation improvement referring to MaxMind-DB-Reader-java
