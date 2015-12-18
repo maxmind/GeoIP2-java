@@ -1,11 +1,12 @@
 package com.maxmind.geoip2.record;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
-public class AbstractRecord {
+public abstract class AbstractRecord {
 
     /**
      * @return JSON representation of this object. The structure is the same as
@@ -16,6 +17,7 @@ public class AbstractRecord {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        mapper.configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, false);
         return mapper.writeValueAsString(this);
     }
 

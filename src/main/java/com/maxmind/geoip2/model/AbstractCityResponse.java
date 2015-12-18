@@ -6,7 +6,7 @@ import com.maxmind.geoip2.record.*;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract class AbstractCityResponse extends AbstractCountryResponse {
+public abstract class AbstractCityResponse extends AbstractCountryResponse {
 
     private final City city;
     private final Location location;

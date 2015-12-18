@@ -1,6 +1,7 @@
 package com.maxmind.geoip2.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ public abstract class AbstractResponse {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(Include.NON_NULL);
         mapper.setSerializationInclusion(Include.NON_EMPTY);
+        mapper.configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, false);
         return mapper.writeValueAsString(this);
     }
 

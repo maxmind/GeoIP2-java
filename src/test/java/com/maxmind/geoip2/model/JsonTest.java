@@ -2,6 +2,7 @@ package com.maxmind.geoip2.model;
 
 import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.jr.ob.JSON;
 import org.junit.Test;
@@ -293,6 +294,7 @@ public class JsonTest {
             (Class<T> cls, String json)
             throws IOException {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, false);
         InjectableValues inject = new InjectableValues.Std().addValue(
                 "locales", Collections.singletonList("en"));
         T response = mapper.reader(cls).with(inject).readValue(json);

@@ -3,7 +3,7 @@ package com.maxmind.geoip2.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maxmind.geoip2.record.*;
 
-abstract class AbstractCountryResponse extends AbstractResponse {
+public abstract class AbstractCountryResponse extends AbstractResponse {
 
     private final Continent continent;
     private final Country country;
