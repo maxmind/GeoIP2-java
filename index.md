@@ -2,7 +2,7 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v2.3.1
+version: v2.4.0
 ---
 
 # GeoIP2 Java API #
@@ -18,7 +18,7 @@ the free [GeoLite2 databases](http://dev.maxmind.com/geoip/geoip2/geolite2/).
 
 ## Installation ##
 
-### Define Your Dependencies ###
+### Maven ###
 
 We recommend installing this package with [Maven](http://maven.apache.org/).
 To do this, add the dependency to your pom.xml:
@@ -27,9 +27,28 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>v2.3.0</version>
+        <version>2.3.1</version>
     </dependency>
 ```
+
+### Gradle ###
+
+Add the following to your `build.gradle` file:
+
+```
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compile 'com.maxmind.geoip2:geoip2:2.3.1'
+}
+```
+
+### JAR Files ###
+
+If you are unable to use Maven or Gradle, you may include the `geoip2.jar`
+file and its dependencies in your classpath. Download the JAR files from the
+[GitHub Releases page](https://github.com/maxmind/GeoIP2-java/releases).
 
 ## Web Service Usage ##
 
@@ -157,12 +176,7 @@ We recommend reusing the `DatabaseReader` object rather than creating a new
 one for each lookup. The creation of this object is relatively expensive as it
 must read in metadata for the file.
 
-Please note that to use the `DatabaseReader` class you must also import the
-[MaxMind DB Reader libraries](https://github.com/maxmind/MaxMind-DB-Reader-java)
-into your project.
-
 See the API documentation for more details.
-
 
 ## Database Example ##
 
