@@ -10,7 +10,14 @@ public class DomainResponse extends AbstractResponse {
     private final String domain;
     private final String ipAddress;
 
-    public DomainResponse(@JsonProperty("domain") String domain, @JsonProperty("ip_address") String ipAddress) {
+    DomainResponse() {
+        this(null, null);
+    }
+
+    public DomainResponse(
+            @JsonProperty("domain") String domain,
+            @JsonProperty("ip_address") String ipAddress
+    ) {
         this.domain = domain;
         this.ipAddress = ipAddress;
     }
@@ -30,16 +37,5 @@ public class DomainResponse extends AbstractResponse {
     @JsonProperty("ip_address")
     public String getIpAddress() {
         return this.ipAddress;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return "DomainResponse [domain=" + this.domain + ", ipAddress="
-                + this.ipAddress + "]";
     }
 }

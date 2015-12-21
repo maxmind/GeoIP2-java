@@ -1,31 +1,23 @@
 package com.maxmind.geoip2;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.util.*;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.client.http.GenericUrl;
-import com.google.api.client.http.HttpHeaders;
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpRequestFactory;
-import com.google.api.client.http.HttpResponse;
-import com.google.api.client.http.HttpResponseException;
-import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.*;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.maxmind.geoip2.exception.AddressNotFoundException;
-import com.maxmind.geoip2.exception.AuthenticationException;
-import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.exception.HttpException;
-import com.maxmind.geoip2.exception.InvalidRequestException;
-import com.maxmind.geoip2.exception.OutOfQueriesException;
+import com.maxmind.geoip2.exception.*;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.model.InsightsResponse;
+
+import java.io.IOException;
+import java.net.InetAddress;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>

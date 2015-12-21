@@ -1,21 +1,35 @@
 package com.maxmind.geoip2.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maxmind.geoip2.record.*;
 
-abstract class AbstractCityResponse extends AbstractCountryResponse {
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class AbstractCityResponse extends AbstractCountryResponse {
 
     private final City city;
     private final Location location;
     private final Postal postal;
     private final List<Subdivision> subdivisions;
 
-    AbstractCityResponse(MaxMind maxmind, Country registeredCountry, Traits traits, Country country, Continent continent,
-                         Location location, List<Subdivision> subdivisions, RepresentedCountry representedCountry, Postal postal, City city) {
-        super(continent, country, registeredCountry, maxmind, representedCountry, traits);
+    AbstractCityResponse() {
+        this(null, null, null, null, null, null, null, null, null, null);
+    }
+
+    AbstractCityResponse(
+            City city,
+            Continent continent,
+            Country country,
+            Location location,
+            MaxMind maxmind,
+            Postal postal,
+            Country registeredCountry,
+            RepresentedCountry representedCountry,
+            List<Subdivision> subdivisions,
+            Traits traits
+    ) {
+        super(continent, country, maxmind, registeredCountry, representedCountry, traits);
         this.city = city != null ? city : new City();
         this.location = location != null ? location : new Location();
         this.postal = postal != null ? postal : new Postal();
@@ -81,31 +95,4 @@ abstract class AbstractCityResponse extends AbstractCountryResponse {
         }
         return this.subdivisions.get(0);
     }
-    
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName()
-                + " ["
-                + (this.getCity() != null ? "getCity()=" + this.getCity()
-                + ", " : "")
-                + (this.getLocation() != null ? "getLocation()="
-                + this.getLocation() + ", " : "")
-                + (this.getPostal() != null ? "getPostal()=" + this.getPostal()
-                + ", " : "")
-                + (this.getSubdivisions() != null ? "getSubdivisionsList()="
-                + this.getSubdivisions() + ", " : "")
-                + (this.getContinent() != null ? "getContinent()="
-                + this.getContinent() + ", " : "")
-                + (this.getCountry() != null ? "getCountry()="
-                + this.getCountry() + ", " : "")
-                + (this.getRegisteredCountry() != null ? "getRegisteredCountry()="
-                + this.getRegisteredCountry() + ", "
-                : "")
-                + (this.getRepresentedCountry() != null ? "getRepresentedCountry()="
-                + this.getRepresentedCountry() + ", "
-                : "")
-                + (this.getTraits() != null ? "getTraits()=" + this.getTraits()
-                : "") + "]";
-    }
-
 }

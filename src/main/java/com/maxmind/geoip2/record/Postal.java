@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This record is returned by all the end points except the Country end point.
  * </p>
  */
-public final class Postal {
+public final class Postal extends AbstractRecord  {
 
     private final String code;
     private final Integer confidence;
@@ -45,15 +45,4 @@ public final class Postal {
     public Integer getConfidence() {
         return this.confidence;
     }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return this.code != null ? this.code : "";
-    }
-
 }

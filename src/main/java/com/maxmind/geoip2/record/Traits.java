@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This record is returned by all the end points.
  * </p>
  */
-public final class Traits {
+public final class Traits extends AbstractRecord  {
 
     private final Integer autonomousSystemNumber;
     private final String autonomousSystemOrganization;
@@ -23,17 +23,20 @@ public final class Traits {
     private final String userType;
 
     public Traits() {
-        this(false, null, null, null, false, null, null, null, null);
+        this(null, null, null, null, false, false, null, null, null);
     }
 
-    public Traits(@JsonProperty("is_anonymous_proxy") boolean anonymousProxy,
-                  @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
-                  @JsonProperty("isp") String isp, @JsonProperty("ip_address") String ipAddress,
-                  @JsonProperty("is_satellite_provider") boolean satelliteProvider,
-                  @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
-                  @JsonProperty("user_type") String userType,
-                  @JsonProperty("organization") String organization,
-                  @JsonProperty("domain") String domain) {
+    public Traits(
+            @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
+            @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
+            @JsonProperty("domain") String domain,
+            @JsonProperty("ip_address") String ipAddress,
+            @JsonProperty("is_anonymous_proxy") boolean anonymousProxy,
+            @JsonProperty("is_satellite_provider") boolean satelliteProvider,
+            @JsonProperty("isp") String isp,
+            @JsonProperty("organization") String organization,
+            @JsonProperty("user_type") String userType
+    ) {
         this.autonomousSystemNumber = autonomousSystemNumber;
         this.autonomousSystemOrganization = autonomousSystemOrganization;
         this.domain = domain;
@@ -50,7 +53,6 @@ public final class Traits {
      * returned by all end points.
      * @see <a href="http://dev.maxmind.com/faq/geoip#anonproxy">MaxMind's GeoIP
      * FAQ</a>
-     *
      * @deprecated Use our
      * <a href="https://www.maxmind.com/en/geoip2-anonymous-ip-database">GeoIP2
      * Anonymous IP database</a> instead.
@@ -99,7 +101,6 @@ public final class Traits {
     /**
      * @return This is true if the IP belong to a satellite internet provider.
      * This attribute is returned by all end points.
-     *
      * @deprecated Due to increased mobile usage, we have insufficient data to
      * maintain this field.
      */
@@ -172,34 +173,4 @@ public final class Traits {
     public String getDomain() {
         return this.domain;
     }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return "Traits ["
-                + (this.autonomousSystemNumber != null ? "autonomousSystemNumber="
-                + this.autonomousSystemNumber + ", "
-                : "")
-                + (this.autonomousSystemOrganization != null ? "autonomousSystemOrganization="
-                + this.autonomousSystemOrganization + ", "
-                : "")
-                + (this.domain != null ? "domain=" + this.domain + ", " : "")
-                + (this.ipAddress != null ? "ipAddress=" + this.ipAddress
-                + ", " : "")
-                + "anonymousProxy="
-                + this.anonymousProxy
-                + ", satelliteProvider="
-                + this.satelliteProvider
-                + ", "
-                + (this.isp != null ? "isp=" + this.isp + ", " : "")
-                + (this.organization != null ? "organization="
-                + this.organization + ", " : "")
-                + (this.userType != null ? "userType=" + this.userType : "")
-                + "]";
-    }
-
 }

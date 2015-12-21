@@ -1,21 +1,15 @@
 package com.maxmind.geoip2;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import com.google.api.client.http.HttpTransport;
+import com.maxmind.geoip2.model.InsightsResponse;
+import com.maxmind.geoip2.record.*;
+import org.hamcrest.CoreMatchers;
+import org.junit.Test;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.util.List;
 
-import org.junit.Test;
-
-import com.google.api.client.http.HttpTransport;
-import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.InsightsResponse;
-import com.maxmind.geoip2.record.*;
+import static org.junit.Assert.*;
 
 public class NullTest {
 
@@ -29,7 +23,7 @@ public class NullTest {
         InsightsResponse insights = this.client.insights(InetAddress
                 .getByName("1.2.3.13"));
 
-        assertTrue(insights.toString().startsWith("Insights"));
+        assertThat(insights.toString(), CoreMatchers.startsWith("{"));
 
         City city = insights.getCity();
         assertNotNull(city);
@@ -49,7 +43,7 @@ public class NullTest {
         assertNull(location.getLongitude());
         assertNull(location.getMetroCode());
         assertNull(location.getTimeZone());
-        assertEquals("Location []", location.toString());
+        assertThat(location.toString(), CoreMatchers.startsWith("{"));
 
         MaxMind maxmind = insights.getMaxMind();
         assertNotNull(maxmind);
@@ -91,7 +85,7 @@ public class NullTest {
         assertFalse(traits.isAnonymousProxy());
         assertFalse(traits.isSatelliteProvider());
         assertEquals(
-                "Traits [anonymousProxy=false, satelliteProvider=false, ]",
+                "{\"is_anonymous_proxy\":false,\"is_satellite_provider\":false}",
                 traits.toString());
 
         for (Country c : new Country[]{country, registeredCountry,
@@ -106,7 +100,7 @@ public class NullTest {
             assertNull(r.getGeoNameId());
             assertNull(r.getName());
             assertTrue(r.getNames().isEmpty());
-            assertEquals("", r.toString());
+            assertEquals("{}", r.toString());
         }
     }
 }

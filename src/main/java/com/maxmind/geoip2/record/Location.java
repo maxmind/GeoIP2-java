@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This record is returned by all the end points except the Country end point.
  * </p>
  */
-public class Location {
+public class Location extends AbstractRecord  {
 
     private final Integer accuracyRadius;
     private final Integer averageIncome;
@@ -24,10 +24,15 @@ public class Location {
         this(null, null, null, null, null, null, null);
     }
 
-    public Location(@JsonProperty("average_income") Integer averageIncome, @JsonProperty("population_density") Integer populationDensity,
-                    @JsonProperty("time_zone") String timeZone, @JsonProperty("accuracy_radius") Integer accuracyRadius,
-                    @JsonProperty("metro_code") Integer metroCode, @JsonProperty("latitude") Double latitude,
-                    @JsonProperty("longitude") Double longitude) {
+    public Location(
+            @JsonProperty("accuracy_radius") Integer accuracyRadius,
+            @JsonProperty("average_income") Integer averageIncome,
+            @JsonProperty("latitude") Double latitude,
+            @JsonProperty("longitude") Double longitude,
+            @JsonProperty("metro_code") Integer metroCode,
+            @JsonProperty("population_density") Integer populationDensity,
+            @JsonProperty("time_zone") String timeZone
+    ) {
         this.accuracyRadius = accuracyRadius;
         this.averageIncome = averageIncome;
         this.latitude = latitude;
@@ -105,25 +110,4 @@ public class Location {
     public Double getLongitude() {
         return this.longitude;
     }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return "Location ["
-                + (this.accuracyRadius != null ? "accuracyRadius="
-                + this.accuracyRadius + ", " : "")
-                + (this.latitude != null ? "latitude=" + this.latitude + ", "
-                : "")
-                + (this.longitude != null ? "longitude=" + this.longitude
-                + ", " : "")
-                + (this.metroCode != null ? "metroCode=" + this.metroCode
-                + ", " : "")
-                + (this.timeZone != null ? "timeZone=" + this.timeZone : "")
-                + "]";
-    }
-
 }

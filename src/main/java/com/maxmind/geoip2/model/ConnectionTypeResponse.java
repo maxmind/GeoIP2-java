@@ -17,7 +17,7 @@ public class ConnectionTypeResponse extends AbstractResponse {
 
         private final String name;
 
-        private ConnectionType(String name) {
+        ConnectionType(String name) {
             this.name = name;
         }
 
@@ -36,7 +36,15 @@ public class ConnectionTypeResponse extends AbstractResponse {
     private final ConnectionType connectionType;
     private final String ipAddress;
 
-    public ConnectionTypeResponse(@JsonProperty("connection_type") ConnectionType connectionType, @JsonProperty("ip_address") String ipAddress) {
+
+    ConnectionTypeResponse() {
+        this(null, null);
+    }
+
+    public ConnectionTypeResponse(
+            @JsonProperty("connection_type") ConnectionType connectionType,
+            @JsonProperty("ip_address") String ipAddress
+    ) {
         this.connectionType = connectionType;
         this.ipAddress = ipAddress;
     }
@@ -55,16 +63,5 @@ public class ConnectionTypeResponse extends AbstractResponse {
     @JsonProperty("ip_address")
     public String getIpAddress() {
         return this.ipAddress;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return "ConnectionTypeResponse [connectionType=" + this.connectionType
-                + ", ipAddress=" + this.ipAddress + "]";
     }
 }

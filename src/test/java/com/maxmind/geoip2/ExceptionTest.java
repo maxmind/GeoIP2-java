@@ -1,18 +1,16 @@
 package com.maxmind.geoip2;
 
-import static org.hamcrest.CoreMatchers.containsString;
-
-import java.io.IOException;
-import java.net.InetAddress;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
 import com.google.api.client.http.HttpTransport;
 import com.maxmind.geoip2.exception.*;
 import com.maxmind.geoip2.matchers.CodeMatcher;
 import com.maxmind.geoip2.matchers.HttpStatusMatcher;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import java.net.InetAddress;
+
+import static org.hamcrest.CoreMatchers.containsString;
 
 public class ExceptionTest {
 

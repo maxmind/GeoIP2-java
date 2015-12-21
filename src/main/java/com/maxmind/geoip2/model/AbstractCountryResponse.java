@@ -1,13 +1,9 @@
 package com.maxmind.geoip2.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.maxmind.geoip2.record.Continent;
-import com.maxmind.geoip2.record.Country;
-import com.maxmind.geoip2.record.MaxMind;
-import com.maxmind.geoip2.record.RepresentedCountry;
-import com.maxmind.geoip2.record.Traits;
+import com.maxmind.geoip2.record.*;
 
-abstract class AbstractCountryResponse extends AbstractResponse {
+public abstract class AbstractCountryResponse extends AbstractResponse {
 
     private final Continent continent;
     private final Country country;
@@ -16,7 +12,18 @@ abstract class AbstractCountryResponse extends AbstractResponse {
     private final RepresentedCountry representedCountry;
     private final Traits traits;
 
-    AbstractCountryResponse(Continent continent, Country country, Country registeredCountry, MaxMind maxmind, RepresentedCountry representedCountry, Traits traits) {
+    AbstractCountryResponse() {
+        this(null, null, null, null, null, null);
+    }
+
+    AbstractCountryResponse(
+            Continent continent,
+            Country country,
+            MaxMind maxmind,
+            Country registeredCountry,
+            RepresentedCountry representedCountry,
+            Traits traits
+    ) {
         this.continent = continent != null ? continent : new Continent();
         this.country = country != null ? country : new Country();
         this.registeredCountry = registeredCountry != null ? registeredCountry : new Country();
@@ -75,27 +82,5 @@ abstract class AbstractCountryResponse extends AbstractResponse {
      */
     public Traits getTraits() {
         return this.traits;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return "Country ["
-                + (this.getContinent() != null ? "getContinent()="
-                + this.getContinent() + ", " : "")
-                + (this.getCountry() != null ? "getCountry()="
-                + this.getCountry() + ", " : "")
-                + (this.getRegisteredCountry() != null ? "getRegisteredCountry()="
-                + this.getRegisteredCountry() + ", "
-                : "")
-                + (this.getRepresentedCountry() != null ? "getRepresentedCountry()="
-                + this.getRepresentedCountry() + ", "
-                : "")
-                + (this.getTraits() != null ? "getTraits()=" + this.getTraits()
-                : "") + "]";
     }
 }
