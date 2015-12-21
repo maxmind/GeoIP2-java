@@ -1,12 +1,20 @@
 CHANGELOG
 =========
 
-2.4.0 (201X-XX-XX)
+2.4.0 (2015-12-21)
 ------------------
 
 * Jackson now uses the constructors on model classes when mapping JSON and
   database records to them rather than overriding the access modifiers on
   them. Pull request by Martijn van Groningen. GitHub #51 & #52.
+* The format of the output of the `toString()` methods in the models has
+  changed to better represent the values returned by the databases and web
+  services. `toString()` should be only used for debugging and diagnostics.
+  Do not try to parse it. If you want the contents of the model as a machine-
+  readable string, use `toJson()`.
+* This release depends on version 1.0.1 of the MaxMind DB reader, which
+  includes several performance enhancements from by Viktor Szathmáry.
+
 
 2.3.1 (2015-07-07)
 ------------------
