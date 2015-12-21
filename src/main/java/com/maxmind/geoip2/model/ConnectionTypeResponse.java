@@ -17,7 +17,7 @@ public class ConnectionTypeResponse extends AbstractResponse {
 
         private final String name;
 
-        private ConnectionType(String name) {
+        ConnectionType(String name) {
             this.name = name;
         }
 
