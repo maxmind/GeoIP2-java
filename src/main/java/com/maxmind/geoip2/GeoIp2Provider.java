@@ -15,7 +15,7 @@ public interface GeoIp2Provider {
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
      */
-    public CountryResponse country(InetAddress ipAddress) throws IOException,
+    CountryResponse country(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
 
     /**
@@ -24,6 +24,6 @@ public interface GeoIp2Provider {
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
      */
-    public CityResponse city(InetAddress ipAddress) throws IOException,
+    CityResponse city(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
 }
