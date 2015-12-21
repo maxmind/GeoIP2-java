@@ -33,7 +33,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.maxmind.geoip2:geoip2:2.3.1'
+    compile 'com.maxmind.geoip2:geoip2:'
 }
 ```
 
