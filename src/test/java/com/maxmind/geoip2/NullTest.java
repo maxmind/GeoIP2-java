@@ -23,7 +23,7 @@ public class NullTest {
         InsightsResponse insights = this.client.insights(InetAddress
                 .getByName("1.2.3.13"));
 
-        assertThat(insights.toString(), CoreMatchers.startsWith("{"));
+        assertThat(insights.toString(), CoreMatchers.startsWith("com.maxmind.geoip2.model.InsightsResponse [ {"));
 
         City city = insights.getCity();
         assertNotNull(city);
@@ -43,7 +43,7 @@ public class NullTest {
         assertNull(location.getLongitude());
         assertNull(location.getMetroCode());
         assertNull(location.getTimeZone());
-        assertThat(location.toString(), CoreMatchers.startsWith("{"));
+        assertThat(location.toString(), CoreMatchers.equalTo("com.maxmind.geoip2.record.Location [ {} ]"));
 
         MaxMind maxmind = insights.getMaxMind();
         assertNotNull(maxmind);
@@ -85,7 +85,7 @@ public class NullTest {
         assertFalse(traits.isAnonymousProxy());
         assertFalse(traits.isSatelliteProvider());
         assertEquals(
-                "{\"is_anonymous_proxy\":false,\"is_satellite_provider\":false}",
+                "com.maxmind.geoip2.record.Traits [ {\"is_anonymous_proxy\":false,\"is_satellite_provider\":false} ]",
                 traits.toString());
 
         for (Country c : new Country[]{country, registeredCountry,
@@ -100,7 +100,7 @@ public class NullTest {
             assertNull(r.getGeoNameId());
             assertNull(r.getName());
             assertTrue(r.getNames().isEmpty());
-            assertEquals("{}", r.toString());
+            assertEquals(r.getClass().getName() + " [ {} ]", r.toString());
         }
     }
 }

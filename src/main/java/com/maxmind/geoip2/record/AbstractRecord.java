@@ -26,7 +26,7 @@ public abstract class AbstractRecord {
         // This exception should never happen. If it does happen, we did
         // something wrong.
         try {
-            return toJson();
+            return getClass().getName() + " [ " + toJson() + " ]";
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
