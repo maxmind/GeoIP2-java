@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.maxmind.db.InvalidDatabaseException;
 import com.maxmind.db.Metadata;
+import com.maxmind.db.NoCache;
+import com.maxmind.db.NodeCache;
 import com.maxmind.db.Reader;
 import com.maxmind.db.Reader.FileMode;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
@@ -30,9 +32,9 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
 
     private DatabaseReader(Builder builder) throws IOException {
         if (builder.stream != null) {
-            this.reader = new Reader(builder.stream);
+            this.reader = new Reader(builder.stream, builder.cache);
         } else if (builder.database != null) {
-            this.reader = new Reader(builder.database, builder.mode);
+            this.reader = new Reader(builder.database, builder.mode, builder.cache);
         } else {
             // This should never happen. If it does, review the Builder class
             // constructors for errors.
@@ -64,11 +66,15 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * </p>
      */
     public static final class Builder {
+
+        private static final NodeCache NO_CACHE = new NoCache();
+
         final File database;
         final InputStream stream;
 
         List<String> locales = Collections.singletonList("en");
         FileMode mode = FileMode.MEMORY_MAPPED;
+        NodeCache cache = NO_CACHE;
 
         /**
          * @param stream the stream containing the GeoIP2 database to use.
@@ -93,6 +99,15 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
          */
         public Builder locales(List<String> val) {
             this.locales = val;
+            return this;
+        }
+
+        /**
+         * @param cache backing cache instance
+         * @return Builder object
+         */
+        public Builder withCache(NodeCache cache) {
+            this.cache = cache;
             return this;
         }
 
