@@ -171,6 +171,20 @@ must read in metadata for the file.
 
 See the API documentation for more details.
 
+### Caching ###
+
+The database API supports pluggable caching (by default, no caching is
+performed). A simple implementation is provided by `com.maxmind.db.CHMCache`.
+Using this cache, lookup performance is significantly improved at the cost of
+a small (~2MB) memory overhead.
+
+Usage:
+
+```
+new DatabaseReader.Builder(file).withCache(new CHMCache()).build();
+```
+
+
 ## Database Example ##
 
 ### City ###
