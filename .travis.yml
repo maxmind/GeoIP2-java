@@ -13,7 +13,7 @@ after_script: mvn cobertura:cobertura coveralls:cobertura
 notifications:
   email:
     recipients:
-      - dev@maxmind.com
+      - dev-ci@maxmind.com
     on_success: change
     on_failure: always
 
@@ -28,7 +28,7 @@ addons:
     project:
       name: "maxmind/GeoIP2-java"
       description: "Build submitted via Travis CI"
-    notification_email: dev@maxmind.com
+    notification_email: dev-ci@maxmind.com
     build_command_prepend: "mvn clean"
     build_command:   "mvn -DskipTests=true compile"
     branch_pattern: .*coverity.*
