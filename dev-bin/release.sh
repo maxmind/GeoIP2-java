@@ -56,20 +56,28 @@ version: $TAG
 
 EOF
 
+# alter the documentation to point to this version
+perl -pi -e 's/(?<=<version>)[^<]*/$ENV{VERSION}/' README.md
+perl -pi -e 's/(?<=com\.maxmind\.geoip2\:geoip2\:)\d+\.\d+\.\d+([\w\-]+)?/$ENV{VERSION}/' README.md
 cat README.md >> $PAGE
+
+git add README.md
+
+git diff
+
+read -e -p "Commit README.md changes? " SHOULD_COMMIT
+if [ "$SHOULD_COMMIT" != "y" ]; then
+    echo "Aborting"
+    exit 1
+fi
+git commit -m 'update version number in README.md'
 
 # could be combined with the primary build
 mvn release:clean
-mvn release:prepare -DreleaseVersion=$VERSION -Dtag=$TAG
+mvn release:prepare -DreleaseVersion="$VERSION" -Dtag="$TAG"
 mvn release:perform
 rm -fr ".gh-pages/doc/$TAG"
-cp -r target/apidocs .gh-pages/doc/$TAG
-
-# alter the documentation to point to this version
-perl -pi -e 's/(?=<version>)[^<]*/$ENV{VERSION}/' README.md
-perl -pi -e 's/(?<=com\.maxmind\.geoip2\:geoip2\:)\d+\.\d+\.\d+([\w\-]+)?/$ENV{VERSION}/' README.md
-git add README.md
-git commit -m 'update version number in README.md'
+cp -r target/apidocs ".gh-pages/doc/$TAG"
 
 pushd .gh-pages
 

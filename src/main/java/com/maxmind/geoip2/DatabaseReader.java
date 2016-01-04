@@ -66,15 +66,12 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * </p>
      */
     public static final class Builder {
-
-        private static final NodeCache NO_CACHE = new NoCache();
-
         final File database;
         final InputStream stream;
 
         List<String> locales = Collections.singletonList("en");
         FileMode mode = FileMode.MEMORY_MAPPED;
-        NodeCache cache = NO_CACHE;
+        NodeCache cache = NoCache.getInstance();
 
         /**
          * @param stream the stream containing the GeoIP2 database to use.

@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+2.5.0 (2016-01-04)
+------------------
+
+* The database reader now supports pluggable caching of the decoded data. By
+  default, no caching is performed. Please see the `README.md` file or the API
+  docs for information on how to enable caching. Pull requests by Viktor
+  Szathmáry. GitHub #55.
+
 2.4.0 (2015-12-21)
 ------------------
 
