@@ -1,5 +1,6 @@
 package com.maxmind.geoip2.model;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -19,7 +20,7 @@ public class AnonymousIpResponse extends AbstractResponse {
     }
 
     public AnonymousIpResponse(
-            @JsonProperty("ip_address") String ipAddress,
+            @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
             @JsonProperty("is_anonymous") boolean isAnonymous,
             @JsonProperty("is_anonymous_vpn") boolean isAnonymousVpn,
             @JsonProperty("is_hosting_provider") boolean isHostingProvider,

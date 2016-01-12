@@ -1,5 +1,6 @@
 package com.maxmind.geoip2.model;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -20,7 +21,7 @@ public class IspResponse extends AbstractResponse {
     public IspResponse(
             @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
             @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
-            @JsonProperty("ip_address") String ipAddress,
+            @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
             @JsonProperty("isp") String isp,
             @JsonProperty("organization") String organization
     ) {

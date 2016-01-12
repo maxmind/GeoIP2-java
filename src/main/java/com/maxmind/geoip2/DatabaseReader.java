@@ -30,6 +30,8 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
 
     private final ObjectMapper om;
 
+    private final List<String> locales;
+
     private DatabaseReader(Builder builder) throws IOException {
         if (builder.stream != null) {
             this.reader = new Reader(builder.stream, builder.cache);
@@ -47,9 +49,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                 false);
         this.om.configure(
                 DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
-        InjectableValues inject = new InjectableValues.Std().addValue(
-                "locales", builder.locales);
-        this.om.setInjectableValues(inject);
+        this.locales = builder.locales;
     }
 
     /**
@@ -161,20 +161,9 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                     + ipAddress.getHostAddress() + " is not in the database.");
         }
 
-        ObjectNode ipNode;
-        if (hasTraits) {
-            if (node.has("traits")) {
-                ipNode = jsonNodeToObjectNode(node.get("traits"));
-            } else {
-                ipNode = om.createObjectNode();
-                node.set("traits", ipNode);
-            }
-        } else {
-            ipNode = node;
-        }
-        ipNode.put("ip_address", ipAddress.getHostAddress());
+        InjectableValues inject = new JsonInjector(locales, ipAddress.getHostAddress());
 
-        return this.om.treeToValue(node, cls);
+        return this.om.reader(inject).treeToValue(node, cls);
     }
 
     private ObjectNode jsonNodeToObjectNode(JsonNode node)

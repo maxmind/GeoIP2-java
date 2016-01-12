@@ -85,6 +85,7 @@ public class WebServiceClient implements GeoIp2Provider {
     private final int readTimeout;
     private final HttpTransport testTransport;
     private final int userId;
+    private final ObjectMapper mapper;
 
     private WebServiceClient(Builder builder) {
         this.host = builder.host;
@@ -94,6 +95,12 @@ public class WebServiceClient implements GeoIp2Provider {
         this.readTimeout = builder.readTimeout;
         this.testTransport = builder.testTransport;
         this.userId = builder.userId;
+
+        this.mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
+                false);
+        mapper.configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, false);
+
     }
 
     /**
@@ -254,19 +261,15 @@ public class WebServiceClient implements GeoIp2Provider {
 
         String body = WebServiceClient.getSuccessBody(response, uri);
 
-        InjectableValues inject = new InjectableValues.Std().addValue(
-                "locales", this.locales);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
-                false);
-        mapper.configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, false);
+        String ip = ipAddress == null ? null : ipAddress.getHostAddress();
+        InjectableValues inject = new JsonInjector(locales, ip);
 
         try {
-            return mapper.reader(cls).with(inject).readValue(body);
+            return mapper.readerFor(cls).with(inject).readValue(body);
         } catch (IOException e) {
             throw new GeoIp2Exception(
                     "Received a 200 response but not decode it as JSON: "
-                            + body);
+                            + body, e);
         }
     }
 

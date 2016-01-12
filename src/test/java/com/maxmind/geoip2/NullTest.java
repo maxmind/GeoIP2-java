@@ -78,15 +78,12 @@ public class NullTest {
         assertNull(traits.getAutonomousSystemNumber());
         assertNull(traits.getAutonomousSystemOrganization());
         assertNull(traits.getDomain());
-        assertNull(traits.getIpAddress());
+        assertEquals("1.2.3.13", traits.getIpAddress());
         assertNull(traits.getIsp());
         assertNull(traits.getOrganization());
         assertNull(traits.getUserType());
         assertFalse(traits.isAnonymousProxy());
         assertFalse(traits.isSatelliteProvider());
-        assertEquals(
-                "com.maxmind.geoip2.record.Traits [ {\"is_anonymous_proxy\":false,\"is_satellite_provider\":false} ]",
-                traits.toString());
 
         for (Country c : new Country[]{country, registeredCountry,
                 representedCountry}) {

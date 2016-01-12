@@ -1,5 +1,6 @@
 package com.maxmind.geoip2.record;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -26,11 +27,15 @@ public final class Traits extends AbstractRecord  {
         this(null, null, null, null, false, false, null, null, null);
     }
 
+    public Traits(String ipAddress) {
+        this(null, null, null, ipAddress, false, false, null, null, null);
+    }
+
     public Traits(
             @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
             @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
             @JsonProperty("domain") String domain,
-            @JsonProperty("ip_address") String ipAddress,
+            @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
             @JsonProperty("is_anonymous_proxy") boolean anonymousProxy,
             @JsonProperty("is_satellite_provider") boolean satelliteProvider,
             @JsonProperty("isp") String isp,
