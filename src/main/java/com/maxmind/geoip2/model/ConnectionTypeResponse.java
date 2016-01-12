@@ -1,5 +1,6 @@
 package com.maxmind.geoip2.model;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -43,7 +44,7 @@ public class ConnectionTypeResponse extends AbstractResponse {
 
     public ConnectionTypeResponse(
             @JsonProperty("connection_type") ConnectionType connectionType,
-            @JsonProperty("ip_address") String ipAddress
+            @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress
     ) {
         this.connectionType = connectionType;
         this.ipAddress = ipAddress;

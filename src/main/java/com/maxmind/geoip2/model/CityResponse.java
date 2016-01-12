@@ -1,5 +1,6 @@
 package com.maxmind.geoip2.model;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maxmind.geoip2.record.*;
 
@@ -35,7 +36,7 @@ public final class CityResponse extends AbstractCityResponse {
             @JsonProperty("registered_country") Country registeredCountry,
             @JsonProperty("represented_country") RepresentedCountry representedCountry,
             @JsonProperty("subdivisions") ArrayList<Subdivision> subdivisions,
-            @JsonProperty("traits") Traits traits
+            @JacksonInject("traits") @JsonProperty("traits") Traits traits
     ) {
         super(city, continent, country, location, maxmind, postal, registeredCountry,
                 representedCountry, subdivisions, traits);

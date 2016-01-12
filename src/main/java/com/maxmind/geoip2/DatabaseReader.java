@@ -11,6 +11,7 @@ import com.maxmind.db.Reader.FileMode;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.*;
+import com.maxmind.geoip2.record.Traits;
 
 import java.io.Closeable;
 import java.io.File;
@@ -30,6 +31,8 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
 
     private final ObjectMapper om;
 
+    private final List<String> locales;
+
     private DatabaseReader(Builder builder) throws IOException {
         if (builder.stream != null) {
             this.reader = new Reader(builder.stream, builder.cache);
@@ -47,9 +50,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                 false);
         this.om.configure(
                 DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
-        InjectableValues inject = new InjectableValues.Std().addValue(
-                "locales", builder.locales);
-        this.om.setInjectableValues(inject);
+        this.locales = builder.locales;
     }
 
     /**
@@ -161,20 +162,25 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                     + ipAddress.getHostAddress() + " is not in the database.");
         }
 
-        ObjectNode ipNode;
-        if (hasTraits) {
-            if (node.has("traits")) {
-                ipNode = jsonNodeToObjectNode(node.get("traits"));
-            } else {
-                ipNode = om.createObjectNode();
-                node.set("traits", ipNode);
+        final String ip = ipAddress.getHostAddress();
+        InjectableValues inject = new InjectableValues() {
+            @Override
+            public Object findInjectableValue(Object valueId, DeserializationContext ctxt,
+                    BeanProperty forProperty, Object beanInstance) {
+                if ("locales".equals(valueId)) {
+                    return locales;
+                }
+                if ("ip_address".equals(valueId)) {
+                    return ip;
+                }
+                if ("traits".equals(valueId)) {
+                    return new Traits(ip);
+                }
+                return null;
             }
-        } else {
-            ipNode = node;
-        }
-        ipNode.put("ip_address", ipAddress.getHostAddress());
+        };
 
-        return this.om.treeToValue(node, cls);
+        return this.om.reader(inject).treeToValue(node, cls);
     }
 
     private ObjectNode jsonNodeToObjectNode(JsonNode node)

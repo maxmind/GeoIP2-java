@@ -1,5 +1,6 @@
 package com.maxmind.geoip2.model;
 
+import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -16,7 +17,7 @@ public class DomainResponse extends AbstractResponse {
 
     public DomainResponse(
             @JsonProperty("domain") String domain,
-            @JsonProperty("ip_address") String ipAddress
+            @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress
     ) {
         this.domain = domain;
         this.ipAddress = ipAddress;
