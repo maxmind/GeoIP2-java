@@ -11,7 +11,6 @@ import com.maxmind.db.Reader.FileMode;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.*;
-import com.maxmind.geoip2.record.Traits;
 
 import java.io.Closeable;
 import java.io.File;
@@ -162,23 +161,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                     + ipAddress.getHostAddress() + " is not in the database.");
         }
 
-        final String ip = ipAddress.getHostAddress();
-        InjectableValues inject = new InjectableValues() {
-            @Override
-            public Object findInjectableValue(Object valueId, DeserializationContext ctxt,
-                    BeanProperty forProperty, Object beanInstance) {
-                if ("locales".equals(valueId)) {
-                    return locales;
-                }
-                if ("ip_address".equals(valueId)) {
-                    return ip;
-                }
-                if ("traits".equals(valueId)) {
-                    return new Traits(ip);
-                }
-                return null;
-            }
-        };
+        InjectableValues inject = new JsonInjector(locales, ipAddress.getHostAddress());
 
         return this.om.reader(inject).treeToValue(node, cls);
     }
