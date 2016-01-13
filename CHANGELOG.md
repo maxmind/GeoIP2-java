@@ -1,6 +1,15 @@
 CHANGELOG
 =========
 
+2.6.0 (2016-01-13)
+------------------
+
+* This release was updated to 1.2.0 of the MaxMind DB reader, which includes
+  faster caching with fewer allocations.
+* The IP addresses in the database models are now injected via Jackson rather
+  than being added to the `JsonNode` before deserialization. Pull requests by
+  Viktor Szathmáry. GitHub #56.
+
 2.5.0 (2016-01-04)
 ------------------
 
