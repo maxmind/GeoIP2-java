@@ -1,34 +1,31 @@
+---
+sudo: false
+addons:
+  coverity_scan:
+    project:
+      description: Build submitted via Travis CI
+      name: maxmind/GeoIP2-java
+    notification_email: dev-ci@maxmind.com
+    build_command_prepend: mvn clean
+    build_command: mvn -DskipTests=true compile
+    branch_pattern: .*coverity.*
 language: java
-
 jdk:
   - openjdk6
   - openjdk7
   - oraclejdk7
   - oraclejdk8
-
-install: mvn install -DskipTests=true -Dgpg.skip=true
-
-after_script: mvn cobertura:cobertura coveralls:cobertura
-
-notifications:
-  email:
-    recipients:
-      - dev-ci@maxmind.com
-    on_success: change
-    on_failure: always
-
-sudo: false
-
 env:
   global:
-   - secure: "NZPWyoQ7lDzSMf6zAUxXNRgwPIWGAIN6eDgTD/vnFxOPYTJX8HEvIAEuoKAqajmJMqRwUl4D1s/cANBY8+IV//KDNiOZY1Hr070Wf2FIrAyxZ13sR3YVHzK6isKF6ISgVub2qyr028Wu1y1Qv2ggx6pRvRfCIBpth3r4l4sKeQU="
-
-addons:
-  coverity_scan:
-    project:
-      name: "maxmind/GeoIP2-java"
-      description: "Build submitted via Travis CI"
-    notification_email: dev-ci@maxmind.com
-    build_command_prepend: "mvn clean"
-    build_command:   "mvn -DskipTests=true compile"
-    branch_pattern: .*coverity.*
+    - secure: NZPWyoQ7lDzSMf6zAUxXNRgwPIWGAIN6eDgTD/vnFxOPYTJX8HEvIAEuoKAqajmJMqRwUl4D1s/cANBY8+IV//KDNiOZY1Hr070Wf2FIrAyxZ13sR3YVHzK6isKF6ISgVub2qyr028Wu1y1Qv2ggx6pRvRfCIBpth3r4l4sKeQU=
+install: mvn install -DskipTests=true -Dgpg.skip=true
+after_script: mvn cobertura:cobertura coveralls:cobertura
+notifications:
+  email:
+    on_failure: always
+    on_success: change
+    recipients:
+      - dev-ci@maxmind.com
+  slack:
+    rooms:
+      secure: "IPTl7X8II+1xqMfOdmoqXOMJXXv3Ej6w7RkfriEQXL2KEjOUXYsP3MeJZ7O86ZA1R1Rpq9wn0x2EpRiyIFa+MWtxFU1LlHFSDsW0hO7X5Jjkw96riWLlNhwLi8UDJdZg8GPzTq/cMY0MCpYrjtN9w5kDQRHDA8s9dyUXPZ4L+iE=\n"
