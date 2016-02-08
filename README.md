@@ -326,6 +326,19 @@ Finally, if the web service returns a 200 but the body is invalid, the client
 throws a `GeoIp2Exception`. This exception also is the parent exception to
 the above exceptions.
 
+## Values to use for Database or Map Keys ##
+
+**We strongly discourage your from using a value from any `names` accessor as
+a key in a database or map.**
+
+These names may change between releases. Instead we recommend using one of the
+following:
+
+* `com.maxmind.geoip2.record.City` - `City.getGeoNameId`
+* `com.maxmind.geoip2.record.Continent` - `Continent.getCode` or `Continent.getGeoNameId`
+* `com.maxmind.geoip2.record.Country` and `com.maxmind.geoip2.record.RepresentedCountry` - `Country.getIsoCode` or `Country.getGeoNameId`
+* `com.maxmind.geoip2.record.Subdivision` - `Subdivision.getIsoCode` or `Subdivision.getGeoNameId`
+
 ## Multi-Threaded Use ##
 
 This API fully supports use in multi-threaded applications. When using the
