@@ -13,6 +13,10 @@ import java.util.Map;
  * <p>
  * This record is returned by all the end points.
  * </p>
+ * <p>
+ * Do not use any of the continent names as a database or map key. Use the
+ * value returned by {@link #getGeoNameId} or {@link #getCode} instead.
+ * </p>
  */
 public final class Continent extends AbstractNamedRecord {
 

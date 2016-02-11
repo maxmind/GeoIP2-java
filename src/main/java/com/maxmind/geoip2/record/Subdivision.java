@@ -13,6 +13,10 @@ import java.util.Map;
  * <p>
  * This record is returned by all the end points except the Country end point.
  * </p>
+ * <p>
+ * Do not use any of the subdivision names as a database or map key. Use the
+ * value returned by {@link #getGeoNameId} or {@link #getIsoCode} instead.
+ * </p>
  */
 public final class Subdivision extends AbstractNamedRecord {
 

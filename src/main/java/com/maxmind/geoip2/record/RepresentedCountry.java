@@ -15,6 +15,10 @@ import java.util.Map;
  * the IP's represented country. The represented country is the country
  * represented by something like a military base.
  * </p>
+ * <p>
+ * Do not use any of the country names as a database or map key. Use the value
+ * returned by getGeoNameId() or getIsoCode() instead.
+ * </p>
  */
 public final class RepresentedCountry extends Country {
 
