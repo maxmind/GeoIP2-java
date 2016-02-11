@@ -17,7 +17,7 @@ import java.util.Map;
  * </p>
  * <p>
  * Do not use any of the country names as a database or map key. Use the value
- * returned by getGeoNameId() or getIsoCode() instead.
+ * returned by {@link #getGeoNameId} or {@link #getIsoCode} instead.
  * </p>
  */
 public final class RepresentedCountry extends Country {
