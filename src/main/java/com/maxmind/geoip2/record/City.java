@@ -13,6 +13,10 @@ import java.util.Map;
  * <p>
  * This record is returned by all the end points except the Country end point.
  * </p>
+ * <p>
+ * Do not use any of the city names as a database or map key. Use the value
+ * returned by {@link #getGeoNameId} instead.
+ * </p>
  */
 public final class City extends AbstractNamedRecord {
 

@@ -13,6 +13,10 @@ import java.util.Map;
  * <p>
  * This record is returned by all the end points.
  * </p>
+ * <p>
+ * Do not use any of the country names as a database or map key. Use the value
+ * returned by {@link #getGeoNameId} or {@link #getIsoCode} instead.
+ * </p>
  */
 public class Country extends AbstractNamedRecord {
 
