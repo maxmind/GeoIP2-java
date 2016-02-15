@@ -328,7 +328,7 @@ the above exceptions.
 
 ## Values to use for Database or Map Keys ##
 
-**We strongly discourage your from using a value from any `names` accessor as
+**We strongly discourage you from using a value from any `getNames` method as
 a key in a database or map.**
 
 These names may change between releases. Instead we recommend using one of the
