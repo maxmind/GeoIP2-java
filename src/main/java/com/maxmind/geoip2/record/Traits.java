@@ -162,7 +162,7 @@ public final class Traits extends AbstractRecord {
     /**
      * @return True if MaxMind believes this IP address to be a legitimate
      * proxy, such as an internal VPN used by a corporation. This is only
-     * available in the GeoIP2 Enterprise database.</a>
+     * available in the GeoIP2 Enterprise database.
      */
     @JsonProperty("is_legitimate_proxy")
     public boolean isLegitimateProxy() {
@@ -170,7 +170,7 @@ public final class Traits extends AbstractRecord {
     }
 
     /**
-     * @return This is true if the IP belong to a satellite internet provider.
+     * @return This is true if the IP belong to a satellite Internet provider.
      * This attribute is returned by all end points.
      * @deprecated Due to increased mobile usage, we have insufficient data to
      * maintain this field.
