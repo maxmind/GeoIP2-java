@@ -39,7 +39,7 @@ public final class City extends AbstractNamedRecord {
     /**
      * @return A value from 0-100 indicating MaxMind's confidence that the city
      * is correct. This attribute is only available from the Insights
-     * end point.
+     * end point and the GeoIP2 Enterprise database.
      */
     public Integer getConfidence() {
         return this.confidence;

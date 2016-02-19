@@ -220,6 +220,23 @@ public class DatabaseReaderTest {
     }
 
     @Test
+    public void testEnterprise() throws Exception {
+        DatabaseReader reader = new DatabaseReader.Builder(
+                getFile("GeoIP2-Enterprise-Test.mmdb")).build();
+        InetAddress ipAddress = InetAddress.getByName("74.209.24.0");
+
+        EnterpriseResponse response = reader.enterprise(ipAddress);
+        assertEquals(11, response.getCity().getConfidence().intValue());
+        assertEquals(99, response.getCountry().getConfidence().intValue());
+        assertEquals(6252001, response.getCountry().getGeoNameId().intValue());
+        assertEquals(27, response.getLocation().getAccuracyRadius().intValue());
+        assertEquals(ConnectionType.CABLE_DSL, response.getTraits().getConnectionType());
+        assertTrue(response.getTraits().isLegitimateProxy());
+        assertEquals(ipAddress.getHostAddress(), response.getTraits().getIpAddress());
+        reader.close();
+    }
+
+    @Test
     public void testIsp() throws Exception {
         DatabaseReader reader = new DatabaseReader.Builder(
                 this.getFile("GeoIP2-ISP-Test.mmdb")).build();

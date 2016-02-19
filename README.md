@@ -286,6 +286,46 @@ DomainResponse response = reader.domain(ipAddress);
 System.out.println(response.getDomain()); // 'Corporate'
 ```
 
+### Enterprise ###
+
+```java
+// A File object pointing to your GeoIP2 Enterprise database
+File database = new File("/path/to/GeoIP2-Enterprise.mmdb");
+
+// This creates the DatabaseReader object, which should be reused across
+// lookups.
+try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
+    InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
+
+    //  Use the enterprise(ip) method to do a lookup in the Enterprise database
+    EnterpriseResponse response = reader.enterprise(ipAddress);
+
+    Country country = response.getCountry();
+    System.out.println(country.getIsoCode());            // 'US'
+    System.out.println(country.getName());               // 'United States'
+    System.out.println(country.getNames().get("zh-CN")); // '美国'
+    System.out.println(country.getConfidence());         // 99
+
+    Subdivision subdivision = response.getMostSpecificSubdivision();
+    System.out.println(subdivision.getName());           // 'Minnesota'
+    System.out.println(subdivision.getIsoCode());        // 'MN'
+    System.out.println(subdivision.getConfidence());     // 77
+
+    City city = response.getCity();
+    System.out.println(city.getName());       // 'Minneapolis'
+    System.out.println(city.getConfidence()); // 11
+
+    Postal postal = response.getPostal();
+    System.out.println(postal.getCode()); // '55455'
+    System.out.println(postal.getConfidence()); // 5
+
+    Location location = response.getLocation();
+    System.out.println(location.getLatitude());  // 44.9733
+    System.out.println(location.getLongitude()); // -93.2323
+    System.out.println(location.getAccuracyRadius()); // 50
+}
+```
+
 ### ISP ###
 
 ```java
@@ -409,9 +449,7 @@ to the client API, please [contact MaxMind support]
 
 ## Requirements  ##
 
-MaxMind has tested this API with Java 6 and above. Reasonable patches
-for Java 5 will be accepted. Patches for 1.4 or earlier will not be
-accepted.
+MaxMind has tested this API with Java 6 and above.
 
 ## Contributing ##
 
@@ -424,6 +462,6 @@ The GeoIP2 Java API uses [Semantic Versioning](http://semver.org/).
 
 ## Copyright and License ##
 
-This software is Copyright (c) 2013 by MaxMind, Inc.
+This software is Copyright (c) 2013-2016 by MaxMind, Inc.
 
 This is free software, licensed under the Apache License, Version 2.0.

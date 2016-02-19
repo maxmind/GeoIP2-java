@@ -42,7 +42,7 @@ public final class Subdivision extends AbstractNamedRecord {
     /**
      * @return This is a value from 0-100 indicating MaxMind's confidence that
      * the subdivision is correct. This attribute is only available from
-     * the Insights end point.
+     * the Insights end point and the GeoIP2 Enterprise database.
      */
     @JsonProperty("confidence")
     public Integer getConfidence() {

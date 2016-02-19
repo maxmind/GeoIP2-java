@@ -251,6 +251,21 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     /**
+     * Look up an IP address in a GeoIP2 Enterprise database.
+     *
+     * @param ipAddress IPv4 or IPv6 address to lookup.
+     * @return an EnterpriseResponse for the requested IP address.
+     * @throws GeoIp2Exception if there is an error looking up the IP
+     * @throws IOException     if there is an IO error
+     */
+    @Override
+    public EnterpriseResponse enterprise(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.get(ipAddress, EnterpriseResponse.class, true, "Enterprise");
+    }
+
+
+    /**
      * Look up an IP address in a GeoIP2 ISP database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
