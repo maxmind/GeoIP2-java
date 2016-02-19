@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.7.0 (2016-XX-XX)
+------------------
+
+* Added support for the GeoIP2 Enterprise database.
+
 2.6.0 (2016-01-13)
 ------------------
 
@@ -31,7 +36,6 @@ CHANGELOG
   readable string, use `toJson()`.
 * This release depends on version 1.0.1 of the MaxMind DB reader, which
   includes several performance enhancements from by Viktor Szathmáry.
-
 
 2.3.1 (2015-07-07)
 ------------------
@@ -149,7 +153,6 @@ CHANGELOG
 
 * Reorganized the response and record classes. The response classes end
   with `Response`. The record classes no longer end in `Record`.
-
 
 0.4.1 (2013-08-16)
 ------------------

@@ -39,6 +39,9 @@ public class JsonTest {
                 .put("user_type", "college")
                 .put("organization", "Blorg")
                 .put("domain", "example.com")
+                // This is here just to simplify the testing. We expect the
+                // difference
+                .put("is_legitimate_proxy", false)
                 .end()
                 .startObjectField("country")
                 .startObjectField("names")
@@ -126,6 +129,9 @@ public class JsonTest {
                 .put("autonomous_system_organization", "AS Organization")
                 .put("organization", "Blorg")
                 .put("domain", "example.com")
+                // This is here just to simplify the testing. We expect the
+                // difference
+                .put("is_legitimate_proxy", false)
                 .end()
                 .startObjectField("country")
                 .startObjectField("names")
@@ -201,6 +207,9 @@ public class JsonTest {
                 .put("is_anonymous_proxy", true)
                 .put("ip_address", "1.2.3.4")
                 .put("is_satellite_provider", true)
+                // This is here just to simplify the testing. We expect the
+                // difference
+                .put("is_legitimate_proxy", false)
                 .end()
                 .startObjectField("country")
                 .startObjectField("names")

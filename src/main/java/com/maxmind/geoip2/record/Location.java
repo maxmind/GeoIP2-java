@@ -74,7 +74,7 @@ public class Location extends AbstractRecord  {
     /**
      * @return The radius in kilometers around the specified location where the
      * IP address is likely to be. This attribute is only available from
-     * the Insights end point.
+     * the Insights end point and the GeoIP2 Enterprise database.
      */
     @JsonProperty("accuracy_radius")
     public Integer getAccuracyRadius() {
