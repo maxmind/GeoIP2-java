@@ -11,9 +11,9 @@ version: v2.6.0
 
 ## Description ##
 
-This distribution provides an API for the GeoIP2 [Precision web services]
-(http://dev.maxmind.com/geoip/geoip2/web-services) and [databases]
-(http://dev.maxmind.com/geoip/geoip2/downloadable). The API also works with
+This distribution provides an API for the GeoIP2 
+[Precision web services](http://dev.maxmind.com/geoip/geoip2/web-services) and 
+[databases](http://dev.maxmind.com/geoip/geoip2/downloadable). The API also works with
 the free [GeoLite2 databases](http://dev.maxmind.com/geoip/geoip2/geolite2/).
 
 ## Installation ##
