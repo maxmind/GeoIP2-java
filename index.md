@@ -402,8 +402,8 @@ data set, it will be automatically incorporated into future MaxMind
 releases.
 
 If you are a paying MaxMind customer and you're not sure where to submit
-a correction, please [contact MaxMind support]
-(http://www.maxmind.com/en/support) for help.
+a correction, please
+[contact MaxMind support](http://www.maxmind.com/en/support) for help.
 
 ## Other Support ##
 
