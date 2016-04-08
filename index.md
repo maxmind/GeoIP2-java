@@ -11,10 +11,10 @@ version: v2.6.0
 
 ## Description ##
 
-This distribution provides an API for the GeoIP2 
-[Precision web services](http://dev.maxmind.com/geoip/geoip2/web-services) and 
-[databases](http://dev.maxmind.com/geoip/geoip2/downloadable). The API also works with
-the free [GeoLite2 databases](http://dev.maxmind.com/geoip/geoip2/geolite2/).
+This distribution provides an API for the GeoIP2
+[Precision web services](http://dev.maxmind.com/geoip/geoip2/web-services) and
+[databases](http://dev.maxmind.com/geoip/geoip2/downloadable). The API also
+works with the free [GeoLite2 databases](http://dev.maxmind.com/geoip/geoip2/geolite2/).
 
 ## Installation ##
 
@@ -238,7 +238,7 @@ File database = new File("/path/to/GeoIP2-Anonymous-IP.mmdb");
 
 // This creates the DatabaseReader object, which should be reused across
 // lookups.
-DatabaseReader reader = new DatabaseReader.Builder(database).build());
+DatabaseReader reader = new DatabaseReader.Builder(database).build();
 
 try {
     InetAddress ipAddress = InetAddress.getByName("85.25.43.84");
@@ -333,6 +333,19 @@ Finally, if the web service returns a 200 but the body is invalid, the client
 throws a `GeoIp2Exception`. This exception also is the parent exception to
 the above exceptions.
 
+## Values to use for Database or Map Keys ##
+
+**We strongly discourage you from using a value from any `getNames` method as
+a key in a database or map.**
+
+These names may change between releases. Instead we recommend using one of the
+following:
+
+* `com.maxmind.geoip2.record.City` - `City.getGeoNameId`
+* `com.maxmind.geoip2.record.Continent` - `Continent.getCode` or `Continent.getGeoNameId`
+* `com.maxmind.geoip2.record.Country` and `com.maxmind.geoip2.record.RepresentedCountry` - `Country.getIsoCode` or `Country.getGeoNameId`
+* `com.maxmind.geoip2.record.Subdivision` - `Subdivision.getIsoCode` or `Subdivision.getGeoNameId`
+
 ## Multi-Threaded Use ##
 
 This API fully supports use in multi-threaded applications. When using the
@@ -394,18 +407,16 @@ a correction, please [contact MaxMind support]
 
 ## Other Support ##
 
-Please report all issues with this code using the [GitHub issue tracker]
-(https://github.com/maxmind/GeoIP2-java/issues).
+Please report all issues with this code using the
+[GitHub issue tracker](https://github.com/maxmind/GeoIP2-java/issues).
 
 If you are having an issue with a MaxMind service that is not specific
-to the client API, please [contact MaxMind support]
-(http://www.maxmind.com/en/support).
+to the client API, please
+[contact MaxMind support](http://www.maxmind.com/en/support).
 
 ## Requirements  ##
 
-MaxMind has tested this API with Java 6 and above. Reasonable patches
-for Java 5 will be accepted. Patches for 1.4 or earlier will not be
-accepted.
+MaxMind has tested this API with Java 6 and above.
 
 ## Contributing ##
 
@@ -418,6 +429,6 @@ The GeoIP2 Java API uses [Semantic Versioning](http://semver.org/).
 
 ## Copyright and License ##
 
-This software is Copyright (c) 2013 by MaxMind, Inc.
+This software is Copyright (c) 2013-2016 by MaxMind, Inc.
 
 This is free software, licensed under the Apache License, Version 2.0.
