@@ -4,10 +4,10 @@
 
 ## Description ##
 
-This distribution provides an API for the GeoIP2 [Precision web services]
-(http://dev.maxmind.com/geoip/geoip2/web-services) and [databases]
-(http://dev.maxmind.com/geoip/geoip2/downloadable). The API also works with
-the free [GeoLite2 databases](http://dev.maxmind.com/geoip/geoip2/geolite2/).
+This distribution provides an API for the GeoIP2
+[Precision web services](http://dev.maxmind.com/geoip/geoip2/web-services) and
+[databases](http://dev.maxmind.com/geoip/geoip2/downloadable). The API also
+works with the free [GeoLite2 databases](http://dev.maxmind.com/geoip/geoip2/geolite2/).
 
 ## Installation ##
 
@@ -231,7 +231,7 @@ File database = new File("/path/to/GeoIP2-Anonymous-IP.mmdb");
 
 // This creates the DatabaseReader object, which should be reused across
 // lookups.
-DatabaseReader reader = new DatabaseReader.Builder(database).build());
+DatabaseReader reader = new DatabaseReader.Builder(database).build();
 
 try {
     InetAddress ipAddress = InetAddress.getByName("85.25.43.84");
@@ -440,12 +440,12 @@ a correction, please [contact MaxMind support]
 
 ## Other Support ##
 
-Please report all issues with this code using the [GitHub issue tracker]
-(https://github.com/maxmind/GeoIP2-java/issues).
+Please report all issues with this code using the
+[GitHub issue tracker](https://github.com/maxmind/GeoIP2-java/issues).
 
 If you are having an issue with a MaxMind service that is not specific
-to the client API, please [contact MaxMind support]
-(http://www.maxmind.com/en/support).
+to the client API, please
+[contact MaxMind support](http://www.maxmind.com/en/support).
 
 ## Requirements  ##
 
