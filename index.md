@@ -2,7 +2,7 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v2.6.0
+version: v2.7.0
 ---
 
 # GeoIP2 Java API #
@@ -27,7 +27,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>2.6.0</version>
+        <version>2.7.0</version>
     </dependency>
 ```
 
@@ -40,7 +40,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.maxmind.geoip2:geoip2:2.6.0'
+    compile 'com.maxmind.geoip2:geoip2:2.7.0'
 }
 ```
 
@@ -65,6 +65,12 @@ point you called. This model in turn contains multiple record classes, each of
 which represents part of the data returned by the web service.
 
 See the API documentation for more details.
+
+## IP Geolocation Usage ##
+
+IP geolocation is inherently imprecise. Locations are often near the center of
+the population. Any location provided by a GeoIP2 database or web service
+should not be used to identify a particular address or household.
 
 ## Web Service Example ##
 
@@ -293,6 +299,46 @@ DomainResponse response = reader.domain(ipAddress);
 System.out.println(response.getDomain()); // 'Corporate'
 ```
 
+### Enterprise ###
+
+```java
+// A File object pointing to your GeoIP2 Enterprise database
+File database = new File("/path/to/GeoIP2-Enterprise.mmdb");
+
+// This creates the DatabaseReader object, which should be reused across
+// lookups.
+try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
+    InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
+
+    //  Use the enterprise(ip) method to do a lookup in the Enterprise database
+    EnterpriseResponse response = reader.enterprise(ipAddress);
+
+    Country country = response.getCountry();
+    System.out.println(country.getIsoCode());            // 'US'
+    System.out.println(country.getName());               // 'United States'
+    System.out.println(country.getNames().get("zh-CN")); // '美国'
+    System.out.println(country.getConfidence());         // 99
+
+    Subdivision subdivision = response.getMostSpecificSubdivision();
+    System.out.println(subdivision.getName());           // 'Minnesota'
+    System.out.println(subdivision.getIsoCode());        // 'MN'
+    System.out.println(subdivision.getConfidence());     // 77
+
+    City city = response.getCity();
+    System.out.println(city.getName());       // 'Minneapolis'
+    System.out.println(city.getConfidence()); // 11
+
+    Postal postal = response.getPostal();
+    System.out.println(postal.getCode()); // '55455'
+    System.out.println(postal.getConfidence()); // 5
+
+    Location location = response.getLocation();
+    System.out.println(location.getLatitude());  // 44.9733
+    System.out.println(location.getLongitude()); // -93.2323
+    System.out.println(location.getAccuracyRadius()); // 50
+}
+```
+
 ### ISP ###
 
 ```java
@@ -402,8 +448,8 @@ data set, it will be automatically incorporated into future MaxMind
 releases.
 
 If you are a paying MaxMind customer and you're not sure where to submit
-a correction, please
-[contact MaxMind support](http://www.maxmind.com/en/support) for help.
+a correction, please [contact MaxMind support]
+(http://www.maxmind.com/en/support) for help.
 
 ## Other Support ##
 
