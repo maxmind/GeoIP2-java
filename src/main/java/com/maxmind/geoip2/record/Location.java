@@ -94,18 +94,20 @@ public class Location extends AbstractRecord  {
     }
 
     /**
-     * @return The latitude of the location as a floating point number. This
-     * attribute is returned by all end points except the Country end
-     * point.
+     * @return The approximate latitude of the location associated with the
+     * IP address. This value is not precise and should not be used to
+     * identify a particular address or household. This attribute is returned
+     * by all end points and location databases except Country.
      */
     public Double getLatitude() {
         return this.latitude;
     }
 
     /**
-     * @return The longitude of the location as a floating point number. This
-     * attribute is returned by all end points except the Country end
-     * point.
+     * @return The approximate longitude of the location associated with the
+     * IP address. This value is not precise and should not be used to
+     * identify a particular address or household. This attribute is returned
+     * by all end points and location databases except Country.
      */
     public Double getLongitude() {
         return this.longitude;
