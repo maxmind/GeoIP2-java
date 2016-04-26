@@ -6,9 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * <p>
  * Contains data for the location record associated with an IP address.
  * </p>
- * <p>
- * This record is returned by all the end points except the Country end point.
- * </p>
  */
 public class Location extends AbstractRecord  {
 
@@ -63,8 +60,7 @@ public class Location extends AbstractRecord  {
     /**
      * @return The time zone associated with location, as specified by the <a
      * href="http://www.iana.org/time-zones">IANA Time Zone
-     * Database</a>, e.g., "America/New_York". This attribute is
-     * returned by all end points except the Country end point.
+     * Database</a>, e.g., "America/New_York".
      */
     @JsonProperty("time_zone")
     public String getTimeZone() {
@@ -73,8 +69,7 @@ public class Location extends AbstractRecord  {
 
     /**
      * @return The radius in kilometers around the specified location where the
-     * IP address is likely to be. This attribute is only available from
-     * the Insights end point and the GeoIP2 Enterprise database.
+     * IP address is likely to be.
      */
     @JsonProperty("accuracy_radius")
     public Integer getAccuracyRadius() {
@@ -85,8 +80,7 @@ public class Location extends AbstractRecord  {
      * @return The metro code of the location if the location is in the US.
      * MaxMind returns the same metro codes as the <a href=
      * "https://developers.google.com/adwords/api/docs/appendix/cities-DMAregions"
-     * >Google AdWords API</a>. This attribute is returned by all end
-     * points except the Country end point.
+     * >Google AdWords API</a>.
      */
     @JsonProperty("metro_code")
     public Integer getMetroCode() {
@@ -96,8 +90,7 @@ public class Location extends AbstractRecord  {
     /**
      * @return The approximate latitude of the location associated with the
      * IP address. This value is not precise and should not be used to
-     * identify a particular address or household. This attribute is returned
-     * by all end points and location databases except Country.
+     * identify a particular address or household.
      */
     public Double getLatitude() {
         return this.latitude;
@@ -106,8 +99,7 @@ public class Location extends AbstractRecord  {
     /**
      * @return The approximate longitude of the location associated with the
      * IP address. This value is not precise and should not be used to
-     * identify a particular address or household. This attribute is returned
-     * by all end points and location databases except Country.
+     * identify a particular address or household.
      */
     public Double getLongitude() {
         return this.longitude;
