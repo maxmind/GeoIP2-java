@@ -100,6 +100,7 @@ public class DatabaseReaderTest {
             GeoIp2Exception {
         CityResponse city = reader.city(InetAddress.getByName("81.2.69.160"));
         assertEquals("London", city.getCity().getName());
+        assertEquals(100, city.getLocation().getAccuracyRadius().longValue());
         reader.close();
     }
 
