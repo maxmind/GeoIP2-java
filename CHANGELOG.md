@@ -1,9 +1,11 @@
 CHANGELOG
 =========
 
-2.7.1 (2016-XX-XX)
+2.8.0 (2016-XX-XX)
 ------------------
 
+* `WebServiceClient` now creates one `HttpTransport` per object rather than
+  one per request. Pull request by Raman Gupta. GitHub #70 & #71.
 * Updated documentation to reflect that the accuracy radius is now included
   in City.
 
