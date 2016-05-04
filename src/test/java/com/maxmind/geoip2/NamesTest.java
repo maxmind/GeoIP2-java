@@ -16,7 +16,7 @@ public class NamesTest {
     @Test
     public void testNames() throws Exception {
         WebServiceClient client = new WebServiceClient.Builder(42,
-                "abcdef123456").testTransport(this.transport)
+                "abcdef123456").httpTransport(this.transport)
                 .locales(Arrays.asList("zh-CN", "ru")).build();
 
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
@@ -31,7 +31,7 @@ public class NamesTest {
     @Test
     public void russianFallback() throws Exception {
         WebServiceClient client = new WebServiceClient.Builder(42,
-                "abcdef123456").testTransport(this.transport)
+                "abcdef123456").httpTransport(this.transport)
                 .locales(Arrays.asList("as", "ru")).build();
 
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
@@ -44,7 +44,7 @@ public class NamesTest {
     @Test
     public void testFallback() throws Exception {
         WebServiceClient client = new WebServiceClient.Builder(42,
-                "abcdef123456").testTransport(this.transport)
+                "abcdef123456").httpTransport(this.transport)
                 .locales(Arrays.asList("pt", "en", "zh-CN")).build();
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
         assertEquals("en is returned when pt is missing", "North America", city.getContinent()
@@ -55,7 +55,7 @@ public class NamesTest {
     @Test
     public void noFallback() throws Exception {
         WebServiceClient client = new WebServiceClient.Builder(42,
-                "abcdef123456").testTransport(this.transport)
+                "abcdef123456").httpTransport(this.transport)
                 .locales(Arrays.asList("pt", "es", "af")).build();
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
 
@@ -66,7 +66,7 @@ public class NamesTest {
     @Test
     public void noLocale() throws Exception {
         WebServiceClient client = new WebServiceClient.Builder(42,
-                "abcdef123456").testTransport(this.transport).build();
+                "abcdef123456").httpTransport(this.transport).build();
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
         assertEquals("en is returned when no locales are specified", "North America", city
                 .getContinent().getName());
@@ -76,7 +76,7 @@ public class NamesTest {
     @Test
     public void testMissing() throws Exception {
         WebServiceClient client = new WebServiceClient.Builder(42,
-                "abcdef123456").testTransport(this.transport)
+                "abcdef123456").httpTransport(this.transport)
                 .locales(Collections.singletonList("en")).build();
 
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));

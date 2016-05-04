@@ -83,7 +83,7 @@ public class WebServiceClient implements GeoIp2Provider {
     private final String licenseKey;
     private final int connectTimeout;
     private final int readTimeout;
-    private final HttpTransport testTransport;
+    private final HttpTransport httpTransport;
     private final int userId;
     private final ObjectMapper mapper;
 
@@ -93,7 +93,7 @@ public class WebServiceClient implements GeoIp2Provider {
         this.licenseKey = builder.licenseKey;
         this.connectTimeout = builder.connectTimeout;
         this.readTimeout = builder.readTimeout;
-        this.testTransport = builder.testTransport;
+        this.httpTransport = builder.httpTransport == null ? new NetHttpTransport() : builder.httpTransport;
         this.userId = builder.userId;
 
         this.mapper = new ObjectMapper();
@@ -129,7 +129,7 @@ public class WebServiceClient implements GeoIp2Provider {
         List<String> locales = Collections.singletonList("en");
         int connectTimeout = 3000;
         int readTimeout = 20000;
-        HttpTransport testTransport;
+        HttpTransport httpTransport;
 
         /**
          * @param userId     Your MaxMind user ID.
@@ -181,11 +181,22 @@ public class WebServiceClient implements GeoIp2Provider {
         }
 
         /**
-         * @param val Transport for unit testing.
+         * @param val Transport for unit testing or to override the default Transport.
+         *            The injected transport should be thread-safe.
          * @return Builder object
          */
+        Builder httpTransport(HttpTransport val) {
+            this.httpTransport = val;
+            return this;
+        }
+
+        /**
+         * @param val Transport for unit testing.
+         * @return Builder object
+         * @deprecated Replace with {@link #httpTransport}.
+         */
         Builder testTransport(HttpTransport val) {
-            this.testTransport = val;
+            this.httpTransport = val;
             return this;
         }
 
@@ -275,12 +286,7 @@ public class WebServiceClient implements GeoIp2Provider {
 
     private HttpResponse getResponse(GenericUrl uri) throws GeoIp2Exception,
             IOException {
-        // We only use a instance variable for HttpTransport when unit testing
-        // as
-        // HttpTransport is not thread safe.
-        HttpTransport transport = this.testTransport == null ? new NetHttpTransport()
-                : this.testTransport;
-        HttpRequestFactory requestFactory = transport.createRequestFactory();
+        HttpRequestFactory requestFactory = httpTransport.createRequestFactory();
         HttpRequest request;
         try {
             request = requestFactory.buildGetRequest(uri);

@@ -14,7 +14,7 @@ public class HostTest {
     public void insights() throws Exception {
         HttpTransport transport = new TestTransport();
         WebServiceClient client = new WebServiceClient.Builder(42,
-                "abcdef123456").host("blah.com").testTransport(transport)
+                "abcdef123456").host("blah.com").httpTransport(transport)
                 .build();
 
         InsightsResponse insights = client.insights(InetAddress

@@ -17,7 +17,7 @@ public class ExceptionTest {
     private final HttpTransport transport = new TestTransport();
 
     private final WebServiceClient client = new WebServiceClient.Builder(42,
-            "abcdef123456").testTransport(this.transport).build();
+            "abcdef123456").httpTransport(this.transport).build();
 
     @Rule
     public ExpectedException exception = ExpectedException.none();

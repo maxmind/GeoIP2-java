@@ -16,7 +16,7 @@ public class NullTest {
     private final HttpTransport transport = new TestTransport();
 
     private final WebServiceClient client = new WebServiceClient.Builder(42,
-            "abcdef123456").testTransport(this.transport).build();
+            "abcdef123456").httpTransport(this.transport).build();
 
     @Test
     public void testDefaults() throws Exception {
