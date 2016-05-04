@@ -21,7 +21,7 @@ public class InsightsTest {
         HttpTransport transport = new TestTransport();
 
         WebServiceClient client = new WebServiceClient.Builder(42, "012345689")
-                .testTransport(transport).build();
+                .httpTransport(transport).build();
 
         this.insights = client.insights(InetAddress.getByName("1.1.1.1"));
     }

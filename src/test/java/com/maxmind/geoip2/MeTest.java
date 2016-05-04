@@ -14,7 +14,7 @@ public class MeTest {
         HttpTransport transport = new TestTransport();
 
         this.client = new WebServiceClient.Builder(42, "abcdef123456")
-                .testTransport(transport).build();
+                .httpTransport(transport).build();
 
     }
 
