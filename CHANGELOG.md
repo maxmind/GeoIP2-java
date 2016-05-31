@@ -8,6 +8,7 @@ CHANGELOG
   one per request. Pull request by Raman Gupta. GitHub #70 & #71.
 * Updated documentation to reflect that the accuracy radius is now included
   in City.
+* Updated dependencies.
 
 2.7.0 (2016-04-15)
 ------------------
