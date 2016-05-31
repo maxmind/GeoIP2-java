@@ -234,7 +234,7 @@ public final class TestTransport extends MockHttpTransport {
                     return this.getResponse("error", 401, body);
                 } else if (path.equals("country/2.2.3.1")) {
                     String body = "{\"code\":\"USER_ID_UNKNOWN\","
-                            + "\"error\":\"You have not supplied an unknown user ID.\"}";
+                            + "\"error\":\"You have supplied an unknown user ID.\"}";
                     return this.getResponse("error", 401, body);
                 } else if (path.equals("country/1.2.3.21")) {
                     String body = "{\"code\":\"OUT_OF_QUERIES\","

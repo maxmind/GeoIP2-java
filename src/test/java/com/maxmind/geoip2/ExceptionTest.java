@@ -144,7 +144,7 @@ public class ExceptionTest {
     public void unknownUserID() throws Exception {
         this.exception.expect(AuthenticationException.class);
         this.exception
-                .expectMessage(containsString("You have not supplied an unknown user ID."));
+                .expectMessage(containsString("You have supplied an unknown user ID."));
 
         this.client.country(InetAddress.getByName("2.2.3.1"));
     }
