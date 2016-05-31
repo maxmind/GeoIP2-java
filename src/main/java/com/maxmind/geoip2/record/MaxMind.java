@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This record is returned by all the end points.
  * </p>
  */
-public final class MaxMind extends AbstractRecord  {
+public final class MaxMind extends AbstractRecord {
 
     private final Integer queriesRemaining;
 

@@ -378,10 +378,14 @@ public class WebServiceClient implements GeoIp2Provider {
             throw new AddressNotFoundException(error);
         } else if (code.equals("AUTHORIZATION_INVALID")
                 || code.equals("LICENSE_KEY_REQUIRED")
-                || code.equals("USER_ID_REQUIRED")) {
+                || code.equals("USER_ID_REQUIRED")
+                || code.equals("USER_ID_UNKNOWN")) {
             throw new AuthenticationException(error);
-        } else if (code.equals("OUT_OF_QUERIES")) {
+        } else if (code.equals("INSUFFICIENT_FUNDS")
+                || code.equals("OUT_OF_QUERIES")) {
             throw new OutOfQueriesException(error);
+        } else if (code.equals("PERMISSION_REQUIRED")) {
+            throw new PermissionRequiredException(error);
         }
 
         // These should be fairly rare

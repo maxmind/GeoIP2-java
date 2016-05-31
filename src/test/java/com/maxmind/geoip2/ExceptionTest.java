@@ -4,14 +4,18 @@ import com.google.api.client.http.HttpTransport;
 import com.maxmind.geoip2.exception.*;
 import com.maxmind.geoip2.matchers.CodeMatcher;
 import com.maxmind.geoip2.matchers.HttpStatusMatcher;
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 
 import java.net.InetAddress;
 
 import static org.hamcrest.CoreMatchers.containsString;
 
+@RunWith(JUnitParamsRunner.class)
 public class ExceptionTest {
 
     private final HttpTransport transport = new TestTransport();
@@ -128,6 +132,24 @@ public class ExceptionTest {
     }
 
     @Test
+    public void permissionRequired() throws Exception {
+        this.exception.expect(PermissionRequiredException.class);
+        this.exception
+                .expectMessage(containsString("You do not have permission to use this service."));
+
+        this.client.country(InetAddress.getByName("3.3.3.3"));
+    }
+
+    @Test
+    public void unknownUserID() throws Exception {
+        this.exception.expect(AuthenticationException.class);
+        this.exception
+                .expectMessage(containsString("You have supplied an unknown user ID."));
+
+        this.client.country(InetAddress.getByName("2.2.3.1"));
+    }
+
+    @Test
     public void invalidAuth() throws Exception {
         this.exception.expect(AuthenticationException.class);
         this.exception
@@ -137,30 +159,22 @@ public class ExceptionTest {
     }
 
     @Test
-    public void missingLicense() throws Exception {
+    @Parameters({"1.2.3.19", "1.2.3.20"})
+    public void missingAuth(String ip) throws Exception {
         this.exception.expect(AuthenticationException.class);
         this.exception
-                .expectMessage(containsString("You have not supplied a MaxMind license key in the Authorization header."));
+                .expectMessage(containsString("You have not supplied a MaxMind user ID or license key in the Authorization header."));
 
-        this.client.country(InetAddress.getByName("1.2.3.19"));
+        this.client.country(InetAddress.getByName(ip));
     }
 
     @Test
-    public void missingUserID() throws Exception {
-        this.exception.expect(AuthenticationException.class);
-        this.exception
-                .expectMessage(containsString("You have not supplied a MaxMind user ID in the Authorization header."));
-
-        this.client.country(InetAddress.getByName("1.2.3.20"));
-    }
-
-    @Test
-    public void outOfQueries() throws Exception {
+    @Parameters({"1.2.3.21", "1.2.3.22"})
+    public void outOfQueries(String ip) throws Exception {
         this.exception.expect(OutOfQueriesException.class);
         this.exception
                 .expectMessage(containsString("The license key you have provided is out of queries."));
 
-        this.client.country(InetAddress.getByName("1.2.3.21"));
+        this.client.country(InetAddress.getByName(ip));
     }
-
 }

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Contains data for the location record associated with an IP address.
  * </p>
  */
-public class Location extends AbstractRecord  {
+public class Location extends AbstractRecord {
 
     private final Integer accuracyRadius;
     private final Integer averageIncome;

@@ -1,11 +1,11 @@
 package com.maxmind.geoip2;
 
-import java.util.List;
-
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.InjectableValues;
 import com.maxmind.geoip2.record.Traits;
+
+import java.util.List;
 
 class JsonInjector extends InjectableValues {
     private final List<String> locales;
@@ -18,7 +18,7 @@ class JsonInjector extends InjectableValues {
 
     @Override
     public Object findInjectableValue(Object valueId, DeserializationContext ctxt,
-            BeanProperty forProperty, Object beanInstance) {
+                                      BeanProperty forProperty, Object beanInstance) {
         if ("locales".equals(valueId)) {
             return locales;
         }

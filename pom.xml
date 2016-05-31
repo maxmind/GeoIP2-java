@@ -48,19 +48,25 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>pl.pragmatists</groupId>
+            <artifactId>JUnitParams</artifactId>
+            <version>1.0.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.google.http-client</groupId>
             <artifactId>google-http-client</artifactId>
-            <version>1.21.0</version>
+            <version>1.22.0</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.7.3</version>
+            <version>2.7.4</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.jr</groupId>
             <artifactId>jackson-jr-objects</artifactId>
-            <version>2.7.3</version>
+            <version>2.7.4</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
