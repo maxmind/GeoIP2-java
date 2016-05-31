@@ -216,20 +216,32 @@ public final class TestTransport extends MockHttpTransport {
                     String body = "{\"code\":\"IP_ADDRESS_RESERVED\","
                             + "\"error\":\"The value 1.2.3.17 belongs to a reserved or private range.\"}";
                     return this.getResponse("error", 400, body);
+                } else if (path.equals("country/3.3.3.3")) {
+                    String body = "{\"code\":\"PERMISSION_REQUIRED\","
+                            + "\"error\":\"You do not have permission to use this service.\"}";
+                    return this.getResponse("error", 403, body);
                 } else if (path.equals("country/1.2.3.18")) {
                     String body = "{\"code\":\"AUTHORIZATION_INVALID\","
                             + "\"error\":\"You have supplied an invalid MaxMind user ID and/or license key in the Authorization header.\"}";
                     return this.getResponse("error", 401, body);
                 } else if (path.equals("country/1.2.3.19")) {
                     String body = "{\"code\":\"LICENSE_KEY_REQUIRED\","
-                            + "\"error\":\"You have not supplied a MaxMind license key in the Authorization header.\"}";
+                            + "\"error\":\"You have not supplied a MaxMind user ID or license key in the Authorization header.\"}";
                     return this.getResponse("error", 401, body);
                 } else if (path.equals("country/1.2.3.20")) {
                     String body = "{\"code\":\"USER_ID_REQUIRED\","
-                            + "\"error\":\"You have not supplied a MaxMind user ID in the Authorization header.\"}";
+                            + "\"error\":\"You have not supplied a MaxMind user ID or license key in the Authorization header.\"}";
+                    return this.getResponse("error", 401, body);
+                } else if (path.equals("country/2.2.3.1")) {
+                    String body = "{\"code\":\"USER_ID_UNKNOWN\","
+                            + "\"error\":\"You have not supplied an unknown user ID.\"}";
                     return this.getResponse("error", 401, body);
                 } else if (path.equals("country/1.2.3.21")) {
                     String body = "{\"code\":\"OUT_OF_QUERIES\","
+                            + "\"error\":\"The license key you have provided is out of queries. Please purchase more queries to use this service.\"}";
+                    return this.getResponse("error", 402, body);
+                } else if (path.equals("country/1.2.3.22")) {
+                    String body = "{\"code\":\"INSUFFICIENT_FUNDS\","
                             + "\"error\":\"The license key you have provided is out of queries. Please purchase more queries to use this service.\"}";
                     return this.getResponse("error", 402, body);
                 } else if (path

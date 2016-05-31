@@ -2,11 +2,7 @@ package com.maxmind.geoip2;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.maxmind.db.InvalidDatabaseException;
-import com.maxmind.db.Metadata;
-import com.maxmind.db.NoCache;
-import com.maxmind.db.NodeCache;
-import com.maxmind.db.Reader;
+import com.maxmind.db.*;
 import com.maxmind.db.Reader.FileMode;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
@@ -140,7 +136,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * @throws IOException              if there is an error opening or reading from the file.
      * @throws AddressNotFoundException if the IP address is not in our database
      */
-    private <T> T get(InetAddress ipAddress, Class<T> cls, boolean hasTraits,
+    private <T> T get(InetAddress ipAddress, Class<T> cls,
                       String type) throws IOException, AddressNotFoundException {
 
         String databaseType = this.getMetadata().getDatabaseType();
@@ -197,13 +193,13 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public CountryResponse country(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, CountryResponse.class, true, "Country");
+        return this.get(ipAddress, CountryResponse.class, "Country");
     }
 
     @Override
     public CityResponse city(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, CityResponse.class, true, "City");
+        return this.get(ipAddress, CityResponse.class, "City");
     }
 
     /**
@@ -217,7 +213,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public AnonymousIpResponse anonymousIp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, AnonymousIpResponse.class, false, "GeoIP2-Anonymous-IP");
+        return this.get(ipAddress, AnonymousIpResponse.class, "GeoIP2-Anonymous-IP");
     }
 
     /**
@@ -231,7 +227,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public ConnectionTypeResponse connectionType(InetAddress ipAddress)
             throws IOException, GeoIp2Exception {
-        return this.get(ipAddress, ConnectionTypeResponse.class, false,
+        return this.get(ipAddress, ConnectionTypeResponse.class,
                 "GeoIP2-Connection-Type");
     }
 
@@ -247,7 +243,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     public DomainResponse domain(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this
-                .get(ipAddress, DomainResponse.class, false, "GeoIP2-Domain");
+                .get(ipAddress, DomainResponse.class, "GeoIP2-Domain");
     }
 
     /**
@@ -261,7 +257,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public EnterpriseResponse enterprise(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, EnterpriseResponse.class, true, "Enterprise");
+        return this.get(ipAddress, EnterpriseResponse.class, "Enterprise");
     }
 
 
@@ -276,7 +272,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public IspResponse isp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, IspResponse.class, false, "GeoIP2-ISP");
+        return this.get(ipAddress, IspResponse.class, "GeoIP2-ISP");
     }
 
     /**

@@ -4,6 +4,7 @@ CHANGELOG
 2.8.0 (2016-XX-XX)
 ------------------
 
+* Added handling of additional error codes that the web service may return.
 * `WebServiceClient` now creates one `HttpTransport` per object rather than
   one per request. Pull request by Raman Gupta. GitHub #70 & #71.
 * Updated documentation to reflect that the accuracy radius is now included
