@@ -11,7 +11,6 @@ addons:
     branch_pattern: .*coverity.*
 language: java
 jdk:
-  - openjdk6
   - openjdk7
   - oraclejdk7
   - oraclejdk8

@@ -4,9 +4,16 @@ CHANGELOG
 2.8.0 (2016-XX-XX)
 ------------------
 
-* Added handling of additional error codes that the web service may return.
-* `WebServiceClient` now creates one `HttpTransport` per object rather than
-  one per request. Pull request by Raman Gupta. GitHub #70 & #71.
+* IMPORTANT: Java 7 is now required. If you need Java 6 support, please
+  continue using 2.7.0 or earlier.
+* This library no longer uses Google HTTP Client. It now directly uses
+  Apache HttpClient. Closes #40, #66.
+* `WebServiceClient` now implements `Closeable`. A pool of connections will be
+  kept alive to be used across requests. To ensure all connections are closed
+  when the object goes out of scope, call `close()` or use the
+  try-with-resource statement as appropriate.
+* Setting of a proxy for the `WebServiceClient` is now supported by the
+  `proxy(Proxy)` builder method.
 * Updated documentation to reflect that the accuracy radius is now included
   in City.
 * Updated dependencies.
