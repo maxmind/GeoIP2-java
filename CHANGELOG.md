@@ -1,8 +1,8 @@
 CHANGELOG
 =========
 
-2.8.0-rc.1 (2016-06-20)
------------------------
+2.8.0-rc1 (2016-06-20)
+----------------------
 
 * IMPORTANT: Java 7 is now required. If you need Java 6 support, please
   continue using 2.7.0 or earlier.
