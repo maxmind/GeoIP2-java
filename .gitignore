@@ -15,4 +15,5 @@ doc
 hs_err*.log
 target
 reports
+Benchmark.java
 Test.java
