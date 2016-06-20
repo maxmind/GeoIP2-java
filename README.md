@@ -71,90 +71,102 @@ should not be used to identify a particular address or household.
 
 ```java
 // This creates a WebServiceClient object that can be reused across requests.
-// Replace "42" with your user ID and "license_key" with your license key.
-WebServiceClient client = new WebServiceClient.Builder(42, "license_key").build();
+// The object is closeable and will keep connections alive for future
+// requests. Replace "42" with your user ID and "license_key" with your
+// license key.
+try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
+        .build()) {
 
-InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
+    InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
-// Do the lookup
-CountryResponse response = client.country(ipAddress);
+    // Do the lookup
+    CountryResponse response = client.country(ipAddress);
 
-Country country = response.getCountry();
-System.out.println(country.getIsoCode());            // 'US'
-System.out.println(country.getName());               // 'United States'
-System.out.println(country.getNames().get("zh-CN")); // '美国'
+    Country country = response.getCountry();
+    System.out.println(country.getIsoCode());            // 'US'
+    System.out.println(country.getName());               // 'United States'
+    System.out.println(country.getNames().get("zh-CN")); // '美国'
+}
 ```
 
 ### City Service ###
 
 ```java
 // This creates a WebServiceClient object that can be reused across requests.
-// Replace "42" with your user ID and "license_key" with your license key.
-WebServiceClient client = new WebServiceClient.Builder(42, "license_key").build();
+// The object is closeable and will keep connections alive for future
+// requests. Replace "42" with your user ID and "license_key" with your
+// license key.
+try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
+        .build()) {
 
-InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
+    InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
-// Do the lookup
-CityResponse response = client.city(ipAddress);
+    // Do the lookup
+    CityResponse response = client.city(ipAddress);
 
-Country country = response.getCountry();
-System.out.println(country.getIsoCode());            // 'US'
-System.out.println(country.getName());               // 'United States'
-System.out.println(country.getNames().get("zh-CN")); // '美国'
+    Country country = response.getCountry();
+    System.out.println(country.getIsoCode());            // 'US'
+    System.out.println(country.getName());               // 'United States'
+    System.out.println(country.getNames().get("zh-CN")); // '美国'
 
-Subdivision subdivision = response.getMostSpecificSubdivision();
-System.out.println(subdivision.getName());       // 'Minnesota'
-System.out.println(subdivision.getIsoCode());    // 'MN'
+    Subdivision subdivision = response.getMostSpecificSubdivision();
+    System.out.println(subdivision.getName());       // 'Minnesota'
+    System.out.println(subdivision.getIsoCode());    // 'MN'
 
-City city = response.getCity();
-System.out.println(city.getName());       // 'Minneapolis'
+    City city = response.getCity();
+    System.out.println(city.getName());       // 'Minneapolis'
 
-Postal postal = response.getPostal();
-System.out.println(postal.getCode());       // '55455'
+    Postal postal = response.getPostal();
+    System.out.println(postal.getCode());       // '55455'
 
-Location location = response.getLocation();
-System.out.println(location.getLatitude());        // 44.9733
-System.out.println(location.getLongitude());       // -93.2323
+    Location location = response.getLocation();
+    System.out.println(location.getLatitude());        // 44.9733
+    System.out.println(location.getLongitude());       // -93.2323
+}
 ```
 
 ### Insights Service ###
 
 ```java
 // This creates a WebServiceClient object that can be reused across requests.
-// Replace "42" with your user ID and "license_key" with your license key.
-WebServiceClient client = new WebServiceClient.Builder(42, "license_key").build();
+// The object is closeable and will keep connections alive for future
+// requests. Replace "42" with your user ID and "license_key" with your
+// license key.
+try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
+        .build()) {
 
-InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
+    InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
-// Do the lookup
-InsightsResponse response = client.insights(ipAddress);
+    // Do the lookup
+    InsightsResponse response = client.insights(ipAddress);
 
-Country country = response.getCountry();
-System.out.println(country.getIsoCode());            // 'US'
-System.out.println(country.getName());               // 'United States'
-System.out.println(country.getNames().get("zh-CN")); // '美国'
-System.out.println(country.getConfidence());         // 99
+    Country country = response.getCountry();
+    System.out.println(country.getIsoCode());            // 'US'
+    System.out.println(country.getName());               // 'United States'
+    System.out.println(country.getNames().get("zh-CN")); // '美国'
+    System.out.println(country.getConfidence());         // 99
 
-Subdivision subdivision = response.getMostSpecificSubdivision();
-System.out.println(subdivision.getName());       // 'Minnesota'
-System.out.println(subdivision.getIsoCode());    // 'MN'
-System.out.println(subdivision.getConfidence()); // 90
+    Subdivision subdivision = response.getMostSpecificSubdivision();
+    System.out.println(subdivision.getName());       // 'Minnesota'
+    System.out.println(subdivision.getIsoCode());    // 'MN'
+    System.out.println(subdivision.getConfidence()); // 90
 
-City city = response.getCity();
-System.out.println(city.getName());       // 'Minneapolis'
-System.out.println(city.getConfidence()); // 50
+    City city = response.getCity();
+    System.out.println(city.getName());       // 'Minneapolis'
+    System.out.println(city.getConfidence()); // 50
 
-Postal postal = response.getPostal();
-System.out.println(postal.getCode());       // '55455'
-System.out.println(postal.getConfidence()); // 40
+    Postal postal = response.getPostal();
+    System.out.println(postal.getCode());       // '55455'
+    System.out.println(postal.getConfidence()); // 40
 
-Location location = response.getLocation();
-System.out.println(location.getLatitude());        // 44.9733
-System.out.println(location.getLongitude());       // -93.2323
-System.out.println(location.getAccuracyRadius());  // 3
-System.out.println(location.getTimeZone());        // 'America/Chicago'
+    Location location = response.getLocation();
+    System.out.println(location.getLatitude());        // 44.9733
+    System.out.println(location.getLongitude());       // -93.2323
+    System.out.println(location.getAccuracyRadius());  // 3
+    System.out.println(location.getTimeZone());        // 'America/Chicago'
 
-System.out.println(response.getTraits().getUserType()); // 'college'
+    System.out.println(response.getTraits().getUserType()); // 'college'
+}
 ```
 
 ## Database Usage ##

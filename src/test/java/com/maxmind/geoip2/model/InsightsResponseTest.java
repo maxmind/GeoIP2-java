@@ -1,27 +1,121 @@
-package com.maxmind.geoip2;
+package com.maxmind.geoip2.model;
 
-import com.google.api.client.http.HttpTransport;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.maxmind.geoip2.WebServiceClient;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.InsightsResponse;
 import com.maxmind.geoip2.record.*;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.List;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.junit.Assert.*;
 
-public class InsightsTest {
+public class InsightsResponseTest {
+    @Rule
+    public final WireMockRule wireMockRule = new WireMockRule(0);
+
+    // This really should be moved out of a string
+    private final static String insightsBody =
+            "{" +
+                    "   \"city\" : {" +
+                    "      \"confidence\" : 76," +
+                    "      \"geoname_id\" : 9876," +
+                    "      \"names\" : {" +
+                    "         \"en\" : \"Minneapolis\"" +
+                    "      }" +
+                    "   }," +
+                    "   \"continent\" : {" +
+                    "      \"code\" : \"NA\"," +
+                    "      \"geoname_id\" : 42," +
+                    "      \"names\" : {" +
+                    "         \"en\" : \"North America\"" +
+                    "      }" +
+                    "   }," +
+                    "   \"country\" : {" +
+                    "      \"confidence\" : 99," +
+                    "      \"geoname_id\" : 1," +
+                    "      \"iso_code\" : \"US\"," +
+                    "      \"names\" : {" +
+                    "         \"en\" : \"United States of America\"" +
+                    "      }" +
+                    "   }," +
+                    "   \"location\" : {" +
+                    "      \"accuracy_radius\" : 1500," +
+                    "      \"average_income\" : 24626," +
+                    "      \"latitude\" : 44.98," +
+                    "      \"longitude\" : 93.2636," +
+                    "      \"metro_code\" : 765," +
+                    "      \"population_density\" : 1341," +
+                    "      \"time_zone\" : \"America/Chicago\"" +
+                    "   }," +
+                    "   \"maxmind\" : {" +
+                    "      \"queries_remaining\" : 11" +
+                    "   }," +
+                    "   \"postal\" : {" +
+                    "      \"code\" : \"55401\"," +
+                    "      \"confidence\" : 33" +
+                    "   }," +
+                    "   \"registered_country\" : {" +
+                    "      \"geoname_id\" : 2," +
+                    "      \"iso_code\" : \"CA\"," +
+                    "      \"names\" : {" +
+                    "         \"en\" : \"Canada\"" +
+                    "      }" +
+                    "   }," +
+                    "   \"represented_country\" : {" +
+                    "      \"geoname_id\" : 3," +
+                    "      \"iso_code\" : \"GB\"," +
+                    "      \"names\" : {" +
+                    "         \"en\" : \"United Kingdom\"" +
+                    "      }," +
+                    "      \"type\" : \"C<military>\"" +
+                    "   }," +
+                    "   \"subdivisions\" : [" +
+                    "      {" +
+                    "         \"confidence\" : 88," +
+                    "         \"geoname_id\" : 574635," +
+                    "         \"iso_code\" : \"MN\"," +
+                    "         \"names\" : {" +
+                    "            \"en\" : \"Minnesota\"" +
+                    "         }" +
+                    "      }," +
+                    "      {" +
+                    "         \"iso_code\" : \"TT\"" +
+                    "      }" +
+                    "   ]," +
+                    "   \"traits\" : {" +
+                    "      \"autonomous_system_number\" : 1234," +
+                    "      \"autonomous_system_organization\" : \"AS Organization\"," +
+                    "      \"domain\" : \"example.com\"," +
+                    "      \"ip_address\" : \"1.2.3.4\"," +
+                    "      \"isp\" : \"Comcast\"," +
+                    "      \"is_anonymous_proxy\" : true," +
+                    "      \"is_satellite_provider\" : true," +
+                    "      \"organization\" : \"Blorg\"," +
+                    "      \"user_type\" : \"college\"" +
+                    "   }" +
+                    "}";
+
     private InsightsResponse insights;
 
     @Before
     public void createClient() throws IOException, GeoIp2Exception {
-        HttpTransport transport = new TestTransport();
+        stubFor(get(urlEqualTo("/geoip/v2.1/insights/1.1.1.1"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/vnd.maxmind.com-insights+json; charset=UTF-8; version=2.1")
+                        .withBody(insightsBody.getBytes("UTF-8"))));
 
-        WebServiceClient client = new WebServiceClient.Builder(42, "012345689")
-                .httpTransport(transport).build();
+        WebServiceClient client = new WebServiceClient.Builder(6, "0123456789")
+                .host("localhost")
+                .port(this.wireMockRule.port())
+                .disableHttps()
+                .build();
 
         this.insights = client.insights(InetAddress.getByName("1.1.1.1"));
     }

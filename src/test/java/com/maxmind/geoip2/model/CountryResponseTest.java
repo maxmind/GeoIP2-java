@@ -1,26 +1,76 @@
-package com.maxmind.geoip2;
+package com.maxmind.geoip2.model;
 
-import com.google.api.client.http.HttpTransport;
+import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.maxmind.geoip2.WebServiceClient;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.CountryResponse;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetAddress;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.junit.Assert.assertEquals;
 
-public class CountryTest {
+public class CountryResponseTest {
+    @Rule
+    public final WireMockRule wireMockRule = new WireMockRule(0);
+
+    private final static String countryBody =
+            "{" +
+                    "   \"traits\" : {" +
+                    "      \"ip_address\" : \"1.2.3.4\"" +
+                    "   }," +
+                    "   \"continent\" : {" +
+                    "      \"names\" : {" +
+                    "         \"en\" : \"North America\"" +
+                    "      }," +
+                    "      \"geoname_id\" : 42," +
+                    "      \"code\" : \"NA\"" +
+                    "   }," +
+                    "   \"country\" : {" +
+                    "      \"geoname_id\" : 1," +
+                    "      \"confidence\" : 56," +
+                    "      \"names\" : {" +
+                    "         \"en\" : \"United States\"" +
+                    "      }," +
+                    "      \"iso_code\" : \"US\"" +
+                    "   }," +
+                    "   \"registered_country\" : {" +
+                    "      \"geoname_id\" : 2," +
+                    "      \"names\" : {" +
+                    "         \"en\" : \"Canada\"" +
+                    "      }," +
+                    "      \"iso_code\" : \"CA\"" +
+                    "   }," +
+                    "   \"represented_country\" : {" +
+                    "      \"geoname_id\" : 4," +
+                    "      \"type\" : \"military\"," +
+                    "      \"names\" : {" +
+                    "         \"en\" : \"United Kingdom\"" +
+                    "      }," +
+                    "      \"iso_code\" : \"GB\"" +
+                    "   }" +
+                    "}";
+
     private CountryResponse country;
 
     @Before
-    public void setUp() throws IOException, GeoIp2Exception {
-        HttpTransport transport = new TestTransport();
-        WebServiceClient client = new WebServiceClient.Builder(42,
-                "abcdef123456").httpTransport(transport).build();
+    public void createClient() throws IOException, GeoIp2Exception {
+        stubFor(get(urlEqualTo("/geoip/v2.1/country/1.1.1.1"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/vnd.maxmind.com-country+json; charset=UTF-8; version=2.1")
+                        .withBody(countryBody.getBytes("UTF-8"))));
 
-        this.country = client.country(InetAddress.getByName("1.1.1.3"));
+        WebServiceClient client = new WebServiceClient.Builder(6, "0123456789")
+                .host("localhost")
+                .port(this.wireMockRule.port())
+                .disableHttps()
+                .build();
+
+        country = client.country(InetAddress.getByName("1.1.1.1"));
     }
 
     @SuppressWarnings("boxing")
@@ -91,5 +141,4 @@ public class CountryTest {
                 "1.2.3.4", this.country.getTraits().getIpAddress());
 
     }
-
 }
