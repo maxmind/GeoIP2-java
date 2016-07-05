@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+2.8.0 (2016-XX-XX)
+------------------
+
+* All changes included in 2.8.0-rc1.
+* Updated documentation to clarify what the accuracy radius refers to.
+
 2.8.0-rc1 (2016-06-20)
 ----------------------
 
