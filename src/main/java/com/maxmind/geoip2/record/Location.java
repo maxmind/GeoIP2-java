@@ -68,8 +68,11 @@ public class Location extends AbstractRecord {
     }
 
     /**
-     * @return The radius in kilometers around the specified location where the
-     * IP address is likely to be.
+     * @return The approximate accuracy radius in kilometers around the
+     * latitude and longitude for the IP address. This is the radius where we
+     * have a 67% confidence that the device using the IP address resides
+     * within the circle centered at the latitude and longitude with the
+     * provided radius.
      */
     @JsonProperty("accuracy_radius")
     public Integer getAccuracyRadius() {
