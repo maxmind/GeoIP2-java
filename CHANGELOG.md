@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-2.8.0 (2016-XX-XX)
+2.8.0 (2016-09-15)
 ------------------
 
 * All changes included in 2.8.0-rc1.
