@@ -57,6 +57,6 @@ public abstract class AbstractNamedRecord extends AbstractRecord {
      */
     @JsonProperty("names")
     public Map<String, String> getNames() {
-        return new HashMap<String, String>(this.names);
+        return new HashMap<>(this.names);
     }
 }

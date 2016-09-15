@@ -67,7 +67,7 @@ public abstract class AbstractCityResponse extends AbstractCountryResponse {
      * returns an empty array.
      */
     public List<Subdivision> getSubdivisions() {
-        return new ArrayList<Subdivision>(this.subdivisions);
+        return new ArrayList<>(this.subdivisions);
     }
 
     /**

@@ -1,6 +1,3 @@
-/**
- *
- */
 package com.maxmind.geoip2.record;
 
 import com.fasterxml.jackson.annotation.JsonProperty;

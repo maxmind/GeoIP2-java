@@ -432,10 +432,10 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
                 + " (Java/" + System.getProperty("java.version") + ")";
     }
 
-    @Override
     /**
      * Close any open connections and return resources to the system.
      */
+    @Override
     public void close() throws IOException {
         httpClient.close();
     }
