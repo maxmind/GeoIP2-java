@@ -1,27 +1,41 @@
 #!/bin/bash
 
-set -e
+set -eu -o pipefail
 
-VERSION=$(perl -MFile::Slurp::Tiny=read_file -MDateTime <<EOF
-use v5.16;
-my \$log = read_file(q{CHANGELOG.md});
-\$log =~ /\n(\d+\.\d+\.\d+(?:-[\w\.\-]+)?) \((\d{4}-\d{2}-\d{2})\)\n/;
-die "Release time (\$2) is not today!" unless DateTime->now->ymd eq \$2;
-say \$1;
-EOF
-)
+changelog=$(cat CHANGELOG.md)
 
-TAG="v$VERSION"
+regex='
+([0-9]+\.[0-9]+\.[0-9]+) \(([0-9]{4}-[0-9]{2}-[0-9]{2})\)
+-*
+
+((.|
+)*)
+'
+
+if [[ ! $changelog =~ $regex ]]; then
+      echo "Could not find date line in change log!"
+      exit 1
+fi
+
+version="${BASH_REMATCH[1]}"
+date="${BASH_REMATCH[2]}"
+notes="$(echo "${BASH_REMATCH[3]}" | sed -n -e '/^[0-9]\+\.[0-9]\+\.[0-9]\+/,$!p')"
+
+if [[ "$date" -ne  $(date +"%Y-%m-%d") ]]; then
+    echo "$date is not today!"
+    exit 1
+fi
+
+tag="v$version"
 
 if [ -n "$(git status --porcelain)" ]; then
     echo ". is not clean." >&2
     exit 1
 fi
 
-
 if [ ! -d .gh-pages ]; then
     echo "Checking out gh-pages in .gh-pages"
-    git clone -b gh-pages git@github.com:maxmind/GeoIP2-java .gh-pages
+    git clone -b gh-pages git@github.com:maxmind/GeoIP2-java.git .gh-pages
     pushd .gh-pages
 else
     echo "Updating .gh-pages"
@@ -38,35 +52,34 @@ popd
 
 mvn versions:display-dependency-updates
 
-read -e -p "Continue given above dependencies? (y/n) " SHOULD_CONTINUE
+read -e -p "Continue given above dependencies? (y/n) " should_continue
 
-if [ "$SHOULD_CONTINUE" != "y" ]; then
+if [ "$should_continue" != "y" ]; then
     echo "Aborting"
     exit 1
 fi
 
-PAGE=.gh-pages/index.md
-cat <<EOF > $PAGE
+page=.gh-pages/index.md
+cat <<EOF > $page
 ---
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: $TAG
+version: $tag
 ---
 
 EOF
 
-export VERSION
-# alter the documentation to point to this version
-perl -pi -e 's/(?<=<version>)[^<]*/$ENV{VERSION}/' README.md
-perl -pi -e 's/(?<=com\.maxmind\.geoip2\:geoip2\:)\d+\.\d+\.\d+([\w\-\.]+)?/$ENV{VERSION}/' README.md
-cat README.md >> $PAGE
+perl -pi -e "s/(?<=<version>)[^<]*/$version/" README.md
+perl -pi -e "s/(?<=com\.maxmind\.geoip2\:geoip2\:)\d+\.\d+\.\d+([\w\-]+)?/$version/" README.md
+
+cat README.md >> $page
 
 if [ -n "$(git status --porcelain)" ]; then
     git diff
 
-    read -e -p "Commit README.md changes? " SHOULD_COMMIT
-    if [ "$SHOULD_COMMIT" != "y" ]; then
+    read -e -p "Commit README.md changes? " should_commit
+    if [ "$should_commit" != "y" ]; then
         echo "Aborting"
         exit 1
     fi
@@ -76,19 +89,25 @@ fi
 
 # could be combined with the primary build
 mvn release:clean
-mvn release:prepare -DreleaseVersion="$VERSION" -Dtag="$TAG"
+mvn release:prepare -DreleaseVersion="$version" -Dtag="$tag"
 mvn release:perform
-rm -fr ".gh-pages/doc/$TAG"
-cp -r target/apidocs ".gh-pages/doc/$TAG"
+rm -fr ".gh-pages/doc/$tag"
+cp -r target/apidocs ".gh-pages/doc/$tag"
 
 pushd .gh-pages
 
 git add doc/
-git commit -m "Updated for $TAG" -a
+git commit -m "Updated for $tag" -a
 
-read -e -p "Push to origin? " SHOULD_PUSH
+echo "Release notes for $version:
 
-if [ "$SHOULD_PUSH" != "y" ]; then
+$notes
+
+"
+
+read -e -p "Push to origin? " should_push
+
+if [ "$should_push" != "y" ]; then
     echo "Aborting"
     exit 1
 fi
@@ -99,5 +118,13 @@ popd
 
 git push
 git push --tags
+
+message="$version
+
+$notes"
+
+hub release create -a "target/geoip2-$version-with-dependencies.zip" \
+                   -a "target/geoip2-$version-with-dependencies.zip.asc" \
+                   -m "$message" "$tag"
 
 echo "Remember to do the release on https://oss.sonatype.org/!"
