@@ -10,12 +10,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -101,6 +103,18 @@ public class DatabaseReaderTest {
         CityResponse city = reader.city(InetAddress.getByName("81.2.69.160"));
         assertEquals("London", city.getCity().getName());
         assertEquals(100, city.getLocation().getAccuracyRadius().longValue());
+        reader.close();
+    }
+
+    @Test
+    public void testStreamFile() throws Exception {
+        byte[] bytes = Files.readAllBytes(
+                this.getFile("GeoIP2-Anonymous-IP-Test.mmdb").toPath());
+        InputStream stream = new ByteArrayInputStream(bytes);
+        DatabaseReader reader = new DatabaseReader.Builder(stream).build();
+        InetAddress ipAddress = InetAddress.getByName("1.2.0.1");
+        AnonymousIpResponse response = reader.anonymousIp(ipAddress);
+        assertTrue(response.isAnonymous());
         reader.close();
     }
 
