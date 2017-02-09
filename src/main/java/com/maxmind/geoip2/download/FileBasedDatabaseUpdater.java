@@ -21,7 +21,7 @@ import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.commons.compress.utils.IOUtils;
 
 /**
- * Responsible for downloading updated versions of the database when they are created.
+ * Concrete implementation of {@link DatabaseUpdater} that updates {@link File}s.
  */
 public class FileBasedDatabaseUpdater {
     private static final String DATABASE_FILE_EXTENSION = ".mmdb";
