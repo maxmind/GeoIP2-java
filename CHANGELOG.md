@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+2.8.1 (2017-02-22)
+------------------
+
+* Update `maxmind-db` dependency to fix `jackson-databind` version range
+  issue. Closes GitHub #77.
+
 2.8.0 (2016-09-15)
 ------------------
 
