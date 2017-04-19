@@ -195,6 +195,18 @@ public class DatabaseReaderTest {
         assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
         reader.close();
     }
+    @Test
+    public void testAsn() throws Exception {
+        DatabaseReader reader = new DatabaseReader.Builder(
+                this.getFile("GeoLite2-ASN-Test.mmdb")).build();
+        InetAddress ipAddress = InetAddress.getByName("1.128.0.0");
+        AsnResponse response = reader.asn(ipAddress);
+        assertEquals(1221, response.getAutonomousSystemNumber().intValue());
+        assertEquals("Telstra Pty Ltd",
+                response.getAutonomousSystemOrganization());
+        assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
+        reader.close();
+    }
 
     @Test
     public void testConnectionType() throws Exception {
