@@ -5,9 +5,9 @@
     </formats>
     <dependencySets>
         <dependencySet>
-          <unpack>false</unpack>
-          <scope>runtime</scope>
-          <outputDirectory>lib</outputDirectory>
+            <unpack>false</unpack>
+            <scope>runtime</scope>
+            <outputDirectory>lib</outputDirectory>
         </dependencySet>
     </dependencySets>
     <fileSets>
