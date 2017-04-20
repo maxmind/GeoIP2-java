@@ -267,6 +267,25 @@ try {
 
 ```
 
+### ASN ###
+
+```java
+// A File object pointing to your GeoLite2 ASN database
+File database = new File("/path/to/GeoLite2-ASN.mmdb");
+
+// This creates the DatabaseReader object, which should be reused across
+// lookups.
+try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
+
+    InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
+
+    AsnResponse response = reader.asn(ipAddress);
+
+    System.out.println(response.getAutonomousSystemNumber());       // 217
+    System.out.println(response.getAutonomousSystemOrganization()); // 'University of Minnesota'
+}
+```
+
 ### Connection-Type ###
 
 ```java

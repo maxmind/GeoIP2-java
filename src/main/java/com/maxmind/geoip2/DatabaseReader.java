@@ -217,6 +217,20 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     /**
+     * Look up an IP address in a GeoLite2 ASN database.
+     *
+     * @param ipAddress IPv4 or IPv6 address to lookup.
+     * @return an AsnResponse for the requested IP address.
+     * @throws GeoIp2Exception if there is an error looking up the IP
+     * @throws IOException     if there is an IO error
+     */
+    @Override
+    public AsnResponse asn(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.get(ipAddress, AsnResponse.class, "GeoLite2-ASN");
+    }
+
+    /**
      * Look up an IP address in a GeoIP2 Connection Type database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.

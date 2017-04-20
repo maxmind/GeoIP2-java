@@ -19,6 +19,17 @@ public interface DatabaseProvider extends GeoIp2Provider {
             GeoIp2Exception;
 
     /**
+     * Look up an IP address in a GeoLite2 ASN database.
+     *
+     * @param ipAddress IPv4 or IPv6 address to lookup.
+     * @return an IspResponse for the requested IP address.
+     * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
+     * @throws java.io.IOException                          if there is an IO error
+     */
+    AsnResponse asn(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
+
+    /**
      * Look up an IP address in a GeoIP2 Connection Type database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.

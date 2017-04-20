@@ -172,11 +172,8 @@ public class DatabaseReaderTest {
         this.exception.expect(UnsupportedOperationException.class);
         this.exception
                 .expectMessage(containsString("GeoIP2-City database using the isp method"));
-        DatabaseReader db = new DatabaseReader.Builder(this.geoipFile).build();
-        try {
+        try (DatabaseReader db = new DatabaseReader.Builder(this.geoipFile).build()) {
             db.isp(InetAddress.getByName("1.1.1.1"));
-        } finally {
-            db.close();
         }
     }
 
@@ -192,6 +189,19 @@ public class DatabaseReaderTest {
         assertFalse(response.isHostingProvider());
         assertFalse(response.isPublicProxy());
         assertFalse(response.isTorExitNode());
+        assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
+        reader.close();
+    }
+
+    @Test
+    public void testAsn() throws Exception {
+        DatabaseReader reader = new DatabaseReader.Builder(
+                this.getFile("GeoLite2-ASN-Test.mmdb")).build();
+        InetAddress ipAddress = InetAddress.getByName("1.128.0.0");
+        AsnResponse response = reader.asn(ipAddress);
+        assertEquals(1221, response.getAutonomousSystemNumber().intValue());
+        assertEquals("Telstra Pty Ltd",
+                response.getAutonomousSystemOrganization());
         assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
         reader.close();
     }
