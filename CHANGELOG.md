@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-2.9.0
+2.9.0 (2017-05-08)
 ------------------
 
 * Added support for GeoLite2 ASN database.
