@@ -2,7 +2,7 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v2.8.1
+version: v2.9.0
 ---
 
 # GeoIP2 Java API #
@@ -27,7 +27,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>2.8.1</version>
+        <version>2.9.0</version>
     </dependency>
 ```
 
@@ -40,7 +40,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.maxmind.geoip2:geoip2:2.8.1'
+    compile 'com.maxmind.geoip2:geoip2:2.9.0'
 }
 ```
 
@@ -272,6 +272,25 @@ try {
     reader.close();
 }
 
+```
+
+### ASN ###
+
+```java
+// A File object pointing to your GeoLite2 ASN database
+File database = new File("/path/to/GeoLite2-ASN.mmdb");
+
+// This creates the DatabaseReader object, which should be reused across
+// lookups.
+try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
+
+    InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
+
+    AsnResponse response = reader.asn(ipAddress);
+
+    System.out.println(response.getAutonomousSystemNumber());       // 217
+    System.out.println(response.getAutonomousSystemOrganization()); // 'University of Minnesota'
+}
 ```
 
 ### Connection-Type ###
