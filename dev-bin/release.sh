@@ -52,7 +52,7 @@ popd
 
 mvn versions:display-dependency-updates
 
-read -e -p "Continue given above dependencies? (y/n) " should_continue
+read -r -n 1 -p "Continue given above dependencies? (y/n) " should_continue
 
 if [ "$should_continue" != "y" ]; then
     echo "Aborting"
@@ -78,7 +78,7 @@ cat README.md >> $page
 if [ -n "$(git status --porcelain)" ]; then
     git diff
 
-    read -e -p "Commit README.md changes? " should_commit
+    read -r -n 1 -p "Commit README.md changes? " should_commit
     if [ "$should_commit" != "y" ]; then
         echo "Aborting"
         exit 1
@@ -93,6 +93,7 @@ mvn release:prepare -DreleaseVersion="$version" -Dtag="$tag"
 mvn release:perform
 rm -fr ".gh-pages/doc/$tag"
 cp -r target/apidocs ".gh-pages/doc/$tag"
+ln -fs "$tag" .gh-pages/doc/latest
 
 pushd .gh-pages
 
@@ -105,7 +106,7 @@ $notes
 
 "
 
-read -e -p "Push to origin? " should_push
+read -r -n 1 -p "Push to origin? " should_push
 
 if [ "$should_push" != "y" ]; then
     echo "Aborting"

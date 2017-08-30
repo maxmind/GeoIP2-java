@@ -12,13 +12,13 @@ addons:
 language: java
 jdk:
   - openjdk7
-  - oraclejdk7
   - oraclejdk8
 env:
   global:
     - secure: NZPWyoQ7lDzSMf6zAUxXNRgwPIWGAIN6eDgTD/vnFxOPYTJX8HEvIAEuoKAqajmJMqRwUl4D1s/cANBY8+IV//KDNiOZY1Hr070Wf2FIrAyxZ13sR3YVHzK6isKF6ISgVub2qyr028Wu1y1Qv2ggx6pRvRfCIBpth3r4l4sKeQU=
 install: mvn install -DskipTests=true -Dgpg.skip=true
-after_script: mvn cobertura:cobertura coveralls:cobertura
+after_success:
+  - mvn clean cobertura:cobertura coveralls:report
 notifications:
   email:
     on_failure: always
