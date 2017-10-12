@@ -17,8 +17,39 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Instances of this class provide a reader for the GeoIP2 database format. IP
- * addresses can be looked up using the {@code get} method.
+ * <p>
+ * The class {@code DatabaseReader} provides a reader for the GeoIP2 database
+ * format.
+ * </p>
+ * <h3>Usage</h3>
+ * <p>
+ * To use the database API, you must create a new {@code DatabaseReader} using
+ * the {@code DatabaseReader.Builder}. You must provide the {@code Builder}
+ * constructor either an {@code InputStream} or {@code File} for your GeoIP2
+ * database. You may also specify the {@code fileMode} and the {@code locales}
+ * fallback order using the methods on the {@code Builder} object. After you
+ * have created the {@code DatabaseReader}, you may then call the appropriate
+ * method (e.g., {@code city}) for your database, passing it the IP address
+ * you want to look up.
+ * </p>
+ * <p>
+ * If the lookup succeeds, the method call will return a response class for
+ * the GeoIP2 lookup. The class in turn contains multiple record classes,
+ * each of which represents part of the data returned by the database.
+ * </p>
+ * <p>
+ * We recommend reusing the {@code DatabaseReader} object rather than creating
+ * a new one for each lookup. The creation of this object is relatively
+ * expensive as it must read in metadata for the file. It is safe to share the
+ * object across threads.
+ * </p>
+ * <h4>Caching</h4>
+ * <p>
+ * The database API supports pluggable caching (by default, no caching is
+ * performed). A simple implementation is provided by
+ * {@code com.maxmind.db.CHMCache}.  Using this cache, lookup performance is
+ * significantly improved at the cost of a small (~2MB) memory overhead.
+ * </p>
  */
 public class DatabaseReader implements DatabaseProvider, Closeable {
 
@@ -50,8 +81,8 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
 
     /**
      * <p>
-     * Constructs a Builder for the DatabaseReader. The file passed to it must
-     * be a valid GeoIP2 database file.
+     * Constructs a Builder for the {@code DatabaseReader}. The file passed to
+     * it must be a valid GeoIP2 database file.
      * </p>
      * <p>
      * {@code Builder} creates instances of {@code DatabaseReader}

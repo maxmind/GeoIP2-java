@@ -43,6 +43,12 @@ If you are unable to use Maven or Gradle, you may include the `geoip2.jar`
 file and its dependencies in your classpath. Download the JAR files from the
 [GitHub Releases page](https://github.com/maxmind/GeoIP2-java/releases).
 
+## IP Geolocation Usage ##
+
+IP geolocation is inherently imprecise. Locations are often near the center of
+the population. Any location provided by a GeoIP2 database or web service
+should not be used to identify a particular address or household.
+
 ## Web Service Usage ##
 
 To use the web service API, you must create a new `WebServiceClient` using the
@@ -57,23 +63,27 @@ If the request succeeds, the method call will return a model class for the end
 point you called. This model in turn contains multiple record classes, each of
 which represents part of the data returned by the web service.
 
+If the request fails, the client class throws an exception.
+
+The `WebServiceClient` object is safe to share across threads. If you are
+making multiple requests, the object should be reused to so that new
+connections are not created for each request. Once you have finished making
+requests, you should close the object to ensure the connections are closed
+and any resources are promptly returned to the system.
+
 See the API documentation for more details.
-
-## IP Geolocation Usage ##
-
-IP geolocation is inherently imprecise. Locations are often near the center of
-the population. Any location provided by a GeoIP2 database or web service
-should not be used to identify a particular address or household.
 
 ## Web Service Example ##
 
 ### Country Service ###
 
 ```java
-// This creates a WebServiceClient object that can be reused across requests.
-// The object is closeable and will keep connections alive for future
-// requests. Replace "42" with your user ID and "license_key" with your
-// license key.
+// This creates a WebServiceClient object that is thread-safe and can be
+// reused across requests. Reusing the object will allow it to keep
+// connections alive for future requests. The object is closeable, but
+// it should not be closed until you are finished making requests with it.
+//
+// Replace "42" with your user ID and "license_key" with your license key.
 try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
         .build()) {
 
@@ -92,10 +102,12 @@ try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
 ### City Service ###
 
 ```java
-// This creates a WebServiceClient object that can be reused across requests.
-// The object is closeable and will keep connections alive for future
-// requests. Replace "42" with your user ID and "license_key" with your
-// license key.
+// This creates a WebServiceClient object that is thread-safe and can be
+// reused across requests. Reusing the object will allow it to keep
+// connections alive for future requests. The object is closeable, but
+// it should not be closed until you are finished making requests with it.
+//
+// Replace "42" with your user ID and "license_key" with your license key.
 try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
         .build()) {
 
@@ -128,10 +140,12 @@ try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
 ### Insights Service ###
 
 ```java
-// This creates a WebServiceClient object that can be reused across requests.
-// The object is closeable and will keep connections alive for future
-// requests. Replace "42" with your user ID and "license_key" with your
-// license key.
+// This creates a WebServiceClient object that is thread-safe and can be
+// reused across requests. Reusing the object will allow it to keep
+// connections alive for future requests. The object is closeable, but
+// it should not be closed until you are finished making requests with it.
+//
+// Replace "42" with your user ID and "license_key" with your license key.
 try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
         .build()) {
 
@@ -185,7 +199,8 @@ which represents part of the data returned by the database.
 
 We recommend reusing the `DatabaseReader` object rather than creating a new
 one for each lookup. The creation of this object is relatively expensive as it
-must read in metadata for the file.
+must read in metadata for the file. It is safe to share the object across
+threads.
 
 See the API documentation for more details.
 
@@ -211,8 +226,8 @@ new DatabaseReader.Builder(file).withCache(new CHMCache()).build();
 // A File object pointing to your GeoIP2 or GeoLite2 database
 File database = new File("/path/to/GeoIP2-City.mmdb");
 
-// This creates the DatabaseReader object, which should be reused across
-// lookups.
+// This creates the DatabaseReader object. To improve performance, reuse
+// the object across lookups. The object is thread-safe.
 DatabaseReader reader = new DatabaseReader.Builder(database).build();
 
 InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
@@ -247,8 +262,8 @@ System.out.println(location.getLongitude()); // -93.2323
 // A File object pointing to your GeoIP2 Anonymous IP database
 File database = new File("/path/to/GeoIP2-Anonymous-IP.mmdb");
 
-// This creates the DatabaseReader object, which should be reused across
-// lookups.
+// This creates the DatabaseReader object. To improve performance, reuse
+// the object across lookups. The object is thread-safe.
 DatabaseReader reader = new DatabaseReader.Builder(database).build();
 
 try {
@@ -273,8 +288,8 @@ try {
 // A File object pointing to your GeoLite2 ASN database
 File database = new File("/path/to/GeoLite2-ASN.mmdb");
 
-// This creates the DatabaseReader object, which should be reused across
-// lookups.
+// This creates the DatabaseReader object. To improve performance, reuse
+// the object across lookups. The object is thread-safe.
 try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
 
     InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
@@ -292,8 +307,8 @@ try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
 // A File object pointing to your GeoIP2 Connection-Type database
 File database = new File("/path/to/GeoIP2-Connection-Type.mmdb");
 
-// This creates the DatabaseReader object, which should be reused across
-// lookups.
+// This creates the DatabaseReader object. To improve performance, reuse
+// the object across lookups. The object is thread-safe.
 DatabaseReader reader = new DatabaseReader.Builder(database).build();
 
 InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
@@ -312,8 +327,8 @@ System.out.println(type); // 'Corporate'
 // A File object pointing to your GeoIP2 Domain database
 File database = new File("/path/to/GeoIP2-Domain.mmdb");
 
-// This creates the DatabaseReader object, which should be reused across
-// lookups.
+// This creates the DatabaseReader object. To improve performance, reuse
+// the object across lookups. The object is thread-safe.
 DatabaseReader reader = new DatabaseReader.Builder(database).build();
 
 InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
@@ -329,8 +344,8 @@ System.out.println(response.getDomain()); // 'Corporate'
 // A File object pointing to your GeoIP2 Enterprise database
 File database = new File("/path/to/GeoIP2-Enterprise.mmdb");
 
-// This creates the DatabaseReader object, which should be reused across
-// lookups.
+// This creates the DatabaseReader object. To improve performance, reuse
+// the object across lookups. The object is thread-safe.
 try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
     InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
@@ -369,8 +384,8 @@ try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
 // A File object pointing to your GeoIP2 ISP database
 File database = new File("/path/to/GeoIP2-ISP.mmdb");
 
-// This creates the DatabaseReader object, which should be reused across
-// lookups.
+// This creates the DatabaseReader object. To improve performance, reuse
+// the object across lookups. The object is thread-safe.
 DatabaseReader reader = new DatabaseReader.Builder(database).build();
 
 InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
@@ -419,8 +434,8 @@ following:
 ## Multi-Threaded Use ##
 
 This API fully supports use in multi-threaded applications. When using the
-`DatabaseReader` in a multi-threaded application, we suggest creating one
-object and sharing that among threads.
+`DatabaseReader` or the `WebServiceClient` in a multi-threaded application,
+we suggest creating one object and sharing that across threads.
 
 ## What data is returned? ##
 
