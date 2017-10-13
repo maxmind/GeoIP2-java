@@ -30,10 +30,10 @@ import java.util.*;
 
 /**
  * <p>
- * This class provides a client API for all the GeoIP2 Precision web service end
- * points. The end points are Country and Insights. Each end point returns a
- * different set of data about an IP address, with Country returning the least
- * data and Insights the most.
+ * The {@code WebServiceClient} class provides a client API for all the GeoIP2
+ * Precision web service end points. The end points are Country, City, and
+ * Insights. Each end point returns a different set of data about an IP
+ * address, with Country returning the least data and Insights the most.
  * </p>
  * <p>
  * Each web service end point is represented by a different model class, and
@@ -50,10 +50,14 @@ import java.util.*;
  * </p>
  * <h3>Usage</h3>
  * <p>
- * The basic API for this class is the same for all of the web service end
- * points. First you create a web service object with your MaxMind
- * {@code userId} and {@code licenseKey}, then you call the method corresponding
- * to a specific end point, passing it the IP address you want to look up.
+ * To use the web service API, you must create a new {@code WebServiceClient}
+ * using the {@code WebServiceClient.Builder}. You must provide the
+ * {@code Builder} constructor your MaxMind {@code userId} and
+ * {@code licenseKey}. You may also set a {@code timeout}, specify a specific
+ * {@code host}, or set the {@code locales} fallback order using the methods
+ * on the {@code Builder}. After you have created the {@code WebServiceClient},
+ * you may then call the method corresponding to a specific end point, passing
+ * it the IP address you want to look up.
  * </p>
  * <p>
  * If the request succeeds, the method call will return a model class for the
@@ -62,6 +66,13 @@ import java.util.*;
  * </p>
  * <p>
  * If the request fails, the client class throws an exception.
+ * </p>
+ * <p>
+ * The {@code WebServiceClient} object is safe to share across threads. If you
+ * are making multiple requests, the object should be reused so that new
+ * connections are not created for each request. Once you have finished making
+ * requests, you should close the object to ensure the connections are closed
+ * and any resources are promptly returned to the system.
  * </p>
  * <h3>Exceptions</h3>
  * <p>
