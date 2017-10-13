@@ -69,7 +69,7 @@ import java.util.*;
  * </p>
  * <p>
  * The {@code WebServiceClient} object is safe to share across threads. If you
- * are making multiple requests, the object should be reused to so that new
+ * are making multiple requests, the object should be reused so that new
  * connections are not created for each request. Once you have finished making
  * requests, you should close the object to ensure the connections are closed
  * and any resources are promptly returned to the system.
