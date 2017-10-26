@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+2.10.0 (2017-XX-XX)
+-------------------
+
+* The following new anonymizer methods were added to
+ `com.maxmind.geoip2.record.Traits` for use with GeoIP2 Precision Insights:
+ `isAnonymous()`, `isAnonymousVpn()`, `isHostingProvider()`, `isPublicProxy()`,
+  and `isTorExitNode()`.
+
 2.9.0 (2017-05-08)
 ------------------
 

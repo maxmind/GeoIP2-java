@@ -94,6 +94,13 @@ public class InsightsResponseTest {
                     "      \"domain\" : \"example.com\"," +
                     "      \"ip_address\" : \"1.2.3.4\"," +
                     "      \"isp\" : \"Comcast\"," +
+                    "      \"is_anonymous\" : true," +
+                    "      \"is_anonymous_proxy\" : true," +
+                    "      \"is_anonymous_vpn\" : true," +
+                    "      \"is_hosting_provider\" : true," +
+                    "      \"is_public_proxy\" : true," +
+                    "      \"is_satellite_provider\" : true," +
+                    "      \"is_tor_exit_node\" : true," +
                     "      \"is_anonymous_proxy\" : true," +
                     "      \"is_satellite_provider\" : true," +
                     "      \"organization\" : \"Blorg\"," +
@@ -164,8 +171,13 @@ public class InsightsResponseTest {
                 "example.com", traits.getDomain());
         assertEquals("traits.getIpAddress() does not return 1.2.3.4",
                 "1.2.3.4", traits.getIpAddress());
+        assertTrue("traits.isAnonymous() returns true", traits.isAnonymous());
         assertTrue("traits.isAnonymousProxy() returns true", traits.isAnonymousProxy());
+        assertTrue("traits.isAnonymousVpn() returns true", traits.isAnonymousVpn());
+        assertTrue("traits.isHostingProvider() returns true", traits.isHostingProvider());
+        assertTrue("traits.isPublicProxy() returns true", traits.isPublicProxy());
         assertTrue("traits.isSatelliteProvider() returns true", traits.isSatelliteProvider());
+        assertTrue("traits.isTorExitNode() returns true", traits.isTorExitNode());
         assertEquals("traits.getIsp() does not return Comcast", "Comcast",
                 traits.getIsp());
         assertEquals("traits.getOrganization() does not return Blorg", "Blorg",

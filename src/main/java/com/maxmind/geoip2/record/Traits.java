@@ -19,12 +19,17 @@ public final class Traits extends AbstractRecord {
     private final ConnectionType connectionType;
     private final String domain;
     private final String ipAddress;
+    private final boolean isAnonymous;
     private final boolean isAnonymousProxy;
+    private final boolean isAnonymousVpn;
+    private final boolean isHostingProvider;
+    private final boolean isLegitimateProxy;
+    private final boolean isPublicProxy;
     private final boolean isSatelliteProvider;
+    private final boolean isTorExitNode;
     private final String isp;
     private final String organization;
     private final String userType;
-    private final boolean isLegitimateProxy;
 
     public Traits() {
         this(null, null, null, null, false, false, null, null, null);
@@ -52,15 +57,40 @@ public final class Traits extends AbstractRecord {
                 organization, userType);
     }
 
+    // This is for back-compat. If we ever do a major release, it should be
+    // removed.
+    public Traits(
+            Integer autonomousSystemNumber,
+            String autonomousSystemOrganization,
+            ConnectionType connectionType,
+            String domain,
+            String ipAddress,
+            boolean isAnonymousProxy,
+            boolean isLegitimateProxy,
+            boolean isSatelliteProvider,
+            String isp,
+            String organization,
+            String userType
+    ) {
+        this(autonomousSystemNumber, autonomousSystemOrganization, connectionType, domain,
+                ipAddress, false, isAnonymousProxy, false, false, isLegitimateProxy,
+                false, isSatelliteProvider, false, isp, organization, userType);
+    }
+
     public Traits(
             @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
             @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
             @JsonProperty("connection_type") ConnectionType connectionType,
             @JsonProperty("domain") String domain,
             @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
+            @JsonProperty("is_anonymous") boolean isAnonymous,
             @JsonProperty("is_anonymous_proxy") boolean isAnonymousProxy,
+            @JsonProperty("is_anonymous_vpn") boolean isAnonymousVpn,
+            @JsonProperty("is_hosting_provider") boolean isHostingProvider,
             @JsonProperty("is_legitimate_proxy") boolean isLegitimateProxy,
+            @JsonProperty("is_public_proxy") boolean isPublicProxy,
             @JsonProperty("is_satellite_provider") boolean isSatelliteProvider,
+            @JsonProperty("is_tor_exit_node") boolean isTorExitNode,
             @JsonProperty("isp") String isp,
             @JsonProperty("organization") String organization,
             @JsonProperty("user_type") String userType
@@ -70,9 +100,14 @@ public final class Traits extends AbstractRecord {
         this.connectionType = connectionType;
         this.domain = domain;
         this.ipAddress = ipAddress;
+        this.isAnonymous = isAnonymous;
         this.isAnonymousProxy = isAnonymousProxy;
+        this.isAnonymousVpn = isAnonymousVpn;
+        this.isHostingProvider = isHostingProvider;
         this.isLegitimateProxy = isLegitimateProxy;
+        this.isPublicProxy = isPublicProxy;
         this.isSatelliteProvider = isSatelliteProvider;
+        this.isTorExitNode = isTorExitNode;
         this.isp = isp;
         this.organization = organization;
         this.userType = userType;
@@ -145,6 +180,15 @@ public final class Traits extends AbstractRecord {
     }
 
     /**
+     * @return This is true if the IP address belongs to any sort of anonymous
+     * network. This is only available from GeoIP2 Precision Insights.
+     */
+    @JsonProperty("is_anonymous")
+    public boolean isAnonymous() {
+        return this.isAnonymous;
+    }
+
+    /**
      * @return This is true if the IP is an anonymous proxy. This attribute is
      * returned by all end points.
      * @see <a href="http://dev.maxmind.com/faq/geoip#anonproxy">MaxMind's GeoIP
@@ -160,6 +204,24 @@ public final class Traits extends AbstractRecord {
     }
 
     /**
+     * @return This is true if the IP address belongs to an anonymous VPN
+     * system. This is only available from GeoIP2 Precision Insights.
+     */
+    @JsonProperty("is_anonymous_vpn")
+    public boolean isAnonymousVpn() {
+        return this.isAnonymousVpn;
+    }
+
+    /**
+     * @return This is true if the IP address belongs to a hosting provider.
+     * This is only available from GeoIP2 Precision Insights.
+     */
+    @JsonProperty("is_hosting_provider")
+    public boolean isHostingProvider() {
+        return this.isHostingProvider;
+    }
+
+    /**
      * @return True if MaxMind believes this IP address to be a legitimate
      * proxy, such as an internal VPN used by a corporation. This is only
      * available in the GeoIP2 Enterprise database.
@@ -167,6 +229,15 @@ public final class Traits extends AbstractRecord {
     @JsonProperty("is_legitimate_proxy")
     public boolean isLegitimateProxy() {
         return this.isLegitimateProxy;
+    }
+
+    /**
+     * @return This is true if the IP address belongs to a public proxy.
+     * This is only available from GeoIP2 Precision Insights.
+     */
+    @JsonProperty("is_public_proxy")
+    public boolean isPublicProxy() {
+        return this.isPublicProxy;
     }
 
     /**
@@ -181,6 +252,14 @@ public final class Traits extends AbstractRecord {
         return this.isSatelliteProvider;
     }
 
+    /**
+     * @return This is true if the IP address belongs to a Tor exit node.
+     * This is only available from GeoIP2 Precision Insights.
+     */
+    @JsonProperty("is_tor_exit_node")
+    public boolean isTorExitNode() {
+        return this.isTorExitNode;
+    }
 
     /**
      * @return The name of the organization associated with the IP address. This
