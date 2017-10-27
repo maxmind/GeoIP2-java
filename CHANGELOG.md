@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-2.10.0 (2017-XX-XX)
+2.10.0 (2017-10-27)
 -------------------
 
 * The following new anonymizer methods were added to
