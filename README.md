@@ -217,6 +217,13 @@ Usage:
 new DatabaseReader.Builder(file).withCache(new CHMCache()).build();
 ```
 
+### Packaging Database in a JAR ###
+
+If you are packaging the database file as a resource in a JAR file using
+Maven, you must
+[disable binary file filtering](http://maven.apache.org/plugins/maven-resources-plugin/examples/binaries-filtering.html).
+Failure to do so will result in `InvalidDatabaseException` exceptions being
+thrown when querying the database.
 
 ## Database Example ##
 
