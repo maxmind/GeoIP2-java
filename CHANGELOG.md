@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.10.1
+------------------
+
+* The web service client now correctly handles a proxy of `Proxy.NO_PROXY`.
+
 2.10.0 (2017-10-27)
 -------------------
 
