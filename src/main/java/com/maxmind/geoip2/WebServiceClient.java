@@ -126,7 +126,7 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
                 .setConnectTimeout(builder.connectTimeout)
                 .setSocketTimeout(builder.readTimeout);
 
-        if (builder.proxy != null) {
+        if (builder.proxy != null && builder.proxy != Proxy.NO_PROXY) {
             InetSocketAddress address = (InetSocketAddress) builder.proxy.address();
             HttpHost proxyHost = new HttpHost(address.getHostName(), address.getPort());
             configBuilder.setProxy(proxyHost);
