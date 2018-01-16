@@ -5,15 +5,15 @@
 ## Description ##
 
 This distribution provides an API for the GeoIP2
-[Precision web services](http://dev.maxmind.com/geoip/geoip2/web-services) and
-[databases](http://dev.maxmind.com/geoip/geoip2/downloadable). The API also
-works with the free [GeoLite2 databases](http://dev.maxmind.com/geoip/geoip2/geolite2/).
+[Precision web services](https://dev.maxmind.com/geoip/geoip2/web-services) and
+[databases](https://dev.maxmind.com/geoip/geoip2/downloadable). The API also
+works with the free [GeoLite2 databases](https://dev.maxmind.com/geoip/geoip2/geolite2/).
 
 ## Installation ##
 
 ### Maven ###
 
-We recommend installing this package with [Maven](http://maven.apache.org/).
+We recommend installing this package with [Maven](https://maven.apache.org/).
 To do this, add the dependency to your pom.xml:
 
 ```xml
@@ -221,7 +221,7 @@ new DatabaseReader.Builder(file).withCache(new CHMCache()).build();
 
 If you are packaging the database file as a resource in a JAR file using
 Maven, you must
-[disable binary file filtering](http://maven.apache.org/plugins/maven-resources-plugin/examples/binaries-filtering.html).
+[disable binary file filtering](https://maven.apache.org/plugins/maven-resources-plugin/examples/binaries-filtering.html).
 Failure to do so will result in `InvalidDatabaseException` exceptions being
 thrown when querying the database.
 
@@ -409,7 +409,7 @@ System.out.println(response.getOrganization());                 // 'University o
 
 For details on the possible errors returned by the web service itself, [see
 the GeoIP2 Precision web service
-documentation](http://dev.maxmind.com/geoip2/geoip/web-services).
+documentation](https://dev.maxmind.com/geoip2/geoip/web-services).
 
 If the web service returns an explicit error document, this is thrown as an
 `AddressNotFoundException`, an `AuthenticationException`, an
@@ -455,7 +455,7 @@ Because of these factors, it is possible for any end point to return a record
 where some or all of the attributes are unpopulated.
 
 [See our web-service developer
-documentation](http://dev.maxmind.com/geoip/geoip2/web-services) for
+documentation](https://dev.maxmind.com/geoip/geoip2/web-services) for
 details on what data each end point may return.
 
 The only piece of data which is always returned is the `ip_address`
@@ -483,7 +483,7 @@ the GeoNames premium data set.
 
 If the problem you find is that an IP address is incorrectly mapped,
 please
-[submit your correction to MaxMind](http://www.maxmind.com/en/correction).
+[submit your correction to MaxMind](https://www.maxmind.com/en/correction).
 
 If you find some other sort of mistake, like an incorrect spelling,
 please check [the GeoNames site](http://www.geonames.org/) first. Once
@@ -495,7 +495,7 @@ releases.
 
 If you are a paying MaxMind customer and you're not sure where to submit
 a correction, please [contact MaxMind support]
-(http://www.maxmind.com/en/support) for help.
+(https://www.maxmind.com/en/support) for help.
 
 ## Other Support ##
 
@@ -504,7 +504,7 @@ Please report all issues with this code using the
 
 If you are having an issue with a MaxMind service that is not specific
 to the client API, please
-[contact MaxMind support](http://www.maxmind.com/en/support).
+[contact MaxMind support](https://www.maxmind.com/en/support).
 
 ## Requirements  ##
 
@@ -517,7 +517,7 @@ whenever possible.
 
 ## Versioning ##
 
-The GeoIP2 Java API uses [Semantic Versioning](http://semver.org/).
+The GeoIP2 Java API uses [Semantic Versioning](https://semver.org/).
 
 ## Copyright and License ##
 
