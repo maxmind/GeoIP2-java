@@ -213,7 +213,7 @@ a small (~2MB) memory overhead.
 
 Usage:
 
-```
+```java
 new DatabaseReader.Builder(file).withCache(new CHMCache()).build();
 ```
 
