@@ -472,7 +472,7 @@ populated places. They offer both free and paid premium data. Each
 feature is uniquely identified by a `geonameId`, which is an integer.
 
 Many of the records returned by the GeoIP2 web services and databases
-include a `getGeonameId()` method. This is the ID of a geographical
+include a `getGeoNameId()` method. This is the ID of a geographical
 feature (city, region, country, etc.) in the GeoNames database.
 
 Some of the data that MaxMind provides is also sourced from GeoNames. We
