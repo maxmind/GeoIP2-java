@@ -459,7 +459,7 @@ documentation](http://dev.maxmind.com/geoip/geoip2/web-services) for
 details on what data each end point may return.
 
 The only piece of data which is always returned is the ```ip_address```
-available at ```lookup.getTraits().getIpAddresS()```.
+available at ```lookup.getTraits().getIpAddress()```.
 
 Every record class attribute has a corresponding predicate method so you can
 check to see if the attribute is set.
