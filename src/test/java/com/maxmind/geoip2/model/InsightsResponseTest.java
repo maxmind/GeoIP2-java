@@ -14,7 +14,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.maxmind.geoip2.json.File.*;
+import static com.maxmind.geoip2.json.File.readJsonFile;
 import static org.junit.Assert.*;
 
 public class InsightsResponseTest {

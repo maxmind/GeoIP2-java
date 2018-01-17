@@ -9,10 +9,12 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collections;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.maxmind.geoip2.json.File.readJsonFile;
 import static org.junit.Assert.*;
 
 // In addition to testing the CityResponse, this code exercises the locale
@@ -21,45 +23,14 @@ public class CityResponseTest {
     @Rule
     public final WireMockRule wireMockRule = new WireMockRule(0);
 
-    private final static String countryBody =
-            "{" +
-                    "   \"continent\" : {" +
-                    "      \"code\" : \"NA\"," +
-                    "      \"geoname_id\" : 42," +
-                    "      \"names\" : {" +
-                    "         \"zh-CN\" : \"北美洲\"," +
-                    "         \"en\" : \"North America\"" +
-                    "      }" +
-                    "   }," +
-                    "   \"country\" : {" +
-                    "      \"confidence\" : 56," +
-                    "      \"geoname_id\" : 1," +
-                    "      \"iso_code\" : \"US\"," +
-                    "      \"names\" : {" +
-                    "         \"ru\" : \"объединяет государства\"," +
-                    "         \"en\" : \"United States\"," +
-                    "         \"zh-CN\" : \"美国\"" +
-                    "      }" +
-                    "   }," +
-                    "   \"registered_country\" : {" +
-                    "      \"geoname_id\" : 2," +
-                    "      \"iso_code\" : \"CA\"," +
-                    "      \"names\" : {" +
-                    "         \"en\" : \"Canada\"" +
-                    "      }" +
-                    "   }," +
-                    "   \"traits\" : {" +
-                    "      \"ip_address\" : \"1.2.3.4\"" +
-                    "   }" +
-                    "}";
-
     @Before
-    public void createClient() throws IOException, GeoIp2Exception {
+    public void createClient() throws IOException, GeoIp2Exception,
+           URISyntaxException {
         stubFor(get(urlEqualTo("/geoip/v2.1/city/1.1.1.2"))
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/vnd.maxmind.com-city+json; charset=UTF-8; version=2.1")
-                        .withBody(countryBody.getBytes("UTF-8"))));
+                        .withBody(readJsonFile("city0"))));
     }
 
 
