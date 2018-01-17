@@ -60,6 +60,15 @@ public class DatabaseReaderTest {
     }
 
     @Test
+    public void testIsInEuropeanUnion() throws Exception {
+        DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
+                .build();
+        CityResponse city = reader.city(InetAddress.getByName("89.160.20.128"));
+        assertEquals(true, city.getCountry().isInEuropeanUnion());
+        assertEquals(true, city.getRegisteredCountry().isInEuropeanUnion());
+    }
+
+    @Test
     public void testLocaleListFile() throws Exception {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
                 .locales(Arrays.asList("xx", "ru", "pt-BR", "es", "en"))

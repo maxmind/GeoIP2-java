@@ -1,10 +1,13 @@
 CHANGELOG
 =========
 
-2.10.1
+2.11.0
 ------------------
 
 * The web service client now correctly handles a proxy of `Proxy.NO_PROXY`.
+* The `isInEuropeanUnion()` method was added to
+  `com.maxmind.geoip2.record.Country`. This returns `true` if the country
+  is a member state of the European Union.
 
 2.10.0 (2017-10-27)
 -------------------

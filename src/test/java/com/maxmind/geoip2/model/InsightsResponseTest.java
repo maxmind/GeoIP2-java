@@ -69,6 +69,7 @@ public class InsightsResponseTest {
                     "   }," +
                     "   \"represented_country\" : {" +
                     "      \"geoname_id\" : 3," +
+                    "      \"is_in_european_union\": true," +
                     "      \"iso_code\" : \"GB\"," +
                     "      \"names\" : {" +
                     "         \"en\" : \"United Kingdom\"" +
@@ -239,5 +240,9 @@ public class InsightsResponseTest {
         assertEquals(
                 "city.getRepresentedCountry().getType() does not return C<military>",
                 "C<military>", this.insights.getRepresentedCountry().getType());
+        assertEquals(
+                "city.getRepresentedCountry().isInEuropeanUnion() does not return true",
+                true,
+                this.insights.getRepresentedCountry().isInEuropeanUnion());
     }
 }

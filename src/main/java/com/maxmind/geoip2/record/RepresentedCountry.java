@@ -25,18 +25,33 @@ public final class RepresentedCountry extends Country {
     private final String type;
 
     public RepresentedCountry() {
-        this(null, null, null, null, null, null);
+        this(null, null, null, false, null, null, null);
+    }
+
+    // This method is for backwards compatibility. We should remove it when we
+    // do a major release.
+    public RepresentedCountry(
+            List<String> locales,
+            Integer confidence,
+            Integer geoNameId,
+            String isoCode,
+            Map<String, String> names,
+            String type
+    ) {
+        this(locales, confidence, geoNameId, false, isoCode, names, type);
     }
 
     public RepresentedCountry(
             @JacksonInject("locales") List<String> locales,
             @JsonProperty("confidence") Integer confidence,
             @JsonProperty("geoname_id") Integer geoNameId,
+            @JsonProperty("is_in_european_union") boolean isInEuropeanUnion,
             @JsonProperty("iso_code") String isoCode,
             @JsonProperty("names") Map<String, String> names,
             @JsonProperty("type") String type
     ) {
-        super(locales, confidence, geoNameId, isoCode, names);
+        super(locales, confidence, geoNameId, isInEuropeanUnion, isoCode,
+                names);
         this.type = type;
     }
 
