@@ -12,6 +12,8 @@ import java.net.InetAddress;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class CountryResponseTest {
     @Rule
@@ -90,9 +92,9 @@ public class CountryResponseTest {
     @SuppressWarnings("boxing")
     @Test
     public void testCountry() {
-        assertEquals(
+        assertFalse(
                 "country.getCountry().isInEuropeanUnion() does not return false",
-                false, this.country.getCountry().isInEuropeanUnion());
+                this.country.getCountry().isInEuropeanUnion());
         assertEquals("country.getCountry().getCode() does not return US", "US",
                 this.country.getCountry().getIsoCode());
         assertEquals("country.getCountry().getGeoNameId() does not return 1",
@@ -107,9 +109,9 @@ public class CountryResponseTest {
     @SuppressWarnings("boxing")
     @Test
     public void testRegisteredCountry() {
-        assertEquals(
+        assertFalse(
                 "country.getRegisteredCountry().isInEuropeanUnion() does not return false",
-                false, this.country.getRegisteredCountry().isInEuropeanUnion());
+                this.country.getRegisteredCountry().isInEuropeanUnion());
         assertEquals(
                 "country.getRegisteredCountry().getIsoCode() does not return CA",
                 "CA", this.country.getRegisteredCountry().getIsoCode());
@@ -124,9 +126,8 @@ public class CountryResponseTest {
     @SuppressWarnings("boxing")
     @Test
     public void testRepresentedCountry() {
-        assertEquals(
+        assertTrue(
                 "country.getRepresentedCountry().isInEuropeanUnion() does not return true",
-                true,
                 this.country.getRepresentedCountry().isInEuropeanUnion());
         assertEquals(
                 "country.getRepresentedCountry().getCode() does not return GB",

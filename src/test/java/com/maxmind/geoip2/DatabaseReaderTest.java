@@ -64,8 +64,8 @@ public class DatabaseReaderTest {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
                 .build();
         CityResponse city = reader.city(InetAddress.getByName("89.160.20.128"));
-        assertEquals(true, city.getCountry().isInEuropeanUnion());
-        assertEquals(true, city.getRegisteredCountry().isInEuropeanUnion());
+        assertTrue(city.getCountry().isInEuropeanUnion());
+        assertTrue(city.getRegisteredCountry().isInEuropeanUnion());
     }
 
     @Test

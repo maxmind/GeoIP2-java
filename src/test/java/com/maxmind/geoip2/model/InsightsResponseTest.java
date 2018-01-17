@@ -158,9 +158,8 @@ public class InsightsResponseTest {
         assertEquals(
                 "city.getRepresentedCountry().getType() does not return C<military>",
                 "C<military>", this.insights.getRepresentedCountry().getType());
-        assertEquals(
+        assertTrue(
                 "city.getRepresentedCountry().isInEuropeanUnion() does not return true",
-                true,
                 this.insights.getRepresentedCountry().isInEuropeanUnion());
     }
 
@@ -178,10 +177,10 @@ public class InsightsResponseTest {
         InsightsResponse insights = client.insights(
                 InetAddress.getByName("1.1.1.2"));
 
-        assertEquals("getCountry().isInEuropeanUnion() does not return true",
-                true, insights.getCountry().isInEuropeanUnion());
-        assertEquals(
+        assertTrue("getCountry().isInEuropeanUnion() does not return true",
+                insights.getCountry().isInEuropeanUnion());
+        assertTrue(
                 "getRegisteredCountry().() isInEuropeanUnion = does not return true",
-                true, insights.getRegisteredCountry().isInEuropeanUnion());
+                insights.getRegisteredCountry().isInEuropeanUnion());
     }
 }
