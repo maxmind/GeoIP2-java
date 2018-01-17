@@ -31,6 +31,11 @@ public class InsightsResponseTest {
                         .withStatus(200)
                         .withHeader("Content-Type", "application/vnd.maxmind.com-insights+json; charset=UTF-8; version=2.1")
                         .withBody(readJsonFile("insights0"))));
+        stubFor(get(urlEqualTo("/geoip/v2.1/insights/1.1.1.2"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/vnd.maxmind.com-insights+json; charset=UTF-8; version=2.1")
+                        .withBody(readJsonFile("insights1"))));
 
         WebServiceClient client = new WebServiceClient.Builder(6, "0123456789")
                 .host("localhost")
@@ -157,5 +162,26 @@ public class InsightsResponseTest {
                 "city.getRepresentedCountry().isInEuropeanUnion() does not return true",
                 true,
                 this.insights.getRepresentedCountry().isInEuropeanUnion());
+    }
+
+    @Test
+    public void testIsInEuropeanUnion() throws IOException, GeoIp2Exception {
+        // This uses an alternate fixture where we have the
+        // is_in_european_union flag set in locations not set in the other
+        // fixture.
+        WebServiceClient client = new WebServiceClient.Builder(6, "0123456789")
+                .host("localhost")
+                .port(this.wireMockRule.port())
+                .disableHttps()
+                .build();
+
+        InsightsResponse insights = client.insights(
+                InetAddress.getByName("1.1.1.2"));
+
+        assertEquals("getCountry().isInEuropeanUnion() does not return true",
+                true, insights.getCountry().isInEuropeanUnion());
+        assertEquals(
+                "getRegisteredCountry().() isInEuropeanUnion = does not return true",
+                true, insights.getRegisteredCountry().isInEuropeanUnion());
     }
 }

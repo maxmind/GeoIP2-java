@@ -1,0 +1,101 @@
+{
+  "city": {
+    "geoname_id": "2655045",
+    "names": {
+      "en": "Boxford"
+    }
+  },
+  "continent": {
+    "code": "EU",
+    "geoname_id": 6255148,
+    "names": {
+      "de": "Europa",
+      "en": "Europe",
+      "es": "Europa",
+      "fr": "Europe",
+      "ja": "ヨーロッパ",
+      "pt-BR": "Europa",
+      "ru": "Европа",
+      "zh-CN": "欧洲"
+    }
+  },
+  "country": {
+    "geoname_id": 2635167,
+    "is_in_european_union": true,
+    "iso_code": "GB",
+    "names": {
+      "de": "Vereinigtes Königreich",
+      "en": "United Kingdom",
+      "es": "Reino Unido",
+      "fr": "Royaume-Uni",
+      "ja": "イギリス",
+      "pt-BR": "Reino Unido",
+      "ru": "Великобритания",
+      "zh-CN": "英国"
+    }
+  },
+  "location": {
+    "accuracy_radius": 100,
+    "latitude": "51.7500",
+    "longitude": "-1.2500",
+    "time_zone": "Europe/London"
+  },
+  "maxmind": {
+    "queries_remaining": 11
+  },
+  "postal": {
+    "code": "OX1"
+  },
+  "registered_country": {
+    "geoname_id": 3017382,
+    "is_in_european_union": true,
+    "iso_code": "FR",
+    "names": {
+      "de": "Frankreich",
+      "en": "France",
+      "es": "Francia",
+      "fr": "France",
+      "ja": "フランス共和国",
+      "pt-BR": "França",
+      "ru": "Франция",
+      "zh-CN": "法国"
+    }
+  },
+  "subdivisions": [
+    {
+      "geoname_id": 6269131,
+      "iso_code": "ENG",
+      "names": {
+        "en": "England",
+        "es": "Inglaterra",
+        "fr": "Angleterre",
+        "pt-BR": "Inglaterra"
+      }
+    },
+    {
+      "geoname_id": 3333217,
+      "iso_code": "WBK",
+      "names": {
+        "en": "West Berkshire",
+        "ru": "Западный Беркшир",
+        "zh-CN": "西伯克郡"
+      }
+    }
+  ],
+  "traits": {
+    "autonomous_system_number": 1234,
+    "autonomous_system_organization": "AS Organization",
+    "domain": "example.com",
+    "ip_address": "1.2.3.4",
+    "isp": "Comcast",
+    "is_anonymous": true,
+    "is_anonymous_proxy": true,
+    "is_anonymous_vpn": true,
+    "is_hosting_provider": true,
+    "is_public_proxy": true,
+    "is_satellite_provider": true,
+    "is_tor_exit_node": true,
+    "organization": "Blorg",
+    "user_type": "college"
+  }
+}
