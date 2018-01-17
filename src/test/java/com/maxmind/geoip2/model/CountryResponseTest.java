@@ -129,7 +129,7 @@ public class CountryResponseTest {
                 true,
                 this.country.getRepresentedCountry().isInEuropeanUnion());
         assertEquals(
-                "country.getRepresentedCountry().getCode() does not return GA",
+                "country.getRepresentedCountry().getCode() does not return GB",
                 "GB", this.country.getRepresentedCountry().getIsoCode());
         assertEquals(
                 "country.getRepresentedCountry().getGeoNameId() does not return 4",
