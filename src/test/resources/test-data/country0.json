@@ -1,0 +1,36 @@
+{
+  "traits": {
+    "ip_address": "1.2.3.4"
+  },
+  "continent": {
+    "names": {
+      "en": "North America"
+    },
+    "geoname_id": 42,
+    "code": "NA"
+  },
+  "country": {
+    "geoname_id": 1,
+    "confidence": 56,
+    "names": {
+      "en": "United States"
+    },
+    "iso_code": "US"
+  },
+  "registered_country": {
+    "geoname_id": 2,
+    "names": {
+      "en": "Canada"
+    },
+    "iso_code": "CA"
+  },
+  "represented_country": {
+    "geoname_id": 4,
+    "type": "military",
+    "names": {
+      "en": "United Kingdom"
+    },
+    "is_in_european_union": true,
+    "iso_code": "GB"
+  }
+}

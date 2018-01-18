@@ -1,0 +1,30 @@
+{
+  "continent": {
+    "code": "NA",
+    "geoname_id": 42,
+    "names": {
+      "zh-CN": "北美洲",
+      "en": "North America"
+    }
+  },
+  "country": {
+    "confidence": 56,
+    "geoname_id": 1,
+    "iso_code": "US",
+    "names": {
+      "ru": "объединяет государства",
+      "en": "United States",
+      "zh-CN": "美国"
+    }
+  },
+  "registered_country": {
+    "geoname_id": 2,
+    "iso_code": "CA",
+    "names": {
+      "en": "Canada"
+    }
+  },
+  "traits": {
+    "ip_address": "1.2.3.4"
+  }
+}

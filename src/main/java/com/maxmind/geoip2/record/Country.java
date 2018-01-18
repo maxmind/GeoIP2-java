@@ -21,21 +21,36 @@ import java.util.Map;
 public class Country extends AbstractNamedRecord {
 
     private final Integer confidence;
+    private final boolean isInEuropeanUnion;
     private final String isoCode;
 
     public Country() {
-        this(null, null, null, null, null);
+        this(null, null, null, false, null, null);
+    }
+
+    // This method is for backwards compatibility. We should remove it when we
+    // do a major release.
+    public Country(
+            List<String> locales,
+            Integer confidence,
+            Integer geoNameId,
+            String isoCode,
+            Map<String, String> names
+    ) {
+        this(locales, confidence, geoNameId, false, isoCode, names);
     }
 
     public Country(
             @JacksonInject("locales") List<String> locales,
             @JsonProperty("confidence") Integer confidence,
             @JsonProperty("geoname_id") Integer geoNameId,
+            @JsonProperty("is_in_european_union") boolean isInEuropeanUnion,
             @JsonProperty("iso_code") String isoCode,
             @JsonProperty("names") Map<String, String> names
     ) {
         super(locales, geoNameId, names);
         this.confidence = confidence;
+        this.isInEuropeanUnion = isInEuropeanUnion;
         this.isoCode = isoCode;
     }
 
@@ -46,6 +61,16 @@ public class Country extends AbstractNamedRecord {
      */
     public Integer getConfidence() {
         return this.confidence;
+    }
+
+    /**
+     * @return This is true if the country is a member state of the European
+     * Union. This attribute is returned by all location services and
+     * databases.
+     */
+    @JsonProperty("is_in_european_union")
+    public boolean isInEuropeanUnion() {
+        return this.isInEuropeanUnion;
     }
 
     /**

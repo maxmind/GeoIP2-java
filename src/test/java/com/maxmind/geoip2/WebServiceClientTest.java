@@ -122,15 +122,24 @@ public class WebServiceClientTest {
                 representedCountry}) {
             assertNull(c.getConfidence());
             assertNull(c.getIsoCode());
+            assertFalse(c.isInEuropeanUnion());
         }
 
         for (AbstractNamedRecord r : new AbstractNamedRecord[]{city,
-                continent, country, registeredCountry, representedCountry,
-                subdiv}) {
+                continent, subdiv}) {
             assertNull(r.getGeoNameId());
             assertNull(r.getName());
             assertTrue(r.getNames().isEmpty());
             assertEquals(r.getClass().getName() + " [ {} ]", r.toString());
+        }
+
+        for (AbstractNamedRecord r : new AbstractNamedRecord[]{country,
+                registeredCountry, representedCountry}) {
+            assertNull(r.getGeoNameId());
+            assertNull(r.getName());
+            assertTrue(r.getNames().isEmpty());
+            assertEquals(r.getClass().getName() +
+                    " [ {\"is_in_european_union\":false} ]", r.toString());
         }
     }
 

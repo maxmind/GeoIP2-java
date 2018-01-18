@@ -10,113 +10,32 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.maxmind.geoip2.json.File.readJsonFile;
 import static org.junit.Assert.*;
 
 public class InsightsResponseTest {
     @Rule
     public final WireMockRule wireMockRule = new WireMockRule(0);
 
-    // This really should be moved out of a string
-    private final static String insightsBody =
-            "{" +
-                    "   \"city\" : {" +
-                    "      \"confidence\" : 76," +
-                    "      \"geoname_id\" : 9876," +
-                    "      \"names\" : {" +
-                    "         \"en\" : \"Minneapolis\"" +
-                    "      }" +
-                    "   }," +
-                    "   \"continent\" : {" +
-                    "      \"code\" : \"NA\"," +
-                    "      \"geoname_id\" : 42," +
-                    "      \"names\" : {" +
-                    "         \"en\" : \"North America\"" +
-                    "      }" +
-                    "   }," +
-                    "   \"country\" : {" +
-                    "      \"confidence\" : 99," +
-                    "      \"geoname_id\" : 1," +
-                    "      \"iso_code\" : \"US\"," +
-                    "      \"names\" : {" +
-                    "         \"en\" : \"United States of America\"" +
-                    "      }" +
-                    "   }," +
-                    "   \"location\" : {" +
-                    "      \"accuracy_radius\" : 1500," +
-                    "      \"average_income\" : 24626," +
-                    "      \"latitude\" : 44.98," +
-                    "      \"longitude\" : 93.2636," +
-                    "      \"metro_code\" : 765," +
-                    "      \"population_density\" : 1341," +
-                    "      \"time_zone\" : \"America/Chicago\"" +
-                    "   }," +
-                    "   \"maxmind\" : {" +
-                    "      \"queries_remaining\" : 11" +
-                    "   }," +
-                    "   \"postal\" : {" +
-                    "      \"code\" : \"55401\"," +
-                    "      \"confidence\" : 33" +
-                    "   }," +
-                    "   \"registered_country\" : {" +
-                    "      \"geoname_id\" : 2," +
-                    "      \"iso_code\" : \"CA\"," +
-                    "      \"names\" : {" +
-                    "         \"en\" : \"Canada\"" +
-                    "      }" +
-                    "   }," +
-                    "   \"represented_country\" : {" +
-                    "      \"geoname_id\" : 3," +
-                    "      \"iso_code\" : \"GB\"," +
-                    "      \"names\" : {" +
-                    "         \"en\" : \"United Kingdom\"" +
-                    "      }," +
-                    "      \"type\" : \"C<military>\"" +
-                    "   }," +
-                    "   \"subdivisions\" : [" +
-                    "      {" +
-                    "         \"confidence\" : 88," +
-                    "         \"geoname_id\" : 574635," +
-                    "         \"iso_code\" : \"MN\"," +
-                    "         \"names\" : {" +
-                    "            \"en\" : \"Minnesota\"" +
-                    "         }" +
-                    "      }," +
-                    "      {" +
-                    "         \"iso_code\" : \"TT\"" +
-                    "      }" +
-                    "   ]," +
-                    "   \"traits\" : {" +
-                    "      \"autonomous_system_number\" : 1234," +
-                    "      \"autonomous_system_organization\" : \"AS Organization\"," +
-                    "      \"domain\" : \"example.com\"," +
-                    "      \"ip_address\" : \"1.2.3.4\"," +
-                    "      \"isp\" : \"Comcast\"," +
-                    "      \"is_anonymous\" : true," +
-                    "      \"is_anonymous_proxy\" : true," +
-                    "      \"is_anonymous_vpn\" : true," +
-                    "      \"is_hosting_provider\" : true," +
-                    "      \"is_public_proxy\" : true," +
-                    "      \"is_satellite_provider\" : true," +
-                    "      \"is_tor_exit_node\" : true," +
-                    "      \"is_anonymous_proxy\" : true," +
-                    "      \"is_satellite_provider\" : true," +
-                    "      \"organization\" : \"Blorg\"," +
-                    "      \"user_type\" : \"college\"" +
-                    "   }" +
-                    "}";
-
     private InsightsResponse insights;
 
     @Before
-    public void createClient() throws IOException, GeoIp2Exception {
+    public void createClient() throws IOException, GeoIp2Exception,
+        URISyntaxException {
         stubFor(get(urlEqualTo("/geoip/v2.1/insights/1.1.1.1"))
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/vnd.maxmind.com-insights+json; charset=UTF-8; version=2.1")
-                        .withBody(insightsBody.getBytes("UTF-8"))));
+                        .withBody(readJsonFile("insights0"))));
+        stubFor(get(urlEqualTo("/geoip/v2.1/insights/1.1.1.2"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/vnd.maxmind.com-insights+json; charset=UTF-8; version=2.1")
+                        .withBody(readJsonFile("insights1"))));
 
         WebServiceClient client = new WebServiceClient.Builder(6, "0123456789")
                 .host("localhost")
@@ -239,5 +158,29 @@ public class InsightsResponseTest {
         assertEquals(
                 "city.getRepresentedCountry().getType() does not return C<military>",
                 "C<military>", this.insights.getRepresentedCountry().getType());
+        assertTrue(
+                "city.getRepresentedCountry().isInEuropeanUnion() does not return true",
+                this.insights.getRepresentedCountry().isInEuropeanUnion());
+    }
+
+    @Test
+    public void testIsInEuropeanUnion() throws IOException, GeoIp2Exception {
+        // This uses an alternate fixture where we have the
+        // is_in_european_union flag set in locations not set in the other
+        // fixture.
+        WebServiceClient client = new WebServiceClient.Builder(6, "0123456789")
+                .host("localhost")
+                .port(this.wireMockRule.port())
+                .disableHttps()
+                .build();
+
+        InsightsResponse insights = client.insights(
+                InetAddress.getByName("1.1.1.2"));
+
+        assertTrue("getCountry().isInEuropeanUnion() does not return true",
+                insights.getCountry().isInEuropeanUnion());
+        assertTrue(
+                "getRegisteredCountry().() isInEuropeanUnion = does not return true",
+                insights.getRegisteredCountry().isInEuropeanUnion());
     }
 }

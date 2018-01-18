@@ -9,60 +9,28 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.URISyntaxException;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.maxmind.geoip2.json.File.readJsonFile;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class CountryResponseTest {
     @Rule
     public final WireMockRule wireMockRule = new WireMockRule(0);
 
-    private final static String countryBody =
-            "{" +
-                    "   \"traits\" : {" +
-                    "      \"ip_address\" : \"1.2.3.4\"" +
-                    "   }," +
-                    "   \"continent\" : {" +
-                    "      \"names\" : {" +
-                    "         \"en\" : \"North America\"" +
-                    "      }," +
-                    "      \"geoname_id\" : 42," +
-                    "      \"code\" : \"NA\"" +
-                    "   }," +
-                    "   \"country\" : {" +
-                    "      \"geoname_id\" : 1," +
-                    "      \"confidence\" : 56," +
-                    "      \"names\" : {" +
-                    "         \"en\" : \"United States\"" +
-                    "      }," +
-                    "      \"iso_code\" : \"US\"" +
-                    "   }," +
-                    "   \"registered_country\" : {" +
-                    "      \"geoname_id\" : 2," +
-                    "      \"names\" : {" +
-                    "         \"en\" : \"Canada\"" +
-                    "      }," +
-                    "      \"iso_code\" : \"CA\"" +
-                    "   }," +
-                    "   \"represented_country\" : {" +
-                    "      \"geoname_id\" : 4," +
-                    "      \"type\" : \"military\"," +
-                    "      \"names\" : {" +
-                    "         \"en\" : \"United Kingdom\"" +
-                    "      }," +
-                    "      \"iso_code\" : \"GB\"" +
-                    "   }" +
-                    "}";
-
     private CountryResponse country;
 
     @Before
-    public void createClient() throws IOException, GeoIp2Exception {
+    public void createClient() throws IOException, GeoIp2Exception,
+           URISyntaxException {
         stubFor(get(urlEqualTo("/geoip/v2.1/country/1.1.1.1"))
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", "application/vnd.maxmind.com-country+json; charset=UTF-8; version=2.1")
-                        .withBody(countryBody.getBytes("UTF-8"))));
+                        .withBody(readJsonFile("country0"))));
 
         WebServiceClient client = new WebServiceClient.Builder(6, "0123456789")
                 .host("localhost")
@@ -89,7 +57,9 @@ public class CountryResponseTest {
     @SuppressWarnings("boxing")
     @Test
     public void testCountry() {
-
+        assertFalse(
+                "country.getCountry().isInEuropeanUnion() does not return false",
+                this.country.getCountry().isInEuropeanUnion());
         assertEquals("country.getCountry().getCode() does not return US", "US",
                 this.country.getCountry().getIsoCode());
         assertEquals("country.getCountry().getGeoNameId() does not return 1",
@@ -104,6 +74,9 @@ public class CountryResponseTest {
     @SuppressWarnings("boxing")
     @Test
     public void testRegisteredCountry() {
+        assertFalse(
+                "country.getRegisteredCountry().isInEuropeanUnion() does not return false",
+                this.country.getRegisteredCountry().isInEuropeanUnion());
         assertEquals(
                 "country.getRegisteredCountry().getIsoCode() does not return CA",
                 "CA", this.country.getRegisteredCountry().getIsoCode());
@@ -118,8 +91,11 @@ public class CountryResponseTest {
     @SuppressWarnings("boxing")
     @Test
     public void testRepresentedCountry() {
+        assertTrue(
+                "country.getRepresentedCountry().isInEuropeanUnion() does not return true",
+                this.country.getRepresentedCountry().isInEuropeanUnion());
         assertEquals(
-                "country.getRepresentedCountry().getCode() does not return GA",
+                "country.getRepresentedCountry().getCode() does not return GB",
                 "GB", this.country.getRepresentedCountry().getIsoCode());
         assertEquals(
                 "country.getRepresentedCountry().getGeoNameId() does not return 4",
