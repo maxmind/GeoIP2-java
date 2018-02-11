@@ -53,7 +53,7 @@ should not be used to identify a particular address or household.
 
 To use the web service API, you must create a new `WebServiceClient` using the
 `WebServiceClient.Builder`. You must provide the `Builder` constructor your
-MaxMind `userId` and `licenseKey`. You may also set a `timeout`, specify a
+MaxMind `accountId` and `licenseKey`. You may also set a `timeout`, specify a
 specific `host`, or set the `locales` fallback order using the methods on the
 `Builder`. After you have created the `WebServiceClient`, you may then call
 the method corresponding to a specific end point, passing it the IP address
@@ -83,7 +83,7 @@ See the API documentation for more details.
 // connections alive for future requests. The object is closeable, but
 // it should not be closed until you are finished making requests with it.
 //
-// Replace "42" with your user ID and "license_key" with your license key.
+// Replace "42" with your account ID and "license_key" with your license key.
 try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
         .build()) {
 
@@ -107,7 +107,7 @@ try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
 // connections alive for future requests. The object is closeable, but
 // it should not be closed until you are finished making requests with it.
 //
-// Replace "42" with your user ID and "license_key" with your license key.
+// Replace "42" with your account ID and "license_key" with your license key.
 try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
         .build()) {
 
@@ -145,7 +145,7 @@ try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
 // connections alive for future requests. The object is closeable, but
 // it should not be closed until you are finished making requests with it.
 //
-// Replace "42" with your user ID and "license_key" with your license key.
+// Replace "42" with your account ID and "license_key" with your license key.
 try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
         .build()) {
 
