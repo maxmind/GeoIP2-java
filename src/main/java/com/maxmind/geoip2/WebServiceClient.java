@@ -52,7 +52,7 @@ import java.util.*;
  * <p>
  * To use the web service API, you must create a new {@code WebServiceClient}
  * using the {@code WebServiceClient.Builder}. You must provide the
- * {@code Builder} constructor your MaxMind {@code userId} and
+ * {@code Builder} constructor your MaxMind {@code accountId} and
  * {@code licenseKey}. You may also set a {@code timeout}, specify a specific
  * {@code host}, or set the {@code locales} fallback order using the methods
  * on the {@code Builder}. After you have created the {@code WebServiceClient},
@@ -102,7 +102,7 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
     private final List<String> locales;
     private final String licenseKey;
 
-    private final int userId;
+    private final int accountId;
     private final boolean useHttps;
     private final int port;
 
@@ -116,7 +116,7 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
         this.useHttps = builder.useHttps;
         this.locales = builder.locales;
         this.licenseKey = builder.licenseKey;
-        this.userId = builder.userId;
+        this.accountId = builder.accountId;
 
         mapper = new ObjectMapper();
         mapper.disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS);
@@ -158,7 +158,7 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
      * </p>
      */
     public static final class Builder {
-        final int userId;
+        final int accountId;
         final String licenseKey;
 
         String host = "geoip.maxmind.com";
@@ -172,11 +172,11 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
         private Proxy proxy;
 
         /**
-         * @param userId     Your MaxMind user ID.
+         * @param accountId  Your MaxMind account ID.
          * @param licenseKey Your MaxMind license key.
          */
-        public Builder(int userId, String licenseKey) {
-            this.userId = userId;
+        public Builder(int accountId, String licenseKey) {
+            this.accountId = accountId;
             this.licenseKey = licenseKey;
         }
 
@@ -320,7 +320,7 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
 
     private HttpGet getResponse(URL url)
             throws GeoIp2Exception, IOException {
-        Credentials credentials = new UsernamePasswordCredentials(Integer.toString(userId), licenseKey);
+        Credentials credentials = new UsernamePasswordCredentials(Integer.toString(accountId), licenseKey);
 
         HttpGet request;
         try {
@@ -405,6 +405,8 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
             case "IP_ADDRESS_NOT_FOUND":
             case "IP_ADDRESS_RESERVED":
                 throw new AddressNotFoundException(error);
+            case "ACCOUNT_ID_REQUIRED":
+            case "ACCOUNT_ID_UNKNOWN":
             case "AUTHORIZATION_INVALID":
             case "LICENSE_KEY_REQUIRED":
             case "USER_ID_REQUIRED":
@@ -457,7 +459,7 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
                 ", host='" + host + '\'' +
                 ", locales=" + locales +
                 ", licenseKey='" + licenseKey + '\'' +
-                ", userId=" + userId +
+                ", accountId=" + accountId +
                 ", useHttps=" + useHttps +
                 ", port=" + port +
                 ", mapper=" + mapper +

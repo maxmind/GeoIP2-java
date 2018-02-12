@@ -220,7 +220,9 @@ public class WebServiceClientTest {
     @Parameters({"AUTHORIZATION_INVALID",
             "LICENSE_KEY_REQUIRED",
             "USER_ID_REQUIRED",
-            "USER_ID_UNKNOWN"})
+            "USER_ID_UNKNOWN",
+            "ACCOUNT_ID_REQUIRED",
+            "ACCOUNT_ID_UNKNOWN"})
     public void testInvalidAuth(String code) throws Exception {
         thrown.expect(AuthenticationException.class);
         thrown.expectMessage("Invalid auth");
