@@ -125,15 +125,15 @@
                             <relocations>
                                 <relocation>
                                     <pattern>com.fasterxml.jackson.core</pattern>
-                                    <shadedPattern>com.fasterxml.jackson.core.geoshaded</shadedPattern>
+                                    <shadedPattern>com.fasterxml.jackson.core-shaded</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>com.fasterxml.jackson.annotation</pattern>
-                                    <shadedPattern>com.fasterxml.jackson.annotation.geoshaded</shadedPattern>
+                                    <shadedPattern>com.fasterxml.jackson.annotation-shaded</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>com.fasterxml.jackson.databind</pattern>
-                                    <shadedPattern>com.fasterxml.jackson.databind.geoshaded</shadedPattern>
+                                    <shadedPattern>com.fasterxml.jackson.databind-shaded</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
