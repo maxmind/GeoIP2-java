@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+2.12.0 (2018-04-11)
+-------------------
+
 * Rename `userId` to `accountId` in various places and support the future error
   codes `ACCOUNT_ID_REQUIRED` and `ACCOUNT_ID_UNKNOWN`.
 
