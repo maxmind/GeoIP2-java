@@ -2,7 +2,7 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v2.11.0
+version: v2.12.0
 ---
 
 # GeoIP2 Java API #
@@ -27,7 +27,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>2.11.0</version>
+        <version>2.12.0</version>
     </dependency>
 ```
 
@@ -40,7 +40,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.maxmind.geoip2:geoip2:2.11.0'
+    compile 'com.maxmind.geoip2:geoip2:2.12.0'
 }
 ```
 
@@ -60,7 +60,7 @@ should not be used to identify a particular address or household.
 
 To use the web service API, you must create a new `WebServiceClient` using the
 `WebServiceClient.Builder`. You must provide the `Builder` constructor your
-MaxMind `userId` and `licenseKey`. You may also set a `timeout`, specify a
+MaxMind `accountId` and `licenseKey`. You may also set a `timeout`, specify a
 specific `host`, or set the `locales` fallback order using the methods on the
 `Builder`. After you have created the `WebServiceClient`, you may then call
 the method corresponding to a specific end point, passing it the IP address
@@ -90,7 +90,7 @@ See the API documentation for more details.
 // connections alive for future requests. The object is closeable, but
 // it should not be closed until you are finished making requests with it.
 //
-// Replace "42" with your user ID and "license_key" with your license key.
+// Replace "42" with your account ID and "license_key" with your license key.
 try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
         .build()) {
 
@@ -114,7 +114,7 @@ try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
 // connections alive for future requests. The object is closeable, but
 // it should not be closed until you are finished making requests with it.
 //
-// Replace "42" with your user ID and "license_key" with your license key.
+// Replace "42" with your account ID and "license_key" with your license key.
 try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
         .build()) {
 
@@ -152,7 +152,7 @@ try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
 // connections alive for future requests. The object is closeable, but
 // it should not be closed until you are finished making requests with it.
 //
-// Replace "42" with your user ID and "license_key" with your license key.
+// Replace "42" with your account ID and "license_key" with your license key.
 try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
         .build()) {
 
