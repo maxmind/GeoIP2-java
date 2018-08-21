@@ -1,6 +1,6 @@
 # GeoIP2 Java API #
 
-[![Build Status](https://travis-ci.org/maxmind/GeoIP2-java.png?branch=master)](https://travis-ci.org/maxmind/GeoIP2-java)
+[![Build Status](https://travis-ci.org/maxmind/GeoIP2-java.png?branch=master)](https://travis-ci.org/maxmind/GeoIP2-java) [![Known Vulnerabilities](https://snyk.io/test/github/maxmind/GeoIP2-java/badge.svg)](https://snyk.io/test/github/maxmind/GeoIP2-java)
 
 ## Description ##
 
