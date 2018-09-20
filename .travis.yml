@@ -26,7 +26,7 @@ install:
   - snyk test --org=maxmind
 after_success:
   - mvn clean cobertura:cobertura coveralls:report
-  - snyk monitor --org=maxmind --project-name=maxmind/GeoIP2-java
+  - "if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' && $TRAVIS_JDK_VERSION == 'oraclejdk9' ]]; then snyk monitor --org=maxmind --project-name=maxmind/GeoIP2-java; fi"
 notifications:
   email:
     on_failure: always
