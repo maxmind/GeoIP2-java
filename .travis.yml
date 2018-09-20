@@ -23,7 +23,7 @@ before_install:
   - npm install -g snyk
 install:
   - mvn install -DskipTests=true -Dgpg.skip=true
-  - snyk test --org=maxmind
+  - "if [[ $TRAVIS_JDK_VERSION == 'oraclejdk9' ]]; then snyk test --org=maxmind; fi"
 after_success:
   - mvn clean cobertura:cobertura coveralls:report
   - "if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' && $TRAVIS_JDK_VERSION == 'oraclejdk9' ]]; then snyk monitor --org=maxmind --project-name=maxmind/GeoIP2-java; fi"
