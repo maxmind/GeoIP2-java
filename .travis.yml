@@ -10,10 +10,12 @@ addons:
     build_command: mvn -DskipTests=true compile
     branch_pattern: .*coverity.*
 language: java
-jdk:
-  - openjdk7
-  - oraclejdk8
-  - oraclejdk9
+matrix:
+  include:
+    - jdk: openjdk7
+    - jdk: oraclejdk8
+    - jdk: oraclejdk9
+      env: RUN_SNYK=true
 env:
   global:
     - secure: NZPWyoQ7lDzSMf6zAUxXNRgwPIWGAIN6eDgTD/vnFxOPYTJX8HEvIAEuoKAqajmJMqRwUl4D1s/cANBY8+IV//KDNiOZY1Hr070Wf2FIrAyxZ13sR3YVHzK6isKF6ISgVub2qyr028Wu1y1Qv2ggx6pRvRfCIBpth3r4l4sKeQU=
@@ -23,10 +25,10 @@ before_install:
   - npm install -g snyk
 install:
   - mvn install -DskipTests=true -Dgpg.skip=true
-  - "if [[ $TRAVIS_JDK_VERSION == 'oraclejdk9' ]]; then snyk test --org=maxmind; fi"
+  - "if [[ $RUN_SNYK ]]; then snyk test --org=maxmind; fi"
 after_success:
   - mvn clean cobertura:cobertura coveralls:report
-  - "if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' && $TRAVIS_JDK_VERSION == 'oraclejdk9' ]]; then snyk monitor --org=maxmind --project-name=maxmind/GeoIP2-java; fi"
+  - "if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' && $RUN_SNYK ]]; then snyk monitor --org=maxmind --project-name=maxmind/GeoIP2-java; fi"
 notifications:
   email:
     on_failure: always
