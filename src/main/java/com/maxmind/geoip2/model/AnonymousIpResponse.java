@@ -44,7 +44,10 @@ public class AnonymousIpResponse extends AbstractResponse {
     }
 
     /**
-     * @return whether the IP address belongs to an anonymous VPN system.
+     * @return whether the IP address is registered to an anonymous VPN provider.
+     * If a VPN provider does not register subnets under names associated with
+     * them, we will likely only flag their IP ranges using the
+     * is_hosting_provider flag.
      */
     @JsonProperty("is_anonymous_vpn")
     public boolean isAnonymousVpn() {
@@ -52,7 +55,8 @@ public class AnonymousIpResponse extends AbstractResponse {
     }
 
     /**
-     * @return whether the IP address belongs to a hosting provider.
+     * @return whether the IP address belongs to a hosting or VPN provider
+     * (see description of is_anonymous_vpn flag).
      */
     @JsonProperty("is_hosting_provider")
     public boolean isHostingProvider() {

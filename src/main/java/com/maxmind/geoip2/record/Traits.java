@@ -204,8 +204,12 @@ public final class Traits extends AbstractRecord {
     }
 
     /**
-     * @return This is true if the IP address belongs to an anonymous VPN
-     * system. This is only available from GeoIP2 Precision Insights.
+     * @return This is true if the IP address is registered to an anonymous
+     * VPN provider.
+     * If a VPN provider does not register subnets under names associated with
+     * them, we will likely only flag their IP ranges using the
+     * is_hosting_provider flag.
+     * This is only available from GeoIP2 Precision Insights.
      */
     @JsonProperty("is_anonymous_vpn")
     public boolean isAnonymousVpn() {
@@ -213,7 +217,8 @@ public final class Traits extends AbstractRecord {
     }
 
     /**
-     * @return This is true if the IP address belongs to a hosting provider.
+     * @return This is true if the IP address belongs to a hosting or
+     * VPN provider (see description of is_anonymous_vpn flag).
      * This is only available from GeoIP2 Precision Insights.
      */
     @JsonProperty("is_hosting_provider")
