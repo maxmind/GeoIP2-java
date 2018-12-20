@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.12.1
+-------------------
+* Updated documentation of anonymizer methods `isAnonymousVpn()`, and
+  `isHostingProvider()`, to be more descriptive.
+
 2.12.0 (2018-04-11)
 -------------------
 
