@@ -272,6 +272,15 @@ public class DatabaseReaderTest {
         reader.close();
     }
 
+    @Test
+    public void testTypeSupported() throws Exception {
+        DatabaseReader reader = new DatabaseReader.Builder(
+                getFile("GeoIP2-Enterprise-Test.mmdb")).build();
+
+        assertTrue(reader.isTypeSupported("Enterprise"));
+        assertFalse(reader.isTypeSupported("City"));
+    }
+
     private File getFile(String filename) throws URISyntaxException {
         URL resource = DatabaseReaderTest.class
                 .getResource("/maxmind-db/test-data/" + filename);
