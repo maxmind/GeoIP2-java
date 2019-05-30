@@ -170,12 +170,11 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     private <T> T get(InetAddress ipAddress, Class<T> cls,
                       String type) throws IOException, AddressNotFoundException {
 
-        String databaseType = this.getMetadata().getDatabaseType();
-        if (!databaseType.contains(type)) {
+        if (!isTypeSupported(type)) {
             String caller = Thread.currentThread().getStackTrace()[2]
                     .getMethodName();
             throw new UnsupportedOperationException(
-                    "Invalid attempt to open a " + databaseType
+                    "Invalid attempt to open a " + this.getMetadata().getDatabaseType()
                             + " database using the " + caller + " method");
         }
 
@@ -325,5 +324,16 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      */
     public Metadata getMetadata() {
         return this.reader.getMetadata();
+    }
+
+    /**
+     * Checks if the database type is supported
+     *
+     * @param type database type to check
+     * @return if the database type is supported
+     */
+    public boolean isTypeSupported(String type) {
+        String databaseType = this.getMetadata().getDatabaseType();
+        return databaseType.contains(type);
     }
 }
