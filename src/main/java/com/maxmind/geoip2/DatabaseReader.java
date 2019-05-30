@@ -327,10 +327,10 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     /**
-     * Checks if the database type is supported
+     * Checks if type is supported
      *
-     * @param type database type to check
-     * @return if the database type is supported
+     * @param type type to check for support
+     * @return if the type is supported
      */
     public boolean isTypeSupported(String type) {
         String databaseType = this.getMetadata().getDatabaseType();
