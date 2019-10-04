@@ -169,10 +169,29 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      */
     private <T> T get(InetAddress ipAddress, Class<T> cls,
                       String type) throws IOException, AddressNotFoundException {
+        T t = getOrNull(ipAddress, cls, type, 1);
+        if(t == null) {
+            throw new AddressNotFoundException("The address "
+                    + ipAddress.getHostAddress() + " is not in the database.");
+        }
+        return t;
+    }
+    
+    /**
+     * @param ipAddress IPv4 or IPv6 address to lookup.
+     * @param stackDepth Used to work out how far down the stack we should look, for the method name
+     * we should use to report back to the user when in error. If this is called directly from the
+     * method to report to the use set to zero, if this is called indirectly then it is the number of
+     * methods between this method and the method to report the name of. 
+     * @return A <T> object with the data for the IP address or null if the IP address is not in our database
+     * @throws IOException              if there is an error opening or reading from the file.
+     */
+    private <T> T getOrNull(InetAddress ipAddress, Class<T> cls,
+                      String type, int stackDepth) throws IOException, AddressNotFoundException {
 
         String databaseType = this.getMetadata().getDatabaseType();
         if (!databaseType.contains(type)) {
-            String caller = Thread.currentThread().getStackTrace()[2]
+            String caller = Thread.currentThread().getStackTrace()[2 + stackDepth]
                     .getMethodName();
             throw new UnsupportedOperationException(
                     "Invalid attempt to open a " + databaseType
@@ -184,14 +203,15 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         // We throw the same exception as the web service when an IP is not in
         // the database
         if (node == null) {
-            throw new AddressNotFoundException("The address "
-                    + ipAddress.getHostAddress() + " is not in the database.");
+            return null;
         }
 
         InjectableValues inject = new JsonInjector(locales, ipAddress.getHostAddress());
 
         return this.om.reader(inject).treeToValue(node, cls);
     }
+    
+    
 
     private ObjectNode jsonNodeToObjectNode(JsonNode node)
             throws InvalidDatabaseException {
@@ -226,11 +246,36 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             GeoIp2Exception {
         return this.get(ipAddress, CountryResponse.class, "Country");
     }
+    
+    /**
+     * Same as {@link #country(InetAddress)} but return null when the IP is not in our database.
+     * @param ipAddress
+     * @return
+     * @throws IOException
+     * @throws GeoIp2Exception
+     */
+    public CountryResponse countryOrNull(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.getOrNull(ipAddress, CountryResponse.class, "Country", 0);
+    }
 
     @Override
     public CityResponse city(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this.get(ipAddress, CityResponse.class, "City");
+    }
+    
+    /**
+     * Same as {@link #city(InetAddress)} but returns null when the IP is no in our database.
+     * 
+     * @param ipAddress
+     * @return
+     * @throws IOException
+     * @throws GeoIp2Exception
+     */
+    public CityResponse cityOrNull(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.getOrNull(ipAddress, CityResponse.class, "City", 0);
     }
 
     /**
