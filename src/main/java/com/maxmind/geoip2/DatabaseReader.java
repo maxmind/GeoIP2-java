@@ -266,7 +266,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
     
     /**
-     * Same as {@link #city(InetAddress)} but returns null when the IP is no in our database.
+     * Same as {@link #city(InetAddress)} but returns null when the IP is not in our database.
      * 
      * @param ipAddress
      * @return
