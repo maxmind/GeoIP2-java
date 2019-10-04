@@ -158,10 +158,13 @@ public class DatabaseReaderTest {
 
     private void unknownAddress(DatabaseReader reader) throws IOException,
             GeoIp2Exception {
-        this.exception.expect(AddressNotFoundException.class);
-        this.exception
-                .expectMessage(containsString("The address 10.10.10.10 is not in the database."));
         try {
+            assertFalse(reader.tryCity(InetAddress.getByName("10.10.10.10")).isPresent());
+            
+            this.exception.expect(AddressNotFoundException.class);
+            this.exception
+                    .expectMessage(containsString("The address 10.10.10.10 is not in the database."));
+        
             reader.city(InetAddress.getByName("10.10.10.10"));
         } finally {
             reader.close();
