@@ -159,7 +159,7 @@ public class DatabaseReaderTest {
     private void unknownAddress(DatabaseReader reader) throws IOException,
             GeoIp2Exception {
         try {
-            Assert.assertNull(reader.cityOrNull(InetAddress.getByName("10.10.10.10")));
+            assertNull(reader.cityOrNull(InetAddress.getByName("10.10.10.10")));
             
             this.exception.expect(AddressNotFoundException.class);
             this.exception
