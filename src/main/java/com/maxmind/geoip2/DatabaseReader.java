@@ -247,14 +247,8 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         return this.get(ipAddress, CountryResponse.class, "Country");
     }
     
-    /**
-     * Same as {@link #country(InetAddress)} but return null when the IP is not in our database.
-     * @param ipAddress
-     * @return
-     * @throws IOException
-     * @throws GeoIp2Exception
-     */
-    public CountryResponse countryOrNull(InetAddress ipAddress) throws IOException,
+    @Override
+    public CountryResponse tryCountry(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this.getOrNull(ipAddress, CountryResponse.class, "Country", 0);
     }
@@ -265,15 +259,8 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         return this.get(ipAddress, CityResponse.class, "City");
     }
     
-    /**
-     * Same as {@link #city(InetAddress)} but returns null when the IP is not in our database.
-     * 
-     * @param ipAddress
-     * @return
-     * @throws IOException
-     * @throws GeoIp2Exception
-     */
-    public CityResponse cityOrNull(InetAddress ipAddress) throws IOException,
+    @Override
+    public CityResponse tryCity(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this.getOrNull(ipAddress, CityResponse.class, "City", 0);
     }
@@ -291,6 +278,12 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             GeoIp2Exception {
         return this.get(ipAddress, AnonymousIpResponse.class, "GeoIP2-Anonymous-IP");
     }
+    
+    @Override
+    public AnonymousIpResponse tryAnonymousIp(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.getOrNull(ipAddress, AnonymousIpResponse.class, "GeoIP2-Anonymous-IP", 0);
+    }
 
     /**
      * Look up an IP address in a GeoLite2 ASN database.
@@ -304,6 +297,12 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     public AsnResponse asn(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this.get(ipAddress, AsnResponse.class, "GeoLite2-ASN");
+    }
+    
+    @Override
+    public AsnResponse tryAsn(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.getOrNull(ipAddress, AsnResponse.class, "GeoLite2-ASN", 0);
     }
 
     /**
@@ -320,6 +319,13 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         return this.get(ipAddress, ConnectionTypeResponse.class,
                 "GeoIP2-Connection-Type");
     }
+    
+    @Override
+    public ConnectionTypeResponse tryConnectionType(InetAddress ipAddress)
+            throws IOException, GeoIp2Exception {
+        return this.getOrNull(ipAddress, ConnectionTypeResponse.class,
+                "GeoIP2-Connection-Type", 0);
+    }
 
     /**
      * Look up an IP address in a GeoIP2 Domain database.
@@ -335,6 +341,13 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         return this
                 .get(ipAddress, DomainResponse.class, "GeoIP2-Domain");
     }
+    
+    @Override
+    public DomainResponse tryDomain(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this
+                .getOrNull(ipAddress, DomainResponse.class, "GeoIP2-Domain", 0);
+    }
 
     /**
      * Look up an IP address in a GeoIP2 Enterprise database.
@@ -348,6 +361,12 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     public EnterpriseResponse enterprise(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this.get(ipAddress, EnterpriseResponse.class, "Enterprise");
+    }
+    
+    @Override
+    public EnterpriseResponse tryEnterprise(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.getOrNull(ipAddress, EnterpriseResponse.class, "Enterprise", 0);
     }
 
 
@@ -363,6 +382,12 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     public IspResponse isp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this.get(ipAddress, IspResponse.class, "GeoIP2-ISP");
+    }
+    
+    @Override
+    public IspResponse tryIsp(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.getOrNull(ipAddress, IspResponse.class, "GeoIP2-ISP", 0);
     }
 
     /**

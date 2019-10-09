@@ -7,6 +7,29 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 public interface DatabaseProvider extends GeoIp2Provider {
+    
+    /**
+     * Same as {@link #country(InetAddress)} but return null when the IP is not in our database.
+     * 
+     * @param ipAddress
+     * @return
+     * @throws IOException
+     * @throws GeoIp2Exception
+     */
+    CountryResponse tryCountry(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
+    
+    /**
+     * Same as {@link #city(InetAddress)} but returns null when the IP is not in our database.
+     * 
+     * @param ipAddress
+     * @return
+     * @throws IOException
+     * @throws GeoIp2Exception
+     */
+    public CityResponse tryCity(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
+    
     /**
      * Look up an IP address in a GeoIP2 Anonymous IP.
      *
@@ -16,6 +39,17 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * @throws java.io.IOException                          if there is an IO error
      */
     AnonymousIpResponse anonymousIp(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
+    
+    /**
+     * Same as {@link #anonymousIp(InetAddress)} but returns null when the IP is not in our database.
+     * 
+     * @param ipAddress
+     * @return
+     * @throws IOException
+     * @throws GeoIp2Exception
+     */
+    AnonymousIpResponse tryAnonymousIp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
 
     /**
@@ -28,6 +62,17 @@ public interface DatabaseProvider extends GeoIp2Provider {
      */
     AsnResponse asn(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
+    
+    /**
+     * Same as {@link #asn(InetAddress)} but returns null when the IP is not in our database.
+     * 
+     * @param ipAddress
+     * @return
+     * @throws IOException
+     * @throws GeoIp2Exception
+     */
+    AsnResponse tryAsn(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
 
     /**
      * Look up an IP address in a GeoIP2 Connection Type database.
@@ -38,6 +83,17 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * @throws java.io.IOException                          if there is an IO error
      */
     ConnectionTypeResponse connectionType(InetAddress ipAddress)
+            throws IOException, GeoIp2Exception;
+    
+    /**
+     * Same as {@link #connectionType(InetAddress)} but returns null when the IP is not in our database.
+     * 
+     * @param ipAddress
+     * @return
+     * @throws IOException
+     * @throws GeoIp2Exception
+     */
+    ConnectionTypeResponse tryConnectionType(InetAddress ipAddress)
             throws IOException, GeoIp2Exception;
 
     /**
@@ -50,6 +106,17 @@ public interface DatabaseProvider extends GeoIp2Provider {
      */
     DomainResponse domain(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
+    
+    /**
+     * Same as {@link #domain(InetAddress)} but returns null when the IP is not in our database.
+     * 
+     * @param ipAddress
+     * @return
+     * @throws IOException
+     * @throws GeoIp2Exception
+     */
+    DomainResponse tryDomain(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
 
     /**
      * Look up an IP address in a GeoIP2 Enterprise database.
@@ -61,6 +128,17 @@ public interface DatabaseProvider extends GeoIp2Provider {
      */
     EnterpriseResponse enterprise(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
+    
+    /**
+     * Same as {@link #enterprise(InetAddress)} but returns null when the IP is not in our database.
+     * 
+     * @param ipAddress
+     * @return
+     * @throws IOException
+     * @throws GeoIp2Exception
+     */
+    EnterpriseResponse tryEnterprise(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
 
     /**
      * Look up an IP address in a GeoIP2 ISP database.
@@ -71,5 +149,15 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * @throws java.io.IOException                          if there is an IO error
      */
     IspResponse isp(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
+    
+    /**
+     * Same as {@link #isp(InetAddress)} but returns null when the IP is not in our database.
+     * @param ipAddress
+     * @return
+     * @throws IOException
+     * @throws GeoIp2Exception
+     */
+    IspResponse tryIsp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
 }
