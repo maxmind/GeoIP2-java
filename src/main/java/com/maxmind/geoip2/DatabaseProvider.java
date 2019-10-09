@@ -3,31 +3,30 @@ package com.maxmind.geoip2;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.*;
 
+import java.util.Optional;
+
 import java.io.IOException;
 import java.net.InetAddress;
 
 public interface DatabaseProvider extends GeoIp2Provider {
     
     /**
-     * Same as {@link #country(InetAddress)} but return null when the IP is not in our database.
      * 
-     * @param ipAddress
-     * @return
-     * @throws IOException
-     * @throws GeoIp2Exception
+     * @param ipAddress IPv4 or IPv6 address to lookup.
+     * @return A Country model for the requested IP address or empty if the IP address is not in the DB.
+     * @throws GeoIp2Exception if there is an error looking up the IP
+     * @throws IOException     if there is an IO error
      */
-    CountryResponse tryCountry(InetAddress ipAddress) throws IOException,
+    Optional<CountryResponse> tryCountry(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
     
     /**
-     * Same as {@link #city(InetAddress)} but returns null when the IP is not in our database.
-     * 
-     * @param ipAddress
-     * @return
-     * @throws IOException
-     * @throws GeoIp2Exception
+     * @param ipAddress IPv4 or IPv6 address to lookup.
+     * @return A City model for the requested IP address or empty if the IP address is not in the DB.
+     * @throws GeoIp2Exception if there is an error looking up the IP
+     * @throws IOException     if there is an IO error
      */
-    public CityResponse tryCity(InetAddress ipAddress) throws IOException,
+    Optional<CityResponse> tryCity(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
     
     /**
@@ -42,14 +41,14 @@ public interface DatabaseProvider extends GeoIp2Provider {
             GeoIp2Exception;
     
     /**
-     * Same as {@link #anonymousIp(InetAddress)} but returns null when the IP is not in our database.
-     * 
-     * @param ipAddress
-     * @return
-     * @throws IOException
-     * @throws GeoIp2Exception
+     * Look up an IP address in a GeoIP2 Anonymous IP.
+     *
+     * @param ipAddress IPv4 or IPv6 address to lookup.
+     * @return a AnonymousIpResponse for the requested IP address or empty if the IP address is not in the DB.
+     * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
+     * @throws java.io.IOException                          if there is an IO error
      */
-    AnonymousIpResponse tryAnonymousIp(InetAddress ipAddress) throws IOException,
+    Optional<AnonymousIpResponse> tryAnonymousIp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
 
     /**
@@ -64,14 +63,14 @@ public interface DatabaseProvider extends GeoIp2Provider {
             GeoIp2Exception;
     
     /**
-     * Same as {@link #asn(InetAddress)} but returns null when the IP is not in our database.
-     * 
-     * @param ipAddress
-     * @return
-     * @throws IOException
-     * @throws GeoIp2Exception
+     * Look up an IP address in a GeoLite2 ASN database.
+     *
+     * @param ipAddress IPv4 or IPv6 address to lookup.
+     * @return an IspResponse for the requested IP address or empty if the IP address is not in the DB.
+     * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
+     * @throws java.io.IOException                          if there is an IO error
      */
-    AsnResponse tryAsn(InetAddress ipAddress) throws IOException,
+    Optional<AsnResponse> tryAsn(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
 
     /**
@@ -86,14 +85,14 @@ public interface DatabaseProvider extends GeoIp2Provider {
             throws IOException, GeoIp2Exception;
     
     /**
-     * Same as {@link #connectionType(InetAddress)} but returns null when the IP is not in our database.
-     * 
-     * @param ipAddress
-     * @return
-     * @throws IOException
-     * @throws GeoIp2Exception
+     * Look up an IP address in a GeoIP2 Connection Type database.
+     *
+     * @param ipAddress IPv4 or IPv6 address to lookup.
+     * @return a ConnectTypeResponse for the requested IP address or empty if the IP address is not in the DB.
+     * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
+     * @throws java.io.IOException                          if there is an IO error
      */
-    ConnectionTypeResponse tryConnectionType(InetAddress ipAddress)
+    Optional<ConnectionTypeResponse> tryConnectionType(InetAddress ipAddress)
             throws IOException, GeoIp2Exception;
 
     /**
@@ -108,14 +107,14 @@ public interface DatabaseProvider extends GeoIp2Provider {
             GeoIp2Exception;
     
     /**
-     * Same as {@link #domain(InetAddress)} but returns null when the IP is not in our database.
-     * 
-     * @param ipAddress
-     * @return
-     * @throws IOException
-     * @throws GeoIp2Exception
+     * Look up an IP address in a GeoIP2 Domain database.
+     *
+     * @param ipAddress IPv4 or IPv6 address to lookup.
+     * @return a DomainResponse for the requested IP address or empty if the IP address is not in the DB.
+     * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
+     * @throws java.io.IOException                          if there is an IO error
      */
-    DomainResponse tryDomain(InetAddress ipAddress) throws IOException,
+    Optional<DomainResponse> tryDomain(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
 
     /**
@@ -130,14 +129,14 @@ public interface DatabaseProvider extends GeoIp2Provider {
             GeoIp2Exception;
     
     /**
-     * Same as {@link #enterprise(InetAddress)} but returns null when the IP is not in our database.
-     * 
-     * @param ipAddress
-     * @return
-     * @throws IOException
-     * @throws GeoIp2Exception
+     * Look up an IP address in a GeoIP2 Enterprise database.
+     *
+     * @param ipAddress IPv4 or IPv6 address to lookup.
+     * @return an EnterpriseResponse for the requested IP address or empty if the IP address is not in the DB.
+     * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
+     * @throws java.io.IOException                          if there is an IO error
      */
-    EnterpriseResponse tryEnterprise(InetAddress ipAddress) throws IOException,
+    Optional<EnterpriseResponse> tryEnterprise(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
 
     /**
@@ -152,12 +151,13 @@ public interface DatabaseProvider extends GeoIp2Provider {
             GeoIp2Exception;
     
     /**
-     * Same as {@link #isp(InetAddress)} but returns null when the IP is not in our database.
-     * @param ipAddress
-     * @return
-     * @throws IOException
-     * @throws GeoIp2Exception
+     * Look up an IP address in a GeoIP2 ISP database.
+     *
+     * @param ipAddress IPv4 or IPv6 address to lookup or empty if the IP address is not in the DB.
+     * @return an IspResponse for the requested IP address.
+     * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
+     * @throws java.io.IOException                          if there is an IO error
      */
-    IspResponse tryIsp(InetAddress ipAddress) throws IOException,
+    Optional<IspResponse> tryIsp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
 }

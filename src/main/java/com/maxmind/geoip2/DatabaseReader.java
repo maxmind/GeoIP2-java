@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>
@@ -167,15 +168,18 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * @throws IOException              if there is an error opening or reading from the file.
      * @throws AddressNotFoundException if the IP address is not in our database
      */
-    private <T> T get(InetAddress ipAddress, Class<T> cls,
+    private <T> T getOrThrowException(InetAddress ipAddress, Class<T> cls,
                       String type) throws IOException, AddressNotFoundException {
-        T t = getOrNull(ipAddress, cls, type, 1);
-        if(t == null) {
+        Optional<T> t = get(ipAddress, cls, type, 1);
+        if(t.isEmpty()) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
         }
-        return t;
+        
+        return t.get();
     }
+    
+    
     
     /**
      * @param ipAddress IPv4 or IPv6 address to lookup.
@@ -186,7 +190,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * @return A <T> object with the data for the IP address or null if the IP address is not in our database
      * @throws IOException              if there is an error opening or reading from the file.
      */
-    private <T> T getOrNull(InetAddress ipAddress, Class<T> cls,
+    private <T> Optional<T> get(InetAddress ipAddress, Class<T> cls,
                       String type, int stackDepth) throws IOException, AddressNotFoundException {
 
         String databaseType = this.getMetadata().getDatabaseType();
@@ -203,12 +207,12 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         // We throw the same exception as the web service when an IP is not in
         // the database
         if (node == null) {
-            return null;
+            return Optional.empty();
         }
 
         InjectableValues inject = new JsonInjector(locales, ipAddress.getHostAddress());
 
-        return this.om.reader(inject).treeToValue(node, cls);
+        return Optional.of(this.om.reader(inject).treeToValue(node, cls));
     }
     
     
@@ -244,25 +248,25 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public CountryResponse country(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, CountryResponse.class, "Country");
+        return this.getOrThrowException(ipAddress, CountryResponse.class, "Country");
     }
     
     @Override
-    public CountryResponse tryCountry(InetAddress ipAddress) throws IOException,
+    public Optional<CountryResponse> tryCountry(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.getOrNull(ipAddress, CountryResponse.class, "Country", 0);
+        return this.get(ipAddress, CountryResponse.class, "Country", 0);
     }
 
     @Override
     public CityResponse city(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, CityResponse.class, "City");
+        return this.getOrThrowException(ipAddress, CityResponse.class, "City");
     }
     
     @Override
-    public CityResponse tryCity(InetAddress ipAddress) throws IOException,
+    public Optional<CityResponse> tryCity(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.getOrNull(ipAddress, CityResponse.class, "City", 0);
+        return this.get(ipAddress, CityResponse.class, "City", 0);
     }
 
     /**
@@ -276,13 +280,13 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public AnonymousIpResponse anonymousIp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, AnonymousIpResponse.class, "GeoIP2-Anonymous-IP");
+        return this.getOrThrowException(ipAddress, AnonymousIpResponse.class, "GeoIP2-Anonymous-IP");
     }
     
     @Override
-    public AnonymousIpResponse tryAnonymousIp(InetAddress ipAddress) throws IOException,
+    public Optional<AnonymousIpResponse> tryAnonymousIp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.getOrNull(ipAddress, AnonymousIpResponse.class, "GeoIP2-Anonymous-IP", 0);
+        return this.get(ipAddress, AnonymousIpResponse.class, "GeoIP2-Anonymous-IP", 0);
     }
 
     /**
@@ -296,13 +300,13 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public AsnResponse asn(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, AsnResponse.class, "GeoLite2-ASN");
+        return this.getOrThrowException(ipAddress, AsnResponse.class, "GeoLite2-ASN");
     }
     
     @Override
-    public AsnResponse tryAsn(InetAddress ipAddress) throws IOException,
+    public Optional<AsnResponse> tryAsn(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.getOrNull(ipAddress, AsnResponse.class, "GeoLite2-ASN", 0);
+        return this.get(ipAddress, AsnResponse.class, "GeoLite2-ASN", 0);
     }
 
     /**
@@ -316,14 +320,14 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public ConnectionTypeResponse connectionType(InetAddress ipAddress)
             throws IOException, GeoIp2Exception {
-        return this.get(ipAddress, ConnectionTypeResponse.class,
+        return this.getOrThrowException(ipAddress, ConnectionTypeResponse.class,
                 "GeoIP2-Connection-Type");
     }
     
     @Override
-    public ConnectionTypeResponse tryConnectionType(InetAddress ipAddress)
+    public Optional<ConnectionTypeResponse> tryConnectionType(InetAddress ipAddress)
             throws IOException, GeoIp2Exception {
-        return this.getOrNull(ipAddress, ConnectionTypeResponse.class,
+        return this.get(ipAddress, ConnectionTypeResponse.class,
                 "GeoIP2-Connection-Type", 0);
     }
 
@@ -339,14 +343,14 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     public DomainResponse domain(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this
-                .get(ipAddress, DomainResponse.class, "GeoIP2-Domain");
+                .getOrThrowException(ipAddress, DomainResponse.class, "GeoIP2-Domain");
     }
     
     @Override
-    public DomainResponse tryDomain(InetAddress ipAddress) throws IOException,
+    public Optional<DomainResponse> tryDomain(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this
-                .getOrNull(ipAddress, DomainResponse.class, "GeoIP2-Domain", 0);
+                .get(ipAddress, DomainResponse.class, "GeoIP2-Domain", 0);
     }
 
     /**
@@ -360,13 +364,13 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public EnterpriseResponse enterprise(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, EnterpriseResponse.class, "Enterprise");
+        return this.getOrThrowException(ipAddress, EnterpriseResponse.class, "Enterprise");
     }
     
     @Override
-    public EnterpriseResponse tryEnterprise(InetAddress ipAddress) throws IOException,
+    public Optional<EnterpriseResponse> tryEnterprise(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.getOrNull(ipAddress, EnterpriseResponse.class, "Enterprise", 0);
+        return this.get(ipAddress, EnterpriseResponse.class, "Enterprise", 0);
     }
 
 
@@ -381,13 +385,13 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public IspResponse isp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, IspResponse.class, "GeoIP2-ISP");
+        return this.getOrThrowException(ipAddress, IspResponse.class, "GeoIP2-ISP");
     }
     
     @Override
-    public IspResponse tryIsp(InetAddress ipAddress) throws IOException,
+    public Optional<IspResponse> tryIsp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.getOrNull(ipAddress, IspResponse.class, "GeoIP2-ISP", 0);
+        return this.get(ipAddress, IspResponse.class, "GeoIP2-ISP", 0);
     }
 
     /**
