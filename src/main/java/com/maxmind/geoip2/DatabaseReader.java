@@ -171,7 +171,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     private <T> T getOrThrowException(InetAddress ipAddress, Class<T> cls,
                       String type) throws IOException, AddressNotFoundException {
         Optional<T> t = get(ipAddress, cls, type, 1);
-        if(t.isEmpty()) {
+        if(!t.isPresent()) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
         }
