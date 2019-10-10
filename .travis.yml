@@ -12,8 +12,6 @@ addons:
 language: java
 matrix:
   include:
-    - jdk: openjdk7
-      dist: trusty
     - jdk: openjdk8
     - jdk: openjdk11
       env: RUN_SNYK=true
