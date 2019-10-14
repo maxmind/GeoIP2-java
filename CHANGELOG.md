@@ -1,10 +1,17 @@
 CHANGELOG
 =========
 
-2.12.1
+2.13.0
 -------------------
-* Updated documentation of anonymizer methods `isAnonymousVpn()`, and
-  `isHostingProvider()`, to be more descriptive.
+
+* IMPORTANT: Java 8 is now required. If you need Java 7 support, please
+  continue using 2.12.0.
+* `DatabaseReader` now provides the methods that return an `Optional` rather
+  than throwing an exception when the record is not found in the database. These
+  methods are prefixed with "try". Closes #28. Pull request by Luke Butters.
+  GitHub #147.
+* Updated documentation of anonymizer methods `isAnonymousVpn()` and
+  `isHostingProvider()` to be more descriptive.
 
 2.12.0 (2018-04-11)
 -------------------
