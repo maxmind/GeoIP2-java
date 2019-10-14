@@ -22,9 +22,9 @@ public abstract class AbstractNamedRecord extends AbstractRecord {
     }
 
     AbstractNamedRecord(List<String> locales, Integer geoNameId, Map<String, String> names) {
-        this.names = names != null ? names : new HashMap<String, String>();
+        this.names = names != null ? names : new HashMap<>();
         this.geoNameId = geoNameId;
-        this.locales = locales != null ? locales : new ArrayList<String>();
+        this.locales = locales != null ? locales : new ArrayList<>();
     }
 
     /**

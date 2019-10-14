@@ -33,7 +33,7 @@ public abstract class AbstractCityResponse extends AbstractCountryResponse {
         this.city = city != null ? city : new City();
         this.location = location != null ? location : new Location();
         this.postal = postal != null ? postal : new Postal();
-        this.subdivisions = subdivisions != null ? subdivisions : new ArrayList<Subdivision>();
+        this.subdivisions = subdivisions != null ? subdivisions : new ArrayList<>();
     }
 
     /**
