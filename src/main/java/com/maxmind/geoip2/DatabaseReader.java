@@ -28,10 +28,16 @@ import java.util.Optional;
  * the {@code DatabaseReader.Builder}. You must provide the {@code Builder}
  * constructor either an {@code InputStream} or {@code File} for your GeoIP2
  * database. You may also specify the {@code fileMode} and the {@code locales}
- * fallback order using the methods on the {@code Builder} object. After you
- * have created the {@code DatabaseReader}, you may then call the appropriate
- * method (e.g., {@code city}) for your database, passing it the IP address
- * you want to look up.
+ * fallback order using the methods on the {@code Builder} object.
+ * </p>
+ * <p>
+ * After you have created the {@code DatabaseReader}, you may then call one of
+ * the appropriate methods, e.g., {@code city} or {@code tryCity}, for your
+ * database. These methods take the IP address to be looked up.  The methods
+ * with the "try" prefix return an {@code Optional} where the value will be
+ * empty if the value is not present in the database. The method without the
+ * prefix will throw an {@code AddressNotFoundException} if the address is
+ * not in the database.
  * </p>
  * <p>
  * If the lookup succeeds, the method call will return a response class for
