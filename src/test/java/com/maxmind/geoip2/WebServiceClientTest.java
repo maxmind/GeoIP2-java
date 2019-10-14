@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
@@ -354,7 +355,7 @@ public class WebServiceClientTest {
     }
 
     private WebServiceClient createClient(String service, String ip, int status, String contentType, String responseContent) throws UnsupportedEncodingException {
-        byte[] body = responseContent.getBytes("UTF-8");
+        byte[] body = responseContent.getBytes(StandardCharsets.UTF_8);
         stubFor(get(urlEqualTo("/geoip/v2.1/" + service + "/" + ip))
                 .withHeader("Accept", equalTo("application/json"))
                 .willReturn(aResponse()
