@@ -125,7 +125,6 @@
                                 http://maxmind.github.io/MaxMind-DB-Reader-java/doc/latest/</link>
                             </links>
                             <source>8</source>
-                            <target>8</target>
                         </configuration>
                     </execution>
                 </executions>
@@ -185,6 +184,7 @@
                 <configuration>
                     <format>xml</format>
                     <maxmem>256m</maxmem>
+                    <check/>
                 </configuration>
             </plugin>
             <plugin>
