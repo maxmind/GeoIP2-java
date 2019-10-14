@@ -74,7 +74,6 @@ public class InsightsResponseTest {
                 "MN", this.insights.getLeastSpecificSubdivision().getIsoCode());
     }
 
-    @SuppressWarnings("boxing")
     @Test
     public void testTraits() {
         Traits traits = this.insights.getTraits();
