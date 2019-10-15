@@ -5,8 +5,6 @@ import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.*;
 import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
-import com.maxmind.geoip2.record.City;
-import com.maxmind.geoip2.record.Country;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
