@@ -48,7 +48,7 @@ import java.util.*;
  * The web service may not return any information for an entire record, in which
  * case all of the attributes for that record class will be empty.
  * </p>
- * <h3>Usage</h3>
+ * <h2>Usage</h2>
  * <p>
  * To use the web service API, you must create a new {@code WebServiceClient}
  * using the {@code WebServiceClient.Builder}. You must provide the
@@ -74,7 +74,7 @@ import java.util.*;
  * requests, you should close the object to ensure the connections are closed
  * and any resources are promptly returned to the system.
  * </p>
- * <h3>Exceptions</h3>
+ * <h2>Exceptions</h2>
  * <p>
  * For details on the possible errors returned by the web service itself, see <a
  * href="http://dev.maxmind.com/geoip/geoip2/web-services">the GeoIP2 web

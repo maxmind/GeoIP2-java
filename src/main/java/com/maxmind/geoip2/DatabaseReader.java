@@ -22,7 +22,7 @@ import java.util.Optional;
  * The class {@code DatabaseReader} provides a reader for the GeoIP2 database
  * format.
  * </p>
- * <h3>Usage</h3>
+ * <h2>Usage</h2>
  * <p>
  * To use the database API, you must create a new {@code DatabaseReader} using
  * the {@code DatabaseReader.Builder}. You must provide the {@code Builder}
@@ -50,7 +50,7 @@ import java.util.Optional;
  * expensive as it must read in metadata for the file. It is safe to share the
  * object across threads.
  * </p>
- * <h4>Caching</h4>
+ * <h3>Caching</h3>
  * <p>
  * The database API supports pluggable caching (by default, no caching is
  * performed). A simple implementation is provided by
