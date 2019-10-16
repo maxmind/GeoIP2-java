@@ -194,9 +194,12 @@ object.
 After you have created the `DatabaseReader`, you may then call one of the
 appropriate methods, e.g., `city` or `tryCity`, for your database. These
 methods take the IP address to be looked up.  The methods with the `try`
-prefix return an `Optional` where the value will be empty if the value is
+prefix return an `Optional` object, which will be empty if the value is
 not present in the database. The method without the prefix will throw an
-`AddressNotFoundException` if the address is not in the database.
+`AddressNotFoundException` if the address is not in the database. If you
+are looking up many IPs that are not contained in the database, the `try`
+method will be slightly faster as they do not need to construct and throw
+an exception. These methods otherwise behave the same.
 
 If the lookup succeeds, the method call will return a response class for the
 GeoIP2 lookup. The class in turn contains multiple record classes, each of
