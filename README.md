@@ -189,9 +189,17 @@ To use the database API, you must create a new `DatabaseReader` using the
 `DatabaseReader.Builder`. You must provide the `Builder` constructor either an
 `InputStream` or `File` for your GeoIP2 database. You may also specify the
 `fileMode` and the `locales` fallback order using the methods on the `Builder`
-object. After you have created the `DatabaseReader`, you may then call the
-appropriate method (e.g., `city`) for your database, passing it the IP address
-you want to look up.
+object.
+
+After you have created the `DatabaseReader`, you may then call one of the
+appropriate methods, e.g., `city` or `tryCity`, for your database. These
+methods take the IP address to be looked up.  The methods with the `try`
+prefix return an `Optional` object, which will be empty if the value is
+not present in the database. The method without the prefix will throw an
+`AddressNotFoundException` if the address is not in the database. If you
+are looking up many IPs that are not contained in the database, the `try`
+method will be slightly faster as they do not need to construct and throw
+an exception. These methods otherwise behave the same.
 
 If the lookup succeeds, the method call will return a response class for the
 GeoIP2 lookup. The class in turn contains multiple record classes, each of
@@ -521,6 +529,6 @@ The GeoIP2 Java API uses [Semantic Versioning](https://semver.org/).
 
 ## Copyright and License ##
 
-This software is Copyright (c) 2013-2018 by MaxMind, Inc.
+This software is Copyright (c) 2013-2019 by MaxMind, Inc.
 
 This is free software, licensed under the Apache License, Version 2.0.

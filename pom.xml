@@ -125,7 +125,6 @@
                                 http://maxmind.github.io/MaxMind-DB-Reader-java/doc/latest/</link>
                             </links>
                             <source>8</source>
-                            <target>8</target>
                         </configuration>
                     </execution>
                 </executions>
@@ -166,8 +165,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -185,6 +184,7 @@
                 <configuration>
                     <format>xml</format>
                     <maxmem>256m</maxmem>
+                    <check/>
                 </configuration>
             </plugin>
             <plugin>

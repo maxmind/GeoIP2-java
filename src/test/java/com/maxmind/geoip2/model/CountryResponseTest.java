@@ -41,7 +41,6 @@ public class CountryResponseTest {
         country = client.country(InetAddress.getByName("1.1.1.1"));
     }
 
-    @SuppressWarnings("boxing")
     @Test
     public void testContinent() {
         assertEquals("country.getContinent().getCode() does not return NA",
@@ -54,7 +53,6 @@ public class CountryResponseTest {
                 "North America", this.country.getContinent().getName());
     }
 
-    @SuppressWarnings("boxing")
     @Test
     public void testCountry() {
         assertFalse(
@@ -71,7 +69,6 @@ public class CountryResponseTest {
                 "United States", this.country.getCountry().getName());
     }
 
-    @SuppressWarnings("boxing")
     @Test
     public void testRegisteredCountry() {
         assertFalse(
@@ -88,7 +85,6 @@ public class CountryResponseTest {
                 "Canada", this.country.getRegisteredCountry().getName());
     }
 
-    @SuppressWarnings("boxing")
     @Test
     public void testRepresentedCountry() {
         assertTrue(

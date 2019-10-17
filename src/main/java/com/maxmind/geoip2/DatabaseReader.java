@@ -15,22 +15,32 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>
  * The class {@code DatabaseReader} provides a reader for the GeoIP2 database
  * format.
  * </p>
- * <h3>Usage</h3>
+ * <h2>Usage</h2>
  * <p>
  * To use the database API, you must create a new {@code DatabaseReader} using
  * the {@code DatabaseReader.Builder}. You must provide the {@code Builder}
  * constructor either an {@code InputStream} or {@code File} for your GeoIP2
  * database. You may also specify the {@code fileMode} and the {@code locales}
- * fallback order using the methods on the {@code Builder} object. After you
- * have created the {@code DatabaseReader}, you may then call the appropriate
- * method (e.g., {@code city}) for your database, passing it the IP address
- * you want to look up.
+ * fallback order using the methods on the {@code Builder} object.
+ * </p>
+ * <p>
+ * After you have created the {@code DatabaseReader}, you may then call one of
+ * the appropriate methods, e.g., {@code city} or {@code tryCity}, for your
+ * database. These methods take the IP address to be looked up.  The methods
+ * with the "try" prefix return an {@code Optional} object, which will be
+ * empty if the value is not present in the database. The method without the
+ * prefix will throw an {@code AddressNotFoundException} if the address is
+ * not in the database. If you are looking up many IPs that are not contained
+ * in the database, the "try" method will be slightly faster as they do not
+ * need to construct and throw an exception. These methods otherwise behave
+ * the same.
  * </p>
  * <p>
  * If the lookup succeeds, the method call will return a response class for
@@ -43,7 +53,7 @@ import java.util.List;
  * expensive as it must read in metadata for the file. It is safe to share the
  * object across threads.
  * </p>
- * <h4>Caching</h4>
+ * <h3>Caching</h3>
  * <p>
  * The database API supports pluggable caching (by default, no caching is
  * performed). A simple implementation is provided by
@@ -167,12 +177,34 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * @throws IOException              if there is an error opening or reading from the file.
      * @throws AddressNotFoundException if the IP address is not in our database
      */
-    private <T> T get(InetAddress ipAddress, Class<T> cls,
+    private <T> T getOrThrowException(InetAddress ipAddress, Class<T> cls,
                       String type) throws IOException, AddressNotFoundException {
+        Optional<T> t = get(ipAddress, cls, type, 1);
+        if(!t.isPresent()) {
+            throw new AddressNotFoundException("The address "
+                    + ipAddress.getHostAddress() + " is not in the database.");
+        }
+        
+        return t.get();
+    }
+    
+    
+    
+    /**
+     * @param ipAddress IPv4 or IPv6 address to lookup.
+     * @param stackDepth Used to work out how far down the stack we should look, for the method name
+     * we should use to report back to the user when in error. If this is called directly from the
+     * method to report to the use set to zero, if this is called indirectly then it is the number of
+     * methods between this method and the method to report the name of. 
+     * @return A <T> object with the data for the IP address or null if the IP address is not in our database
+     * @throws IOException              if there is an error opening or reading from the file.
+     */
+    private <T> Optional<T> get(InetAddress ipAddress, Class<T> cls,
+                      String type, int stackDepth) throws IOException, AddressNotFoundException {
 
         String databaseType = this.getMetadata().getDatabaseType();
         if (!databaseType.contains(type)) {
-            String caller = Thread.currentThread().getStackTrace()[2]
+            String caller = Thread.currentThread().getStackTrace()[2 + stackDepth]
                     .getMethodName();
             throw new UnsupportedOperationException(
                     "Invalid attempt to open a " + databaseType
@@ -184,14 +216,15 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         // We throw the same exception as the web service when an IP is not in
         // the database
         if (node == null) {
-            throw new AddressNotFoundException("The address "
-                    + ipAddress.getHostAddress() + " is not in the database.");
+            return Optional.empty();
         }
 
         InjectableValues inject = new JsonInjector(locales, ipAddress.getHostAddress());
 
-        return this.om.reader(inject).treeToValue(node, cls);
+        return Optional.of(this.om.reader(inject).treeToValue(node, cls));
     }
+    
+    
 
     private ObjectNode jsonNodeToObjectNode(JsonNode node)
             throws InvalidDatabaseException {
@@ -224,13 +257,25 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public CountryResponse country(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, CountryResponse.class, "Country");
+        return this.getOrThrowException(ipAddress, CountryResponse.class, "Country");
+    }
+    
+    @Override
+    public Optional<CountryResponse> tryCountry(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.get(ipAddress, CountryResponse.class, "Country", 0);
     }
 
     @Override
     public CityResponse city(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, CityResponse.class, "City");
+        return this.getOrThrowException(ipAddress, CityResponse.class, "City");
+    }
+    
+    @Override
+    public Optional<CityResponse> tryCity(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.get(ipAddress, CityResponse.class, "City", 0);
     }
 
     /**
@@ -244,7 +289,13 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public AnonymousIpResponse anonymousIp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, AnonymousIpResponse.class, "GeoIP2-Anonymous-IP");
+        return this.getOrThrowException(ipAddress, AnonymousIpResponse.class, "GeoIP2-Anonymous-IP");
+    }
+    
+    @Override
+    public Optional<AnonymousIpResponse> tryAnonymousIp(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.get(ipAddress, AnonymousIpResponse.class, "GeoIP2-Anonymous-IP", 0);
     }
 
     /**
@@ -258,7 +309,13 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public AsnResponse asn(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, AsnResponse.class, "GeoLite2-ASN");
+        return this.getOrThrowException(ipAddress, AsnResponse.class, "GeoLite2-ASN");
+    }
+    
+    @Override
+    public Optional<AsnResponse> tryAsn(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.get(ipAddress, AsnResponse.class, "GeoLite2-ASN", 0);
     }
 
     /**
@@ -272,8 +329,15 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public ConnectionTypeResponse connectionType(InetAddress ipAddress)
             throws IOException, GeoIp2Exception {
-        return this.get(ipAddress, ConnectionTypeResponse.class,
+        return this.getOrThrowException(ipAddress, ConnectionTypeResponse.class,
                 "GeoIP2-Connection-Type");
+    }
+    
+    @Override
+    public Optional<ConnectionTypeResponse> tryConnectionType(InetAddress ipAddress)
+            throws IOException, GeoIp2Exception {
+        return this.get(ipAddress, ConnectionTypeResponse.class,
+                "GeoIP2-Connection-Type", 0);
     }
 
     /**
@@ -288,7 +352,14 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     public DomainResponse domain(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this
-                .get(ipAddress, DomainResponse.class, "GeoIP2-Domain");
+                .getOrThrowException(ipAddress, DomainResponse.class, "GeoIP2-Domain");
+    }
+    
+    @Override
+    public Optional<DomainResponse> tryDomain(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this
+                .get(ipAddress, DomainResponse.class, "GeoIP2-Domain", 0);
     }
 
     /**
@@ -302,7 +373,13 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public EnterpriseResponse enterprise(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, EnterpriseResponse.class, "Enterprise");
+        return this.getOrThrowException(ipAddress, EnterpriseResponse.class, "Enterprise");
+    }
+    
+    @Override
+    public Optional<EnterpriseResponse> tryEnterprise(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.get(ipAddress, EnterpriseResponse.class, "Enterprise", 0);
     }
 
 
@@ -317,7 +394,13 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public IspResponse isp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
-        return this.get(ipAddress, IspResponse.class, "GeoIP2-ISP");
+        return this.getOrThrowException(ipAddress, IspResponse.class, "GeoIP2-ISP");
+    }
+    
+    @Override
+    public Optional<IspResponse> tryIsp(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return this.get(ipAddress, IspResponse.class, "GeoIP2-ISP", 0);
     }
 
     /**

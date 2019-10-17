@@ -331,7 +331,7 @@ public class JsonTest {
         mapper.configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, false);
         InjectableValues inject = new InjectableValues.Std().addValue(
                 "locales", Collections.singletonList("en"));
-        T response = mapper.reader(cls).with(inject).readValue(json);
+        T response = mapper.readerFor(cls).with(inject).readValue(json);
 
         JsonNode expectedNode = mapper.readValue(json, JsonNode.class);
         JsonNode actualNode = mapper.readValue(response.toJson(), JsonNode.class);
