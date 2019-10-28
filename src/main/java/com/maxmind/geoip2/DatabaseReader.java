@@ -81,7 +81,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         ENTERPRISE,
         ISP;
 
-        public int type;
+        final int type;
 
         DatabaseType() {
             type = 1 << this.ordinal();
@@ -120,7 +120,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             type |= DatabaseType.ASN.type;
         }
         if (databaseType.contains("City")) {
-            type |= DatabaseType.CITY.type;
+            type |= DatabaseType.CITY.type | DatabaseType.COUNTRY.type;
         }
         if (databaseType.contains("GeoIP2-Connection-Type")) {
             type |= DatabaseType.CONNECTION_TYPE.type;
@@ -132,7 +132,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             type |= DatabaseType.DOMAIN.type;
         }
         if (databaseType.contains("Enterprise")) {
-            type |= DatabaseType.ENTERPRISE.type;
+            type |= DatabaseType.ENTERPRISE.type | DatabaseType.CITY.type | DatabaseType.COUNTRY.type;
         }
         if (databaseType.contains("GeoIP2-ISP")) {
             type |= DatabaseType.ISP.type;
