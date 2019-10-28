@@ -12,6 +12,9 @@ CHANGELOG
   GitHub #147.
 * Updated documentation of anonymizer methods `isAnonymousVpn()` and
   `isHostingProvider()` to be more descriptive.
+* The `DatabaseReader` methods `city()` and `country()` can now be called on
+  the Enterprise database and the `country()` method can be called on City
+  databases. Request by Gergely Boromissza. GitHub #132.
 
 2.12.0 (2018-04-11)
 -------------------

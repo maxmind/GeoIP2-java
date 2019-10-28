@@ -253,6 +253,10 @@ public class DatabaseReaderTest {
 
             CityResponse tryResponse = reader.tryCity(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
+
+            // Test that the methods can be called on DB without
+            // an exception
+            reader.country(ipAddress);
         }
     }
 
@@ -323,6 +327,11 @@ public class DatabaseReaderTest {
 
             EnterpriseResponse tryResponse = reader.tryEnterprise(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
+
+            // Test that the city and country methods can be called without
+            // an exception
+            reader.city(ipAddress);
+            reader.country(ipAddress);
         }
     }
 
