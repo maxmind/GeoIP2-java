@@ -116,6 +116,7 @@ public class WebServiceClientTest {
         assertNull(traits.getIsp());
         assertNull(traits.getOrganization());
         assertNull(traits.getUserType());
+        assertNull(traits.getStaticIPScore());
         assertFalse(traits.isAnonymousProxy());
         assertFalse(traits.isSatelliteProvider());
 

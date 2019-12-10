@@ -102,6 +102,8 @@ public class InsightsResponseTest {
                 traits.getOrganization());
         assertEquals("traits.getUserType() does not return userType",
                 "college", traits.getUserType());
+        assertEquals("traits.getStaticIPScore() does not return 1.3",
+                Double.valueOf(1.3), traits.getStaticIPScore());
     }
 
     @Test
