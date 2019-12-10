@@ -30,6 +30,7 @@ public final class Traits extends AbstractRecord {
     private final String isp;
     private final String organization;
     private final String userType;
+    private final Integer userCount;
     private final Double staticIPScore;
 
     public Traits() {
@@ -75,7 +76,7 @@ public final class Traits extends AbstractRecord {
     ) {
         this(autonomousSystemNumber, autonomousSystemOrganization, connectionType, domain,
                 ipAddress, false, isAnonymousProxy, false, false, isLegitimateProxy,
-                false, isSatelliteProvider, false, isp, organization, userType, null);
+                false, isSatelliteProvider, false, isp, organization, userType, null, null);
     }
 
     // This is for back-compat. If we ever do a major release, it should be
@@ -101,7 +102,7 @@ public final class Traits extends AbstractRecord {
         this(autonomousSystemNumber, autonomousSystemOrganization, connectionType, domain,
                 ipAddress, isAnonymous, isAnonymousProxy, isAnonymousVpn, isHostingProvider,
                 isLegitimateProxy, isPublicProxy, isSatelliteProvider, isTorExitNode, isp,
-                organization, userType, null);
+                organization, userType, null, null);
     }
 
     public Traits(
@@ -121,6 +122,7 @@ public final class Traits extends AbstractRecord {
             @JsonProperty("isp") String isp,
             @JsonProperty("organization") String organization,
             @JsonProperty("user_type") String userType,
+            @JsonProperty("user_count") Integer userCount,
             @JsonProperty("static_ip_score") Double staticIPScore
     ) {
         this.autonomousSystemNumber = autonomousSystemNumber;
@@ -139,6 +141,7 @@ public final class Traits extends AbstractRecord {
         this.isp = isp;
         this.organization = organization;
         this.userType = userType;
+        this.userCount = userCount;
         this.staticIPScore = staticIPScore;
     }
 
@@ -183,6 +186,11 @@ public final class Traits extends AbstractRecord {
     @JsonProperty("static_ip_score")
     public Double getStaticIPScore() {
         return this.staticIPScore;
+    }
+
+    @JsonProperty("user_count")
+    public Integer getUserCount() {
+        return this.userCount;
     }
 
     /**

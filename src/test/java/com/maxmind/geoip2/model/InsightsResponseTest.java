@@ -104,6 +104,8 @@ public class InsightsResponseTest {
                 "college", traits.getUserType());
         assertEquals("traits.getStaticIPScore() does not return 1.3",
                 Double.valueOf(1.3), traits.getStaticIPScore());
+        assertEquals("traits.getUserCount() does not return 2",
+                Integer.valueOf(2), traits.getUserCount());
     }
 
     @Test
