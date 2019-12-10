@@ -31,7 +31,7 @@ public final class Traits extends AbstractRecord {
     private final String organization;
     private final String userType;
     private final Integer userCount;
-    private final Double staticIPScore;
+    private final Double staticIpScore;
 
     public Traits() {
         this(null, null, null, null, false, false, null, null, null);
@@ -123,7 +123,7 @@ public final class Traits extends AbstractRecord {
             @JsonProperty("organization") String organization,
             @JsonProperty("user_type") String userType,
             @JsonProperty("user_count") Integer userCount,
-            @JsonProperty("static_ip_score") Double staticIPScore
+            @JsonProperty("static_ip_score") Double staticIpScore
     ) {
         this.autonomousSystemNumber = autonomousSystemNumber;
         this.autonomousSystemOrganization = autonomousSystemOrganization;
@@ -142,7 +142,7 @@ public final class Traits extends AbstractRecord {
         this.organization = organization;
         this.userType = userType;
         this.userCount = userCount;
-        this.staticIPScore = staticIPScore;
+        this.staticIpScore = staticIpScore;
     }
 
     /**
@@ -184,8 +184,8 @@ public final class Traits extends AbstractRecord {
      * available from GeoIP2 Precision Insights.
      */
     @JsonProperty("static_ip_score")
-    public Double getStaticIPScore() {
-        return this.staticIPScore;
+    public Double getStaticIpScore() {
+        return this.staticIpScore;
     }
 
     @JsonProperty("user_count")
