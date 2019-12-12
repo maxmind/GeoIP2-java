@@ -188,6 +188,12 @@ public final class Traits extends AbstractRecord {
         return this.staticIpScore;
     }
 
+    /**
+     * @return The estimated number of users sharing the IP address/network
+     * during the past 24 hours. For IPv4, the count is for the individual
+     * IP address. For IPv6, the count is for the /64 network. This attribute
+     * is only available from GeoIP2 Precision Insights.
+     */
     @JsonProperty("user_count")
     public Integer getUserCount() {
         return this.userCount;
