@@ -10,6 +10,9 @@ CHANGELOG
   than throwing an exception when the record is not found in the database. These
   methods are prefixed with "try". Closes #28. Pull request by Luke Butters.
   GitHub #147.
+* `getNetwork()` methods have been added to the various response models. These
+  return a `com.maxmind.db.Network` object representing the largest network
+  where all the fields besides the IP address are the same.
 * Updated documentation of anonymizer methods `isAnonymousVpn()` and
   `isHostingProvider()` to be more descriptive.
 * The `DatabaseReader` methods `city()` and `country()` can now be called on

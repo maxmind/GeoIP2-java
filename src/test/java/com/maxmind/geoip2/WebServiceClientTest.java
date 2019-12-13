@@ -52,7 +52,7 @@ public class WebServiceClientTest {
     @Test
     public void test200WithDefaultValues() throws Exception {
         WebServiceClient client = createSuccessClient("insights", "1.2.3.13",
-                "{\"traits\":{\"ip_address\":\"1.2.3.13\"}}");
+                "{\"traits\":{\"ip_address\":\"1.2.3.13\",\"network\":\"1.2.3.0/24\"}}");
 
         InsightsResponse insights = client.insights(InetAddress
                 .getByName("1.2.3.13"));
@@ -113,6 +113,7 @@ public class WebServiceClientTest {
         assertNull(traits.getAutonomousSystemOrganization());
         assertNull(traits.getDomain());
         assertEquals("1.2.3.13", traits.getIpAddress());
+        assertEquals("1.2.3.0/24", traits.getNetwork().toString());
         assertNull(traits.getIsp());
         assertNull(traits.getOrganization());
         assertNull(traits.getUserType());

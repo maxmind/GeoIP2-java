@@ -2,6 +2,9 @@ package com.maxmind.geoip2.model;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.maxmind.db.Network;
+import com.maxmind.geoip2.NetworkDeserializer;
 
 /**
  * This class provides the GeoIP2 ISP model.
@@ -16,13 +19,24 @@ public class IspResponse extends AsnResponse {
     }
 
     public IspResponse(
+            Integer autonomousSystemNumber,
+            String autonomousSystemOrganization,
+            String ipAddress,
+            String isp,
+            String organization
+    ) {
+        this(autonomousSystemNumber, autonomousSystemOrganization, ipAddress, isp, organization, null);
+    }
+
+    public IspResponse(
             @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
             @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
             @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
             @JsonProperty("isp") String isp,
-            @JsonProperty("organization") String organization
+            @JsonProperty("organization") String organization,
+            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) Network network
     ) {
-        super(autonomousSystemNumber, autonomousSystemOrganization, ipAddress);
+        super(autonomousSystemNumber, autonomousSystemOrganization, ipAddress, network);
         this.isp = isp;
         this.organization = organization;
     }

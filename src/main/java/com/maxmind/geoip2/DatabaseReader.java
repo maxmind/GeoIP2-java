@@ -268,15 +268,15 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                             + " database using the " + caller + " method");
         }
 
-        ObjectNode node = jsonNodeToObjectNode(reader.get(ipAddress));
+        Record record = reader.getRecord(ipAddress);
 
-        // We throw the same exception as the web service when an IP is not in
-        // the database
+        ObjectNode node = jsonNodeToObjectNode(record.getData());
+
         if (node == null) {
             return Optional.empty();
         }
 
-        InjectableValues inject = new JsonInjector(locales, ipAddress.getHostAddress());
+        InjectableValues inject = new JsonInjector(locales, ipAddress.getHostAddress(), record.getNetwork());
 
         return Optional.of(this.om.reader(inject).treeToValue(node, cls));
     }

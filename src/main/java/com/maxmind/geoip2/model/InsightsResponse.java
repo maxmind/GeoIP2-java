@@ -16,6 +16,7 @@ import java.util.List;
  * fields in each record may be populated.
  * </p>
  * <p>
+ *
  * @see <a href="http://dev.maxmind.com/geoip/geoip2/web-services">GeoIP2 Web
  * Services</a>
  * </p>
