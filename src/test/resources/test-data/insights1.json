@@ -96,6 +96,8 @@
     "is_satellite_provider": true,
     "is_tor_exit_node": true,
     "organization": "Blorg",
+    "static_ip_score": 1.3,
+    "user_count": 2,
     "user_type": "college"
   }
 }

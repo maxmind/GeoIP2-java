@@ -30,6 +30,8 @@ public final class Traits extends AbstractRecord {
     private final String isp;
     private final String organization;
     private final String userType;
+    private final Integer userCount;
+    private final Double staticIpScore;
 
     public Traits() {
         this(null, null, null, null, false, false, null, null, null);
@@ -74,7 +76,33 @@ public final class Traits extends AbstractRecord {
     ) {
         this(autonomousSystemNumber, autonomousSystemOrganization, connectionType, domain,
                 ipAddress, false, isAnonymousProxy, false, false, isLegitimateProxy,
-                false, isSatelliteProvider, false, isp, organization, userType);
+                false, isSatelliteProvider, false, isp, organization, userType, null, null);
+    }
+
+    // This is for back-compat. If we ever do a major release, it should be
+    // removed.
+    public Traits(
+            Integer autonomousSystemNumber,
+            String autonomousSystemOrganization,
+            ConnectionType connectionType,
+            String domain,
+            String ipAddress,
+            boolean isAnonymous,
+            boolean isAnonymousProxy,
+            boolean isAnonymousVpn,
+            boolean isHostingProvider,
+            boolean isLegitimateProxy,
+            boolean isPublicProxy,
+            boolean isSatelliteProvider,
+            boolean isTorExitNode,
+            String isp,
+            String organization,
+            String userType
+    ) {
+        this(autonomousSystemNumber, autonomousSystemOrganization, connectionType, domain,
+                ipAddress, isAnonymous, isAnonymousProxy, isAnonymousVpn, isHostingProvider,
+                isLegitimateProxy, isPublicProxy, isSatelliteProvider, isTorExitNode, isp,
+                organization, userType, null, null);
     }
 
     public Traits(
@@ -93,7 +121,9 @@ public final class Traits extends AbstractRecord {
             @JsonProperty("is_tor_exit_node") boolean isTorExitNode,
             @JsonProperty("isp") String isp,
             @JsonProperty("organization") String organization,
-            @JsonProperty("user_type") String userType
+            @JsonProperty("user_type") String userType,
+            @JsonProperty("user_count") Integer userCount,
+            @JsonProperty("static_ip_score") Double staticIpScore
     ) {
         this.autonomousSystemNumber = autonomousSystemNumber;
         this.autonomousSystemOrganization = autonomousSystemOrganization;
@@ -111,6 +141,8 @@ public final class Traits extends AbstractRecord {
         this.isp = isp;
         this.organization = organization;
         this.userType = userType;
+        this.userCount = userCount;
+        this.staticIpScore = staticIpScore;
     }
 
     /**
@@ -144,6 +176,27 @@ public final class Traits extends AbstractRecord {
     @JsonProperty("connection_type")
     public ConnectionType getConnectionType() {
         return this.connectionType;
+    }
+
+    /**
+     * @return The static IP score of the IP address. This is an indicator of
+     * how static or dynamic an IP address is. This attribute is only
+     * available from GeoIP2 Precision Insights.
+     */
+    @JsonProperty("static_ip_score")
+    public Double getStaticIpScore() {
+        return this.staticIpScore;
+    }
+
+    /**
+     * @return The estimated number of users sharing the IP address/network
+     * during the past 24 hours. For IPv4, the count is for the individual
+     * IP address. For IPv6, the count is for the /64 network. This attribute
+     * is only available from GeoIP2 Precision Insights.
+     */
+    @JsonProperty("user_count")
+    public Integer getUserCount() {
+        return this.userCount;
     }
 
     /**

@@ -15,6 +15,11 @@ CHANGELOG
 * The `DatabaseReader` methods `city()` and `country()` can now be called on
   the Enterprise database and the `country()` method can be called on City
   databases. Request by Gergely Boromissza. GitHub #132.
+* New `getStaticIpScore()` and `getUserCount()` methods were added to
+  `com.maxmind.geoip2.record.Traits` for use with GeoIP2 Precision Insights.
+  They represent a measure of how static or dynamic an IP address is, and an
+  estimate of the number of users sharing a given address or network,
+  respectively.
 
 2.12.0 (2018-04-11)
 -------------------
