@@ -9,9 +9,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 public interface DatabaseProvider extends GeoIp2Provider {
-    
+
     /**
-     * 
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return A Country model for the requested IP address or empty if the IP address is not in the DB.
      * @throws GeoIp2Exception if there is an error looking up the IP
@@ -19,7 +18,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
      */
     Optional<CountryResponse> tryCountry(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
-    
+
     /**
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return A City model for the requested IP address or empty if the IP address is not in the DB.
@@ -28,7 +27,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
      */
     Optional<CityResponse> tryCity(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
-    
+
     /**
      * Look up an IP address in a GeoIP2 Anonymous IP.
      *
@@ -39,7 +38,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
      */
     AnonymousIpResponse anonymousIp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
-    
+
     /**
      * Look up an IP address in a GeoIP2 Anonymous IP.
      *
@@ -61,7 +60,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
      */
     AsnResponse asn(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
-    
+
     /**
      * Look up an IP address in a GeoLite2 ASN database.
      *
@@ -83,7 +82,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
      */
     ConnectionTypeResponse connectionType(InetAddress ipAddress)
             throws IOException, GeoIp2Exception;
-    
+
     /**
      * Look up an IP address in a GeoIP2 Connection Type database.
      *
@@ -105,7 +104,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
      */
     DomainResponse domain(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
-    
+
     /**
      * Look up an IP address in a GeoIP2 Domain database.
      *
@@ -127,7 +126,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
      */
     EnterpriseResponse enterprise(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
-    
+
     /**
      * Look up an IP address in a GeoIP2 Enterprise database.
      *
@@ -149,7 +148,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
      */
     IspResponse isp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception;
-    
+
     /**
      * Look up an IP address in a GeoIP2 ISP database.
      *

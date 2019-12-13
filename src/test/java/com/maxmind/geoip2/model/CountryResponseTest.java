@@ -25,7 +25,7 @@ public class CountryResponseTest {
 
     @Before
     public void createClient() throws IOException, GeoIp2Exception,
-           URISyntaxException {
+            URISyntaxException {
         stubFor(get(urlEqualTo("/geoip/v2.1/country/1.1.1.1"))
                 .willReturn(aResponse()
                         .withStatus(200)

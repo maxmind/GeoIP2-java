@@ -228,37 +228,37 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     /**
-     * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @param cls The class to deserialize to.
+     * @param ipAddress    IPv4 or IPv6 address to lookup.
+     * @param cls          The class to deserialize to.
      * @param expectedType The expected database type.
      * @return A <T> object with the data for the IP address
      * @throws IOException              if there is an error opening or reading from the file.
      * @throws AddressNotFoundException if the IP address is not in our database
      */
     private <T> T getOrThrowException(InetAddress ipAddress, Class<T> cls,
-                      DatabaseType expectedType) throws IOException, AddressNotFoundException {
+                                      DatabaseType expectedType) throws IOException, AddressNotFoundException {
         Optional<T> t = get(ipAddress, cls, expectedType, 1);
-        if(!t.isPresent()) {
+        if (!t.isPresent()) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
         }
-        
+
         return t.get();
     }
 
     /**
-     * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @param cls The class to deserialize to.
+     * @param ipAddress    IPv4 or IPv6 address to lookup.
+     * @param cls          The class to deserialize to.
      * @param expectedType The expected database type.
-     * @param stackDepth Used to work out how far down the stack we should look, for the method name
-     * we should use to report back to the user when in error. If this is called directly from the
-     * method to report to the use set to zero, if this is called indirectly then it is the number of
-     * methods between this method and the method to report the name of. 
+     * @param stackDepth   Used to work out how far down the stack we should look, for the method name
+     *                     we should use to report back to the user when in error. If this is called directly from the
+     *                     method to report to the use set to zero, if this is called indirectly then it is the number of
+     *                     methods between this method and the method to report the name of.
      * @return A <T> object with the data for the IP address or null if the IP address is not in our database
-     * @throws IOException              if there is an error opening or reading from the file.
+     * @throws IOException if there is an error opening or reading from the file.
      */
     private <T> Optional<T> get(InetAddress ipAddress, Class<T> cls,
-                      DatabaseType expectedType, int stackDepth) throws IOException, AddressNotFoundException {
+                                DatabaseType expectedType, int stackDepth) throws IOException, AddressNotFoundException {
 
         if ((databaseType & expectedType.type) == 0) {
             String caller = Thread.currentThread().getStackTrace()[2 + stackDepth]
@@ -280,8 +280,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
 
         return Optional.of(this.om.reader(inject).treeToValue(node, cls));
     }
-    
-    
+
 
     private ObjectNode jsonNodeToObjectNode(JsonNode node)
             throws InvalidDatabaseException {
@@ -316,7 +315,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             GeoIp2Exception {
         return this.getOrThrowException(ipAddress, CountryResponse.class, DatabaseType.COUNTRY);
     }
-    
+
     @Override
     public Optional<CountryResponse> tryCountry(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
@@ -328,7 +327,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             GeoIp2Exception {
         return this.getOrThrowException(ipAddress, CityResponse.class, DatabaseType.CITY);
     }
-    
+
     @Override
     public Optional<CityResponse> tryCity(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
@@ -348,7 +347,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             GeoIp2Exception {
         return this.getOrThrowException(ipAddress, AnonymousIpResponse.class, DatabaseType.ANONYMOUS_IP);
     }
-    
+
     @Override
     public Optional<AnonymousIpResponse> tryAnonymousIp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
@@ -368,7 +367,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             GeoIp2Exception {
         return this.getOrThrowException(ipAddress, AsnResponse.class, DatabaseType.ASN);
     }
-    
+
     @Override
     public Optional<AsnResponse> tryAsn(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
@@ -389,7 +388,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         return this.getOrThrowException(ipAddress, ConnectionTypeResponse.class,
                 DatabaseType.CONNECTION_TYPE);
     }
-    
+
     @Override
     public Optional<ConnectionTypeResponse> tryConnectionType(InetAddress ipAddress)
             throws IOException, GeoIp2Exception {
@@ -411,12 +410,12 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         return this
                 .getOrThrowException(ipAddress, DomainResponse.class, DatabaseType.DOMAIN);
     }
-    
+
     @Override
     public Optional<DomainResponse> tryDomain(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         return this
-                .get(ipAddress, DomainResponse.class,  DatabaseType.DOMAIN, 0);
+                .get(ipAddress, DomainResponse.class, DatabaseType.DOMAIN, 0);
     }
 
     /**
@@ -432,7 +431,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             GeoIp2Exception {
         return this.getOrThrowException(ipAddress, EnterpriseResponse.class, DatabaseType.ENTERPRISE);
     }
-    
+
     @Override
     public Optional<EnterpriseResponse> tryEnterprise(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
@@ -453,7 +452,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             GeoIp2Exception {
         return this.getOrThrowException(ipAddress, IspResponse.class, DatabaseType.ISP);
     }
-    
+
     @Override
     public Optional<IspResponse> tryIsp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {

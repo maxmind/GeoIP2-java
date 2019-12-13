@@ -188,7 +188,8 @@ public class DatabaseReaderTest {
         this.exception.expectMessage(containsString("Only FileMode.MEMORY"));
         try (DatabaseReader db = new DatabaseReader.Builder(this.geoipStream).fileMode(
                 Reader.FileMode.MEMORY_MAPPED).build()
-        ) {}
+        ) {
+        }
     }
 
     @Test
