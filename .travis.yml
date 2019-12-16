@@ -15,13 +15,19 @@ matrix:
     - jdk: openjdk8
     - jdk: openjdk11
       env: RUN_SNYK=true
+    - jdk: openjdk11
     - jdk: openjdk12
+    - jdk: openjdk13
     - jdk: openjdk-ea
     - jdk: oraclejdk8
       dist: trusty
     - jdk: oraclejdk11
+    - jdk: oraclejdk12
+    - jdk: oraclejdk13
+    - jdk: oraclejdk-ea
   allow_failures:
     - jdk: openjdk-ea
+    - jdk: oraclejdk-ea
 env:
   global:
     - secure: NZPWyoQ7lDzSMf6zAUxXNRgwPIWGAIN6eDgTD/vnFxOPYTJX8HEvIAEuoKAqajmJMqRwUl4D1s/cANBY8+IV//KDNiOZY1Hr070Wf2FIrAyxZ13sR3YVHzK6isKF6ISgVub2qyr028Wu1y1Qv2ggx6pRvRfCIBpth3r4l4sKeQU=

@@ -351,7 +351,7 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
                     + status + ") for " + url, status, url);
         }
 
-        InjectableValues inject = new JsonInjector(locales, null);
+        InjectableValues inject = new JsonInjector(locales, null, null);
 
         HttpEntity entity = response.getEntity();
         try {

@@ -2,6 +2,11 @@ package com.maxmind.geoip2.model;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.maxmind.db.Network;
+import com.maxmind.geoip2.NetworkDeserializer;
 
 /**
  * This class provides the GeoIP2 Anonymous IP model.
@@ -14,9 +19,22 @@ public class AnonymousIpResponse extends AbstractResponse {
     private final boolean isPublicProxy;
     private final boolean isTorExitNode;
     private final String ipAddress;
+    private final Network network;
 
     AnonymousIpResponse() {
         this(null, false, false, false, false, false);
+    }
+
+    // This is for compatibility and should be removed if we do a major release.
+    public AnonymousIpResponse(
+            String ipAddress,
+            boolean isAnonymous,
+            boolean isAnonymousVpn,
+            boolean isHostingProvider,
+            boolean isPublicProxy,
+            boolean isTorExitNode
+    ) {
+        this(ipAddress, isAnonymous, isAnonymousVpn, isHostingProvider, isPublicProxy, isTorExitNode, null);
     }
 
     public AnonymousIpResponse(
@@ -25,7 +43,8 @@ public class AnonymousIpResponse extends AbstractResponse {
             @JsonProperty("is_anonymous_vpn") boolean isAnonymousVpn,
             @JsonProperty("is_hosting_provider") boolean isHostingProvider,
             @JsonProperty("is_public_proxy") boolean isPublicProxy,
-            @JsonProperty("is_tor_exit_node") boolean isTorExitNode
+            @JsonProperty("is_tor_exit_node") boolean isTorExitNode,
+            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) Network network
     ) {
         this.isAnonymous = isAnonymous;
         this.isAnonymousVpn = isAnonymousVpn;
@@ -33,6 +52,7 @@ public class AnonymousIpResponse extends AbstractResponse {
         this.isPublicProxy = isPublicProxy;
         this.isTorExitNode = isTorExitNode;
         this.ipAddress = ipAddress;
+        this.network = network;
     }
 
     /**
@@ -86,5 +106,16 @@ public class AnonymousIpResponse extends AbstractResponse {
     @JsonProperty("ip_address")
     public String getIpAddress() {
         return this.ipAddress;
+    }
+
+    /**
+     * @return The network associated with the record. In particular, this is
+     * the largest network where all of the fields besides IP address have the
+     * same value.
+     */
+    @JsonProperty
+    @JsonSerialize(using = ToStringSerializer.class)
+    public Network getNetwork() {
+        return this.network;
     }
 }

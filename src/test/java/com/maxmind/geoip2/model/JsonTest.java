@@ -31,7 +31,9 @@ public class JsonTest {
                 .put("iso_code", "CA")
                 .end()
                 .startObjectField("traits")
+                .put("autonomous_system_organization", "AS Organization")
                 .put("autonomous_system_number", 1234)
+                .put("domain", "example.com")
                 .put("isp", "Comcast")
                 .put("ip_address", "1.2.3.4")
                 .put("is_anonymous", true)
@@ -42,10 +44,9 @@ public class JsonTest {
                 .put("is_public_proxy", true)
                 .put("is_satellite_provider", true)
                 .put("is_tor_exit_node", true)
-                .put("autonomous_system_organization", "AS Organization")
-                .put("user_type", "college")
+                .put("network", "1.2.3.0/24")
                 .put("organization", "Blorg")
-                .put("domain", "example.com")
+                .put("user_type", "college")
                 // This is here just to simplify the testing. We expect the
                 // difference
                 .put("is_legitimate_proxy", false)
@@ -147,6 +148,7 @@ public class JsonTest {
                 .put("is_legitimate_proxy", false)
                 .put("is_public_proxy", false)
                 .put("is_tor_exit_node", false)
+                .put("network", "1.2.3.0/24")
                 .end()
                 .startObjectField("country")
                 .startObjectField("names")
@@ -233,6 +235,7 @@ public class JsonTest {
                 .put("is_legitimate_proxy", false)
                 .put("is_public_proxy", false)
                 .put("is_tor_exit_node", false)
+                .put("network", "1.2.3.0/24")
                 .end()
                 .startObjectField("country")
                 .startObjectField("names")
@@ -275,6 +278,7 @@ public class JsonTest {
                 .put("is_public_proxy", true)
                 .put("is_tor_exit_node", true)
                 .put("ip_address", "1.1.1.1")
+                .put("network", "1.1.1.0/24")
                 .end()
                 .finish();
 
@@ -288,6 +292,7 @@ public class JsonTest {
                 .startObject()
                 .put("connection_type", "Dialup")
                 .put("ip_address", "1.1.1.1")
+                .put("network", "1.1.1.0/24")
                 .end()
                 .finish();
 
@@ -301,6 +306,7 @@ public class JsonTest {
                 .startObject()
                 .put("domain", "gmail.com")
                 .put("ip_address", "1.1.1.1")
+                .put("network", "1.1.1.0/24")
                 .end()
                 .finish();
 
@@ -318,6 +324,7 @@ public class JsonTest {
                 .put("isp", "ISP, Inc.")
                 .put("organization", "Google, Inc.")
                 .put("ip_address", "1.1.1.1")
+                .put("network", "1.1.1.0/24")
                 .end()
                 .finish();
 

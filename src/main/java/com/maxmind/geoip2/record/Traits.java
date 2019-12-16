@@ -2,6 +2,11 @@ package com.maxmind.geoip2.record;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.maxmind.db.Network;
+import com.maxmind.geoip2.NetworkDeserializer;
 import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
 
 /**
@@ -28,6 +33,7 @@ public final class Traits extends AbstractRecord {
     private final boolean isSatelliteProvider;
     private final boolean isTorExitNode;
     private final String isp;
+    private final Network network;
     private final String organization;
     private final String userType;
     private final Integer userCount;
@@ -39,6 +45,13 @@ public final class Traits extends AbstractRecord {
 
     public Traits(String ipAddress) {
         this(null, null, null, ipAddress, false, false, null, null, null);
+    }
+
+    public Traits(String ipAddress, Network network) {
+        this(null, null, null, null,
+                ipAddress, false, false, false, false,
+                false, false, false, false, null,
+                network, null, null, null, null);
     }
 
     // This is for back-compat. If we ever do a major release, it should be
@@ -76,7 +89,7 @@ public final class Traits extends AbstractRecord {
     ) {
         this(autonomousSystemNumber, autonomousSystemOrganization, connectionType, domain,
                 ipAddress, false, isAnonymousProxy, false, false, isLegitimateProxy,
-                false, isSatelliteProvider, false, isp, organization, userType, null, null);
+                false, isSatelliteProvider, false, isp, null, organization, userType, null, null);
     }
 
     // This is for back-compat. If we ever do a major release, it should be
@@ -102,7 +115,7 @@ public final class Traits extends AbstractRecord {
         this(autonomousSystemNumber, autonomousSystemOrganization, connectionType, domain,
                 ipAddress, isAnonymous, isAnonymousProxy, isAnonymousVpn, isHostingProvider,
                 isLegitimateProxy, isPublicProxy, isSatelliteProvider, isTorExitNode, isp,
-                organization, userType, null, null);
+                null, organization, userType, null, null);
     }
 
     public Traits(
@@ -120,6 +133,7 @@ public final class Traits extends AbstractRecord {
             @JsonProperty("is_satellite_provider") boolean isSatelliteProvider,
             @JsonProperty("is_tor_exit_node") boolean isTorExitNode,
             @JsonProperty("isp") String isp,
+            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) Network network,
             @JsonProperty("organization") String organization,
             @JsonProperty("user_type") String userType,
             @JsonProperty("user_count") Integer userCount,
@@ -139,6 +153,7 @@ public final class Traits extends AbstractRecord {
         this.isSatelliteProvider = isSatelliteProvider;
         this.isTorExitNode = isTorExitNode;
         this.isp = isp;
+        this.network = network;
         this.organization = organization;
         this.userType = userType;
         this.userCount = userCount;
@@ -316,6 +331,17 @@ public final class Traits extends AbstractRecord {
     @JsonProperty("is_tor_exit_node")
     public boolean isTorExitNode() {
         return this.isTorExitNode;
+    }
+
+    /**
+     * @return The network associated with the record. In particular, this is
+     * the largest network where all of the fields besides IP address have the
+     * same value.
+     */
+    @JsonProperty
+    @JsonSerialize(using = ToStringSerializer.class)
+    public Network getNetwork() {
+        return this.network;
     }
 
     /**
