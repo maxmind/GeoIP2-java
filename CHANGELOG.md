@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-2.13.0
+2.13.0 (2019-12-18)
 -------------------
 
 * IMPORTANT: Java 8 is now required. If you need Java 7 support, please
