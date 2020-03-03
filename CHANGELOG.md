@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+2.13.1 (2020-03-03)
+-------------------
+
+* Update `maxmind-db` dependency to fix handling of long strings in the
+  database. Reported by Dongmin Yu. GitHub #181.
+* Update Jackson dependencies.
+
 2.13.0 (2019-12-18)
 -------------------
 
