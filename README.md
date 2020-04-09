@@ -516,7 +516,7 @@ to the client API, please
 
 ## Requirements  ##
 
-MaxMind has tested this API with Java 7 and above.
+MaxMind has tested this API with Java 8 and above.
 
 ## Contributing ##
 
