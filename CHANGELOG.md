@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+2.14.0 (2020-06-15)
+-------------------
+
+* Update `maxmind-db` dependency to reduce locking when being used from
+  multiple threads and to improve the exceptions thrown on an invalid
+  database.
+* Update Jackson dependencies.
+
 2.13.1 (2020-03-03)
 -------------------
 
