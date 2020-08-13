@@ -17,7 +17,7 @@ import java.util.List;
  * </p>
  * <p>
  *
- * @see <a href="http://dev.maxmind.com/geoip/geoip2/web-services">GeoIP2 Web
+ * @see <a href="https://dev.maxmind.com/geoip/geoip2/web-services">GeoIP2 Web
  * Services</a>
  * </p>
  */

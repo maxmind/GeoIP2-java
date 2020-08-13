@@ -52,7 +52,7 @@ public final class Subdivision extends AbstractNamedRecord {
     /**
      * @return This is a string up to three characters long contain the
      * subdivision portion of the <a
-     * href="http://en.wikipedia.org/wiki/ISO_3166-2">ISO
+     * href="https://en.wikipedia.org/wiki/ISO_3166-2">ISO
      * 3166-2code</a>. This attribute is returned by all end points
      * except Country.
      */

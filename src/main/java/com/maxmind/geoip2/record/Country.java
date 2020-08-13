@@ -75,7 +75,7 @@ public class Country extends AbstractNamedRecord {
 
     /**
      * @return The <a
-     * href="http://en.wikipedia.org/wiki/ISO_3166-1">two-character ISO
+     * href="https://en.wikipedia.org/wiki/ISO_3166-1">two-character ISO
      * 3166-1 alpha code</a> for the country. This attribute is returned
      * by all end points.
      */

@@ -59,7 +59,7 @@ public class Location extends AbstractRecord {
 
     /**
      * @return The time zone associated with location, as specified by the <a
-     * href="http://www.iana.org/time-zones">IANA Time Zone
+     * href="https://www.iana.org/time-zones">IANA Time Zone
      * Database</a>, e.g., "America/New_York".
      */
     @JsonProperty("time_zone")

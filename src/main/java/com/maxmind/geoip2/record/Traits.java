@@ -162,7 +162,7 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return The <a
-     * href="http://en.wikipedia.org/wiki/Autonomous_system_(Internet)"
+     * href="https://en.wikipedia.org/wiki/Autonomous_system_(Internet)"
      * >autonomous system number</a> associated with the IP address.
      * This attribute is only available from the City and Insights web
      * service end points and the GeoIP2 Enterprise database.
@@ -174,7 +174,7 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return The organization associated with the registered <a
-     * href="http://en.wikipedia.org/wiki/Autonomous_system_(Internet)"
+     * href="https://en.wikipedia.org/wiki/Autonomous_system_(Internet)"
      * >autonomous system number</a> for the IP address. This attribute
      * is only available from the City and Insights web service end
      * points and the GeoIP2 Enterprise database.
@@ -259,7 +259,7 @@ public final class Traits extends AbstractRecord {
     /**
      * @return This is true if the IP is an anonymous proxy. This attribute is
      * returned by all end points.
-     * @see <a href="http://dev.maxmind.com/faq/geoip#anonproxy">MaxMind's GeoIP
+     * @see <a href="https://dev.maxmind.com/faq/geoip#anonproxy">MaxMind's GeoIP
      * FAQ</a>
      * @deprecated Use our
      * <a href="https://www.maxmind.com/en/geoip2-anonymous-ip-database">GeoIP2
