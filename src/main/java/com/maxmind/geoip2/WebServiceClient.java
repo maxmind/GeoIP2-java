@@ -135,6 +135,7 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
         RequestConfig config = configBuilder.build();
         httpClient =
                 HttpClientBuilder.create()
+                        .setMaxConnPerRoute(20)
                         .setUserAgent(userAgent())
                         .setDefaultRequestConfig(config).build();
     }
