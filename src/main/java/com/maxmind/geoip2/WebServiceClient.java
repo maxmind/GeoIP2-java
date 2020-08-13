@@ -77,7 +77,7 @@ import java.util.*;
  * <h2>Exceptions</h2>
  * <p>
  * For details on the possible errors returned by the web service itself, see <a
- * href="http://dev.maxmind.com/geoip/geoip2/web-services">the GeoIP2 web
+ * href="https://dev.maxmind.com/geoip/geoip2/web-services">the GeoIP2 web
  * service documentation</a>.
  * </p>
  * <p>

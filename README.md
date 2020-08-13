@@ -474,7 +474,7 @@ check to see if the attribute is set.
 
 ## Integration with GeoNames ##
 
-[GeoNames](http://www.geonames.org/) offers web services and downloadable
+[GeoNames](https://www.geonames.org/) offers web services and downloadable
 databases with data on geographical features around the world, including
 populated places. They offer both free and paid premium data. Each
 feature is uniquely identified by a `geonameId`, which is an integer.
@@ -494,7 +494,7 @@ please
 [submit your correction to MaxMind](https://www.maxmind.com/en/correction).
 
 If you find some other sort of mistake, like an incorrect spelling,
-please check [the GeoNames site](http://www.geonames.org/) first. Once
+please check [the GeoNames site](https://www.geonames.org/) first. Once
 you've searched for a place and found it on the GeoNames map view, there
 are a number of links you can use to correct data ("move", "edit",
 "alternate names", etc.). Once the correction is part of the GeoNames
