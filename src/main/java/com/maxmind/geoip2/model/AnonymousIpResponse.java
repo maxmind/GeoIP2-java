@@ -55,6 +55,22 @@ public class AnonymousIpResponse extends AbstractResponse {
         this.network = network;
     }
 
+    public AnonymousIpResponse(
+            AnonymousIpDatabaseModel model,
+            String ipAddress,
+            Network network
+    ) {
+        this(
+            ipAddress,
+            model.getIsAnonymous(),
+            model.getIsAnonymousVpn(),
+            model.getIsHostingProvider(),
+            model.getIsPublicProxy(),
+            model.getIsTorExitNode(),
+            network
+        );
+    }
+
     /**
      * @return whether the IP address belongs to any sort of anonymous network.
      */
