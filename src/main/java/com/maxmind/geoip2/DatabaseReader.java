@@ -1,7 +1,5 @@
 package com.maxmind.geoip2;
 
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.maxmind.db.*;
 import com.maxmind.db.Reader.FileMode;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
@@ -67,8 +65,6 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
 
     private final Reader reader;
 
-    private final ObjectMapper om;
-
     private final List<String> locales;
 
     private final int databaseType;
@@ -106,12 +102,6 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             throw new IllegalArgumentException(
                     "Unsupported Builder configuration: expected either File or URL");
         }
-        this.om = new ObjectMapper();
-        this.om.configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, false);
-        this.om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
-                false);
-        this.om.configure(
-                DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
         this.locales = builder.locales;
 
         databaseType = getDatabaseType();
