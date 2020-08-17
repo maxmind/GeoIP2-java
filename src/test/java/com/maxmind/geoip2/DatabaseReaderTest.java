@@ -367,32 +367,30 @@ public class DatabaseReaderTest {
         }
     }
 
-    //@Test
-    //public void testEnterprise() throws Exception {
-    //    try (DatabaseReader reader = new DatabaseReader.Builder(
-    //            getFile("GeoIP2-Enterprise-Test.mmdb")).build()
-    //    ) {
-    //        InetAddress ipAddress = InetAddress.getByName("74.209.24.0");
+    @Test
+    public void testEnterprise() throws Exception {
+        try (DatabaseReader reader = new DatabaseReader.Builder(
+                getFile("GeoIP2-Enterprise-Test.mmdb")).build()
+        ) {
+            InetAddress ipAddress = InetAddress.getByName("74.209.24.0");
 
-    //        EnterpriseResponse response = reader.enterprise(ipAddress);
-    //        assertEquals(11, response.getCity().getConfidence().intValue());
-    //        assertEquals(99, response.getCountry().getConfidence().intValue());
-    //        assertEquals(6252001, response.getCountry().getGeoNameId().intValue());
-    //        assertEquals(27, response.getLocation().getAccuracyRadius().intValue());
-    //        assertEquals(ConnectionType.CABLE_DSL, response.getTraits().getConnectionType());
-    //        assertTrue(response.getTraits().isLegitimateProxy());
-    //        assertEquals(ipAddress.getHostAddress(), response.getTraits().getIpAddress());
-    //        assertEquals("74.209.16.0/20", response.getTraits().getNetwork().toString());
+            EnterpriseResponse response = reader.enterprise(ipAddress);
+            assertEquals(6252001, response.getCountry().getGeoNameId().intValue());
+            assertEquals(27, response.getLocation().getAccuracyRadius().intValue());
+            assertEquals(ConnectionType.CABLE_DSL, response.getTraits().getConnectionType());
+            assertTrue(response.getTraits().isLegitimateProxy());
+            assertEquals(ipAddress.getHostAddress(), response.getTraits().getIpAddress());
+            assertEquals("74.209.16.0/20", response.getTraits().getNetwork().toString());
 
-    //        EnterpriseResponse tryResponse = reader.tryEnterprise(ipAddress).get();
-    //        assertEquals(response.toJson(), tryResponse.toJson());
+            EnterpriseResponse tryResponse = reader.tryEnterprise(ipAddress).get();
+            assertEquals(response.toJson(), tryResponse.toJson());
 
-    //        // Test that the city and country methods can be called without
-    //        // an exception
-    //        reader.city(ipAddress);
-    //        reader.country(ipAddress);
-    //    }
-    //}
+            // Test that the city and country methods can be called without
+            // an exception
+            reader.city(ipAddress);
+            reader.country(ipAddress);
+        }
+    }
 
     @Test
     public void testIsp() throws Exception {
