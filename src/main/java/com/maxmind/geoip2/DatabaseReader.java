@@ -790,7 +790,12 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        return this.getOrThrowException(ipAddress, IspResponse.class, DatabaseType.ISP);
+        Optional<IspResponse> r = getIsp(ipAddress, 1);
+        if (!r.isPresent()) {
+            throw new AddressNotFoundException("The address "
+                    + ipAddress.getHostAddress() + " is not in the database.");
+        }
+        return r.get();
     }
 
     @Override
@@ -801,7 +806,35 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        return this.get(ipAddress, IspResponse.class, DatabaseType.ISP, 0);
+        return getIsp(ipAddress, 0);
+    }
+
+    private Optional<IspResponse> getIsp(
+            InetAddress ipAddress,
+            int stackDepth
+    ) throws IOException,
+             GeoIp2Exception,
+             InstantiationException,
+             IllegalAccessException,
+             InvocationTargetException,
+             NoSuchMethodException {
+        LookupResult<IspDatabaseModel> result = this.get2(
+                ipAddress,
+                IspDatabaseModel.class,
+                DatabaseType.ISP,
+                stackDepth
+        );
+        IspDatabaseModel model = result.getModel();
+        if (model == null) {
+            return Optional.empty();
+        }
+        return Optional.of(
+            new IspResponse(
+                model,
+                result.getIpAddress(),
+                result.getNetwork()
+            )
+        );
     }
 
     /**

@@ -394,26 +394,26 @@ public class DatabaseReaderTest {
     //    }
     //}
 
-    //@Test
-    //public void testIsp() throws Exception {
-    //    try (DatabaseReader reader = new DatabaseReader.Builder(
-    //            this.getFile("GeoIP2-ISP-Test.mmdb")).build()
-    //    ) {
-    //        InetAddress ipAddress = InetAddress.getByName("1.128.0.0");
-    //        IspResponse response = reader.isp(ipAddress);
-    //        assertEquals(1221, response.getAutonomousSystemNumber().intValue());
-    //        assertEquals("Telstra Pty Ltd",
-    //                response.getAutonomousSystemOrganization());
-    //        assertEquals("Telstra Internet", response.getIsp());
-    //        assertEquals("Telstra Internet", response.getOrganization());
+    @Test
+    public void testIsp() throws Exception {
+        try (DatabaseReader reader = new DatabaseReader.Builder(
+                this.getFile("GeoIP2-ISP-Test.mmdb")).build()
+        ) {
+            InetAddress ipAddress = InetAddress.getByName("1.128.0.0");
+            IspResponse response = reader.isp(ipAddress);
+            assertEquals(1221, response.getAutonomousSystemNumber().intValue());
+            assertEquals("Telstra Pty Ltd",
+                    response.getAutonomousSystemOrganization());
+            assertEquals("Telstra Internet", response.getIsp());
+            assertEquals("Telstra Internet", response.getOrganization());
 
-    //        assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
-    //        assertEquals("1.128.0.0/11", response.getNetwork().toString());
+            assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
+            assertEquals("1.128.0.0/11", response.getNetwork().toString());
 
-    //        IspResponse tryResponse = reader.tryIsp(ipAddress).get();
-    //        assertEquals(response.toJson(), tryResponse.toJson());
-    //    }
-    //}
+            IspResponse tryResponse = reader.tryIsp(ipAddress).get();
+            assertEquals(response.toJson(), tryResponse.toJson());
+        }
+    }
 
     private File getFile(String filename) throws URISyntaxException {
         URL resource = DatabaseReaderTest.class
