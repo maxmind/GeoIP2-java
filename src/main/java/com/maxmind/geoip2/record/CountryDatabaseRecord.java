@@ -6,6 +6,7 @@ import com.maxmind.db.MaxMindDbParameter;
 import java.util.Map;
 
 public final class CountryDatabaseRecord {
+    private final Integer confidence;
     private final Long geoNameId;
     private final Boolean isInEuropeanUnion;
     private final String isoCode;
@@ -13,15 +14,21 @@ public final class CountryDatabaseRecord {
 
     @MaxMindDbConstructor
     public CountryDatabaseRecord(
+            @MaxMindDbParameter(name="confidence") Integer confidence,
             @MaxMindDbParameter(name="geoname_id") Long geoNameId,
             @MaxMindDbParameter(name="is_in_european_union") Boolean isInEuropeanUnion,
             @MaxMindDbParameter(name="iso_code") String isoCode,
             @MaxMindDbParameter(name="names") Map<String, String> names
     ) {
+        this.confidence = confidence;
         this.geoNameId = geoNameId;
         this.isInEuropeanUnion = isInEuropeanUnion;
         this.isoCode = isoCode;
         this.names = names;
+    }
+
+    public Integer getConfidence() {
+        return this.confidence;
     }
 
     public Long getGeoNameId() {
