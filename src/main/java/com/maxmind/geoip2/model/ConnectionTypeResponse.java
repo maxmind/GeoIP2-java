@@ -37,6 +37,25 @@ public class ConnectionTypeResponse extends AbstractResponse {
         public String toString() {
             return this.name;
         }
+
+        public static ConnectionType fromString(String s) {
+            if (s == null) {
+                return null;
+            }
+
+            switch (s) {
+                case "Dialup":
+                    return ConnectionType.DIALUP;
+                case "Cable/DSL":
+                    return ConnectionType.CABLE_DSL;
+                case "Corporate":
+                    return ConnectionType.CORPORATE;
+                case "Cellular":
+                    return ConnectionType.CELLULAR;
+                default:
+                    return null;
+            }
+        }
     }
 
     private final ConnectionType connectionType;
