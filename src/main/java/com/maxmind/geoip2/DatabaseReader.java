@@ -509,7 +509,12 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        return this.getOrThrowException(ipAddress, AnonymousIpResponse.class, DatabaseType.ANONYMOUS_IP);
+        Optional<AnonymousIpResponse> r = getAnonymousIp(ipAddress, 1);
+        if (!r.isPresent()) {
+            throw new AddressNotFoundException("The address "
+                    + ipAddress.getHostAddress() + " is not in the database.");
+        }
+        return r.get();
     }
 
     @Override
@@ -520,7 +525,35 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        return this.get(ipAddress, AnonymousIpResponse.class, DatabaseType.ANONYMOUS_IP, 0);
+        return getAnonymousIp(ipAddress, 0);
+    }
+
+    private Optional<AnonymousIpResponse> getAnonymousIp(
+            InetAddress ipAddress,
+            int stackDepth
+    ) throws IOException,
+             GeoIp2Exception,
+             InstantiationException,
+             IllegalAccessException,
+             InvocationTargetException,
+             NoSuchMethodException {
+        LookupResult<AnonymousIpDatabaseModel> result = this.get2(
+                ipAddress,
+                AnonymousIpDatabaseModel.class,
+                DatabaseType.ANONYMOUS_IP,
+                stackDepth
+        );
+        AnonymousIpDatabaseModel model = result.getModel();
+        if (model == null) {
+            return Optional.empty();
+        }
+        return Optional.of(
+            new AnonymousIpResponse(
+                model,
+                result.getIpAddress(),
+                result.getNetwork()
+            )
+        );
     }
 
     /**
