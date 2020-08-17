@@ -49,7 +49,7 @@ public final class CountryResponse extends AbstractCountryResponse {
             model.getCountry() != null ?
                 new Country(
                     locales,
-                    null,
+                    model.getCountry().getConfidence(),
                     model.getCountry().getGeoNameId() != null ? model.getCountry().getGeoNameId().intValue() : null,
                     model.getCountry().getIsInEuropeanUnion(),
                     model.getCountry().getIsoCode(),
@@ -59,7 +59,7 @@ public final class CountryResponse extends AbstractCountryResponse {
             model.getRegisteredCountry() != null ?
                 new Country(
                     locales,
-                    null,
+                    model.getRegisteredCountry().getConfidence(),
                     model.getRegisteredCountry().getGeoNameId() != null ? model.getRegisteredCountry().getGeoNameId().intValue() : null,
                     model.getRegisteredCountry().getIsInEuropeanUnion(),
                     model.getRegisteredCountry().getIsoCode(),
@@ -68,7 +68,7 @@ public final class CountryResponse extends AbstractCountryResponse {
             model.getRepresentedCountry() != null ?
                 new RepresentedCountry(
                     locales,
-                    null,
+                    model.getRepresentedCountry().getConfidence(),
                     model.getRepresentedCountry().getGeoNameId() != null ? model.getRepresentedCountry().getGeoNameId().intValue() : null,
                     model.getRepresentedCountry().getIsInEuropeanUnion(),
                     model.getRepresentedCountry().getIsoCode(),
