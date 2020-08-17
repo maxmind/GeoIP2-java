@@ -303,23 +303,23 @@ public class DatabaseReaderTest {
         }
     }
 
-    //@Test
-    //public void testConnectionType() throws Exception {
-    //    try (DatabaseReader reader = new DatabaseReader.Builder(
-    //            this.getFile("GeoIP2-Connection-Type-Test.mmdb")).build()
-    //    ) {
-    //        InetAddress ipAddress = InetAddress.getByName("1.0.1.0");
+    @Test
+    public void testConnectionType() throws Exception {
+        try (DatabaseReader reader = new DatabaseReader.Builder(
+                this.getFile("GeoIP2-Connection-Type-Test.mmdb")).build()
+        ) {
+            InetAddress ipAddress = InetAddress.getByName("1.0.1.0");
 
-    //        ConnectionTypeResponse response = reader.connectionType(ipAddress);
+            ConnectionTypeResponse response = reader.connectionType(ipAddress);
 
-    //        assertEquals(ConnectionType.CABLE_DSL, response.getConnectionType());
-    //        assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
-    //        assertEquals("1.0.1.0/24", response.getNetwork().toString());
+            assertEquals(ConnectionType.CABLE_DSL, response.getConnectionType());
+            assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
+            assertEquals("1.0.1.0/24", response.getNetwork().toString());
 
-    //        ConnectionTypeResponse tryResponse = reader.tryConnectionType(ipAddress).get();
-    //        assertEquals(response.toJson(), tryResponse.toJson());
-    //    }
-    //}
+            ConnectionTypeResponse tryResponse = reader.tryConnectionType(ipAddress).get();
+            assertEquals(response.toJson(), tryResponse.toJson());
+        }
+    }
 
     @Test
     public void testCountry() throws Exception {
