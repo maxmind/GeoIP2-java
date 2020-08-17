@@ -19,7 +19,7 @@ public class AsnResponse extends AbstractResponse {
     private final Network network;
 
     AsnResponse() {
-        this(null, null, null);
+        this(null, null, null, null);
     }
 
     public AsnResponse(
@@ -40,6 +40,19 @@ public class AsnResponse extends AbstractResponse {
         this.autonomousSystemOrganization = autonomousSystemOrganization;
         this.ipAddress = ipAddress;
         this.network = network;
+    }
+
+    public AsnResponse(
+            AsnDatabaseModel model,
+            String ipAddress,
+            Network network
+    ) {
+        this(
+            model.getAutonomousSystemNumber().intValue(),
+            model.getAutonomousSystemOrganization(),
+            ipAddress,
+            network
+        );
     }
 
     /**

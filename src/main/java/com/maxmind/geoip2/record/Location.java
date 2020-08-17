@@ -1,6 +1,8 @@
 package com.maxmind.geoip2.record;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.maxmind.db.MaxMindDbConstructor;
+import com.maxmind.db.MaxMindDbParameter;
 
 /**
  * <p>
@@ -21,14 +23,15 @@ public class Location extends AbstractRecord {
         this(null, null, null, null, null, null, null);
     }
 
+    @MaxMindDbConstructor
     public Location(
-            @JsonProperty("accuracy_radius") Integer accuracyRadius,
-            @JsonProperty("average_income") Integer averageIncome,
-            @JsonProperty("latitude") Double latitude,
-            @JsonProperty("longitude") Double longitude,
-            @JsonProperty("metro_code") Integer metroCode,
-            @JsonProperty("population_density") Integer populationDensity,
-            @JsonProperty("time_zone") String timeZone
+            @JsonProperty("accuracy_radius") @MaxMindDbParameter(name="accuracy_radius") Integer accuracyRadius,
+            @JsonProperty("average_income") @MaxMindDbParameter(name="average_income") Integer averageIncome,
+            @JsonProperty("latitude") @MaxMindDbParameter(name="latitude") Double latitude,
+            @JsonProperty("longitude") @MaxMindDbParameter(name="longitude") Double longitude,
+            @JsonProperty("metro_code") @MaxMindDbParameter(name="metro_code") Integer metroCode,
+            @JsonProperty("population_density") @MaxMindDbParameter(name="population_density") Integer populationDensity,
+            @JsonProperty("time_zone") @MaxMindDbParameter(name="time_zone") String timeZone
     ) {
         this.accuracyRadius = accuracyRadius;
         this.averageIncome = averageIncome;
