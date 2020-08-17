@@ -291,8 +291,9 @@ public class DatabaseReaderTest {
             InetAddress ipAddress = InetAddress.getByName("74.209.24.0");
 
             CountryResponse response = reader.country(ipAddress);
-            assertEquals(99, response.getCountry().getConfidence().intValue());
+            assertEquals("NA", response.getContinent().getCode());
             assertEquals(6252001, response.getCountry().getGeoNameId().intValue());
+            assertEquals(6252001, response.getRegisteredCountry().getGeoNameId().intValue());
             assertEquals(ipAddress.getHostAddress(), response.getTraits().getIpAddress());
             assertEquals("74.209.16.0/20", response.getTraits().getNetwork().toString());
 
