@@ -10,7 +10,6 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.InstantiationException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
 import java.util.Collections;
