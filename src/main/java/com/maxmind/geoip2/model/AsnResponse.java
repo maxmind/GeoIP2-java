@@ -48,7 +48,7 @@ public class AsnResponse extends AbstractResponse {
             Network network
     ) {
         this(
-            model.getAutonomousSystemNumber().intValue(),
+            model.getAutonomousSystemNumber() != null ? model.getAutonomousSystemNumber().intValue() : null,
             model.getAutonomousSystemOrganization(),
             ipAddress,
             network

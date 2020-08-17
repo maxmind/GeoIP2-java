@@ -57,21 +57,21 @@ public final class CityResponse extends AbstractCityResponse {
                 new City(
                     locales,
                     null,
-                    model.getCity().getGeoNameId().intValue(),
+                    model.getCity().getGeoNameId() != null ? model.getCity().getGeoNameId().intValue() : null,
                     model.getCity().getNames()
                 ) : null,
             model.getContinent() != null ?
                 new Continent(
                     locales,
                     model.getContinent().getCode(),
-                    model.getContinent().getGeoNameId().intValue(),
+                    model.getContinent().getGeoNameId() != null ? model.getContinent().getGeoNameId().intValue() : null,
                     model.getContinent().getNames()
                 ) : null,
             model.getCountry() != null ?
                 new Country(
                     locales,
                     null,
-                    model.getCountry().getGeoNameId().intValue(),
+                    model.getCountry().getGeoNameId() != null ? model.getCountry().getGeoNameId().intValue() : null,
                     model.getCountry().getIsInEuropeanUnion(),
                     model.getCountry().getIsoCode(),
                     model.getCountry().getNames()
@@ -83,7 +83,7 @@ public final class CityResponse extends AbstractCityResponse {
                 new Country(
                     locales,
                     null,
-                    model.getRegisteredCountry().getGeoNameId().intValue(),
+                    model.getRegisteredCountry().getGeoNameId() != null ? model.getRegisteredCountry().getGeoNameId().intValue() : null,
                     model.getRegisteredCountry().getIsInEuropeanUnion(),
                     model.getRegisteredCountry().getIsoCode(),
                     model.getRegisteredCountry().getNames()
@@ -92,7 +92,7 @@ public final class CityResponse extends AbstractCityResponse {
                 new RepresentedCountry(
                     locales,
                     null,
-                    model.getRepresentedCountry().getGeoNameId().intValue(),
+                    model.getRepresentedCountry().getGeoNameId() != null ? model.getRepresentedCountry().getGeoNameId().intValue() : null,
                     model.getRepresentedCountry().getIsInEuropeanUnion(),
                     model.getRepresentedCountry().getIsoCode(),
                     model.getRepresentedCountry().getNames(),
@@ -159,7 +159,7 @@ public final class CityResponse extends AbstractCityResponse {
                 new Subdivision(
                     locales,
                     null,
-                    subdivision.getGeoNameId().intValue(),
+                    subdivision.getGeoNameId() != null ? subdivision.getGeoNameId().intValue() : null,
                     subdivision.getIsoCode(),
                     subdivision.getNames()
                 )

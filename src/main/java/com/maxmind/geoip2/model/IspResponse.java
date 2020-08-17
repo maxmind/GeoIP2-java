@@ -47,7 +47,7 @@ public class IspResponse extends AsnResponse {
             Network network
     ) {
         this(
-            model.getAutonomousSystemNumber().intValue(),
+            model.getAutonomousSystemNumber() != null ? model.getAutonomousSystemNumber().intValue() : null,
             model.getAutonomousSystemOrganization(),
             ipAddress,
             model.getIsp(),
