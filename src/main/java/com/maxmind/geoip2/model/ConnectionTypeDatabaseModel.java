@@ -2,6 +2,7 @@ package com.maxmind.geoip2.model;
 
 import com.maxmind.db.MaxMindDbConstructor;
 import com.maxmind.db.MaxMindDbParameter;
+import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
 
 public class ConnectionTypeDatabaseModel {
     private final String connectionType;
@@ -13,22 +14,7 @@ public class ConnectionTypeDatabaseModel {
         this.connectionType = connectionType;
     }
 
-    public ConnectionTypeResponse.ConnectionType getConnectionType() {
-        if (this.connectionType == null) {
-            return null;
-        }
-
-        switch (this.connectionType) {
-            case "Dialup":
-                return ConnectionTypeResponse.ConnectionType.DIALUP;
-            case "Cable/DSL":
-                return ConnectionTypeResponse.ConnectionType.CABLE_DSL;
-            case "Corporate":
-                return ConnectionTypeResponse.ConnectionType.CORPORATE;
-            case "Cellular":
-                return ConnectionTypeResponse.ConnectionType.CELLULAR;
-            default:
-                return ConnectionTypeResponse.ConnectionType.valueOf(this.connectionType);
-        }
+    public ConnectionType getConnectionType() {
+        return ConnectionType.fromString(this.connectionType);
     }
 }

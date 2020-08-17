@@ -5,9 +5,9 @@ import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
 
 public final class TraitsDatabaseRecord {
-    private final Integer autonomousSystemNumber;
+    private final Long autonomousSystemNumber;
     private final String autonomousSystemOrganization;
-    private final ConnectionType connectionType;
+    private final String connectionType;
     private final String domain;
     private final Boolean isAnonymous;
     private final Boolean isAnonymousProxy;
@@ -25,9 +25,9 @@ public final class TraitsDatabaseRecord {
 
     @MaxMindDbConstructor
     public TraitsDatabaseRecord(
-            @MaxMindDbParameter(name="autonomous_system_number") Integer autonomousSystemNumber,
+            @MaxMindDbParameter(name="autonomous_system_number") Long autonomousSystemNumber,
             @MaxMindDbParameter(name="autonomous_system_organization") String autonomousSystemOrganization,
-            @MaxMindDbParameter(name="connection_type") ConnectionType connectionType,
+            @MaxMindDbParameter(name="connection_type") String connectionType,
             @MaxMindDbParameter(name="domain") String domain,
             @MaxMindDbParameter(name="is_anonymous") Boolean isAnonymous,
             @MaxMindDbParameter(name="is_anonymous_proxy") Boolean isAnonymousProxy,
@@ -62,7 +62,7 @@ public final class TraitsDatabaseRecord {
         this.userType = userType;
     }
 
-    public Integer getAutonomousSystemNumber() {
+    public Long getAutonomousSystemNumber() {
         return this.autonomousSystemNumber;
     }
 
@@ -71,7 +71,7 @@ public final class TraitsDatabaseRecord {
     }
 
     public ConnectionType getConnectionType() {
-        return this.connectionType;
+        return ConnectionType.fromString(this.connectionType);
     }
 
     public String getDomain() {
