@@ -759,7 +759,12 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        return this.getOrThrowException(ipAddress, EnterpriseResponse.class, DatabaseType.ENTERPRISE);
+        Optional<EnterpriseResponse> r = getEnterprise(ipAddress, 1);
+        if (!r.isPresent()) {
+            throw new AddressNotFoundException("The address "
+                    + ipAddress.getHostAddress() + " is not in the database.");
+        }
+        return r.get();
     }
 
     @Override
@@ -770,9 +775,37 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        return this.get(ipAddress, EnterpriseResponse.class, DatabaseType.ENTERPRISE, 0);
+        return getEnterprise(ipAddress, 0);
     }
 
+    private Optional<EnterpriseResponse> getEnterprise(
+            InetAddress ipAddress,
+            int stackDepth
+    ) throws IOException,
+             GeoIp2Exception,
+             InstantiationException,
+             IllegalAccessException,
+             InvocationTargetException,
+             NoSuchMethodException {
+        LookupResult<CityDatabaseModel> result = this.get2(
+                ipAddress,
+                CityDatabaseModel.class,
+                DatabaseType.ENTERPRISE,
+                stackDepth
+        );
+        CityDatabaseModel model = result.getModel();
+        if (model == null) {
+            return Optional.empty();
+        }
+        return Optional.of(
+            new EnterpriseResponse(
+                model,
+                result.getIpAddress(),
+                result.getNetwork(),
+                locales
+            )
+        );
+    }
 
     /**
      * Look up an IP address in a GeoIP2 ISP database.
