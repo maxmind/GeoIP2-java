@@ -64,6 +64,18 @@ public class ConnectionTypeResponse extends AbstractResponse {
         this.network = network;
     }
 
+    public ConnectionTypeResponse(
+            ConnectionTypeDatabaseModel model,
+            String ipAddress,
+            Network network
+    ) {
+        this(
+            model.getConnectionType(),
+            ipAddress,
+            network
+        );
+    }
+
     /**
      * @return The connection type of the IP address.
      */
