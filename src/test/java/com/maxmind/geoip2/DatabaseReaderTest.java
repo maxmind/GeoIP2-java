@@ -351,21 +351,21 @@ public class DatabaseReaderTest {
         }
     }
 
-    //@Test
-    //public void testDomain() throws Exception {
-    //    try (DatabaseReader reader = new DatabaseReader.Builder(
-    //            this.getFile("GeoIP2-Domain-Test.mmdb")).build()
-    //    ) {
-    //        InetAddress ipAddress = InetAddress.getByName("1.2.0.0");
-    //        DomainResponse response = reader.domain(ipAddress);
-    //        assertEquals("maxmind.com", response.getDomain());
-    //        assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
-    //        assertEquals("1.2.0.0/16", response.getNetwork().toString());
+    @Test
+    public void testDomain() throws Exception {
+        try (DatabaseReader reader = new DatabaseReader.Builder(
+                this.getFile("GeoIP2-Domain-Test.mmdb")).build()
+        ) {
+            InetAddress ipAddress = InetAddress.getByName("1.2.0.0");
+            DomainResponse response = reader.domain(ipAddress);
+            assertEquals("maxmind.com", response.getDomain());
+            assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
+            assertEquals("1.2.0.0/16", response.getNetwork().toString());
 
-    //        DomainResponse tryResponse = reader.tryDomain(ipAddress).get();
-    //        assertEquals(response.toJson(), tryResponse.toJson());
-    //    }
-    //}
+            DomainResponse tryResponse = reader.tryDomain(ipAddress).get();
+            assertEquals(response.toJson(), tryResponse.toJson());
+        }
+    }
 
     //@Test
     //public void testEnterprise() throws Exception {
