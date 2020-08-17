@@ -41,6 +41,21 @@ public class IspResponse extends AsnResponse {
         this.organization = organization;
     }
 
+    public IspResponse(
+            IspDatabaseModel model,
+            String ipAddress,
+            Network network
+    ) {
+        this(
+            model.getAutonomousSystemNumber().intValue(),
+            model.getAutonomousSystemOrganization(),
+            ipAddress,
+            model.getIsp(),
+            model.getOrganization(),
+            network
+        );
+    }
+
     /**
      * @return The name of the ISP associated with the IP address.
      */
