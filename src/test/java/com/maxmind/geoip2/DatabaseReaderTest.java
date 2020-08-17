@@ -83,7 +83,7 @@ public class DatabaseReaderTest {
 
     @Test
     public void testLocaleListURL() throws Exception {
-        try (DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
+        try (DatabaseReader reader = new DatabaseReader.Builder(this.geoipStream)
                 .locales(Arrays.asList("xx", "ru", "pt-BR", "es", "en"))
                 .build()
         ) {
@@ -108,7 +108,7 @@ public class DatabaseReaderTest {
 
     @Test
     public void testMemoryModeURL() throws Exception {
-        try (DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
+        try (DatabaseReader reader = new DatabaseReader.Builder(this.geoipStream)
                 .fileMode(Reader.FileMode.MEMORY).build()
         ) {
             this.testMemoryMode(reader);
@@ -140,7 +140,7 @@ public class DatabaseReaderTest {
 
     @Test
     public void hasIpAddressURL() throws Exception {
-        try (DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
+        try (DatabaseReader reader = new DatabaseReader.Builder(this.geoipStream)
                 .build()
         ) {
             this.hasIpInfo(reader);
@@ -165,7 +165,7 @@ public class DatabaseReaderTest {
 
     @Test
     public void unknownAddressURL() throws Exception {
-        try (DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
+        try (DatabaseReader reader = new DatabaseReader.Builder(this.geoipStream)
                 .build()
         ) {
             this.unknownAddress(reader);
