@@ -696,8 +696,12 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        return this
-                .getOrThrowException(ipAddress, DomainResponse.class, DatabaseType.DOMAIN);
+        Optional<DomainResponse> r = getDomain(ipAddress, 1);
+        if (!r.isPresent()) {
+            throw new AddressNotFoundException("The address "
+                    + ipAddress.getHostAddress() + " is not in the database.");
+        }
+        return r.get();
     }
 
     @Override
@@ -708,8 +712,35 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        return this
-                .get(ipAddress, DomainResponse.class, DatabaseType.DOMAIN, 0);
+        return getDomain(ipAddress, 0);
+    }
+
+    private Optional<DomainResponse> getDomain(
+            InetAddress ipAddress,
+            int stackDepth
+    ) throws IOException,
+             GeoIp2Exception,
+             InstantiationException,
+             IllegalAccessException,
+             InvocationTargetException,
+             NoSuchMethodException {
+        LookupResult<DomainDatabaseModel> result = this.get2(
+                ipAddress,
+                DomainDatabaseModel.class,
+                DatabaseType.DOMAIN,
+                stackDepth
+        );
+        DomainDatabaseModel model = result.getModel();
+        if (model == null) {
+            return Optional.empty();
+        }
+        return Optional.of(
+            new DomainResponse(
+                model,
+                result.getIpAddress(),
+                result.getNetwork()
+            )
+        );
     }
 
     /**

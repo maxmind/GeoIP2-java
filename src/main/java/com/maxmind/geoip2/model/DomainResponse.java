@@ -38,6 +38,14 @@ public class DomainResponse extends AbstractResponse {
         this.network = network;
     }
 
+    public DomainResponse(
+            DomainDatabaseModel model,
+            String ipAddress,
+            Network network
+    ) {
+        this(model.getDomain(), ipAddress, network);
+    }
+
     /**
      * @return the The second level domain associated with the IP address. This
      * will be something like "example.com" or "example.co.uk", not
