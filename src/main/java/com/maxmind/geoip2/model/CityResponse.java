@@ -101,7 +101,7 @@ public final class CityResponse extends AbstractCityResponse {
             mapSubdivisions(locales, model.getSubdivisions()),
             model.getTraits() != null ?
                 new Traits(
-                    model.getTraits().getAutonomousSystemNumber(),
+                    model.getTraits().getAutonomousSystemNumber() != null ? model.getTraits().getAutonomousSystemNumber().intValue() : null,
                     model.getTraits().getAutonomousSystemOrganization(),
                     model.getTraits().getConnectionType(),
                     model.getTraits().getDomain(),

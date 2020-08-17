@@ -77,7 +77,7 @@ public final class CountryResponse extends AbstractCountryResponse {
                 ) : null,
             model.getTraits() != null ?
                 new Traits(
-                    model.getTraits().getAutonomousSystemNumber(),
+                    model.getTraits().getAutonomousSystemNumber() != null ? model.getTraits().getAutonomousSystemNumber().intValue() : null,
                     model.getTraits().getAutonomousSystemOrganization(),
                     model.getTraits().getConnectionType(),
                     model.getTraits().getDomain(),
