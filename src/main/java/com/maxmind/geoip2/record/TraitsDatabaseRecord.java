@@ -20,7 +20,6 @@ public final class TraitsDatabaseRecord {
     private final String isp;
     private final String organization;
     private final String userType;
-    private final Integer userCount;
     private final Double staticIpScore;
 
     @MaxMindDbConstructor
@@ -40,7 +39,6 @@ public final class TraitsDatabaseRecord {
             @MaxMindDbParameter(name="isp") String isp,
             @MaxMindDbParameter(name="organization") String organization,
             @MaxMindDbParameter(name="static_ip_score") Double staticIpScore,
-            @MaxMindDbParameter(name="user_count") Integer userCount,
             @MaxMindDbParameter(name="user_type") String userType
     ) {
         this.autonomousSystemNumber = autonomousSystemNumber;
@@ -58,7 +56,6 @@ public final class TraitsDatabaseRecord {
         this.isp = isp;
         this.organization = organization;
         this.staticIpScore = staticIpScore;
-        this.userCount = userCount;
         this.userType = userType;
     }
 
@@ -144,10 +141,6 @@ public final class TraitsDatabaseRecord {
 
     public Double getStaticIpScore() {
         return this.staticIpScore;
-    }
-
-    public Integer getUserCount() {
-        return this.userCount;
     }
 
     public String getUserType() {

@@ -118,7 +118,7 @@ public final class CityResponse extends AbstractCityResponse {
                     network,
                     model.getTraits().getOrganization(),
                     model.getTraits().getUserType(),
-                    model.getTraits().getUserCount(),
+                    null,
                     model.getTraits().getStaticIpScore()
                 ) :
                 new Traits(

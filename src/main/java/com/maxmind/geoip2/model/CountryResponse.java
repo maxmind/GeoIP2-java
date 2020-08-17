@@ -94,7 +94,7 @@ public final class CountryResponse extends AbstractCountryResponse {
                     network,
                     model.getTraits().getOrganization(),
                     model.getTraits().getUserType(),
-                    model.getTraits().getUserCount(),
+                    null,
                     model.getTraits().getStaticIpScore()
                 ) :
                 new Traits(
