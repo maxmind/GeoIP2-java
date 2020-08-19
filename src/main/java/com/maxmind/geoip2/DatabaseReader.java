@@ -256,15 +256,11 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * @param ipAddress    IPv4 or IPv6 address to lookup.
      * @param cls          The class to deserialize to.
      * @param expectedType The expected database type.
-     * @param stackDepth   Used to work out how far down the stack we should look, for the method name
-     *                     we should use to report back to the user when in error. If this is called directly from the
-     *                     method to report to the use set to zero, if this is called indirectly then it is the number of
-     *                     methods between this method and the method to report the name of.
      * @return A LookupResult<T> object with the data for the IP address
      * @throws IOException if there is an error opening or reading from the file.
      */
     private <T> LookupResult<T> get(InetAddress ipAddress, Class<T> cls,
-                                DatabaseType expectedType, int stackDepth)
+                                DatabaseType expectedType)
             throws IOException,
                    AddressNotFoundException,
                    InstantiationException,
@@ -273,7 +269,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                    NoSuchMethodException {
 
         if ((databaseType & expectedType.type) == 0) {
-            String caller = Thread.currentThread().getStackTrace()[2 + stackDepth]
+            String caller = Thread.currentThread().getStackTrace()[3]
                     .getMethodName();
             throw new UnsupportedOperationException(
                     "Invalid attempt to open a " + getMetadata().getDatabaseType()
@@ -316,7 +312,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        Optional<CountryResponse> r = getCountry(ipAddress, 1);
+        Optional<CountryResponse> r = getCountry(ipAddress);
         if (!r.isPresent()) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
@@ -332,12 +328,11 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        return getCountry(ipAddress, 0);
+        return getCountry(ipAddress);
     }
 
     private Optional<CountryResponse> getCountry(
-            InetAddress ipAddress,
-            int stackDepth
+            InetAddress ipAddress
     ) throws IOException,
              GeoIp2Exception,
              InstantiationException,
@@ -347,8 +342,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         LookupResult<CountryDatabaseModel> result = this.get(
                 ipAddress,
                 CountryDatabaseModel.class,
-                DatabaseType.COUNTRY,
-                stackDepth
+                DatabaseType.COUNTRY
         );
         CountryDatabaseModel model = result.getModel();
         if (model == null) {
@@ -372,7 +366,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        Optional<CityResponse> r = getCity(ipAddress, 1);
+        Optional<CityResponse> r = getCity(ipAddress);
         if (!r.isPresent()) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
@@ -388,12 +382,11 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        return getCity(ipAddress, 0);
+        return getCity(ipAddress);
     }
 
     private Optional<CityResponse> getCity(
-            InetAddress ipAddress,
-            int stackDepth
+            InetAddress ipAddress
     ) throws IOException,
              GeoIp2Exception,
              InstantiationException,
@@ -403,8 +396,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         LookupResult<CityDatabaseModel> result = this.get(
                 ipAddress,
                 CityDatabaseModel.class,
-                DatabaseType.CITY,
-                stackDepth
+                DatabaseType.CITY
         );
         CityDatabaseModel model = result.getModel();
         if (model == null) {
@@ -436,7 +428,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        Optional<AnonymousIpResponse> r = getAnonymousIp(ipAddress, 1);
+        Optional<AnonymousIpResponse> r = getAnonymousIp(ipAddress);
         if (!r.isPresent()) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
@@ -452,12 +444,11 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        return getAnonymousIp(ipAddress, 0);
+        return getAnonymousIp(ipAddress);
     }
 
     private Optional<AnonymousIpResponse> getAnonymousIp(
-            InetAddress ipAddress,
-            int stackDepth
+            InetAddress ipAddress
     ) throws IOException,
              GeoIp2Exception,
              InstantiationException,
@@ -467,8 +458,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         LookupResult<AnonymousIpDatabaseModel> result = this.get(
                 ipAddress,
                 AnonymousIpDatabaseModel.class,
-                DatabaseType.ANONYMOUS_IP,
-                stackDepth
+                DatabaseType.ANONYMOUS_IP
         );
         AnonymousIpDatabaseModel model = result.getModel();
         if (model == null) {
@@ -499,7 +489,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        Optional<AsnResponse> r = getAsn(ipAddress, 1);
+        Optional<AsnResponse> r = getAsn(ipAddress);
         if (!r.isPresent()) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
@@ -515,10 +505,10 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        return getAsn(ipAddress, 0);
+        return getAsn(ipAddress);
     }
 
-    private Optional<AsnResponse> getAsn(InetAddress ipAddress, int stackDepth)
+    private Optional<AsnResponse> getAsn(InetAddress ipAddress)
         throws IOException,
                GeoIp2Exception,
                InstantiationException,
@@ -528,8 +518,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         LookupResult<AsnDatabaseModel> result = this.get(
                 ipAddress,
                 AsnDatabaseModel.class,
-                DatabaseType.ASN,
-                stackDepth
+                DatabaseType.ASN
         );
         AsnDatabaseModel model = result.getModel();
         if (model == null) {
@@ -560,7 +549,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        Optional<ConnectionTypeResponse> r = getConnectionType(ipAddress, 1);
+        Optional<ConnectionTypeResponse> r = getConnectionType(ipAddress);
         if (!r.isPresent()) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
@@ -576,12 +565,11 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        return getConnectionType(ipAddress, 0);
+        return getConnectionType(ipAddress);
     }
 
     private Optional<ConnectionTypeResponse> getConnectionType(
-            InetAddress ipAddress,
-            int stackDepth
+            InetAddress ipAddress
     ) throws IOException,
              GeoIp2Exception,
              InstantiationException,
@@ -591,8 +579,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         LookupResult<ConnectionTypeDatabaseModel> result = this.get(
                 ipAddress,
                 ConnectionTypeDatabaseModel.class,
-                DatabaseType.CONNECTION_TYPE,
-                stackDepth
+                DatabaseType.CONNECTION_TYPE
         );
         ConnectionTypeDatabaseModel model = result.getModel();
         if (model == null) {
@@ -623,7 +610,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        Optional<DomainResponse> r = getDomain(ipAddress, 1);
+        Optional<DomainResponse> r = getDomain(ipAddress);
         if (!r.isPresent()) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
@@ -639,12 +626,11 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        return getDomain(ipAddress, 0);
+        return getDomain(ipAddress);
     }
 
     private Optional<DomainResponse> getDomain(
-            InetAddress ipAddress,
-            int stackDepth
+            InetAddress ipAddress
     ) throws IOException,
              GeoIp2Exception,
              InstantiationException,
@@ -654,8 +640,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         LookupResult<DomainDatabaseModel> result = this.get(
                 ipAddress,
                 DomainDatabaseModel.class,
-                DatabaseType.DOMAIN,
-                stackDepth
+                DatabaseType.DOMAIN
         );
         DomainDatabaseModel model = result.getModel();
         if (model == null) {
@@ -686,7 +671,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        Optional<EnterpriseResponse> r = getEnterprise(ipAddress, 1);
+        Optional<EnterpriseResponse> r = getEnterprise(ipAddress);
         if (!r.isPresent()) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
@@ -702,12 +687,11 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        return getEnterprise(ipAddress, 0);
+        return getEnterprise(ipAddress);
     }
 
     private Optional<EnterpriseResponse> getEnterprise(
-            InetAddress ipAddress,
-            int stackDepth
+            InetAddress ipAddress
     ) throws IOException,
              GeoIp2Exception,
              InstantiationException,
@@ -717,8 +701,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         LookupResult<CityDatabaseModel> result = this.get(
                 ipAddress,
                 CityDatabaseModel.class,
-                DatabaseType.ENTERPRISE,
-                stackDepth
+                DatabaseType.ENTERPRISE
         );
         CityDatabaseModel model = result.getModel();
         if (model == null) {
@@ -750,7 +733,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        Optional<IspResponse> r = getIsp(ipAddress, 1);
+        Optional<IspResponse> r = getIsp(ipAddress);
         if (!r.isPresent()) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
@@ -766,12 +749,11 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                IllegalAccessException,
                InvocationTargetException,
                NoSuchMethodException {
-        return getIsp(ipAddress, 0);
+        return getIsp(ipAddress);
     }
 
     private Optional<IspResponse> getIsp(
-            InetAddress ipAddress,
-            int stackDepth
+            InetAddress ipAddress
     ) throws IOException,
              GeoIp2Exception,
              InstantiationException,
@@ -781,8 +763,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         LookupResult<IspDatabaseModel> result = this.get(
                 ipAddress,
                 IspDatabaseModel.class,
-                DatabaseType.ISP,
-                stackDepth
+                DatabaseType.ISP
         );
         IspDatabaseModel model = result.getModel();
         if (model == null) {
