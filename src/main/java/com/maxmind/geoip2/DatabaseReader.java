@@ -280,7 +280,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         // on Java 14 due to the new java.lang.Record.
         com.maxmind.db.Record<T> record = reader.getRecord(ipAddress, cls);
 
-        T o = cls.cast(record.getData());
+        T o = record.getData();
 
         return new LookupResult<>(o, ipAddress.getHostAddress(), record.getNetwork());
     }
