@@ -13,7 +13,6 @@ import org.junit.rules.ExpectedException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -55,13 +54,8 @@ public class DatabaseReaderTest {
         }
     }
 
-    private void testDefaultLocale(DatabaseReader reader)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    private void testDefaultLocale(DatabaseReader reader) throws IOException,
+            GeoIp2Exception {
         CityResponse city = reader.city(InetAddress.getByName("81.2.69.160"));
         assertEquals("London", city.getCity().getName());
     }
@@ -97,13 +91,8 @@ public class DatabaseReaderTest {
         }
     }
 
-    private void testLocaleList(DatabaseReader reader)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    private void testLocaleList(DatabaseReader reader) throws IOException,
+            GeoIp2Exception {
         CityResponse city = reader.city(InetAddress.getByName("81.2.69.160"));
         assertEquals("Лондон", city.getCity().getName());
     }
@@ -126,26 +115,15 @@ public class DatabaseReaderTest {
         }
     }
 
-    private void testMemoryMode(DatabaseReader reader)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    private void testMemoryMode(DatabaseReader reader) throws IOException,
+            GeoIp2Exception {
         CityResponse city = reader.city(InetAddress.getByName("81.2.69.160"));
         assertEquals("London", city.getCity().getName());
         assertEquals(100, city.getLocation().getAccuracyRadius().longValue());
     }
 
     @Test
-    public void metadata()
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    public void metadata() throws IOException {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
                 .fileMode(Reader.FileMode.MEMORY).build();
         assertEquals("GeoIP2-City", reader.getMetadata().getDatabaseType());
@@ -169,13 +147,8 @@ public class DatabaseReaderTest {
         }
     }
 
-    private void hasIpInfo(DatabaseReader reader)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    private void hasIpInfo(DatabaseReader reader) throws IOException,
+            GeoIp2Exception {
         CityResponse cio = reader.city(InetAddress.getByName("81.2.69.160"));
         assertEquals("81.2.69.160", cio.getTraits().getIpAddress());
         assertEquals("81.2.69.160/27", cio.getTraits().getNetwork().toString());
@@ -199,13 +172,8 @@ public class DatabaseReaderTest {
         }
     }
 
-    private void unknownAddress(DatabaseReader reader)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    private void unknownAddress(DatabaseReader reader) throws IOException,
+            GeoIp2Exception {
         assertFalse(reader.tryCity(InetAddress.getByName("10.10.10.10")).isPresent());
 
         this.exception.expect(AddressNotFoundException.class);
@@ -216,13 +184,7 @@ public class DatabaseReaderTest {
     }
 
     @Test
-    public void testUnsupportedFileMode()
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    public void testUnsupportedFileMode() throws IOException {
         this.exception.expect(IllegalArgumentException.class);
         this.exception.expectMessage(containsString("Only FileMode.MEMORY"));
         try (DatabaseReader db = new DatabaseReader.Builder(this.geoipStream).fileMode(

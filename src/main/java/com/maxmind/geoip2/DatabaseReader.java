@@ -10,7 +10,6 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
 import java.util.Collections;
 import java.util.List;
@@ -85,12 +84,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         }
     }
 
-    private DatabaseReader(Builder builder)
-            throws IOException,
-                   InstantiationException,
-                   IllegalAccessException,
-                   InvocationTargetException,
-                   NoSuchMethodException {
+    private DatabaseReader(Builder builder) throws IOException {
         if (builder.stream != null) {
             this.reader = new Reader(builder.stream, builder.cache);
         } else if (builder.database != null) {
@@ -218,12 +212,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
          * fields set on this builder.
          * @throws IOException if there is an error reading the database
          */
-        public DatabaseReader build()
-                throws IOException,
-                       InstantiationException,
-                       IllegalAccessException,
-                       InvocationTargetException,
-                       NoSuchMethodException {
+        public DatabaseReader build() throws IOException {
             return new DatabaseReader(this);
         }
     }
@@ -261,12 +250,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      */
     private <T> LookupResult<T> get(InetAddress ipAddress, Class<T> cls,
                                 DatabaseType expectedType)
-            throws IOException,
-                   AddressNotFoundException,
-                   InstantiationException,
-                   IllegalAccessException,
-                   InvocationTargetException,
-                   NoSuchMethodException {
+            throws IOException, AddressNotFoundException {
 
         if ((databaseType & expectedType.type) == 0) {
             String caller = Thread.currentThread().getStackTrace()[3]
@@ -305,13 +289,8 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     @Override
-    public CountryResponse country(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    public CountryResponse country(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
         Optional<CountryResponse> r = getCountry(ipAddress);
         if (!r.isPresent()) {
             throw new AddressNotFoundException("The address "
@@ -321,24 +300,14 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     @Override
-    public Optional<CountryResponse> tryCountry(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    public Optional<CountryResponse> tryCountry(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
         return getCountry(ipAddress);
     }
 
     private Optional<CountryResponse> getCountry(
             InetAddress ipAddress
-    ) throws IOException,
-             GeoIp2Exception,
-             InstantiationException,
-             IllegalAccessException,
-             InvocationTargetException,
-             NoSuchMethodException {
+    ) throws IOException, GeoIp2Exception {
         LookupResult<CountryDatabaseModel> result = this.get(
                 ipAddress,
                 CountryDatabaseModel.class,
@@ -359,13 +328,8 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     @Override
-    public CityResponse city(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    public CityResponse city(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
         Optional<CityResponse> r = getCity(ipAddress);
         if (!r.isPresent()) {
             throw new AddressNotFoundException("The address "
@@ -375,24 +339,14 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     @Override
-    public Optional<CityResponse> tryCity(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    public Optional<CityResponse> tryCity(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
         return getCity(ipAddress);
     }
 
     private Optional<CityResponse> getCity(
             InetAddress ipAddress
-    ) throws IOException,
-             GeoIp2Exception,
-             InstantiationException,
-             IllegalAccessException,
-             InvocationTargetException,
-             NoSuchMethodException {
+    ) throws IOException, GeoIp2Exception {
         LookupResult<CityDatabaseModel> result = this.get(
                 ipAddress,
                 CityDatabaseModel.class,
@@ -421,13 +375,8 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * @throws IOException     if there is an IO error
      */
     @Override
-    public AnonymousIpResponse anonymousIp(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    public AnonymousIpResponse anonymousIp(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
         Optional<AnonymousIpResponse> r = getAnonymousIp(ipAddress);
         if (!r.isPresent()) {
             throw new AddressNotFoundException("The address "
@@ -437,24 +386,14 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     @Override
-    public Optional<AnonymousIpResponse> tryAnonymousIp(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    public Optional<AnonymousIpResponse> tryAnonymousIp(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
         return getAnonymousIp(ipAddress);
     }
 
     private Optional<AnonymousIpResponse> getAnonymousIp(
             InetAddress ipAddress
-    ) throws IOException,
-             GeoIp2Exception,
-             InstantiationException,
-             IllegalAccessException,
-             InvocationTargetException,
-             NoSuchMethodException {
+    ) throws IOException, GeoIp2Exception {
         LookupResult<AnonymousIpDatabaseModel> result = this.get(
                 ipAddress,
                 AnonymousIpDatabaseModel.class,
@@ -482,13 +421,8 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * @throws IOException     if there is an IO error
      */
     @Override
-    public AsnResponse asn(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    public AsnResponse asn(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
         Optional<AsnResponse> r = getAsn(ipAddress);
         if (!r.isPresent()) {
             throw new AddressNotFoundException("The address "
@@ -498,23 +432,13 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     @Override
-    public Optional<AsnResponse> tryAsn(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    public Optional<AsnResponse> tryAsn(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
         return getAsn(ipAddress);
     }
 
     private Optional<AsnResponse> getAsn(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+        throws IOException, GeoIp2Exception {
         LookupResult<AsnDatabaseModel> result = this.get(
                 ipAddress,
                 AsnDatabaseModel.class,
@@ -543,12 +467,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      */
     @Override
     public ConnectionTypeResponse connectionType(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+            throws IOException, GeoIp2Exception {
         Optional<ConnectionTypeResponse> r = getConnectionType(ipAddress);
         if (!r.isPresent()) {
             throw new AddressNotFoundException("The address "
@@ -559,23 +478,13 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
 
     @Override
     public Optional<ConnectionTypeResponse> tryConnectionType(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+            throws IOException, GeoIp2Exception {
         return getConnectionType(ipAddress);
     }
 
     private Optional<ConnectionTypeResponse> getConnectionType(
             InetAddress ipAddress
-    ) throws IOException,
-             GeoIp2Exception,
-             InstantiationException,
-             IllegalAccessException,
-             InvocationTargetException,
-             NoSuchMethodException {
+    ) throws IOException, GeoIp2Exception {
         LookupResult<ConnectionTypeDatabaseModel> result = this.get(
                 ipAddress,
                 ConnectionTypeDatabaseModel.class,
@@ -603,13 +512,8 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * @throws IOException     if there is an IO error
      */
     @Override
-    public DomainResponse domain(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    public DomainResponse domain(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
         Optional<DomainResponse> r = getDomain(ipAddress);
         if (!r.isPresent()) {
             throw new AddressNotFoundException("The address "
@@ -619,24 +523,14 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     @Override
-    public Optional<DomainResponse> tryDomain(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    public Optional<DomainResponse> tryDomain(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
         return getDomain(ipAddress);
     }
 
     private Optional<DomainResponse> getDomain(
             InetAddress ipAddress
-    ) throws IOException,
-             GeoIp2Exception,
-             InstantiationException,
-             IllegalAccessException,
-             InvocationTargetException,
-             NoSuchMethodException {
+    ) throws IOException, GeoIp2Exception {
         LookupResult<DomainDatabaseModel> result = this.get(
                 ipAddress,
                 DomainDatabaseModel.class,
@@ -664,13 +558,8 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * @throws IOException     if there is an IO error
      */
     @Override
-    public EnterpriseResponse enterprise(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    public EnterpriseResponse enterprise(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
         Optional<EnterpriseResponse> r = getEnterprise(ipAddress);
         if (!r.isPresent()) {
             throw new AddressNotFoundException("The address "
@@ -680,24 +569,14 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     @Override
-    public Optional<EnterpriseResponse> tryEnterprise(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    public Optional<EnterpriseResponse> tryEnterprise(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
         return getEnterprise(ipAddress);
     }
 
     private Optional<EnterpriseResponse> getEnterprise(
             InetAddress ipAddress
-    ) throws IOException,
-             GeoIp2Exception,
-             InstantiationException,
-             IllegalAccessException,
-             InvocationTargetException,
-             NoSuchMethodException {
+    ) throws IOException, GeoIp2Exception {
         LookupResult<CityDatabaseModel> result = this.get(
                 ipAddress,
                 CityDatabaseModel.class,
@@ -726,13 +605,8 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * @throws IOException     if there is an IO error
      */
     @Override
-    public IspResponse isp(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    public IspResponse isp(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
         Optional<IspResponse> r = getIsp(ipAddress);
         if (!r.isPresent()) {
             throw new AddressNotFoundException("The address "
@@ -742,24 +616,14 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     @Override
-    public Optional<IspResponse> tryIsp(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException {
+    public Optional<IspResponse> tryIsp(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
         return getIsp(ipAddress);
     }
 
     private Optional<IspResponse> getIsp(
             InetAddress ipAddress
-    ) throws IOException,
-             GeoIp2Exception,
-             InstantiationException,
-             IllegalAccessException,
-             InvocationTargetException,
-             NoSuchMethodException {
+    ) throws IOException, GeoIp2Exception {
         LookupResult<IspDatabaseModel> result = this.get(
                 ipAddress,
                 IspDatabaseModel.class,

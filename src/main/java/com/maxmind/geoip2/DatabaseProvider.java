@@ -6,7 +6,6 @@ import com.maxmind.geoip2.model.*;
 import java.util.Optional;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
 
 public interface DatabaseProvider extends GeoIp2Provider {
@@ -17,13 +16,8 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
      */
-    Optional<CountryResponse> tryCountry(InetAddress ipAddress)
-            throws IOException,
-                   GeoIp2Exception,
-                   InstantiationException,
-                   IllegalAccessException,
-                   InvocationTargetException,
-                   NoSuchMethodException;
+    Optional<CountryResponse> tryCountry(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
 
     /**
      * @param ipAddress IPv4 or IPv6 address to lookup.
@@ -31,13 +25,8 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
      */
-    Optional<CityResponse> tryCity(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException;
+    Optional<CityResponse> tryCity(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
 
     /**
      * Look up an IP address in a GeoIP2 Anonymous IP.
@@ -47,13 +36,8 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
-    AnonymousIpResponse anonymousIp(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException;
+    AnonymousIpResponse anonymousIp(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
 
     /**
      * Look up an IP address in a GeoIP2 Anonymous IP.
@@ -63,13 +47,8 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
-    Optional<AnonymousIpResponse> tryAnonymousIp(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException;
+    Optional<AnonymousIpResponse> tryAnonymousIp(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
 
     /**
      * Look up an IP address in a GeoLite2 ASN database.
@@ -79,13 +58,8 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
-    AsnResponse asn(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException;
+    AsnResponse asn(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
 
     /**
      * Look up an IP address in a GeoLite2 ASN database.
@@ -95,13 +69,8 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
-    Optional<AsnResponse> tryAsn(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException;
+    Optional<AsnResponse> tryAsn(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
 
     /**
      * Look up an IP address in a GeoIP2 Connection Type database.
@@ -112,12 +81,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * @throws java.io.IOException                          if there is an IO error
      */
     ConnectionTypeResponse connectionType(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException;
+            throws IOException, GeoIp2Exception;
 
     /**
      * Look up an IP address in a GeoIP2 Connection Type database.
@@ -128,12 +92,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * @throws java.io.IOException                          if there is an IO error
      */
     Optional<ConnectionTypeResponse> tryConnectionType(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException;
+            throws IOException, GeoIp2Exception;
 
     /**
      * Look up an IP address in a GeoIP2 Domain database.
@@ -143,13 +102,8 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
-    DomainResponse domain(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException;
+    DomainResponse domain(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
 
     /**
      * Look up an IP address in a GeoIP2 Domain database.
@@ -159,13 +113,8 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
-    Optional<DomainResponse> tryDomain(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException;
+    Optional<DomainResponse> tryDomain(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
 
     /**
      * Look up an IP address in a GeoIP2 Enterprise database.
@@ -175,13 +124,8 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
-    EnterpriseResponse enterprise(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException;
+    EnterpriseResponse enterprise(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
 
     /**
      * Look up an IP address in a GeoIP2 Enterprise database.
@@ -191,13 +135,8 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
-    Optional<EnterpriseResponse> tryEnterprise(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException;
+    Optional<EnterpriseResponse> tryEnterprise(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
 
     /**
      * Look up an IP address in a GeoIP2 ISP database.
@@ -207,13 +146,8 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
-    IspResponse isp(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException;
+    IspResponse isp(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
 
     /**
      * Look up an IP address in a GeoIP2 ISP database.
@@ -223,11 +157,6 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
-    Optional<IspResponse> tryIsp(InetAddress ipAddress)
-        throws IOException,
-               GeoIp2Exception,
-               InstantiationException,
-               IllegalAccessException,
-               InvocationTargetException,
-               NoSuchMethodException;
+    Optional<IspResponse> tryIsp(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
 }
