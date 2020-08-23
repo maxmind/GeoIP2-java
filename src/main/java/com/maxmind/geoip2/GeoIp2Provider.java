@@ -5,7 +5,6 @@ import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CountryResponse;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
 
 public interface GeoIp2Provider {
@@ -16,13 +15,8 @@ public interface GeoIp2Provider {
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
      */
-    CountryResponse country(InetAddress ipAddress)
-            throws IOException,
-                   GeoIp2Exception,
-                   InstantiationException,
-                   IllegalAccessException,
-                   InvocationTargetException,
-                   NoSuchMethodException;
+    CountryResponse country(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
 
     /**
      * @param ipAddress IPv4 or IPv6 address to lookup.
@@ -30,11 +24,6 @@ public interface GeoIp2Provider {
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
      */
-    CityResponse city(InetAddress ipAddress)
-            throws IOException,
-                   GeoIp2Exception,
-                   InstantiationException,
-                   IllegalAccessException,
-                   InvocationTargetException,
-                   NoSuchMethodException;
+    CityResponse city(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception;
 }
