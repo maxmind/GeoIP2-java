@@ -78,6 +78,21 @@ public final class RepresentedCountry extends Country {
         );
     }
 
+    public RepresentedCountry(
+            RepresentedCountry country,
+            List<String> locales
+    ) {
+        this(
+            locales,
+            country.getConfidence(),
+            country.getGeoNameId(),
+            country.isInEuropeanUnion(),
+            country.getIsoCode(),
+            country.getNames(),
+            country.getType()
+        );
+    }
+
     /**
      * @return A string indicating the type of entity that is representing the
      * country. Currently we only return {@code military} but this could

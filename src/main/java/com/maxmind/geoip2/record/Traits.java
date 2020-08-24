@@ -207,6 +207,34 @@ public final class Traits extends AbstractRecord {
         );
     }
 
+    public Traits(
+            Traits traits,
+            String ipAddress,
+            Network network
+    ) {
+        this(
+            traits.getAutonomousSystemNumber(),
+            traits.getAutonomousSystemOrganization(),
+            traits.getConnectionType(),
+            traits.getDomain(),
+            ipAddress,
+            traits.isAnonymous(),
+            traits.isAnonymousProxy(),
+            traits.isAnonymousVpn(),
+            traits.isHostingProvider(),
+            traits.isLegitimateProxy(),
+            traits.isPublicProxy(),
+            traits.isSatelliteProvider(),
+            traits.isTorExitNode(),
+            traits.getIsp(),
+            network,
+            traits.getOrganization(),
+            traits.getUserType(),
+            traits.getUserCount(),
+            traits.getStaticIpScore()
+        );
+    }
+
     /**
      * @return The <a
      * href="https://en.wikipedia.org/wiki/Autonomous_system_(Internet)"

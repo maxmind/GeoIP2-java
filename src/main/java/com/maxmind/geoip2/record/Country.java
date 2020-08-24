@@ -75,6 +75,20 @@ public class Country extends AbstractNamedRecord {
         );
     }
 
+    public Country(
+            Country country,
+            List<String> locales
+    ) {
+        this(
+            locales,
+            country.getConfidence(),
+            country.getGeoNameId(),
+            country.isInEuropeanUnion(),
+            country.getIsoCode(),
+            country.getNames()
+        );
+    }
+
     /**
      * @return A value from 0-100 indicating MaxMind's confidence that the
      * country is correct. This attribute is only available from the

@@ -53,6 +53,18 @@ public final class Continent extends AbstractNamedRecord {
         );
     }
 
+    public Continent(
+            Continent continent,
+            List<String> locales
+    ) {
+        this(
+            locales,
+            continent.getCode(),
+            continent.getGeoNameId(),
+            continent.getNames()
+        );
+    }
+
     /**
      * @return A two character continent code like "NA" (North America) or "OC"
      * (Oceania). This attribute is returned by all end points.
