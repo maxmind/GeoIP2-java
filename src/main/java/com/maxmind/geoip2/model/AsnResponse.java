@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.maxmind.db.MaxMindDbConstructor;
+import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.NetworkDeserializer;
 
@@ -19,7 +21,7 @@ public class AsnResponse extends AbstractResponse {
     private final Network network;
 
     AsnResponse() {
-        this(null, null, null, null);
+        this((Integer) null, null, null, null);
     }
 
     public AsnResponse(
@@ -42,14 +44,27 @@ public class AsnResponse extends AbstractResponse {
         this.network = network;
     }
 
+    @MaxMindDbConstructor
     public AsnResponse(
-            AsnDatabaseModel model,
+        @MaxMindDbParameter(name="autonomous_system_number") Long autonomousSystemNumber,
+        @MaxMindDbParameter(name="autonomous_system_organization") String autonomousSystemOrganization,
+        @MaxMindDbParameter(name="ip_address") String ipAddress,
+        @MaxMindDbParameter(name="network") Network network
+    ) {
+        this.autonomousSystemNumber = autonomousSystemNumber != null ? autonomousSystemNumber.intValue() : null;
+        this.autonomousSystemOrganization = autonomousSystemOrganization;
+        this.ipAddress = ipAddress;
+        this.network = network;
+    }
+
+    public AsnResponse(
+            AsnResponse response,
             String ipAddress,
             Network network
     ) {
         this(
-            model.getAutonomousSystemNumber() != null ? model.getAutonomousSystemNumber().intValue() : null,
-            model.getAutonomousSystemOrganization(),
+            response.getAutonomousSystemNumber(),
+            response.getAutonomousSystemOrganization(),
             ipAddress,
             network
         );

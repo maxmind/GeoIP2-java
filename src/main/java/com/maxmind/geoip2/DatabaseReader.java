@@ -437,18 +437,18 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
 
     private Optional<AsnResponse> getAsn(InetAddress ipAddress)
         throws IOException, GeoIp2Exception {
-        LookupResult<AsnDatabaseModel> result = this.get(
+        LookupResult<AsnResponse> result = this.get(
                 ipAddress,
-                AsnDatabaseModel.class,
+                AsnResponse.class,
                 DatabaseType.ASN
         );
-        AsnDatabaseModel model = result.getModel();
-        if (model == null) {
+        AsnResponse response = result.getModel();
+        if (response == null) {
             return Optional.empty();
         }
         return Optional.of(
             new AsnResponse(
-                model,
+                response,
                 result.getIpAddress(),
                 result.getNetwork()
             )
