@@ -345,18 +345,18 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     private Optional<CityResponse> getCity(
             InetAddress ipAddress
     ) throws IOException, GeoIp2Exception {
-        LookupResult<CityDatabaseModel> result = this.get(
+        LookupResult<CityResponse> result = this.get(
                 ipAddress,
-                CityDatabaseModel.class,
+                CityResponse.class,
                 DatabaseType.CITY
         );
-        CityDatabaseModel model = result.getModel();
-        if (model == null) {
+        CityResponse response = result.getModel();
+        if (response == null) {
             return Optional.empty();
         }
         return Optional.of(
             new CityResponse(
-                model,
+                response,
                 result.getIpAddress(),
                 result.getNetwork(),
                 locales

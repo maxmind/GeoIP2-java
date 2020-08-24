@@ -2,6 +2,8 @@ package com.maxmind.geoip2.record;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.maxmind.db.MaxMindDbConstructor;
+import com.maxmind.db.MaxMindDbParameter;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +26,7 @@ public final class Subdivision extends AbstractNamedRecord {
     private final String isoCode;
 
     public Subdivision() {
-        this(null, null, null, null, null);
+        this(null, null, (Integer) null, null, null);
     }
 
     public Subdivision(
@@ -37,6 +39,23 @@ public final class Subdivision extends AbstractNamedRecord {
         super(locales, geoNameId, names);
         this.confidence = confidence;
         this.isoCode = isoCode;
+    }
+
+    @MaxMindDbConstructor
+    public Subdivision(
+            @MaxMindDbParameter(name="locales") List<String> locales,
+            @MaxMindDbParameter(name="confidence") Integer confidence,
+            @MaxMindDbParameter(name="geoname_id") Long geoNameId,
+            @MaxMindDbParameter(name="iso_code") String isoCode,
+            @MaxMindDbParameter(name="names") Map<String, String> names
+    ) {
+        this(
+            locales,
+            confidence,
+            geoNameId != null ? geoNameId.intValue() : null,
+            isoCode,
+            names
+        );
     }
 
     /**

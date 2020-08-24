@@ -2,6 +2,8 @@ package com.maxmind.geoip2.record;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.maxmind.db.MaxMindDbConstructor;
+import com.maxmind.db.MaxMindDbParameter;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +25,7 @@ public final class City extends AbstractNamedRecord {
     private final Integer confidence;
 
     public City() {
-        this(null, null, null, null);
+        this(null, null, (Integer) null, null);
     }
 
     public City(
@@ -34,6 +36,21 @@ public final class City extends AbstractNamedRecord {
     ) {
         super(locales, geoNameId, names);
         this.confidence = confidence;
+    }
+
+    @MaxMindDbConstructor
+    public City(
+            @MaxMindDbParameter(name="locales") List<String> locales,
+            @MaxMindDbParameter(name="confidence") Integer confidence,
+            @MaxMindDbParameter(name="geoname_id") Long geoNameId,
+            @MaxMindDbParameter(name="names") Map<String, String> names
+    ) {
+        this(
+            locales,
+            confidence,
+            geoNameId != null ? geoNameId.intValue() : null,
+            names
+        );
     }
 
     /**
