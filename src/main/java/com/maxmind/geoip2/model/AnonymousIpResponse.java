@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.maxmind.db.MaxMindDbConstructor;
+import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.NetworkDeserializer;
 
@@ -55,18 +57,39 @@ public class AnonymousIpResponse extends AbstractResponse {
         this.network = network;
     }
 
+    @MaxMindDbConstructor
     public AnonymousIpResponse(
-            AnonymousIpDatabaseModel model,
+            @MaxMindDbParameter(name="ip_address") String ipAddress,
+            @MaxMindDbParameter(name="is_anonymous") Boolean isAnonymous,
+            @MaxMindDbParameter(name="is_anonymous_vpn") Boolean isAnonymousVpn,
+            @MaxMindDbParameter(name="is_hosting_provider") Boolean isHostingProvider,
+            @MaxMindDbParameter(name="is_public_proxy") Boolean isPublicProxy,
+            @MaxMindDbParameter(name="is_tor_exit_node") Boolean isTorExitNode,
+            @MaxMindDbParameter(name="network") Network network
+    ) {
+        this(
+            ipAddress,
+            isAnonymous != null ? isAnonymous : false,
+            isAnonymousVpn != null ? isAnonymousVpn : false,
+            isHostingProvider != null ? isHostingProvider : false,
+            isPublicProxy != null ? isPublicProxy : false,
+            isTorExitNode != null ? isTorExitNode : false,
+            network
+        );
+    }
+
+    public AnonymousIpResponse(
+            AnonymousIpResponse response,
             String ipAddress,
             Network network
     ) {
         this(
             ipAddress,
-            model.getIsAnonymous(),
-            model.getIsAnonymousVpn(),
-            model.getIsHostingProvider(),
-            model.getIsPublicProxy(),
-            model.getIsTorExitNode(),
+            response.isAnonymous(),
+            response.isAnonymousVpn(),
+            response.isHostingProvider(),
+            response.isPublicProxy(),
+            response.isTorExitNode(),
             network
         );
     }

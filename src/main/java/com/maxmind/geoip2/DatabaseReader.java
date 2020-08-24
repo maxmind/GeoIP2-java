@@ -392,18 +392,18 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     private Optional<AnonymousIpResponse> getAnonymousIp(
             InetAddress ipAddress
     ) throws IOException, GeoIp2Exception {
-        LookupResult<AnonymousIpDatabaseModel> result = this.get(
+        LookupResult<AnonymousIpResponse> result = this.get(
                 ipAddress,
-                AnonymousIpDatabaseModel.class,
+                AnonymousIpResponse.class,
                 DatabaseType.ANONYMOUS_IP
         );
-        AnonymousIpDatabaseModel model = result.getModel();
-        if (model == null) {
+        AnonymousIpResponse response = result.getModel();
+        if (response == null) {
             return Optional.empty();
         }
         return Optional.of(
             new AnonymousIpResponse(
-                model,
+                response,
                 result.getIpAddress(),
                 result.getNetwork()
             )
