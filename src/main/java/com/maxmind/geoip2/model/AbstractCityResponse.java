@@ -46,15 +46,7 @@ public abstract class AbstractCityResponse extends AbstractCountryResponse {
 
         ArrayList<Subdivision> subdivisions2 = new ArrayList<>(subdivisions.size());
         for (Subdivision subdivision : subdivisions) {
-            subdivisions2.add(
-                new Subdivision(
-                    locales,
-                    subdivision.getConfidence(),
-                    subdivision.getGeoNameId(),
-                    subdivision.getIsoCode(),
-                    subdivision.getNames()
-                )
-            );
+            subdivisions2.add(new Subdivision(subdivision, locales));
         }
         return subdivisions2;
     }

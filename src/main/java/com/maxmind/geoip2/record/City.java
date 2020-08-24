@@ -53,6 +53,18 @@ public final class City extends AbstractNamedRecord {
         );
     }
 
+    public City(
+            City city,
+            List<String> locales
+    ) {
+        this(
+            locales,
+            city.getConfidence(),
+            city.getGeoNameId(),
+            city.getNames()
+        );
+    }
+
     /**
      * @return A value from 0-100 indicating MaxMind's confidence that the city
      * is correct. This attribute is only available from the Insights

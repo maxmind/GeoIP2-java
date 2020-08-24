@@ -58,6 +58,19 @@ public final class Subdivision extends AbstractNamedRecord {
         );
     }
 
+    public Subdivision(
+            Subdivision subdivision,
+            List<String> locales
+    ) {
+        this(
+            locales,
+            subdivision.getConfidence(),
+            subdivision.getGeoNameId(),
+            subdivision.getIsoCode(),
+            subdivision.getNames()
+        );
+    }
+
     /**
      * @return This is a value from 0-100 indicating MaxMind's confidence that
      * the subdivision is correct. This attribute is only available from
