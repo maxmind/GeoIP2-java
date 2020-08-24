@@ -622,18 +622,18 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     private Optional<IspResponse> getIsp(
             InetAddress ipAddress
     ) throws IOException, GeoIp2Exception {
-        LookupResult<IspDatabaseModel> result = this.get(
+        LookupResult<IspResponse> result = this.get(
                 ipAddress,
-                IspDatabaseModel.class,
+                IspResponse.class,
                 DatabaseType.ISP
         );
-        IspDatabaseModel model = result.getModel();
-        if (model == null) {
+        IspResponse response = result.getModel();
+        if (response == null) {
             return Optional.empty();
         }
         return Optional.of(
             new IspResponse(
-                model,
+                response,
                 result.getIpAddress(),
                 result.getNetwork()
             )
