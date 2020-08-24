@@ -260,9 +260,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                             + " database using the " + caller + " method");
         }
 
-        // We are using the fully qualified name as otherwise it is ambiguous
-        // on Java 14 due to the new java.lang.Record.
-        com.maxmind.db.Record<T> record = reader.getRecord(ipAddress, cls);
+        DatabaseRecord<T> record = reader.getRecord(ipAddress, cls);
 
         T o = record.getData();
 
