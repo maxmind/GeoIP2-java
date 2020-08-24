@@ -36,6 +36,29 @@ public abstract class AbstractCityResponse extends AbstractCountryResponse {
         this.subdivisions = subdivisions != null ? subdivisions : new ArrayList<>();
     }
 
+    protected static ArrayList<Subdivision> mapSubdivisions(
+            List<String> locales,
+            List<Subdivision> subdivisions
+    ) {
+        if (subdivisions == null) {
+            return null;
+        }
+
+        ArrayList<Subdivision> subdivisions2 = new ArrayList<>(subdivisions.size());
+        for (Subdivision subdivision : subdivisions) {
+            subdivisions2.add(
+                new Subdivision(
+                    locales,
+                    subdivision.getConfidence(),
+                    subdivision.getGeoNameId(),
+                    subdivision.getIsoCode(),
+                    subdivision.getNames()
+                )
+            );
+        }
+        return subdivisions2;
+    }
+
     /**
      * @return City record for the requested IP address.
      */
