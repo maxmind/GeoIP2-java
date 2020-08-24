@@ -529,18 +529,18 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     private Optional<DomainResponse> getDomain(
             InetAddress ipAddress
     ) throws IOException, GeoIp2Exception {
-        LookupResult<DomainDatabaseModel> result = this.get(
+        LookupResult<DomainResponse> result = this.get(
                 ipAddress,
-                DomainDatabaseModel.class,
+                DomainResponse.class,
                 DatabaseType.DOMAIN
         );
-        DomainDatabaseModel model = result.getModel();
-        if (model == null) {
+        DomainResponse response = result.getModel();
+        if (response == null) {
             return Optional.empty();
         }
         return Optional.of(
             new DomainResponse(
-                model,
+                response,
                 result.getIpAddress(),
                 result.getNetwork()
             )
