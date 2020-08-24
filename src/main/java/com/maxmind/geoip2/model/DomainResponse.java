@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.maxmind.db.MaxMindDbConstructor;
+import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.NetworkDeserializer;
 
@@ -28,10 +30,11 @@ public class DomainResponse extends AbstractResponse {
         this(domain, ipAddress, null);
     }
 
+    @MaxMindDbConstructor
     public DomainResponse(
-            @JsonProperty("domain") String domain,
-            @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
-            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) Network network
+            @JsonProperty("domain") @MaxMindDbParameter(name="domain") String domain,
+            @JacksonInject("ip_address") @JsonProperty("ip_address") @MaxMindDbParameter(name="ip_address") String ipAddress,
+            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) @MaxMindDbParameter(name="network") Network network
     ) {
         this.domain = domain;
         this.ipAddress = ipAddress;
@@ -39,11 +42,11 @@ public class DomainResponse extends AbstractResponse {
     }
 
     public DomainResponse(
-            DomainDatabaseModel model,
+            DomainResponse response,
             String ipAddress,
             Network network
     ) {
-        this(model.getDomain(), ipAddress, network);
+        this(response.getDomain(), ipAddress, network);
     }
 
     /**
