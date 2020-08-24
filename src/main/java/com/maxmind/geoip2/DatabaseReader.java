@@ -483,18 +483,18 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     private Optional<ConnectionTypeResponse> getConnectionType(
             InetAddress ipAddress
     ) throws IOException, GeoIp2Exception {
-        LookupResult<ConnectionTypeDatabaseModel> result = this.get(
+        LookupResult<ConnectionTypeResponse> result = this.get(
                 ipAddress,
-                ConnectionTypeDatabaseModel.class,
+                ConnectionTypeResponse.class,
                 DatabaseType.CONNECTION_TYPE
         );
-        ConnectionTypeDatabaseModel model = result.getModel();
-        if (model == null) {
+        ConnectionTypeResponse response = result.getModel();
+        if (response == null) {
             return Optional.empty();
         }
         return Optional.of(
             new ConnectionTypeResponse(
-                model,
+                response,
                 result.getIpAddress(),
                 result.getNetwork()
             )

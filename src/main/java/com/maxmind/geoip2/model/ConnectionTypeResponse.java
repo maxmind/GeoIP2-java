@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.maxmind.db.MaxMindDbConstructor;
+import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.NetworkDeserializer;
 
@@ -83,13 +85,26 @@ public class ConnectionTypeResponse extends AbstractResponse {
         this.network = network;
     }
 
+    @MaxMindDbConstructor
     public ConnectionTypeResponse(
-            ConnectionTypeDatabaseModel model,
+            @MaxMindDbParameter(name="connection_type") String connectionType,
+            @MaxMindDbParameter(name="ip_address") String ipAddress,
+            @MaxMindDbParameter(name="network") Network network
+    ) {
+        this(
+            ConnectionType.fromString(connectionType),
+            ipAddress,
+            network
+        );
+    }
+
+    public ConnectionTypeResponse(
+            ConnectionTypeResponse response,
             String ipAddress,
             Network network
     ) {
         this(
-            model.getConnectionType(),
+            response.getConnectionType(),
             ipAddress,
             network
         );
