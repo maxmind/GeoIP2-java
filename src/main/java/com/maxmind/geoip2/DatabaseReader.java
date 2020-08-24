@@ -575,18 +575,18 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     private Optional<EnterpriseResponse> getEnterprise(
             InetAddress ipAddress
     ) throws IOException, GeoIp2Exception {
-        LookupResult<CityDatabaseModel> result = this.get(
+        LookupResult<EnterpriseResponse> result = this.get(
                 ipAddress,
-                CityDatabaseModel.class,
+                EnterpriseResponse.class,
                 DatabaseType.ENTERPRISE
         );
-        CityDatabaseModel model = result.getModel();
-        if (model == null) {
+        EnterpriseResponse response = result.getModel();
+        if (response == null) {
             return Optional.empty();
         }
         return Optional.of(
             new EnterpriseResponse(
-                model,
+                response,
                 result.getIpAddress(),
                 result.getNetwork(),
                 locales

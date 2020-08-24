@@ -2,6 +2,8 @@ package com.maxmind.geoip2.model;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.maxmind.db.MaxMindDbConstructor;
+import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.record.*;
 
@@ -16,96 +18,97 @@ import java.util.List;
  */
 public final class EnterpriseResponse extends AbstractCityResponse {
 
+    @MaxMindDbConstructor
     public EnterpriseResponse(
-            @JsonProperty("city") City city,
-            @JsonProperty("continent") Continent continent,
-            @JsonProperty("country") Country country,
-            @JsonProperty("location") Location location,
-            @JsonProperty("maxmind") MaxMind maxmind,
-            @JsonProperty("postal") Postal postal,
-            @JsonProperty("registered_country") Country registeredCountry,
-            @JsonProperty("represented_country") RepresentedCountry representedCountry,
-            @JsonProperty("subdivisions") ArrayList<Subdivision> subdivisions,
-            @JacksonInject("traits") @JsonProperty("traits") Traits traits
+            @JsonProperty("city") @MaxMindDbParameter(name="city") City city,
+            @JsonProperty("continent") @MaxMindDbParameter(name="continent") Continent continent,
+            @JsonProperty("country") @MaxMindDbParameter(name="country") Country country,
+            @JsonProperty("location") @MaxMindDbParameter(name="location") Location location,
+            @JsonProperty("maxmind") @MaxMindDbParameter(name="maxmind") MaxMind maxmind,
+            @JsonProperty("postal") @MaxMindDbParameter(name="postal") Postal postal,
+            @JsonProperty("registered_country") @MaxMindDbParameter(name="registered_country") Country registeredCountry,
+            @JsonProperty("represented_country") @MaxMindDbParameter(name="represented_country") RepresentedCountry representedCountry,
+            @JsonProperty("subdivisions") @MaxMindDbParameter(name="subdivisions") ArrayList<Subdivision> subdivisions,
+            @JacksonInject("traits") @JsonProperty("traits") @MaxMindDbParameter(name="traits") Traits traits
     ) {
         super(city, continent, country, location, maxmind, postal, registeredCountry,
                 representedCountry, subdivisions, traits);
     }
 
     public EnterpriseResponse(
-            CityDatabaseModel model,
+            EnterpriseResponse response,
             String ipAddress,
             Network network,
             List<String> locales
     ) {
         this(
-            model.getCity() != null ?
+            response.getCity() != null ?
                 new City(
                     locales,
-                    model.getCity().getConfidence(),
-                    model.getCity().getGeoNameId() != null ? model.getCity().getGeoNameId().intValue() : null,
-                    model.getCity().getNames()
+                    response.getCity().getConfidence(),
+                    response.getCity().getGeoNameId(),
+                    response.getCity().getNames()
                 ) : null,
-            model.getContinent() != null ?
+            response.getContinent() != null ?
                 new Continent(
                     locales,
-                    model.getContinent().getCode(),
-                    model.getContinent().getGeoNameId() != null ? model.getContinent().getGeoNameId().intValue() : null,
-                    model.getContinent().getNames()
+                    response.getContinent().getCode(),
+                    response.getContinent().getGeoNameId(),
+                    response.getContinent().getNames()
                 ) : null,
-            model.getCountry() != null ?
+            response.getCountry() != null ?
                 new Country(
                     locales,
-                    model.getCountry().getConfidence(),
-                    model.getCountry().getGeoNameId() != null ? model.getCountry().getGeoNameId().intValue() : null,
-                    model.getCountry().getIsInEuropeanUnion(),
-                    model.getCountry().getIsoCode(),
-                    model.getCountry().getNames()
+                    response.getCountry().getConfidence(),
+                    response.getCountry().getGeoNameId(),
+                    response.getCountry().isInEuropeanUnion(),
+                    response.getCountry().getIsoCode(),
+                    response.getCountry().getNames()
                 ) : null,
-            model.getLocation(),
+            response.getLocation(),
             null,
-            model.getPostal(),
-            model.getRegisteredCountry() != null ?
+            response.getPostal(),
+            response.getRegisteredCountry() != null ?
                 new Country(
                     locales,
-                    model.getRegisteredCountry().getConfidence(),
-                    model.getRegisteredCountry().getGeoNameId() != null ? model.getRegisteredCountry().getGeoNameId().intValue() : null,
-                    model.getRegisteredCountry().getIsInEuropeanUnion(),
-                    model.getRegisteredCountry().getIsoCode(),
-                    model.getRegisteredCountry().getNames()
+                    response.getRegisteredCountry().getConfidence(),
+                    response.getRegisteredCountry().getGeoNameId(),
+                    response.getRegisteredCountry().isInEuropeanUnion(),
+                    response.getRegisteredCountry().getIsoCode(),
+                    response.getRegisteredCountry().getNames()
                 ) : null,
-            model.getRepresentedCountry() != null ?
+            response.getRepresentedCountry() != null ?
                 new RepresentedCountry(
                     locales,
-                    model.getRepresentedCountry().getConfidence(),
-                    model.getRepresentedCountry().getGeoNameId() != null ? model.getRepresentedCountry().getGeoNameId().intValue() : null,
-                    model.getRepresentedCountry().getIsInEuropeanUnion(),
-                    model.getRepresentedCountry().getIsoCode(),
-                    model.getRepresentedCountry().getNames(),
-                    model.getRepresentedCountry().getType()
+                    response.getRepresentedCountry().getConfidence(),
+                    response.getRepresentedCountry().getGeoNameId(),
+                    response.getRepresentedCountry().isInEuropeanUnion(),
+                    response.getRepresentedCountry().getIsoCode(),
+                    response.getRepresentedCountry().getNames(),
+                    response.getRepresentedCountry().getType()
                 ) : null,
-            mapSubdivisions(locales, model.getSubdivisions()),
-            model.getTraits() != null ?
+            mapSubdivisions(locales, response.getSubdivisions()),
+            response.getTraits() != null ?
                 new Traits(
-                    model.getTraits().getAutonomousSystemNumber() != null ? model.getTraits().getAutonomousSystemNumber().intValue() : null,
-                    model.getTraits().getAutonomousSystemOrganization(),
-                    model.getTraits().getConnectionType(),
-                    model.getTraits().getDomain(),
+                    response.getTraits().getAutonomousSystemNumber(),
+                    response.getTraits().getAutonomousSystemOrganization(),
+                    response.getTraits().getConnectionType(),
+                    response.getTraits().getDomain(),
                     ipAddress,
-                    model.getTraits().isAnonymous(),
-                    model.getTraits().isAnonymousProxy(),
-                    model.getTraits().isAnonymousVpn(),
-                    model.getTraits().isHostingProvider(),
-                    model.getTraits().isLegitimateProxy(),
-                    model.getTraits().isPublicProxy(),
-                    model.getTraits().isSatelliteProvider(),
-                    model.getTraits().isTorExitNode(),
-                    model.getTraits().getIsp(),
+                    response.getTraits().isAnonymous(),
+                    response.getTraits().isAnonymousProxy(),
+                    response.getTraits().isAnonymousVpn(),
+                    response.getTraits().isHostingProvider(),
+                    response.getTraits().isLegitimateProxy(),
+                    response.getTraits().isPublicProxy(),
+                    response.getTraits().isSatelliteProvider(),
+                    response.getTraits().isTorExitNode(),
+                    response.getTraits().getIsp(),
                     network,
-                    model.getTraits().getOrganization(),
-                    model.getTraits().getUserType(),
+                    response.getTraits().getOrganization(),
+                    response.getTraits().getUserType(),
                     null,
-                    model.getTraits().getStaticIpScore()
+                    response.getTraits().getStaticIpScore()
                 ) :
                 new Traits(
                     (Integer) null,
@@ -133,19 +136,19 @@ public final class EnterpriseResponse extends AbstractCityResponse {
 
     private static ArrayList<Subdivision> mapSubdivisions(
             List<String> locales,
-            ArrayList<SubdivisionDatabaseRecord> subdivisions
+            List<Subdivision> subdivisions
     ) {
         if (subdivisions == null) {
             return null;
         }
 
         ArrayList<Subdivision> subdivisions2 = new ArrayList<>(subdivisions.size());
-        for (SubdivisionDatabaseRecord subdivision : subdivisions) {
+        for (Subdivision subdivision : subdivisions) {
             subdivisions2.add(
                 new Subdivision(
                     locales,
                     subdivision.getConfidence(),
-                    subdivision.getGeoNameId() != null ? subdivision.getGeoNameId().intValue() : null,
+                    subdivision.getGeoNameId(),
                     subdivision.getIsoCode(),
                     subdivision.getNames()
                 )
