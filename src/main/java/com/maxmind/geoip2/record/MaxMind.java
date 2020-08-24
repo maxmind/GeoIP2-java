@@ -1,6 +1,8 @@
 package com.maxmind.geoip2.record;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.maxmind.db.MaxMindDbConstructor;
+import com.maxmind.db.MaxMindDbParameter;
 
 /**
  * <p>
@@ -18,7 +20,8 @@ public final class MaxMind extends AbstractRecord {
         this(null);
     }
 
-    public MaxMind(@JsonProperty("queries_remaining") Integer queriesRemaining) {
+    @MaxMindDbConstructor
+    public MaxMind(@JsonProperty("queries_remaining") @MaxMindDbParameter(name="queries_remaining") Integer queriesRemaining) {
         this.queriesRemaining = queriesRemaining;
     }
 

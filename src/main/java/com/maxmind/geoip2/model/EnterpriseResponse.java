@@ -108,7 +108,7 @@ public final class EnterpriseResponse extends AbstractCityResponse {
                     model.getTraits().getStaticIpScore()
                 ) :
                 new Traits(
-                    null,
+                    (Integer) null,
                     null,
                     null,
                     null,

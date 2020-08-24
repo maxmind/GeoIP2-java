@@ -306,18 +306,18 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     private Optional<CountryResponse> getCountry(
             InetAddress ipAddress
     ) throws IOException, GeoIp2Exception {
-        LookupResult<CountryDatabaseModel> result = this.get(
+        LookupResult<CountryResponse> result = this.get(
                 ipAddress,
-                CountryDatabaseModel.class,
+                CountryResponse.class,
                 DatabaseType.COUNTRY
         );
-        CountryDatabaseModel model = result.getModel();
-        if (model == null) {
+        CountryResponse response = result.getModel();
+        if (response == null) {
             return Optional.empty();
         }
         return Optional.of(
             new CountryResponse(
-                model,
+                response,
                 result.getIpAddress(),
                 result.getNetwork(),
                 locales
