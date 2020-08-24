@@ -122,7 +122,7 @@ public final class CityResponse extends AbstractCityResponse {
                     model.getTraits().getStaticIpScore()
                 ) :
                 new Traits(
-                    null,
+                    (Integer) null,
                     null,
                     null,
                     null,

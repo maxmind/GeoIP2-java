@@ -2,6 +2,8 @@ package com.maxmind.geoip2.record;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.maxmind.db.MaxMindDbConstructor;
+import com.maxmind.db.MaxMindDbParameter;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +27,7 @@ public final class RepresentedCountry extends Country {
     private final String type;
 
     public RepresentedCountry() {
-        this(null, null, null, false, null, null, null);
+        this(null, null, (Integer) null, false, null, null, null);
     }
 
     // This method is for backwards compatibility. We should remove it when we
@@ -53,6 +55,27 @@ public final class RepresentedCountry extends Country {
         super(locales, confidence, geoNameId, isInEuropeanUnion, isoCode,
                 names);
         this.type = type;
+    }
+
+    @MaxMindDbConstructor
+    public RepresentedCountry(
+            @MaxMindDbParameter(name="locales") List<String> locales,
+            @MaxMindDbParameter(name="confidence") Integer confidence,
+            @MaxMindDbParameter(name="geoname_id") Long geoNameId,
+            @MaxMindDbParameter(name="is_in_european_union") Boolean isInEuropeanUnion,
+            @MaxMindDbParameter(name="iso_code") String isoCode,
+            @MaxMindDbParameter(name="names") Map<String, String> names,
+            @MaxMindDbParameter(name="type") String type
+    ) {
+        this(
+            locales,
+            confidence,
+            geoNameId != null ? geoNameId.intValue() : null,
+            isInEuropeanUnion != null ? isInEuropeanUnion : false,
+            isoCode,
+            names,
+            type
+        );
     }
 
     /**

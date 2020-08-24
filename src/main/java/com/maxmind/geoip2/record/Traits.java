@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.maxmind.db.MaxMindDbConstructor;
+import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.NetworkDeserializer;
 import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
@@ -49,7 +51,7 @@ public final class Traits extends AbstractRecord {
     }
 
     public Traits(String ipAddress, Network network) {
-        this(null, null, null, null,
+        this((Integer) null, null, null, null,
                 ipAddress, false, false, false, false,
                 false, false, false, false, null,
                 network, null, null, null, null);
@@ -192,6 +194,51 @@ public final class Traits extends AbstractRecord {
         this.userType = userType;
         this.userCount = userCount;
         this.staticIpScore = staticIpScore;
+    }
+
+    @MaxMindDbConstructor
+    public Traits(
+            @MaxMindDbParameter(name="autonomous_system_number") Long autonomousSystemNumber,
+            @MaxMindDbParameter(name="autonomous_system_organization") String autonomousSystemOrganization,
+            @MaxMindDbParameter(name="connection_type") String connectionType,
+            @MaxMindDbParameter(name="domain") String domain,
+            @MaxMindDbParameter(name="ip_address") String ipAddress,
+            @MaxMindDbParameter(name="is_anonymous") Boolean isAnonymous,
+            @MaxMindDbParameter(name="is_anonymous_proxy") Boolean isAnonymousProxy,
+            @MaxMindDbParameter(name="is_anonymous_vpn") Boolean isAnonymousVpn,
+            @MaxMindDbParameter(name="is_hosting_provider") Boolean isHostingProvider,
+            @MaxMindDbParameter(name="is_legitimate_proxy") Boolean isLegitimateProxy,
+            @MaxMindDbParameter(name="is_public_proxy") Boolean isPublicProxy,
+            @MaxMindDbParameter(name="is_satellite_provider") Boolean isSatelliteProvider,
+            @MaxMindDbParameter(name="is_tor_exit_node") Boolean isTorExitNode,
+            @MaxMindDbParameter(name="isp") String isp,
+            @MaxMindDbParameter(name="network") Network network,
+            @MaxMindDbParameter(name="organization") String organization,
+            @MaxMindDbParameter(name="user_type") String userType,
+            @MaxMindDbParameter(name="user_count") Integer userCount,
+            @MaxMindDbParameter(name="static_ip_score") Double staticIpScore
+    ) {
+        this(
+            autonomousSystemNumber != null ? autonomousSystemNumber.intValue() : null,
+            autonomousSystemOrganization,
+            ConnectionType.fromString(connectionType),
+            domain,
+            ipAddress,
+            isAnonymous != null ? isAnonymous : false,
+            isAnonymousProxy != null ? isAnonymousProxy : false,
+            isAnonymousVpn != null ? isAnonymousVpn : false,
+            isHostingProvider != null ? isHostingProvider : false,
+            isLegitimateProxy != null ? isLegitimateProxy : false,
+            isPublicProxy != null ? isPublicProxy : false,
+            isSatelliteProvider != null ? isSatelliteProvider : false,
+            isTorExitNode != null ? isTorExitNode : false,
+            isp,
+            network,
+            organization,
+            userType,
+            userCount,
+            staticIpScore
+        );
     }
 
     /**

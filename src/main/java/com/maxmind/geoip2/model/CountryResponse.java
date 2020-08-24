@@ -2,6 +2,8 @@ package com.maxmind.geoip2.model;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.maxmind.db.MaxMindDbConstructor;
+import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.record.*;
 
@@ -21,84 +23,85 @@ public final class CountryResponse extends AbstractCountryResponse {
         this(null, null, null, null, null, null);
     }
 
+    @MaxMindDbConstructor
     public CountryResponse(
-            @JsonProperty("continent") Continent continent,
-            @JsonProperty("country") Country country,
-            @JsonProperty("maxmind") MaxMind maxmind,
-            @JsonProperty("registered_country") Country registeredCountry,
-            @JsonProperty("represented_country") RepresentedCountry representedCountry,
-            @JacksonInject("traits") @JsonProperty("traits") Traits traits
+            @JsonProperty("continent") @MaxMindDbParameter(name="continent") Continent continent,
+            @JsonProperty("country") @MaxMindDbParameter(name="country") Country country,
+            @JsonProperty("maxmind") @MaxMindDbParameter(name="maxmind") MaxMind maxmind,
+            @JsonProperty("registered_country") @MaxMindDbParameter(name="registered_country") Country registeredCountry,
+            @JsonProperty("represented_country") @MaxMindDbParameter(name="represented_country") RepresentedCountry representedCountry,
+            @JacksonInject("traits") @JsonProperty("traits") @MaxMindDbParameter(name="traits") Traits traits
     ) {
         super(continent, country, maxmind, registeredCountry, representedCountry, traits);
     }
 
     public CountryResponse(
-            CountryDatabaseModel model,
+            CountryResponse response,
             String ipAddress,
             Network network,
             List<String> locales
     ) {
         this(
-            model.getContinent() != null ?
+            response.getContinent() != null ?
                 new Continent(
                     locales,
-                    model.getContinent().getCode(),
-                    model.getContinent().getGeoNameId() != null ? model.getContinent().getGeoNameId().intValue() : null,
-                    model.getContinent().getNames()
+                    response.getContinent().getCode(),
+                    response.getContinent().getGeoNameId(),
+                    response.getContinent().getNames()
                 ) : null,
-            model.getCountry() != null ?
+            response.getCountry() != null ?
                 new Country(
                     locales,
-                    model.getCountry().getConfidence(),
-                    model.getCountry().getGeoNameId() != null ? model.getCountry().getGeoNameId().intValue() : null,
-                    model.getCountry().getIsInEuropeanUnion(),
-                    model.getCountry().getIsoCode(),
-                    model.getCountry().getNames()
+                    response.getCountry().getConfidence(),
+                    response.getCountry().getGeoNameId(),
+                    response.getCountry().isInEuropeanUnion(),
+                    response.getCountry().getIsoCode(),
+                    response.getCountry().getNames()
                 ) : null,
             null,
-            model.getRegisteredCountry() != null ?
+            response.getRegisteredCountry() != null ?
                 new Country(
                     locales,
-                    model.getRegisteredCountry().getConfidence(),
-                    model.getRegisteredCountry().getGeoNameId() != null ? model.getRegisteredCountry().getGeoNameId().intValue() : null,
-                    model.getRegisteredCountry().getIsInEuropeanUnion(),
-                    model.getRegisteredCountry().getIsoCode(),
-                    model.getRegisteredCountry().getNames()
+                    response.getRegisteredCountry().getConfidence(),
+                    response.getRegisteredCountry().getGeoNameId(),
+                    response.getRegisteredCountry().isInEuropeanUnion(),
+                    response.getRegisteredCountry().getIsoCode(),
+                    response.getRegisteredCountry().getNames()
                 ) : null,
-            model.getRepresentedCountry() != null ?
+            response.getRepresentedCountry() != null ?
                 new RepresentedCountry(
                     locales,
-                    model.getRepresentedCountry().getConfidence(),
-                    model.getRepresentedCountry().getGeoNameId() != null ? model.getRepresentedCountry().getGeoNameId().intValue() : null,
-                    model.getRepresentedCountry().getIsInEuropeanUnion(),
-                    model.getRepresentedCountry().getIsoCode(),
-                    model.getRepresentedCountry().getNames(),
-                    model.getRepresentedCountry().getType()
+                    response.getRepresentedCountry().getConfidence(),
+                    response.getRepresentedCountry().getGeoNameId(),
+                    response.getRepresentedCountry().isInEuropeanUnion(),
+                    response.getRepresentedCountry().getIsoCode(),
+                    response.getRepresentedCountry().getNames(),
+                    response.getRepresentedCountry().getType()
                 ) : null,
-            model.getTraits() != null ?
+            response.getTraits() != null ?
                 new Traits(
-                    model.getTraits().getAutonomousSystemNumber() != null ? model.getTraits().getAutonomousSystemNumber().intValue() : null,
-                    model.getTraits().getAutonomousSystemOrganization(),
-                    model.getTraits().getConnectionType(),
-                    model.getTraits().getDomain(),
+                    response.getTraits().getAutonomousSystemNumber(),
+                    response.getTraits().getAutonomousSystemOrganization(),
+                    response.getTraits().getConnectionType(),
+                    response.getTraits().getDomain(),
                     ipAddress,
-                    model.getTraits().isAnonymous(),
-                    model.getTraits().isAnonymousProxy(),
-                    model.getTraits().isAnonymousVpn(),
-                    model.getTraits().isHostingProvider(),
-                    model.getTraits().isLegitimateProxy(),
-                    model.getTraits().isPublicProxy(),
-                    model.getTraits().isSatelliteProvider(),
-                    model.getTraits().isTorExitNode(),
-                    model.getTraits().getIsp(),
+                    response.getTraits().isAnonymous(),
+                    response.getTraits().isAnonymousProxy(),
+                    response.getTraits().isAnonymousVpn(),
+                    response.getTraits().isHostingProvider(),
+                    response.getTraits().isLegitimateProxy(),
+                    response.getTraits().isPublicProxy(),
+                    response.getTraits().isSatelliteProvider(),
+                    response.getTraits().isTorExitNode(),
+                    response.getTraits().getIsp(),
                     network,
-                    model.getTraits().getOrganization(),
-                    model.getTraits().getUserType(),
+                    response.getTraits().getOrganization(),
+                    response.getTraits().getUserType(),
                     null,
-                    model.getTraits().getStaticIpScore()
+                    response.getTraits().getStaticIpScore()
                 ) :
                 new Traits(
-                    null,
+                    (Integer) null,
                     null,
                     null,
                     null,
