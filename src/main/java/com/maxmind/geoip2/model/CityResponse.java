@@ -7,7 +7,6 @@ import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.record.*;
 
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
