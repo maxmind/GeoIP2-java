@@ -41,13 +41,6 @@ public final class CountryResponse extends AbstractCountryResponse {
             Network network,
             List<String> locales
     ) {
-        this(
-            response.getContinent() != null ? new Continent(response.getContinent(), locales) : null,
-            response.getCountry() != null ? new Country(response.getCountry(), locales) : null,
-            response.getMaxMind(),
-            response.getRegisteredCountry() != null ? new Country(response.getRegisteredCountry(), locales) : null,
-            response.getRepresentedCountry() != null ? new RepresentedCountry(response.getRepresentedCountry(), locales) : null,
-            response.getTraits() != null ? new Traits(response.getTraits(), ipAddress, network) : null
-        );
+        super(response, ipAddress, network, locales);
     }
 }
