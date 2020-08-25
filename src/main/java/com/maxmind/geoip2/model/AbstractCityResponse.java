@@ -44,20 +44,18 @@ public abstract class AbstractCityResponse extends AbstractCountryResponse {
             List<String> locales
     ) {
         super(response, ipAddress, network, locales);
-        this.city = response.getCity() != null ? new City(response.getCity(), locales) : new City();
-        this.location = response.getLocation() != null ? response.getLocation() : new Location();
-        this.postal = response.getPostal() != null ? response.getPostal() : new Postal();
-        this.subdivisions = response.getSubdivisions() != null ? mapSubdivisions(locales, response.getSubdivisions()) : new ArrayList<>();
+        // The response fields will be non-null because of the above
+        // constructor used during deserializing.
+        this.city = new City(response.getCity(), locales);
+        this.location = response.getLocation();
+        this.postal = response.getPostal();
+        this.subdivisions = mapSubdivisions(response.getSubdivisions(), locales);
     }
 
     private static ArrayList<Subdivision> mapSubdivisions(
-            List<String> locales,
-            List<Subdivision> subdivisions
+            List<Subdivision> subdivisions,
+            List<String> locales
     ) {
-        if (subdivisions == null) {
-            return null;
-        }
-
         ArrayList<Subdivision> subdivisions2 = new ArrayList<>(subdivisions.size());
         for (Subdivision subdivision : subdivisions) {
             subdivisions2.add(new Subdivision(subdivision, locales));
