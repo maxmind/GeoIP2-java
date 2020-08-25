@@ -41,17 +41,6 @@ public final class EnterpriseResponse extends AbstractCityResponse {
             Network network,
             List<String> locales
     ) {
-        this(
-            response.getCity() != null ? new City(response.getCity(), locales) : null,
-            response.getContinent() != null ? new Continent(response.getContinent(), locales) : null,
-            response.getCountry() != null ? new Country(response.getCountry(), locales) : null,
-            response.getLocation(),
-            response.getMaxMind(),
-            response.getPostal(),
-            response.getRegisteredCountry() != null ? new Country(response.getRegisteredCountry(), locales) : null,
-            response.getRepresentedCountry() != null ? new RepresentedCountry(response.getRepresentedCountry(), locales) : null,
-            mapSubdivisions(locales, response.getSubdivisions()),
-            response.getTraits() != null ? new Traits(response.getTraits(), ipAddress, network) : null
-        );
+        super(response, ipAddress, network, locales);
     }
 }
