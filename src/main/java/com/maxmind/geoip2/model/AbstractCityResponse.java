@@ -43,18 +43,11 @@ public abstract class AbstractCityResponse extends AbstractCountryResponse {
             Network network,
             List<String> locales
     ) {
-        this(
-            response.getCity() != null ? new City(response.getCity(), locales) : null,
-            response.getContinent() != null ? new Continent(response.getContinent(), locales) : null,
-            response.getCountry() != null ? new Country(response.getCountry(), locales) : null,
-            response.getLocation(),
-            response.getMaxMind(),
-            response.getPostal(),
-            response.getRegisteredCountry() != null ? new Country(response.getRegisteredCountry(), locales) : null,
-            response.getRepresentedCountry() != null ? new RepresentedCountry(response.getRepresentedCountry(), locales) : null,
-            mapSubdivisions(locales, response.getSubdivisions()),
-            response.getTraits() != null ? new Traits(response.getTraits(), ipAddress, network) : null
-        );
+        super(response, ipAddress, network, locales);
+        this.city = response.getCity() != null ? new City(response.getCity(), locales) : new City();
+        this.location = response.getLocation() != null ? response.getLocation() : new Location();
+        this.postal = response.getPostal() != null ? response.getPostal() : new Postal();
+        this.subdivisions = response.getSubdivisions() != null ? mapSubdivisions(locales, response.getSubdivisions()) : new ArrayList<>();
     }
 
     private static ArrayList<Subdivision> mapSubdivisions(
