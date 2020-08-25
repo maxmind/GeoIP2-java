@@ -1,6 +1,7 @@
 package com.maxmind.geoip2.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.maxmind.db.Network;
 import com.maxmind.geoip2.record.*;
 
 import java.util.ArrayList;
@@ -36,7 +37,27 @@ public abstract class AbstractCityResponse extends AbstractCountryResponse {
         this.subdivisions = subdivisions != null ? subdivisions : new ArrayList<>();
     }
 
-    protected static ArrayList<Subdivision> mapSubdivisions(
+    AbstractCityResponse(
+            AbstractCityResponse response,
+            String ipAddress,
+            Network network,
+            List<String> locales
+    ) {
+        this(
+            response.getCity() != null ? new City(response.getCity(), locales) : null,
+            response.getContinent() != null ? new Continent(response.getContinent(), locales) : null,
+            response.getCountry() != null ? new Country(response.getCountry(), locales) : null,
+            response.getLocation(),
+            response.getMaxMind(),
+            response.getPostal(),
+            response.getRegisteredCountry() != null ? new Country(response.getRegisteredCountry(), locales) : null,
+            response.getRepresentedCountry() != null ? new RepresentedCountry(response.getRepresentedCountry(), locales) : null,
+            mapSubdivisions(locales, response.getSubdivisions()),
+            response.getTraits() != null ? new Traits(response.getTraits(), ipAddress, network) : null
+        );
+    }
+
+    private static ArrayList<Subdivision> mapSubdivisions(
             List<String> locales,
             List<Subdivision> subdivisions
     ) {
