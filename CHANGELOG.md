@@ -5,6 +5,8 @@ CHANGELOG
 -------------------
 * The HTTP client now allows up to 20 connections to be active at once.
   Previously the limit was 2.
+* Update `maxmind-db` dependency to a new version that no longer uses
+  Jackson. This improves database lookup performance.
 
 2.14.0 (2020-06-15)
 -------------------

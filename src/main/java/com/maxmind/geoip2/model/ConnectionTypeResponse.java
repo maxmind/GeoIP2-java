@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.maxmind.db.MaxMindDbConstructor;
+import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.NetworkDeserializer;
 
@@ -37,6 +39,25 @@ public class ConnectionTypeResponse extends AbstractResponse {
         public String toString() {
             return this.name;
         }
+
+        public static ConnectionType fromString(String s) {
+            if (s == null) {
+                return null;
+            }
+
+            switch (s) {
+                case "Dialup":
+                    return ConnectionType.DIALUP;
+                case "Cable/DSL":
+                    return ConnectionType.CABLE_DSL;
+                case "Corporate":
+                    return ConnectionType.CORPORATE;
+                case "Cellular":
+                    return ConnectionType.CELLULAR;
+                default:
+                    return null;
+            }
+        }
     }
 
     private final ConnectionType connectionType;
@@ -62,6 +83,31 @@ public class ConnectionTypeResponse extends AbstractResponse {
         this.connectionType = connectionType;
         this.ipAddress = ipAddress;
         this.network = network;
+    }
+
+    @MaxMindDbConstructor
+    public ConnectionTypeResponse(
+            @MaxMindDbParameter(name="connection_type") String connectionType,
+            @MaxMindDbParameter(name="ip_address") String ipAddress,
+            @MaxMindDbParameter(name="network") Network network
+    ) {
+        this(
+            ConnectionType.fromString(connectionType),
+            ipAddress,
+            network
+        );
+    }
+
+    public ConnectionTypeResponse(
+            ConnectionTypeResponse response,
+            String ipAddress,
+            Network network
+    ) {
+        this(
+            response.getConnectionType(),
+            ipAddress,
+            network
+        );
     }
 
     /**

@@ -2,6 +2,8 @@ package com.maxmind.geoip2.record;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.maxmind.db.MaxMindDbConstructor;
+import com.maxmind.db.MaxMindDbParameter;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +25,7 @@ public final class Continent extends AbstractNamedRecord {
     private final String code;
 
     public Continent() {
-        this(null, null, null, null);
+        this(null, null, (Integer) null, null);
     }
 
     public Continent(
@@ -34,6 +36,33 @@ public final class Continent extends AbstractNamedRecord {
     ) {
         super(locales, geoNameId, names);
         this.code = code;
+    }
+
+    @MaxMindDbConstructor
+    public Continent(
+            @MaxMindDbParameter(name="locales") List<String> locales,
+            @MaxMindDbParameter(name="code") String code,
+            @MaxMindDbParameter(name="geoname_id") Long geoNameId,
+            @MaxMindDbParameter(name="names") Map<String, String> names
+    ) {
+        this(
+            locales,
+            code,
+            geoNameId != null ? geoNameId.intValue() : null,
+            names
+        );
+    }
+
+    public Continent(
+            Continent continent,
+            List<String> locales
+    ) {
+        this(
+            locales,
+            continent.getCode(),
+            continent.getGeoNameId(),
+            continent.getNames()
+        );
     }
 
     /**

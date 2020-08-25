@@ -1,6 +1,8 @@
 package com.maxmind.geoip2.record;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.maxmind.db.MaxMindDbConstructor;
+import com.maxmind.db.MaxMindDbParameter;
 
 /**
  * <p>
@@ -19,7 +21,11 @@ public final class Postal extends AbstractRecord {
         this(null, null);
     }
 
-    public Postal(@JsonProperty("code") String code, @JsonProperty("confidence") Integer confidence) {
+    @MaxMindDbConstructor
+    public Postal(
+            @JsonProperty("code") @MaxMindDbParameter(name="code") String code,
+            @JsonProperty("confidence") @MaxMindDbParameter(name="confidence") Integer confidence
+    ) {
         this.code = code;
         this.confidence = confidence;
     }
