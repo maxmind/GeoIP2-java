@@ -469,9 +469,6 @@ details on what data each end point may return.
 The only piece of data which is always returned is the `ip_address`
 available at `lookup.getTraits().getIpAddress()`.
 
-Every record class attribute has a corresponding predicate method so you can
-check to see if the attribute is set.
-
 ## Integration with GeoNames ##
 
 [GeoNames](https://www.geonames.org/) offers web services and downloadable
