@@ -203,7 +203,6 @@ public class DatabaseReaderTest {
         }
     }
 
-
     @Test
     public void testAnonymousIp() throws Exception {
         try (DatabaseReader reader = new DatabaseReader.Builder(
@@ -215,12 +214,24 @@ public class DatabaseReaderTest {
             assertTrue(response.isAnonymousVpn());
             assertFalse(response.isHostingProvider());
             assertFalse(response.isPublicProxy());
+            assertFalse(response.isResidentialProxy());
             assertFalse(response.isTorExitNode());
             assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
             assertEquals("1.2.0.0/16", response.getNetwork().toString());
 
             AnonymousIpResponse tryResponse = reader.tryAnonymousIp(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
+        }
+    }
+
+    @Test
+    public void testAnonymousIpIsResidentialProxy() throws Exception {
+        try (DatabaseReader reader = new DatabaseReader.Builder(
+                this.getFile("GeoIP2-Anonymous-IP-Test.mmdb")).build()
+        ) {
+            InetAddress ipAddress = InetAddress.getByName("81.2.69.1");
+            AnonymousIpResponse response = reader.anonymousIp(ipAddress);
+            assertTrue(response.isResidentialProxy());
         }
     }
 

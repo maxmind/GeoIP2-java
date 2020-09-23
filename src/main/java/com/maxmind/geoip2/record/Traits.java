@@ -30,6 +30,7 @@ public final class Traits extends AbstractRecord {
     private final boolean isHostingProvider;
     private final boolean isLegitimateProxy;
     private final boolean isPublicProxy;
+    private final boolean isResidentialProxy;
     private final boolean isSatelliteProvider;
     private final boolean isTorExitNode;
     private final String isp;
@@ -118,6 +119,37 @@ public final class Traits extends AbstractRecord {
                 null, organization, userType, null, null);
     }
 
+    // This is for back-compat. If we ever do a major release, it should be
+    // removed.
+    public Traits(
+            Integer autonomousSystemNumber,
+            String autonomousSystemOrganization,
+            ConnectionType connectionType,
+            String domain,
+            String ipAddress,
+            boolean isAnonymous,
+            boolean isAnonymousProxy,
+            boolean isAnonymousVpn,
+            boolean isHostingProvider,
+            boolean isLegitimateProxy,
+            boolean isPublicProxy,
+            boolean isSatelliteProvider,
+            boolean isTorExitNode,
+            String isp,
+            Network network,
+            String organization,
+            String userType,
+            Integer userCount,
+            Double staticIpScore
+    ) {
+        this(autonomousSystemNumber, autonomousSystemOrganization,
+                connectionType, domain, ipAddress, isAnonymous,
+                isAnonymousProxy, isAnonymousVpn, isHostingProvider,
+                isLegitimateProxy, isPublicProxy, false, isSatelliteProvider,
+                isTorExitNode, isp, network, organization, userType, userCount,
+                staticIpScore);
+    }
+
     public Traits(
             @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
             @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
@@ -130,6 +162,7 @@ public final class Traits extends AbstractRecord {
             @JsonProperty("is_hosting_provider") boolean isHostingProvider,
             @JsonProperty("is_legitimate_proxy") boolean isLegitimateProxy,
             @JsonProperty("is_public_proxy") boolean isPublicProxy,
+            @JsonProperty("is_residential_proxy") boolean isResidentialProxy,
             @JsonProperty("is_satellite_provider") boolean isSatelliteProvider,
             @JsonProperty("is_tor_exit_node") boolean isTorExitNode,
             @JsonProperty("isp") String isp,
@@ -150,6 +183,7 @@ public final class Traits extends AbstractRecord {
         this.isHostingProvider = isHostingProvider;
         this.isLegitimateProxy = isLegitimateProxy;
         this.isPublicProxy = isPublicProxy;
+        this.isResidentialProxy = isResidentialProxy;
         this.isSatelliteProvider = isSatelliteProvider;
         this.isTorExitNode = isTorExitNode;
         this.isp = isp;
@@ -310,6 +344,16 @@ public final class Traits extends AbstractRecord {
     @JsonProperty("is_public_proxy")
     public boolean isPublicProxy() {
         return this.isPublicProxy;
+    }
+
+    /**
+     * @return This is true if the IP address is on a suspected anonymizing
+     * network and belongs to a residential ISP. This attribute is only
+     * available from GeoIP2 Precision Insights.
+     */
+    @JsonProperty("is_residential_proxy")
+    public boolean isResidentialProxy() {
+        return this.isResidentialProxy;
     }
 
     /**

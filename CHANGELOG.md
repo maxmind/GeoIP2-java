@@ -5,6 +5,10 @@ CHANGELOG
 -------------------
 * The HTTP client now allows up to 20 connections to be active at once.
   Previously the limit was 2.
+* The `isResidentialProxy()` method was added to
+  `com.maxmind.geoip2.model.AnonymousIpResponse` and
+  `com.maxmind.geoip2.record.Traits` for use with the Anonymous IP database
+  and GeoIP2 Precision insights.
 
 2.14.0 (2020-06-15)
 -------------------
