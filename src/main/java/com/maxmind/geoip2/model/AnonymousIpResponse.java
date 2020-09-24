@@ -108,8 +108,8 @@ public class AnonymousIpResponse extends AbstractResponse {
     }
 
     /**
-     * @return This is true if the IP address is on a suspected anonymizing
-     * network and belongs to a residential ISP.
+     * @return whether the IP address is on a suspected anonymizing network and
+     * belongs to a residential ISP.
      */
     @JsonProperty("is_residential_proxy")
     public boolean isResidentialProxy() {
