@@ -203,7 +203,6 @@ public class DatabaseReaderTest {
         }
     }
 
-
     @Test
     public void testAnonymousIp() throws Exception {
         try (DatabaseReader reader = new DatabaseReader.Builder(
@@ -215,12 +214,24 @@ public class DatabaseReaderTest {
             assertTrue(response.isAnonymousVpn());
             assertFalse(response.isHostingProvider());
             assertFalse(response.isPublicProxy());
+            assertFalse(response.isResidentialProxy());
             assertFalse(response.isTorExitNode());
             assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
             assertEquals("1.2.0.0/16", response.getNetwork().toString());
 
             AnonymousIpResponse tryResponse = reader.tryAnonymousIp(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
+        }
+    }
+
+    @Test
+    public void testAnonymousIpIsResidentialProxy() throws Exception {
+        try (DatabaseReader reader = new DatabaseReader.Builder(
+                this.getFile("GeoIP2-Anonymous-IP-Test.mmdb")).build()
+        ) {
+            InetAddress ipAddress = InetAddress.getByName("81.2.69.1");
+            AnonymousIpResponse response = reader.anonymousIp(ipAddress);
+            assertTrue(response.isResidentialProxy());
         }
     }
 
@@ -291,7 +302,6 @@ public class DatabaseReaderTest {
             InetAddress ipAddress = InetAddress.getByName("74.209.24.0");
 
             CountryResponse response = reader.country(ipAddress);
-            assertEquals(99, response.getCountry().getConfidence().intValue());
             assertEquals(6252001, response.getCountry().getGeoNameId().intValue());
             assertEquals(ipAddress.getHostAddress(), response.getTraits().getIpAddress());
             assertEquals("74.209.16.0/20", response.getTraits().getNetwork().toString());

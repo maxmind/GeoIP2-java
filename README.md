@@ -290,6 +290,7 @@ try {
     System.out.println(response.isAnonymousVpn()); // false
     System.out.println(response.isHostingProvider()); // false
     System.out.println(response.isPublicProxy()); // false
+    System.out.println(response.isResidentialProxy()); // false
     System.out.println(response.isTorExitNode()); //true
 } finally {
     reader.close();

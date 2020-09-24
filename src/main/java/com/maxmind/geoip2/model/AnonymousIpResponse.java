@@ -17,6 +17,7 @@ public class AnonymousIpResponse extends AbstractResponse {
     private final boolean isAnonymousVpn;
     private final boolean isHostingProvider;
     private final boolean isPublicProxy;
+    private final boolean isResidentialProxy;
     private final boolean isTorExitNode;
     private final String ipAddress;
     private final Network network;
@@ -37,12 +38,26 @@ public class AnonymousIpResponse extends AbstractResponse {
         this(ipAddress, isAnonymous, isAnonymousVpn, isHostingProvider, isPublicProxy, isTorExitNode, null);
     }
 
+    // This is for compatibility and should be removed if we do a major release.
+    public AnonymousIpResponse(
+            String ipAddress,
+            boolean isAnonymous,
+            boolean isAnonymousVpn,
+            boolean isHostingProvider,
+            boolean isPublicProxy,
+            boolean isTorExitNode,
+            Network network
+    ) {
+        this(ipAddress, isAnonymous, isAnonymousVpn, isHostingProvider, isPublicProxy, false, isTorExitNode, network);
+    }
+
     public AnonymousIpResponse(
             @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
             @JsonProperty("is_anonymous") boolean isAnonymous,
             @JsonProperty("is_anonymous_vpn") boolean isAnonymousVpn,
             @JsonProperty("is_hosting_provider") boolean isHostingProvider,
             @JsonProperty("is_public_proxy") boolean isPublicProxy,
+            @JsonProperty("is_residential_proxy") boolean isResidentialProxy,
             @JsonProperty("is_tor_exit_node") boolean isTorExitNode,
             @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) Network network
     ) {
@@ -50,6 +65,7 @@ public class AnonymousIpResponse extends AbstractResponse {
         this.isAnonymousVpn = isAnonymousVpn;
         this.isHostingProvider = isHostingProvider;
         this.isPublicProxy = isPublicProxy;
+        this.isResidentialProxy = isResidentialProxy;
         this.isTorExitNode = isTorExitNode;
         this.ipAddress = ipAddress;
         this.network = network;
@@ -92,13 +108,21 @@ public class AnonymousIpResponse extends AbstractResponse {
     }
 
     /**
+     * @return whether the IP address is on a suspected anonymizing network and
+     * belongs to a residential ISP.
+     */
+    @JsonProperty("is_residential_proxy")
+    public boolean isResidentialProxy() {
+        return isResidentialProxy;
+    }
+
+    /**
      * @return whether the IP address is a Tor exit node.
      */
     @JsonProperty("is_tor_exit_node")
     public boolean isTorExitNode() {
         return isTorExitNode;
     }
-
 
     /**
      * @return The IP address that the data in the model is for.

@@ -94,6 +94,7 @@ public class InsightsResponseTest {
         assertTrue("traits.isAnonymousVpn() returns true", traits.isAnonymousVpn());
         assertTrue("traits.isHostingProvider() returns true", traits.isHostingProvider());
         assertTrue("traits.isPublicProxy() returns true", traits.isPublicProxy());
+        assertTrue("traits.isResidentialProxy() returns true", traits.isResidentialProxy());
         assertTrue("traits.isSatelliteProvider() returns true", traits.isSatelliteProvider());
         assertTrue("traits.isTorExitNode() returns true", traits.isTorExitNode());
         assertEquals("traits.getIsp() does not return Comcast", "Comcast",
