@@ -80,6 +80,7 @@ public class AnonymousIpResponse extends AbstractResponse {
             @MaxMindDbParameter(name="is_anonymous_vpn") Boolean isAnonymousVpn,
             @MaxMindDbParameter(name="is_hosting_provider") Boolean isHostingProvider,
             @MaxMindDbParameter(name="is_public_proxy") Boolean isPublicProxy,
+            @MaxMindDbParameter(name="is_residential_proxy") Boolean isResidentialProxy,
             @MaxMindDbParameter(name="is_tor_exit_node") Boolean isTorExitNode,
             @MaxMindDbParameter(name="network") Network network
     ) {
@@ -89,6 +90,7 @@ public class AnonymousIpResponse extends AbstractResponse {
             isAnonymousVpn != null ? isAnonymousVpn : false,
             isHostingProvider != null ? isHostingProvider : false,
             isPublicProxy != null ? isPublicProxy : false,
+            isResidentialProxy != null ? isResidentialProxy : false,
             isTorExitNode != null ? isTorExitNode : false,
             network
         );
@@ -105,6 +107,7 @@ public class AnonymousIpResponse extends AbstractResponse {
             response.isAnonymousVpn(),
             response.isHostingProvider(),
             response.isPublicProxy(),
+            response.isResidentialProxy(),
             response.isTorExitNode(),
             network
         );
