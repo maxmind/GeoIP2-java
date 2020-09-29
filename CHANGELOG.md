@@ -1,8 +1,9 @@
 CHANGELOG
 =========
 
-2.15.0
--------------------
+2.15.0-rc1 (2020-09-29)
+-----------------------
+
 * The HTTP client now allows up to 20 connections to be active at once.
   Previously the limit was 2.
 * Update `maxmind-db` dependency to a new version that no longer uses
