@@ -1,7 +1,10 @@
 package com.maxmind.geoip2.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.maxmind.db.Network;
 import com.maxmind.geoip2.record.*;
+
+import java.util.List;
 
 public abstract class AbstractCountryResponse extends AbstractResponse {
 
@@ -30,6 +33,22 @@ public abstract class AbstractCountryResponse extends AbstractResponse {
         this.maxmind = maxmind != null ? maxmind : new MaxMind();
         this.representedCountry = representedCountry != null ? representedCountry : new RepresentedCountry();
         this.traits = traits != null ? traits : new Traits();
+    }
+
+    AbstractCountryResponse(
+            AbstractCountryResponse response,
+            String ipAddress,
+            Network network,
+            List<String> locales
+    ) {
+        // The response fields will be non-null because of the above
+        // constructor used during deserializing.
+        this.continent = new Continent(response.getContinent(), locales);
+        this.country = new Country(response.getCountry(), locales);
+        this.maxmind = response.getMaxMind();
+        this.registeredCountry = new Country(response.getRegisteredCountry(), locales);
+        this.representedCountry = new RepresentedCountry(response.getRepresentedCountry(), locales);
+        this.traits = new Traits(response.getTraits(), ipAddress, network);
     }
 
     /**
