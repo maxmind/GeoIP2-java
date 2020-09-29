@@ -2,7 +2,7 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v2.14.0
+version: v2.15.0-rc1
 ---
 
 # GeoIP2 Java API #
@@ -27,7 +27,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>2.14.0</version>
+        <version>2.15.0-rc1</version>
     </dependency>
 ```
 
@@ -40,7 +40,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.maxmind.geoip2:geoip2:2.14.0'
+    compile 'com.maxmind.geoip2:geoip2:2.15.0-rc1'
 }
 ```
 
@@ -297,6 +297,7 @@ try {
     System.out.println(response.isAnonymousVpn()); // false
     System.out.println(response.isHostingProvider()); // false
     System.out.println(response.isPublicProxy()); // false
+    System.out.println(response.isResidentialProxy()); // false
     System.out.println(response.isTorExitNode()); //true
 } finally {
     reader.close();
@@ -476,12 +477,9 @@ details on what data each end point may return.
 The only piece of data which is always returned is the `ip_address`
 available at `lookup.getTraits().getIpAddress()`.
 
-Every record class attribute has a corresponding predicate method so you can
-check to see if the attribute is set.
-
 ## Integration with GeoNames ##
 
-[GeoNames](http://www.geonames.org/) offers web services and downloadable
+[GeoNames](https://www.geonames.org/) offers web services and downloadable
 databases with data on geographical features around the world, including
 populated places. They offer both free and paid premium data. Each
 feature is uniquely identified by a `geonameId`, which is an integer.
@@ -501,7 +499,7 @@ please
 [submit your correction to MaxMind](https://www.maxmind.com/en/correction).
 
 If you find some other sort of mistake, like an incorrect spelling,
-please check [the GeoNames site](http://www.geonames.org/) first. Once
+please check [the GeoNames site](https://www.geonames.org/) first. Once
 you've searched for a place and found it on the GeoNames map view, there
 are a number of links you can use to correct data ("move", "edit",
 "alternate names", etc.). Once the correction is part of the GeoNames
