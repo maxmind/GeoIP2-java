@@ -119,6 +119,14 @@
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.2.0</version>
+                <configuration>
+                    <links>
+                        <link>
+                            http://maxmind.github.io/MaxMind-DB-Reader-java/doc/latest/
+                        </link>
+                    </links>
+                    <source>8</source>
+                </configuration>
                 <executions>
                     <execution>
                         <id>javadoc-jar</id>
@@ -126,14 +134,6 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
-                        <configuration>
-                            <links>
-                                <link>
-                                    http://maxmind.github.io/MaxMind-DB-Reader-java/doc/latest/
-                                </link>
-                            </links>
-                            <source>8</source>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
