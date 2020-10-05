@@ -1,7 +1,5 @@
 # GeoIP2 Java API #
 
-[![Build Status](https://travis-ci.org/maxmind/GeoIP2-java.png?branch=master)](https://travis-ci.org/maxmind/GeoIP2-java)
-
 ## Description ##
 
 This distribution provides an API for the GeoIP2
