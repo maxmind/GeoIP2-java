@@ -107,7 +107,7 @@
         <dependency>
             <groupId>com.jcabi</groupId>
             <artifactId>jcabi-matchers</artifactId>
-            <version>1.4</version>
+            <version>1.5.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
