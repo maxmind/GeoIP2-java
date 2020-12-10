@@ -51,8 +51,9 @@ should not be used to identify a particular address or household.
 
 To use the web service API, you must create a new `WebServiceClient` using the
 `WebServiceClient.Builder`. You must provide the `Builder` constructor your
-MaxMind `accountId` and `licenseKey`. You may also set a `timeout`, specify a
-specific `host`, or set the `locales` fallback order using the methods on the
+MaxMind `accountId` and `licenseKey`. To use the GeoLite2 web services instead
+of GeoIP2, set the `host` method on the builder to `geolite.info`. You may also
+set a `timeout` or set the `locales` fallback order using the methods on the
 `Builder`. After you have created the `WebServiceClient`, you may then call
 the method corresponding to a specific end point, passing it the IP address
 you want to look up.
@@ -82,6 +83,9 @@ See the API documentation for more details.
 // it should not be closed until you are finished making requests with it.
 //
 // Replace "42" with your account ID and "license_key" with your license key.
+// To use the GeoLite2 web service instead of GeoIP2 Precision, call the
+// host method on the builder with "geolite.info", e.g.
+// new WebServiceClient.Builder(42, "license_key").host("geolite.info").build()
 try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
         .build()) {
 
@@ -106,6 +110,9 @@ try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
 // it should not be closed until you are finished making requests with it.
 //
 // Replace "42" with your account ID and "license_key" with your license key.
+// To use the GeoLite2 web service instead of GeoIP2 Precision, call the
+// host method on the builder with "geolite.info", e.g.
+// new WebServiceClient.Builder(42, "license_key").host("geolite.info").build()
 try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
         .build()) {
 
@@ -144,6 +151,7 @@ try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
 // it should not be closed until you are finished making requests with it.
 //
 // Replace "42" with your account ID and "license_key" with your license key.
+// Please note that the GeoLite2 web service does not support Insights.
 try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
         .build()) {
 

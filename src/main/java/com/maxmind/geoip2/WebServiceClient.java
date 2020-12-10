@@ -53,11 +53,12 @@ import java.util.*;
  * To use the web service API, you must create a new {@code WebServiceClient}
  * using the {@code WebServiceClient.Builder}. You must provide the
  * {@code Builder} constructor your MaxMind {@code accountId} and
- * {@code licenseKey}. You may also set a {@code timeout}, specify a specific
- * {@code host}, or set the {@code locales} fallback order using the methods
- * on the {@code Builder}. After you have created the {@code WebServiceClient},
- * you may then call the method corresponding to a specific end point, passing
- * it the IP address you want to look up.
+ * {@code licenseKey}. To use the GeoLite2 web services instead of GeoIP2, set
+ * the {@code host} method on the builder to {@code geolite.info}. You may also
+ * set a {@code timeout} or set the {@code locales} fallback order using the
+ * methods on the {@code Builder}. After you have created the
+ * {@code WebServiceClient}, you may then call the method corresponding to a
+ * specific end point, passing it the IP address you want to look up.
  * </p>
  * <p>
  * If the request succeeds, the method call will return a model class for the
@@ -150,9 +151,7 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
      * with the {@code Builder}:
      * </p>
      * <p>
-     * WebServiceClient client = new
-     * WebServiceClient.Builder(12,"licensekey").host
-     * ("geoip.maxmind.com").build();
+     * {@code WebServiceClient client = new WebServiceClient.Builder(12,"licensekey").host("geoip.maxmind.com").build();}
      * </p>
      * <p>
      * Only the values set in the {@code Builder} constructor are required.
@@ -203,7 +202,8 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
         }
 
         /**
-         * @param val The host to use.
+         * @param val The host to use. Set this to {@code geolite.info} to use the
+         *            GeoLite2 web service instead of GeoIP2 Precision.
          * @return Builder object
          */
         public Builder host(String val) {
