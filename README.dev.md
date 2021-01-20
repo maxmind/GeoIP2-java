@@ -33,6 +33,6 @@ Steps for releasing:
 6. Complete the release on Sonatype
 
 There is more information in the
-[minfraud-api-java](https://github.com/maxmind/minfraud-api-java/blob/master/README.dev.md)
+[minfraud-api-java](https://github.com/maxmind/minfraud-api-java/blob/main/README.dev.md)
 `README.dev.md` about doing a Java release, including setting up your
 environment and completing the release on Sonatype.
