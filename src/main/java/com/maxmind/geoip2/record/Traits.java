@@ -371,8 +371,6 @@ public final class Traits extends AbstractRecord {
     /**
      * @return This is true if the IP is an anonymous proxy. This attribute is
      * returned by all end points.
-     * @see <a href="https://dev.maxmind.com/faq/geoip#anonproxy">MaxMind's GeoIP
-     * FAQ</a>
      * @deprecated Use our
      * <a href="https://www.maxmind.com/en/geoip2-anonymous-ip-database">GeoIP2
      * Anonymous IP database</a> instead.
