@@ -2,7 +2,7 @@
 
 ## Description ##
 
-This distribution provides an API for the GeoIP2 and GeoLite2 [Precision web
+This distribution provides an API for the GeoIP2 and GeoLite2 [web
 services](https://dev.maxmind.com/geoip/docs/web-services?lang=en) and
 [databases](https://dev.maxmind.com/geoip/docs/databases?lang=en).
 
