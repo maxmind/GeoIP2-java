@@ -79,9 +79,7 @@
             <artifactId>wiremock</artifactId>
             <version>2.27.2</version>
             <scope>test</scope>
-        </dependency>
-        
-        
+        </dependency>   
         <dependency>
             <groupId>com.fasterxml.jackson.jr</groupId>
             <artifactId>jackson-jr-objects</artifactId>
