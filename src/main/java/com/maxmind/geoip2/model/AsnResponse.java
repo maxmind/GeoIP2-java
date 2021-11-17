@@ -24,6 +24,10 @@ public class AsnResponse extends AbstractResponse {
         this((Integer) null, null, null, null);
     }
 
+    /**
+     * @deprecated This constructor exists for backwards compatibility. Will be
+     * removed in the next major release.
+     */
     public AsnResponse(
             Integer autonomousSystemNumber,
             String autonomousSystemOrganization,

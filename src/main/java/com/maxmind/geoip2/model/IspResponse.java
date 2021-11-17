@@ -20,6 +20,10 @@ public class IspResponse extends AsnResponse {
         this(null, null, null, null, null);
     }
 
+    /**
+     * @deprecated This constructor exists for backwards compatibility. Will be
+     * removed in the next major release.
+     */
     public IspResponse(
             Integer autonomousSystemNumber,
             String autonomousSystemOrganization,

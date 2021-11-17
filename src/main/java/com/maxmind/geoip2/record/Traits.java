@@ -57,8 +57,10 @@ public final class Traits extends AbstractRecord {
                 network, null, null, null, null);
     }
 
-    // This is for back-compat. If we ever do a major release, it should be
-    // removed.
+    /**
+     * @deprecated This constructor exists for backwards compatibility. Will be
+     * removed in the next major release.
+     */
     public Traits(
             Integer autonomousSystemNumber,
             String autonomousSystemOrganization,
@@ -75,8 +77,10 @@ public final class Traits extends AbstractRecord {
                 organization, userType);
     }
 
-    // This is for back-compat. If we ever do a major release, it should be
-    // removed.
+    /**
+     * @deprecated This constructor exists for backwards compatibility. Will be
+     * removed in the next major release.
+     */
     public Traits(
             Integer autonomousSystemNumber,
             String autonomousSystemOrganization,
@@ -95,8 +99,10 @@ public final class Traits extends AbstractRecord {
                 false, isSatelliteProvider, false, isp, null, organization, userType, null, null);
     }
 
-    // This is for back-compat. If we ever do a major release, it should be
-    // removed.
+    /**
+     * @deprecated This constructor exists for backwards compatibility. Will be
+     * removed in the next major release.
+     */
     public Traits(
             Integer autonomousSystemNumber,
             String autonomousSystemOrganization,
@@ -121,8 +127,10 @@ public final class Traits extends AbstractRecord {
                 null, organization, userType, null, null);
     }
 
-    // This is for back-compat. If we ever do a major release, it should be
-    // removed.
+    /**
+     * @deprecated This constructor exists for backwards compatibility. Will be
+     * removed in the next major release.
+     */
     public Traits(
             Integer autonomousSystemNumber,
             String autonomousSystemOrganization,

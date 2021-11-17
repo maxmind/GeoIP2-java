@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+2.16.0
+-------------------
+
+* Deprecated model constructors that exist for backwards compatibility.
+  These constructors are not generally used by users of this library
+  directly except perhaps when mocking the reader in tests.
+
 2.15.0 (2020-10-14)
 -------------------
 
