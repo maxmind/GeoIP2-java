@@ -7,9 +7,9 @@ import com.maxmind.geoip2.record.*;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.hamcrest.CoreMatchers;
+import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import java.io.UnsupportedEncodingException;
@@ -27,26 +27,22 @@ import static org.junit.Assert.*;
 public class WebServiceClientTest {
 
     @Rule
-    public final ExpectedException thrown = ExpectedException.none();
-
-    @Rule
     public final WireMockRule wireMockRule = new WireMockRule(0); // 0 picks random port
 
     @Test
     public void test200WithNoBody() throws Exception {
         WebServiceClient client = createSuccessClient("insights", "me", "");
 
-        thrown.expect(GeoIp2Exception.class);
-        thrown.expectMessage("Received a 200 response but could not decode it as JSON");
-        client.insights();
+        Exception ex = assertThrows(GeoIp2Exception.class, () -> client.insights());
+        assertEquals("Received a 200 response but could not decode it as JSON", ex.getMessage());
     }
 
     @Test
     public void test200WithInvalidJson() throws Exception {
         WebServiceClient client = createSuccessClient("insights", "me", "{");
-        thrown.expect(GeoIp2Exception.class);
-        thrown.expectMessage("Received a 200 response but could not decode it as JSON");
-        client.insights();
+
+        Exception ex = assertThrows(GeoIp2Exception.class, () -> client.insights());
+        assertEquals("Received a 200 response but could not decode it as JSON", ex.getMessage());
     }
 
     @Test
@@ -173,51 +169,50 @@ public class WebServiceClientTest {
 
     @Test
     public void testAddressNotFound() throws Exception {
-        thrown.expect(AddressNotFoundException.class);
-        thrown.expectMessage("not found");
-
-        createInsightsError(
-                "1.2.3.16",
-                404,
-                "application/json",
-                "{\"code\":\"IP_ADDRESS_NOT_FOUND\",\"error\":\"not found\"}"
-        );
+        Exception ex = assertThrows(AddressNotFoundException.class,
+                () -> createInsightsError(
+                        "1.2.3.16",
+                        404,
+                        "application/json",
+                        "{\"code\":\"IP_ADDRESS_NOT_FOUND\",\"error\":\"not found\"}"
+                ));
+        assertEquals("not found", ex.getMessage());
     }
 
     @Test
     public void testAddressReserved() throws Exception {
-        thrown.expect(AddressNotFoundException.class);
-        thrown.expectMessage("reserved");
-        createInsightsError(
-                "1.2.3.17",
-                400,
-                "application/json",
-                "{\"code\":\"IP_ADDRESS_RESERVED\",\"error\":\"reserved\"}"
-        );
+        Exception ex = assertThrows(AddressNotFoundException.class,
+                () -> createInsightsError(
+                        "1.2.3.17",
+                        400,
+                        "application/json",
+                        "{\"code\":\"IP_ADDRESS_RESERVED\",\"error\":\"reserved\"}"
+                ));
+        assertEquals("reserved", ex.getMessage());
     }
 
     @Test
     public void testAddressInvalid() throws Exception {
-        thrown.expect(InvalidRequestException.class);
-        thrown.expectMessage("invalid");
-        createInsightsError(
-                "1.2.3.17",
-                400,
-                "application/json",
-                "{\"code\":\"IP_ADDRESS_INVALID\",\"error\":\"invalid\"}"
-        );
+        Exception ex = assertThrows(InvalidRequestException.class,
+                () -> createInsightsError(
+                        "1.2.3.17",
+                        400,
+                        "application/json",
+                        "{\"code\":\"IP_ADDRESS_INVALID\",\"error\":\"invalid\"}"
+                ));
+        assertEquals("invalid", ex.getMessage());
     }
 
     @Test
     @Parameters({"INSUFFICIENT_FUNDS", "OUT_OF_QUERIES"})
     public void testInsufficientCredit(String code) throws Exception {
-        thrown.expect(OutOfQueriesException.class);
-        thrown.expectMessage("out of credit");
-        createInsightsMeError(
-                402,
-                "application/json",
-                "{\"code\":\"" + code + "\",\"error\":\"out of credit\"}"
-        );
+        Exception ex = assertThrows(OutOfQueriesException.class,
+                () ->  createInsightsMeError(
+                        402,
+                        "application/json",
+                        "{\"code\":\"" + code + "\",\"error\":\"out of credit\"}"
+                ));
+        assertEquals("out of credit", ex.getMessage());
     }
 
     @Test
@@ -228,101 +223,101 @@ public class WebServiceClientTest {
             "ACCOUNT_ID_REQUIRED",
             "ACCOUNT_ID_UNKNOWN"})
     public void testInvalidAuth(String code) throws Exception {
-        thrown.expect(AuthenticationException.class);
-        thrown.expectMessage("Invalid auth");
-        createInsightsMeError(
-                401,
-                "application/json",
-                "{\"code\":\"" + code + "\",\"error\":\"Invalid auth\"}"
-        );
+        Exception ex = assertThrows(AuthenticationException.class,
+                () ->  createInsightsMeError(
+                        401,
+                        "application/json",
+                        "{\"code\":\"" + code + "\",\"error\":\"Invalid auth\"}"
+                ));
+        assertEquals("Invalid auth", ex.getMessage());
     }
 
     @Test
     public void testPermissionRequired() throws Exception {
-        thrown.expect(PermissionRequiredException.class);
-        thrown.expectMessage("Permission required");
-        createInsightsMeError(
-                403,
-                "application/json",
-                "{\"code\":\"PERMISSION_REQUIRED\",\"error\":\"Permission required\"}"
-        );
+        Exception ex = assertThrows(PermissionRequiredException.class,
+                () ->  createInsightsMeError(
+                        403,
+                        "application/json",
+                        "{\"code\":\"PERMISSION_REQUIRED\",\"error\":\"Permission required\"}"
+                ));
+        assertEquals("Permission required", ex.getMessage());
     }
 
     @Test
     public void testInvalidRequest() throws Exception {
-        thrown.expect(InvalidRequestException.class);
-        thrown.expectMessage("IP invalid");
-        createInsightsMeError(
-                400,
-                "application/json",
-                "{\"code\":\"IP_ADDRESS_INVALID\",\"error\":\"IP invalid\"}"
-        );
+        Exception ex = assertThrows(InvalidRequestException.class,
+                () ->  createInsightsMeError(
+                        400,
+                        "application/json",
+                        "{\"code\":\"IP_ADDRESS_INVALID\",\"error\":\"IP invalid\"}"
+                ));
+        assertEquals("IP invalid", ex.getMessage());
     }
 
     @Test
     public void test400WithInvalidJson() throws Exception {
-        thrown.expect(HttpException.class);
-        thrown.expectMessage(matchesPattern("Received a 400 error for .*/geoip/v2.1/insights/me but it did not include the expected JSON body: \\{blah\\}"));
-        createInsightsMeError(
-                400,
-                "application/json",
-                "{blah}"
-        );
+        Exception ex = assertThrows(HttpException.class,
+                () ->  createInsightsMeError(
+                        400,
+                        "application/json",
+                        "{blah}"
+                ));
+        assertThat(ex.getMessage(), matchesPattern("Received a 400 error for .*/geoip/v2.1/insights/me but it did not include the expected JSON body: \\{blah\\}"));
     }
 
     @Test
     public void test400WithNoBody() throws Exception {
-        thrown.expect(HttpException.class);
-        thrown.expectMessage(matchesPattern("Received a 400 error for .*/geoip/v2.1/insights/me but it did not include the expected JSON body: "));
-        createInsightsMeError(
-                400,
-                "application/json",
-                ""
-        );
+        Exception ex = assertThrows(HttpException.class,
+                () ->  createInsightsMeError(
+                        400,
+                        "application/json",
+                        ""
+                ));
+        assertThat(ex.getMessage(), matchesPattern("Received a 400 error for .*/geoip/v2.1/insights/me but it did not include the expected JSON body: "));
     }
 
     @Test
     public void test400WithUnexpectedContentType() throws Exception {
-        thrown.expect(HttpException.class);
-        thrown.expectMessage(matchesPattern("Received a 400 error for .*/geoip/v2.1/insights/me but it did not include the expected JSON body: text"));
-        createInsightsMeError(
-                400,
-                "text/plain",
-                "text"
-        );
+        Exception ex = assertThrows(HttpException.class,
+                () ->  createInsightsMeError(
+                        400,
+                        "text/plain",
+                        "text"
+                ));
+        assertThat(ex.getMessage(), matchesPattern("Received a 400 error for .*/geoip/v2.1/insights/me but it did not include the expected JSON body: text"));
     }
 
     @Test
     public void test400WithUnexpectedJson() throws Exception {
-        thrown.expect(HttpException.class);
-        thrown.expectMessage("Error response contains JSON but it does not specify code or error keys: {\"not\":\"expected\"}");
-        createInsightsMeError(
-                400,
-                "application/json",
-                "{\"not\":\"expected\"}"
-        );
+        Exception ex = assertThrows(HttpException.class,
+                () ->  createInsightsMeError(
+                        400,
+                        "application/json",
+                        "{\"not\":\"expected\"}"
+                ));
+        assertEquals("Error response contains JSON but it does not specify code or error keys: {\"not\":\"expected\"}", ex.getMessage());
     }
 
     @Test
     public void test300() throws Exception {
-        thrown.expect(HttpException.class);
-        thrown.expectMessage(startsWith("Received an unexpected HTTP status (300)"));
-        createInsightsMeError(
-                300,
-                "application/json",
-                ""
-        );
+        Exception ex = assertThrows(HttpException.class,
+                () ->  createInsightsMeError(
+                        300,
+                        "application/json",
+                        ""
+                ));
+        assertThat(ex.getMessage(), startsWith("Received an unexpected HTTP status (300)"));
     }
 
     @Test
     public void test500() throws Exception {
-        thrown.expect(HttpException.class);
-        thrown.expectMessage(startsWith("Received a server error (500)"));
-        createInsightsMeError(
-                500,
-                "application/json",
-                ""
-        );
+        Exception ex = assertThrows(HttpException.class,
+                () ->  createInsightsMeError(
+                        500,
+                        "application/json",
+                        ""
+                ));
+        assertThat(ex.getMessage(), startsWith("Received a server error (500)"));
     }
 
     private void createInsightsError(String ip, int status, String contentType, String responseContent) throws Exception {
