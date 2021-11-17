@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.jr.ob.JSON;
 import org.junit.Test;
 
@@ -338,8 +339,9 @@ public class JsonTest {
     protected <T extends AbstractResponse> void testRoundTrip
             (Class<T> cls, String json)
             throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, false);
+        JsonMapper mapper = JsonMapper.builder()
+                .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+                .build();
         InjectableValues inject = new InjectableValues.Std().addValue(
                 "locales", Collections.singletonList("en"));
         T response = mapper.readerFor(cls).with(inject).readValue(json);
