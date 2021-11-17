@@ -4,6 +4,13 @@ CHANGELOG
 2.16.0
 -------------------
 
+* Support for mobile country code (MCC) and mobile network codes (MNC) was
+￼ added for the GeoIP2 ISP and Enterprise databases as well as the GeoIP2
+￼ City and Insights web services. `getMobileCountryCode()` and
+￼ `getMobileNetworkCode()` were added to `com.maxmind.geoip2.model.IspResponse`
+￼ for the GeoIP2 ISP database and `com.maxmind.geoip2.record.Traits` for the
+  Enterprise database and the GeoIP2 City and Insights web services. We expect
+  this data to be available by late January, 2022.
 * Deprecated model constructors that exist for backwards compatibility.
   These constructors are not generally used by users of this library
   directly except perhaps when mocking the reader in tests.

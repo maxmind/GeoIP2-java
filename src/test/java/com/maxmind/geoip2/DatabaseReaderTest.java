@@ -349,6 +349,11 @@ public class DatabaseReaderTest {
             EnterpriseResponse tryResponse = reader.tryEnterprise(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
 
+            ipAddress = InetAddress.getByName("149.101.100.0");
+            response = reader.enterprise(ipAddress);
+            assertEquals("310", response.getTraits().getMobileCountryCode());
+            assertEquals("004", response.getTraits().getMobileNetworkCode());
+
             // Test that the city and country methods can be called without
             // an exception
             reader.city(ipAddress);
@@ -374,6 +379,11 @@ public class DatabaseReaderTest {
 
             IspResponse tryResponse = reader.tryIsp(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
+
+            ipAddress = InetAddress.getByName("149.101.100.0");
+            response = reader.isp(ipAddress);
+            assertEquals("310", response.getMobileCountryCode());
+            assertEquals("004", response.getMobileNetworkCode());
         }
     }
 
