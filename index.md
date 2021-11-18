@@ -2,17 +2,16 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v2.15.0
+version: v2.16.0
 ---
 
 # GeoIP2 Java API #
 
 ## Description ##
 
-This distribution provides an API for the GeoIP2
-[Precision web services](https://dev.maxmind.com/geoip/geoip2/web-services) and
-[databases](https://dev.maxmind.com/geoip/geoip2/downloadable). The API also
-works with the free [GeoLite2 databases](https://dev.maxmind.com/geoip/geoip2/geolite2/).
+This distribution provides an API for the GeoIP2 and GeoLite2 [web
+services](https://dev.maxmind.com/geoip/docs/web-services?lang=en) and
+[databases](https://dev.maxmind.com/geoip/docs/databases?lang=en).
 
 ## Installation ##
 
@@ -25,7 +24,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>2.15.0</version>
+        <version>2.16.0</version>
     </dependency>
 ```
 
@@ -38,7 +37,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.maxmind.geoip2:geoip2:2.15.0'
+    compile 'com.maxmind.geoip2:geoip2:2.16.0'
 }
 ```
 
@@ -58,8 +57,9 @@ should not be used to identify a particular address or household.
 
 To use the web service API, you must create a new `WebServiceClient` using the
 `WebServiceClient.Builder`. You must provide the `Builder` constructor your
-MaxMind `accountId` and `licenseKey`. You may also set a `timeout`, specify a
-specific `host`, or set the `locales` fallback order using the methods on the
+MaxMind `accountId` and `licenseKey`. To use the GeoLite2 web services instead
+of GeoIP2, set the `host` method on the builder to `geolite.info`. You may also
+set a `timeout` or set the `locales` fallback order using the methods on the
 `Builder`. After you have created the `WebServiceClient`, you may then call
 the method corresponding to a specific end point, passing it the IP address
 you want to look up.
@@ -89,6 +89,9 @@ See the API documentation for more details.
 // it should not be closed until you are finished making requests with it.
 //
 // Replace "42" with your account ID and "license_key" with your license key.
+// To use the GeoLite2 web service instead of GeoIP2 Precision, call the
+// host method on the builder with "geolite.info", e.g.
+// new WebServiceClient.Builder(42, "license_key").host("geolite.info").build()
 try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
         .build()) {
 
@@ -113,6 +116,9 @@ try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
 // it should not be closed until you are finished making requests with it.
 //
 // Replace "42" with your account ID and "license_key" with your license key.
+// To use the GeoLite2 web service instead of GeoIP2 Precision, call the
+// host method on the builder with "geolite.info", e.g.
+// new WebServiceClient.Builder(42, "license_key").host("geolite.info").build()
 try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
         .build()) {
 
@@ -151,6 +157,7 @@ try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
 // it should not be closed until you are finished making requests with it.
 //
 // Replace "42" with your account ID and "license_key" with your license key.
+// Please note that the GeoLite2 web service does not support Insights.
 try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
         .build()) {
 
@@ -423,7 +430,7 @@ System.out.println(response.getOrganization());                 // 'University o
 
 For details on the possible errors returned by the web service itself, [see
 the GeoIP2 Precision web service
-documentation](https://dev.maxmind.com/geoip2/geoip/web-services).
+documentation](https://dev.maxmind.com/geoip/docs/web-services?lang=en).
 
 If the web service returns an explicit error document, this is thrown as an
 `AddressNotFoundException`, an `AuthenticationException`, an
@@ -469,7 +476,7 @@ Because of these factors, it is possible for any end point to return a record
 where some or all of the attributes are unpopulated.
 
 [See our web-service developer
-documentation](https://dev.maxmind.com/geoip/geoip2/web-services) for
+documentation](https://dev.maxmind.com/geoip/docs/web-services?lang=en) for
 details on what data each end point may return.
 
 The only piece of data which is always returned is the `ip_address`
@@ -532,6 +539,6 @@ The GeoIP2 Java API uses [Semantic Versioning](https://semver.org/).
 
 ## Copyright and License ##
 
-This software is Copyright (c) 2013-2020 by MaxMind, Inc.
+This software is Copyright (c) 2013-2021 by MaxMind, Inc.
 
 This is free software, licensed under the Apache License, Version 2.0.
