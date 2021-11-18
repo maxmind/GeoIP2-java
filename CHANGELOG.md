@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+2.16.1 (2021-11-18)
+-------------------
+
+* Added `JsonProperty` annotations to `getMobileCountryCode()` and
+  `getMobileNetworkCode()` so that it is possible to serialize the
+  object as JSON and then deserialize without losing data.
+
 2.16.0 (2021-11-18)
 -------------------
 
