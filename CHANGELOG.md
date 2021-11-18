@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-2.16.0
+2.16.0 (2021-11-18)
 -------------------
 
 * Support for mobile country code (MCC) and mobile network codes (MNC) was
