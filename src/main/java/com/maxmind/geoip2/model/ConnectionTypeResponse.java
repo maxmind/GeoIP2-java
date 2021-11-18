@@ -68,6 +68,11 @@ public class ConnectionTypeResponse extends AbstractResponse {
         this(null, null);
     }
 
+    /**
+     * @deprecated This constructor exists for backwards compatibility. Will be
+     * removed in the next major release.
+     */
+    @Deprecated
     public ConnectionTypeResponse(
             ConnectionType connectionType,
             String ipAddress

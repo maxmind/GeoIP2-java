@@ -30,8 +30,11 @@ public final class RepresentedCountry extends Country {
         this(null, null, (Integer) null, false, null, null, null);
     }
 
-    // This method is for backwards compatibility. We should remove it when we
-    // do a major release.
+    /**
+     * @deprecated This constructor exists for backwards compatibility. Will be
+     * removed in the next major release.
+     */
+    @Deprecated
     public RepresentedCountry(
             List<String> locales,
             Integer confidence,

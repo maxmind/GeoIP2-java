@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.maxmind.geoip2.exception.*;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CountryResponse;
@@ -119,9 +120,10 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
         this.licenseKey = builder.licenseKey;
         this.accountId = builder.accountId;
 
-        mapper = new ObjectMapper();
-        mapper.disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS);
-        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        mapper = JsonMapper.builder()
+                .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .build();
 
         RequestConfig.Builder configBuilder = RequestConfig.custom()
                 .setConnectTimeout(builder.connectTimeout)

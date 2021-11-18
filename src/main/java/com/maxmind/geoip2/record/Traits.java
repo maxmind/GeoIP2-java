@@ -36,6 +36,8 @@ public final class Traits extends AbstractRecord {
     private final boolean isSatelliteProvider;
     private final boolean isTorExitNode;
     private final String isp;
+    private final String mobileCountryCode;
+    private final String mobileNetworkCode;
     private final Network network;
     private final String organization;
     private final String userType;
@@ -57,8 +59,11 @@ public final class Traits extends AbstractRecord {
                 network, null, null, null, null);
     }
 
-    // This is for back-compat. If we ever do a major release, it should be
-    // removed.
+    /**
+     * @deprecated This constructor exists for backwards compatibility. Will be
+     * removed in the next major release.
+     */
+    @Deprecated
     public Traits(
             Integer autonomousSystemNumber,
             String autonomousSystemOrganization,
@@ -75,8 +80,11 @@ public final class Traits extends AbstractRecord {
                 organization, userType);
     }
 
-    // This is for back-compat. If we ever do a major release, it should be
-    // removed.
+    /**
+     * @deprecated This constructor exists for backwards compatibility. Will be
+     * removed in the next major release.
+     */
+    @Deprecated
     public Traits(
             Integer autonomousSystemNumber,
             String autonomousSystemOrganization,
@@ -95,8 +103,11 @@ public final class Traits extends AbstractRecord {
                 false, isSatelliteProvider, false, isp, null, organization, userType, null, null);
     }
 
-    // This is for back-compat. If we ever do a major release, it should be
-    // removed.
+    /**
+     * @deprecated This constructor exists for backwards compatibility. Will be
+     * removed in the next major release.
+     */
+    @Deprecated
     public Traits(
             Integer autonomousSystemNumber,
             String autonomousSystemOrganization,
@@ -121,8 +132,11 @@ public final class Traits extends AbstractRecord {
                 null, organization, userType, null, null);
     }
 
-    // This is for back-compat. If we ever do a major release, it should be
-    // removed.
+    /**
+     * @deprecated This constructor exists for backwards compatibility. Will be
+     * removed in the next major release.
+     */
+    @Deprecated
     public Traits(
             Integer autonomousSystemNumber,
             String autonomousSystemOrganization,
@@ -152,6 +166,76 @@ public final class Traits extends AbstractRecord {
                 staticIpScore);
     }
 
+    /**
+     * @deprecated This constructor exists for backwards compatibility. Will be
+     * removed in the next major release.
+     */
+    @Deprecated
+    public Traits(
+            Integer autonomousSystemNumber,
+            String autonomousSystemOrganization,
+            ConnectionType connectionType,
+            String domain,
+            String ipAddress,
+            boolean isAnonymous,
+            boolean isAnonymousProxy,
+            boolean isAnonymousVpn,
+            boolean isHostingProvider,
+            boolean isLegitimateProxy,
+            boolean isPublicProxy,
+            boolean isResidentialProxy,
+            boolean isSatelliteProvider,
+            boolean isTorExitNode,
+            String isp,
+            Network network,
+            String organization,
+            String userType,
+            Integer userCount,
+            Double staticIpScore
+    ) {
+        this(autonomousSystemNumber, autonomousSystemOrganization,
+                connectionType, domain, ipAddress, isAnonymous,
+                isAnonymousProxy, isAnonymousVpn, isHostingProvider,
+                isLegitimateProxy, isPublicProxy, isResidentialProxy, isSatelliteProvider,
+                isTorExitNode, isp, null, null, network,
+                organization, userType, userCount, staticIpScore);
+    }
+
+    /**
+     * @deprecated This constructor exists for backwards compatibility. Will be
+     * removed in the next major release.
+     */
+    @Deprecated
+    public Traits(
+            Long autonomousSystemNumber,
+            String autonomousSystemOrganization,
+            String connectionType,
+            String domain,
+            String ipAddress,
+            Boolean isAnonymous,
+            Boolean isAnonymousProxy,
+            Boolean isAnonymousVpn,
+            Boolean isHostingProvider,
+            Boolean isLegitimateProxy,
+            Boolean isPublicProxy,
+            Boolean isResidentialProxy,
+            Boolean isSatelliteProvider,
+            Boolean isTorExitNode,
+            String isp,
+            Network network,
+            String organization,
+            String userType,
+            Integer userCount,
+            Double staticIpScore
+    ) {
+        this(autonomousSystemNumber, autonomousSystemOrganization,
+                connectionType, domain, ipAddress, isAnonymous,
+                isAnonymousProxy, isAnonymousVpn, isHostingProvider,
+                isLegitimateProxy, isPublicProxy, isResidentialProxy, isSatelliteProvider,
+                isTorExitNode, isp, null, null, network,
+                organization, userType, userCount, staticIpScore);
+    }
+
     public Traits(
             @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
             @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
@@ -168,6 +252,8 @@ public final class Traits extends AbstractRecord {
             @JsonProperty("is_satellite_provider") boolean isSatelliteProvider,
             @JsonProperty("is_tor_exit_node") boolean isTorExitNode,
             @JsonProperty("isp") String isp,
+            @JsonProperty("mobile_country_code") String mobileCountryCode,
+            @JsonProperty("mobile_network_code") String mobileNetworkCode,
             @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) Network network,
             @JsonProperty("organization") String organization,
             @JsonProperty("user_type") String userType,
@@ -189,6 +275,8 @@ public final class Traits extends AbstractRecord {
         this.isSatelliteProvider = isSatelliteProvider;
         this.isTorExitNode = isTorExitNode;
         this.isp = isp;
+        this.mobileCountryCode = mobileCountryCode;
+        this.mobileNetworkCode = mobileNetworkCode;
         this.network = network;
         this.organization = organization;
         this.userType = userType;
@@ -213,6 +301,8 @@ public final class Traits extends AbstractRecord {
             @MaxMindDbParameter(name="is_satellite_provider") Boolean isSatelliteProvider,
             @MaxMindDbParameter(name="is_tor_exit_node") Boolean isTorExitNode,
             @MaxMindDbParameter(name="isp") String isp,
+            @MaxMindDbParameter(name="mobile_country_code") String mobileCountryCode,
+            @MaxMindDbParameter(name="mobile_network_code") String mobileNetworkCode,
             @MaxMindDbParameter(name="network") Network network,
             @MaxMindDbParameter(name="organization") String organization,
             @MaxMindDbParameter(name="user_type") String userType,
@@ -235,6 +325,8 @@ public final class Traits extends AbstractRecord {
             isSatelliteProvider != null ? isSatelliteProvider : false,
             isTorExitNode != null ? isTorExitNode : false,
             isp,
+            mobileCountryCode,
+            mobileNetworkCode,
             network,
             organization,
             userType,
@@ -264,6 +356,8 @@ public final class Traits extends AbstractRecord {
             traits.isSatelliteProvider(),
             traits.isTorExitNode(),
             traits.getIsp(),
+            traits.getMobileCountryCode(),
+            traits.getMobileNetworkCode(),
             network,
             traits.getOrganization(),
             traits.getUserType(),
@@ -451,6 +545,26 @@ public final class Traits extends AbstractRecord {
     @JsonProperty("is_tor_exit_node")
     public boolean isTorExitNode() {
         return this.isTorExitNode;
+    }
+
+    /**
+     * @return The <a href="https://en.wikipedia.org/wiki/Mobile_country_code">
+     * mobile country code (MCC)</a> associated with the IP address and ISP.
+     * This property is available from the City and Insights web services and
+     * the GeoIP2 Enterprise database.
+     */
+    public String getMobileCountryCode() {
+        return this.mobileCountryCode;
+    }
+
+    /**
+     * @return The <a href="https://en.wikipedia.org/wiki/Mobile_country_code">
+     * mobile network code (MNC)</a> associated with the IP address and ISP.
+     * This property is available from the City and Insights web services and
+     * the GeoIP2 Enterprise database.
+     */
+    public String getMobileNetworkCode() {
+        return this.mobileNetworkCode;
     }
 
     /**
