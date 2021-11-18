@@ -26,6 +26,7 @@ public class IspResponse extends AsnResponse {
      * @deprecated This constructor exists for backwards compatibility. Will be
      * removed in the next major release.
      */
+    @Deprecated
     public IspResponse(
             Integer autonomousSystemNumber,
             String autonomousSystemOrganization,
@@ -40,6 +41,7 @@ public class IspResponse extends AsnResponse {
      * @deprecated This constructor exists for backwards compatibility. Will be
      * removed in the next major release.
      */
+    @Deprecated
     public IspResponse(
             Integer autonomousSystemNumber,
             String autonomousSystemOrganization,
@@ -55,6 +57,7 @@ public class IspResponse extends AsnResponse {
      * @deprecated This constructor exists for backwards compatibility. Will be
      * removed in the next major release.
      */
+    @Deprecated
     public IspResponse(
             Long autonomousSystemNumber,
             String autonomousSystemOrganization,

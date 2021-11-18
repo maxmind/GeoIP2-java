@@ -27,6 +27,7 @@ public class DomainResponse extends AbstractResponse {
      * @deprecated This constructor exists for backwards compatibility. Will be
      * removed in the next major release.
      */
+    @Deprecated
     public DomainResponse(
             String domain,
             String ipAddress

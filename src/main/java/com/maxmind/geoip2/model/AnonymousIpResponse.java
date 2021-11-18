@@ -31,7 +31,9 @@ public class AnonymousIpResponse extends AbstractResponse {
     /**
      * @deprecated This constructor exists for backwards compatibility. Will be
      * removed in the next major release.
-     */    public AnonymousIpResponse(
+     */
+    @Deprecated
+    public AnonymousIpResponse(
             String ipAddress,
             boolean isAnonymous,
             boolean isAnonymousVpn,
@@ -45,7 +47,9 @@ public class AnonymousIpResponse extends AbstractResponse {
     /**
      * @deprecated This constructor exists for backwards compatibility. Will be
      * removed in the next major release.
-     */    public AnonymousIpResponse(
+     */
+    @Deprecated
+    public AnonymousIpResponse(
             String ipAddress,
             boolean isAnonymous,
             boolean isAnonymousVpn,

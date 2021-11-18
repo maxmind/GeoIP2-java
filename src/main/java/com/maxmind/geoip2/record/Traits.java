@@ -63,6 +63,7 @@ public final class Traits extends AbstractRecord {
      * @deprecated This constructor exists for backwards compatibility. Will be
      * removed in the next major release.
      */
+    @Deprecated
     public Traits(
             Integer autonomousSystemNumber,
             String autonomousSystemOrganization,
@@ -83,6 +84,7 @@ public final class Traits extends AbstractRecord {
      * @deprecated This constructor exists for backwards compatibility. Will be
      * removed in the next major release.
      */
+    @Deprecated
     public Traits(
             Integer autonomousSystemNumber,
             String autonomousSystemOrganization,
@@ -105,6 +107,7 @@ public final class Traits extends AbstractRecord {
      * @deprecated This constructor exists for backwards compatibility. Will be
      * removed in the next major release.
      */
+    @Deprecated
     public Traits(
             Integer autonomousSystemNumber,
             String autonomousSystemOrganization,
@@ -133,6 +136,7 @@ public final class Traits extends AbstractRecord {
      * @deprecated This constructor exists for backwards compatibility. Will be
      * removed in the next major release.
      */
+    @Deprecated
     public Traits(
             Integer autonomousSystemNumber,
             String autonomousSystemOrganization,
@@ -166,6 +170,7 @@ public final class Traits extends AbstractRecord {
      * @deprecated This constructor exists for backwards compatibility. Will be
      * removed in the next major release.
      */
+    @Deprecated
     public Traits(
             Integer autonomousSystemNumber,
             String autonomousSystemOrganization,
@@ -200,6 +205,7 @@ public final class Traits extends AbstractRecord {
      * @deprecated This constructor exists for backwards compatibility. Will be
      * removed in the next major release.
      */
+    @Deprecated
     public Traits(
             Long autonomousSystemNumber,
             String autonomousSystemOrganization,

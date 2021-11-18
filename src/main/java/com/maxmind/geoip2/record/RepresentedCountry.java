@@ -34,6 +34,7 @@ public final class RepresentedCountry extends Country {
      * @deprecated This constructor exists for backwards compatibility. Will be
      * removed in the next major release.
      */
+    @Deprecated
     public RepresentedCountry(
             List<String> locales,
             Integer confidence,

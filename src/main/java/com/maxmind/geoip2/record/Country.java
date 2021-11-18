@@ -34,6 +34,7 @@ public class Country extends AbstractNamedRecord {
      * @deprecated This constructor exists for backwards compatibility. Will be
      * removed in the next major release.
      */
+    @Deprecated
     public Country(
             List<String> locales,
             Integer confidence,

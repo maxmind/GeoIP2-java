@@ -28,6 +28,7 @@ public class AsnResponse extends AbstractResponse {
      * @deprecated This constructor exists for backwards compatibility. Will be
      * removed in the next major release.
      */
+    @Deprecated
     public AsnResponse(
             Integer autonomousSystemNumber,
             String autonomousSystemOrganization,
