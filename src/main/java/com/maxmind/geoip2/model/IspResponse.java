@@ -139,6 +139,7 @@ public class IspResponse extends AsnResponse {
      * This property is available from the City and Insights web services and
      * the GeoIP2 Enterprise database.
      */
+    @JsonProperty("mobile_country_code")
     public String getMobileCountryCode() {
         return this.mobileCountryCode;
     }
@@ -149,6 +150,7 @@ public class IspResponse extends AsnResponse {
      * This property is available from the City and Insights web services and
      * the GeoIP2 Enterprise database.
      */
+    @JsonProperty("mobile_network_code")
     public String getMobileNetworkCode() {
         return this.mobileNetworkCode;
     }
