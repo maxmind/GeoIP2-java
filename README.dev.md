@@ -20,7 +20,7 @@ Steps for releasing:
    * You do not need to update the version. The release script will do so.
 3. Review `CHANGELOG.md` for completeness and correctness. Update its release
    date. Commit it.
-4. Install or update `hub` as it used by the release script.
+4. Install or update [gh](https://github.com/cli/cli) as it used by the release script.
 5. Test that `mvn package` can complete successfully. Run `git clean -dxff`
    or something similar to clean up afterwards.
 5. Run `./dev-bin/release.sh`.

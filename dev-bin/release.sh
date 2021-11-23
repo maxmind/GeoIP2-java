@@ -120,12 +120,9 @@ popd
 git push
 git push --tags
 
-message="$version
+gh release create --target "$(git branch --show-current)" -t "$version" -n "$notes" "$tag" \
+    "target/geoip2-$version-with-dependencies.zip" \
+    "target/geoip2-$version-with-dependencies.zip.asc"
 
-$notes"
-
-hub release create -a "target/geoip2-$version-with-dependencies.zip" \
-                   -a "target/geoip2-$version-with-dependencies.zip.asc" \
-                   -m "$message" "$tag"
 
 echo "Remember to do the release on https://oss.sonatype.org/!"
