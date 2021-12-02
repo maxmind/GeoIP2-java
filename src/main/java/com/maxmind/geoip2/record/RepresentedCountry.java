@@ -27,23 +27,7 @@ public final class RepresentedCountry extends Country {
     private final String type;
 
     public RepresentedCountry() {
-        this(null, null, (Integer) null, false, null, null, null);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public RepresentedCountry(
-            List<String> locales,
-            Integer confidence,
-            Integer geoNameId,
-            String isoCode,
-            Map<String, String> names,
-            String type
-    ) {
-        this(locales, confidence, geoNameId, false, isoCode, names, type);
+        this(null, null, null, false, null, null, null);
     }
 
     public RepresentedCountry(

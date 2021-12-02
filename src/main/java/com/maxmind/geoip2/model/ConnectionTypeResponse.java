@@ -65,19 +65,7 @@ public class ConnectionTypeResponse extends AbstractResponse {
     private final Network network;
 
     ConnectionTypeResponse() {
-        this(null, null);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public ConnectionTypeResponse(
-            ConnectionType connectionType,
-            String ipAddress
-    ) {
-        this(connectionType, ipAddress, null);
+        this((String) null, null, null);
     }
 
     public ConnectionTypeResponse(

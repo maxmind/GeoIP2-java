@@ -17,6 +17,7 @@ CHANGELOG
 * On `HttpException` and `InvalidRequestException`, `getUrl()` has been
   deprecated in favor of `getUri()`. Constructors that took a `URL` have
   been replaced with the equivalent taking a `URI`.
+* Deprecated constructors on model an trait classes were removed.
 
 
 2.16.1 (2021-11-18)

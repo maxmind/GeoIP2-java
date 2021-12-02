@@ -27,22 +27,7 @@ public class Country extends AbstractNamedRecord {
     private final String isoCode;
 
     public Country() {
-        this(null, null, (Integer) null, false, null, null);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public Country(
-            List<String> locales,
-            Integer confidence,
-            Integer geoNameId,
-            String isoCode,
-            Map<String, String> names
-    ) {
-        this(locales, confidence, geoNameId, false, isoCode, names);
+        this(null, null, null, false, null, null);
     }
 
     public Country(

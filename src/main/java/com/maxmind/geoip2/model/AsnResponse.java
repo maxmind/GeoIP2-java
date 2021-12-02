@@ -24,19 +24,6 @@ public class AsnResponse extends AbstractResponse {
         this((Integer) null, null, null, null);
     }
 
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public AsnResponse(
-            Integer autonomousSystemNumber,
-            String autonomousSystemOrganization,
-            String ipAddress
-    ) {
-        this(autonomousSystemNumber, autonomousSystemOrganization, ipAddress, null);
-    }
-
     public AsnResponse(
             @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
             @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,

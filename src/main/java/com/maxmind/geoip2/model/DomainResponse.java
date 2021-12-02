@@ -20,19 +20,7 @@ public class DomainResponse extends AbstractResponse {
     private final Network network;
 
     DomainResponse() {
-        this(null, null);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public DomainResponse(
-            String domain,
-            String ipAddress
-    ) {
-        this(domain, ipAddress, null);
+        this((String) null, null, null);
     }
 
     @MaxMindDbConstructor

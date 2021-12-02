@@ -25,40 +25,7 @@ public class AnonymousIpResponse extends AbstractResponse {
     private final Network network;
 
     AnonymousIpResponse() {
-        this(null, false, false, false, false, false);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public AnonymousIpResponse(
-            String ipAddress,
-            boolean isAnonymous,
-            boolean isAnonymousVpn,
-            boolean isHostingProvider,
-            boolean isPublicProxy,
-            boolean isTorExitNode
-    ) {
-        this(ipAddress, isAnonymous, isAnonymousVpn, isHostingProvider, isPublicProxy, isTorExitNode, null);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public AnonymousIpResponse(
-            String ipAddress,
-            boolean isAnonymous,
-            boolean isAnonymousVpn,
-            boolean isHostingProvider,
-            boolean isPublicProxy,
-            boolean isTorExitNode,
-            Network network
-    ) {
-        this(ipAddress, isAnonymous, isAnonymousVpn, isHostingProvider, isPublicProxy, false, isTorExitNode, network);
+        this(null, false, false, false, false, false, false, null);
     }
 
     public AnonymousIpResponse(

@@ -19,54 +19,7 @@ public class IspResponse extends AsnResponse {
     private final String mobileNetworkCode;
 
     IspResponse() {
-        this(null, null, null, null, null);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public IspResponse(
-            Integer autonomousSystemNumber,
-            String autonomousSystemOrganization,
-            String ipAddress,
-            String isp,
-            String organization
-    ) {
-        this(autonomousSystemNumber, autonomousSystemOrganization, ipAddress, isp, organization, null);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public IspResponse(
-            Integer autonomousSystemNumber,
-            String autonomousSystemOrganization,
-            String ipAddress,
-            String isp,
-            String organization,
-            Network network
-    ) {
-        this(autonomousSystemNumber, autonomousSystemOrganization, ipAddress, isp, null, null, organization, network);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public IspResponse(
-            Long autonomousSystemNumber,
-            String autonomousSystemOrganization,
-            String ipAddress,
-            String isp,
-            String organization,
-            Network network
-    ) {
-        this(autonomousSystemNumber, autonomousSystemOrganization, ipAddress, isp, null, null, organization, network);
+        this((Integer) null, null, null, null, null, null, null, null);
     }
 
     public IspResponse(
