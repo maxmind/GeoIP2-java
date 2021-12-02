@@ -290,7 +290,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     public CountryResponse country(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         Optional<CountryResponse> r = getCountry(ipAddress);
-        if (!r.isPresent()) {
+        if (r.isEmpty()) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
         }
@@ -329,7 +329,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     public CityResponse city(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         Optional<CityResponse> r = getCity(ipAddress);
-        if (!r.isPresent()) {
+        if (r.isEmpty()) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
         }
@@ -376,7 +376,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     public AnonymousIpResponse anonymousIp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         Optional<AnonymousIpResponse> r = getAnonymousIp(ipAddress);
-        if (!r.isPresent()) {
+        if (r.isEmpty()) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
         }
@@ -422,7 +422,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     public AsnResponse asn(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         Optional<AsnResponse> r = getAsn(ipAddress);
-        if (!r.isPresent()) {
+        if (r.isEmpty()) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
         }
@@ -467,7 +467,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     public ConnectionTypeResponse connectionType(InetAddress ipAddress)
             throws IOException, GeoIp2Exception {
         Optional<ConnectionTypeResponse> r = getConnectionType(ipAddress);
-        if (!r.isPresent()) {
+        if (r.isEmpty()) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
         }
@@ -513,7 +513,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     public DomainResponse domain(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         Optional<DomainResponse> r = getDomain(ipAddress);
-        if (!r.isPresent()) {
+        if (r.isEmpty()) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
         }
@@ -559,7 +559,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     public EnterpriseResponse enterprise(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         Optional<EnterpriseResponse> r = getEnterprise(ipAddress);
-        if (!r.isPresent()) {
+        if (r.isEmpty()) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
         }
@@ -606,7 +606,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     public IspResponse isp(InetAddress ipAddress) throws IOException,
             GeoIp2Exception {
         Optional<IspResponse> r = getIsp(ipAddress);
-        if (!r.isPresent()) {
+        if (r.isEmpty()) {
             throw new AddressNotFoundException("The address "
                     + ipAddress.getHostAddress() + " is not in the database.");
         }
