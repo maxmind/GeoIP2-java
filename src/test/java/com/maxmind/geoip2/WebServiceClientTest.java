@@ -273,7 +273,7 @@ public class WebServiceClientTest {
                         "application/json",
                         ""
                 ));
-        assertThat(ex.getMessage(), matchesPattern("Received a 400 error for .*/geoip/v2.1/insights/me but it did not include the expected JSON body: "));
+        assertThat(ex.getMessage(), matchesPattern("Received a 400 error for .*/geoip/v2.1/insights/me with no body"));
     }
 
     @Test
@@ -356,6 +356,7 @@ public class WebServiceClientTest {
         byte[] body = responseContent.getBytes(StandardCharsets.UTF_8);
         stubFor(get(urlEqualTo("/geoip/v2.1/" + service + "/" + ip))
                 .withHeader("Accept", equalTo("application/json"))
+                .withHeader("Authorization", equalTo("Basic NjowMTIzNDU2Nzg5"))
                 .willReturn(aResponse()
                         .withStatus(status)
                         // This is wrong if we use non-ASCII characters, but we don't currently

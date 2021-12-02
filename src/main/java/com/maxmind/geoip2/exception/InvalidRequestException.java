@@ -1,5 +1,7 @@
 package com.maxmind.geoip2.exception;
 
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 
 /**
@@ -10,16 +12,16 @@ import java.net.URL;
 public final class InvalidRequestException extends GeoIp2Exception {
     private static final long serialVersionUID = 8662062420258379643L;
     private final String code;
-    private final URL url;
+    private final URI uri;
 
     /**
      * @param message A message explaining the cause of the error.
      * @param code    The error code returned by the web service.
-     * @param url     The URL queried.
+     * @param uri     The URI queried.
      */
-    public InvalidRequestException(String message, String code, URL url) {
+    public InvalidRequestException(String message, String code, URI uri) {
         super(message);
-        this.url = url;
+        this.uri = uri;
         this.code = code;
     }
 
@@ -27,14 +29,14 @@ public final class InvalidRequestException extends GeoIp2Exception {
      * @param message    A message explaining the cause of the error.
      * @param code       The error code returned by the web service.
      * @param httpStatus The HTTP status of the response.
-     * @param url        The URL queried.
+     * @param uri        The URI queried.
      * @param e          The cause of the exception.
      */
     public InvalidRequestException(String message, String code, int httpStatus,
-                                   URL url, Throwable e) {
+                                   URI uri, Throwable e) {
         super(message, e);
         this.code = code;
-        this.url = url;
+        this.uri = uri;
     }
 
     /**
@@ -45,9 +47,22 @@ public final class InvalidRequestException extends GeoIp2Exception {
     }
 
     /**
-     * @return the URL queried.
+     * @return the URI queried.
      */
+    public URI getUri() {
+        return this.uri;
+    }
+
+    /**
+     * @return the URL queried.
+     * @deprecated Use getUri() instead
+     */
+    @Deprecated
     public URL getUrl() {
-        return this.url;
+        try {
+            return this.uri.toURL();
+        } catch (MalformedURLException e) {
+            return null;
+        }
     }
 }
