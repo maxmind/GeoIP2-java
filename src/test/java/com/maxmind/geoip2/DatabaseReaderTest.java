@@ -6,9 +6,7 @@ import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.*;
 import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,11 +17,10 @@ import java.net.URL;
 import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.*;
 
 public class DatabaseReaderTest {
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
     private File geoipFile;
     private InputStream geoipStream;
 
@@ -175,30 +172,26 @@ public class DatabaseReaderTest {
             GeoIp2Exception {
         assertFalse(reader.tryCity(InetAddress.getByName("10.10.10.10")).isPresent());
 
-        this.exception.expect(AddressNotFoundException.class);
-        this.exception
-                .expectMessage(containsString("The address 10.10.10.10 is not in the database."));
-
-        reader.city(InetAddress.getByName("10.10.10.10"));
+        Exception ex = assertThrows(AddressNotFoundException.class,
+                () -> reader.city(InetAddress.getByName("10.10.10.10")));
+        assertThat(ex.getMessage(), containsString("The address 10.10.10.10 is not in the database."));
     }
 
     @Test
     public void testUnsupportedFileMode() throws IOException {
-        this.exception.expect(IllegalArgumentException.class);
-        this.exception.expectMessage(containsString("Only FileMode.MEMORY"));
-        try (DatabaseReader db = new DatabaseReader.Builder(this.geoipStream).fileMode(
-                Reader.FileMode.MEMORY_MAPPED).build()
-        ) {
-        }
+        Exception ex = assertThrows(IllegalArgumentException.class,
+                () -> new DatabaseReader.Builder(this.geoipStream).fileMode(
+                        Reader.FileMode.MEMORY_MAPPED).build()
+        );
+        assertThat(ex.getMessage(), containsString("Only FileMode.MEMORY"));
     }
 
     @Test
     public void incorrectDatabaseMethod() throws Exception {
-        this.exception.expect(UnsupportedOperationException.class);
-        this.exception
-                .expectMessage(containsString("GeoIP2-City database using the isp method"));
         try (DatabaseReader db = new DatabaseReader.Builder(this.geoipFile).build()) {
-            db.isp(InetAddress.getByName("1.1.1.1"));
+            Exception ex = assertThrows(UnsupportedOperationException.class,
+                    () -> db.isp(InetAddress.getByName("1.1.1.1")));
+            assertThat(ex.getMessage(), containsString("GeoIP2-City database using the isp method"));
         }
     }
 
