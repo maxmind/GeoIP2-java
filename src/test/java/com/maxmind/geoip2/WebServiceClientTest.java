@@ -33,7 +33,7 @@ public class WebServiceClientTest {
     public void test200WithNoBody() throws Exception {
         WebServiceClient client = createSuccessClient("insights", "me", "");
 
-        Exception ex = assertThrows(GeoIp2Exception.class, () -> client.insights());
+        Exception ex = assertThrows(GeoIp2Exception.class, client::insights);
         assertEquals("Received a 200 response but could not decode it as JSON", ex.getMessage());
     }
 
@@ -41,7 +41,7 @@ public class WebServiceClientTest {
     public void test200WithInvalidJson() throws Exception {
         WebServiceClient client = createSuccessClient("insights", "me", "{");
 
-        Exception ex = assertThrows(GeoIp2Exception.class, () -> client.insights());
+        Exception ex = assertThrows(GeoIp2Exception.class, client::insights);
         assertEquals("Received a 200 response but could not decode it as JSON", ex.getMessage());
     }
 
