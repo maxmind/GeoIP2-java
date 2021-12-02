@@ -55,7 +55,7 @@ public class InsightsResponseTest {
         }
         Subdivision subdivision = subdivisionsList.get(0);
         assertEquals("subdivision.getConfidence() does not return 88",
-                new Integer(88), subdivision.getConfidence());
+                Integer.valueOf(88), subdivision.getConfidence());
         assertEquals("subdivision.getGeoNameId() does not return 574635",
                 574635, subdivision.getGeoNameId().intValue());
         assertEquals("subdivision.getCode() does not return MN", "MN",
@@ -80,7 +80,7 @@ public class InsightsResponseTest {
 
         assertNotNull("city.getTraits() returns null", traits);
         assertEquals("traits.getAutonomousSystemNumber() does not return 1234",
-                new Integer(1234), traits.getAutonomousSystemNumber());
+                Integer.valueOf(1234), traits.getAutonomousSystemNumber());
         assertEquals(
                 "traits.getAutonomousSystemOrganization() does not return AS Organization",
                 "AS Organization", traits.getAutonomousSystemOrganization());
@@ -117,10 +117,10 @@ public class InsightsResponseTest {
         assertNotNull("city.getLocation() returns null", location);
 
         assertEquals("location.getAverageIncome() does not return 24626,",
-                new Integer(24626), location.getAverageIncome());
+                Integer.valueOf(24626), location.getAverageIncome());
 
         assertEquals("location.getAccuracyRadius() does not return 1500",
-                new Integer(1500), location.getAccuracyRadius());
+                Integer.valueOf(1500), location.getAccuracyRadius());
 
         double latitude = location.getLatitude();
         assertEquals("location.getLatitude() does not return 44.98", 44.98,
@@ -129,9 +129,9 @@ public class InsightsResponseTest {
         assertEquals("location.getLongitude() does not return 93.2636",
                 93.2636, longitude, 0.1);
         assertEquals("location.getMetroCode() does not return 765",
-                new Integer(765), location.getMetroCode());
+                Integer.valueOf(765), location.getMetroCode());
         assertEquals("location.getPopulationDensity() does not return 1341,",
-                new Integer(1341), location.getPopulationDensity());
+                Integer.valueOf(1341), location.getPopulationDensity());
         assertEquals("location.getTimeZone() does not return America/Chicago",
                 "America/Chicago", location.getTimeZone());
     }
@@ -149,7 +149,7 @@ public class InsightsResponseTest {
         Postal postal = this.insights.getPostal();
         assertEquals("postal.getCode() does not return 55401", "55401",
                 postal.getCode());
-        assertEquals("postal.getConfidence() does not return 33", new Integer(
+        assertEquals("postal.getConfidence() does not return 33", Integer.valueOf(
                 33), postal.getConfidence());
 
     }

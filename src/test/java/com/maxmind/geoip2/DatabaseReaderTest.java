@@ -22,7 +22,6 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.*;
 
 public class DatabaseReaderTest {
-
     @Rule
     public ExpectedException exception = ExpectedException.none();
     private File geoipFile;
