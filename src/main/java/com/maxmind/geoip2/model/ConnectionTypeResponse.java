@@ -80,14 +80,14 @@ public class ConnectionTypeResponse extends AbstractResponse {
 
     @MaxMindDbConstructor
     public ConnectionTypeResponse(
-            @MaxMindDbParameter(name="connection_type") String connectionType,
-            @MaxMindDbParameter(name="ip_address") String ipAddress,
-            @MaxMindDbParameter(name="network") Network network
+            @MaxMindDbParameter(name = "connection_type") String connectionType,
+            @MaxMindDbParameter(name = "ip_address") String ipAddress,
+            @MaxMindDbParameter(name = "network") Network network
     ) {
         this(
-            ConnectionType.fromString(connectionType),
-            ipAddress,
-            network
+                ConnectionType.fromString(connectionType),
+                ipAddress,
+                network
         );
     }
 
@@ -97,9 +97,9 @@ public class ConnectionTypeResponse extends AbstractResponse {
             Network network
     ) {
         this(
-            response.getConnectionType(),
-            ipAddress,
-            network
+                response.getConnectionType(),
+                ipAddress,
+                network
         );
     }
 

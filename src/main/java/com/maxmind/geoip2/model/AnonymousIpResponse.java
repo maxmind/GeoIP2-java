@@ -50,24 +50,24 @@ public class AnonymousIpResponse extends AbstractResponse {
 
     @MaxMindDbConstructor
     public AnonymousIpResponse(
-            @MaxMindDbParameter(name="ip_address") String ipAddress,
-            @MaxMindDbParameter(name="is_anonymous") Boolean isAnonymous,
-            @MaxMindDbParameter(name="is_anonymous_vpn") Boolean isAnonymousVpn,
-            @MaxMindDbParameter(name="is_hosting_provider") Boolean isHostingProvider,
-            @MaxMindDbParameter(name="is_public_proxy") Boolean isPublicProxy,
-            @MaxMindDbParameter(name="is_residential_proxy") Boolean isResidentialProxy,
-            @MaxMindDbParameter(name="is_tor_exit_node") Boolean isTorExitNode,
-            @MaxMindDbParameter(name="network") Network network
+            @MaxMindDbParameter(name = "ip_address") String ipAddress,
+            @MaxMindDbParameter(name = "is_anonymous") Boolean isAnonymous,
+            @MaxMindDbParameter(name = "is_anonymous_vpn") Boolean isAnonymousVpn,
+            @MaxMindDbParameter(name = "is_hosting_provider") Boolean isHostingProvider,
+            @MaxMindDbParameter(name = "is_public_proxy") Boolean isPublicProxy,
+            @MaxMindDbParameter(name = "is_residential_proxy") Boolean isResidentialProxy,
+            @MaxMindDbParameter(name = "is_tor_exit_node") Boolean isTorExitNode,
+            @MaxMindDbParameter(name = "network") Network network
     ) {
         this(
-            ipAddress,
-            isAnonymous != null ? isAnonymous : false,
-            isAnonymousVpn != null ? isAnonymousVpn : false,
-            isHostingProvider != null ? isHostingProvider : false,
-            isPublicProxy != null ? isPublicProxy : false,
-            isResidentialProxy != null ? isResidentialProxy : false,
-            isTorExitNode != null ? isTorExitNode : false,
-            network
+                ipAddress,
+                isAnonymous != null ? isAnonymous : false,
+                isAnonymousVpn != null ? isAnonymousVpn : false,
+                isHostingProvider != null ? isHostingProvider : false,
+                isPublicProxy != null ? isPublicProxy : false,
+                isResidentialProxy != null ? isResidentialProxy : false,
+                isTorExitNode != null ? isTorExitNode : false,
+                network
         );
     }
 
@@ -77,14 +77,14 @@ public class AnonymousIpResponse extends AbstractResponse {
             Network network
     ) {
         this(
-            ipAddress,
-            response.isAnonymous(),
-            response.isAnonymousVpn(),
-            response.isHostingProvider(),
-            response.isPublicProxy(),
-            response.isResidentialProxy(),
-            response.isTorExitNode(),
-            network
+                ipAddress,
+                response.isAnonymous(),
+                response.isAnonymousVpn(),
+                response.isHostingProvider(),
+                response.isPublicProxy(),
+                response.isResidentialProxy(),
+                response.isTorExitNode(),
+                network
         );
     }
 

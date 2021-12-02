@@ -46,22 +46,22 @@ public final class RepresentedCountry extends Country {
 
     @MaxMindDbConstructor
     public RepresentedCountry(
-            @MaxMindDbParameter(name="locales") List<String> locales,
-            @MaxMindDbParameter(name="confidence") Integer confidence,
-            @MaxMindDbParameter(name="geoname_id") Long geoNameId,
-            @MaxMindDbParameter(name="is_in_european_union") Boolean isInEuropeanUnion,
-            @MaxMindDbParameter(name="iso_code") String isoCode,
-            @MaxMindDbParameter(name="names") Map<String, String> names,
-            @MaxMindDbParameter(name="type") String type
+            @MaxMindDbParameter(name = "locales") List<String> locales,
+            @MaxMindDbParameter(name = "confidence") Integer confidence,
+            @MaxMindDbParameter(name = "geoname_id") Long geoNameId,
+            @MaxMindDbParameter(name = "is_in_european_union") Boolean isInEuropeanUnion,
+            @MaxMindDbParameter(name = "iso_code") String isoCode,
+            @MaxMindDbParameter(name = "names") Map<String, String> names,
+            @MaxMindDbParameter(name = "type") String type
     ) {
         this(
-            locales,
-            confidence,
-            geoNameId != null ? geoNameId.intValue() : null,
-            isInEuropeanUnion != null ? isInEuropeanUnion : false,
-            isoCode,
-            names,
-            type
+                locales,
+                confidence,
+                geoNameId != null ? geoNameId.intValue() : null,
+                isInEuropeanUnion != null ? isInEuropeanUnion : false,
+                isoCode,
+                names,
+                type
         );
     }
 
@@ -70,13 +70,13 @@ public final class RepresentedCountry extends Country {
             List<String> locales
     ) {
         this(
-            locales,
-            country.getConfidence(),
-            country.getGeoNameId(),
-            country.isInEuropeanUnion(),
-            country.getIsoCode(),
-            country.getNames(),
-            country.getType()
+                locales,
+                country.getConfidence(),
+                country.getGeoNameId(),
+                country.isInEuropeanUnion(),
+                country.getIsoCode(),
+                country.getNames(),
+                country.getType()
         );
     }
 

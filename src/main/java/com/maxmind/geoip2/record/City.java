@@ -40,16 +40,16 @@ public final class City extends AbstractNamedRecord {
 
     @MaxMindDbConstructor
     public City(
-            @MaxMindDbParameter(name="locales") List<String> locales,
-            @MaxMindDbParameter(name="confidence") Integer confidence,
-            @MaxMindDbParameter(name="geoname_id") Long geoNameId,
-            @MaxMindDbParameter(name="names") Map<String, String> names
+            @MaxMindDbParameter(name = "locales") List<String> locales,
+            @MaxMindDbParameter(name = "confidence") Integer confidence,
+            @MaxMindDbParameter(name = "geoname_id") Long geoNameId,
+            @MaxMindDbParameter(name = "names") Map<String, String> names
     ) {
         this(
-            locales,
-            confidence,
-            geoNameId != null ? geoNameId.intValue() : null,
-            names
+                locales,
+                confidence,
+                geoNameId != null ? geoNameId.intValue() : null,
+                names
         );
     }
 
@@ -58,10 +58,10 @@ public final class City extends AbstractNamedRecord {
             List<String> locales
     ) {
         this(
-            locales,
-            city.getConfidence(),
-            city.getGeoNameId(),
-            city.getNames()
+                locales,
+                city.getConfidence(),
+                city.getGeoNameId(),
+                city.getNames()
         );
     }
 

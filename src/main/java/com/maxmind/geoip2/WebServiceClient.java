@@ -117,7 +117,7 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
         this.authHeader = "Basic " +
                 Base64.getEncoder()
                         .encodeToString((builder.accountId + ":" + builder.licenseKey)
-                        .getBytes(StandardCharsets.UTF_8));
+                                .getBytes(StandardCharsets.UTF_8));
 
         mapper = JsonMapper.builder()
                 .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -125,7 +125,7 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
                 .build();
 
         requestTimeout = builder.requestTimeout;
-        httpClient =  HttpClient.newBuilder()
+        httpClient = HttpClient.newBuilder()
                 .connectTimeout(builder.connectTimeout)
                 .proxy(builder.proxy)
                 .build();

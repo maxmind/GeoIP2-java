@@ -38,10 +38,10 @@ public class AsnResponse extends AbstractResponse {
 
     @MaxMindDbConstructor
     public AsnResponse(
-        @MaxMindDbParameter(name="autonomous_system_number") Long autonomousSystemNumber,
-        @MaxMindDbParameter(name="autonomous_system_organization") String autonomousSystemOrganization,
-        @MaxMindDbParameter(name="ip_address") String ipAddress,
-        @MaxMindDbParameter(name="network") Network network
+            @MaxMindDbParameter(name = "autonomous_system_number") Long autonomousSystemNumber,
+            @MaxMindDbParameter(name = "autonomous_system_organization") String autonomousSystemOrganization,
+            @MaxMindDbParameter(name = "ip_address") String ipAddress,
+            @MaxMindDbParameter(name = "network") Network network
     ) {
         this.autonomousSystemNumber = autonomousSystemNumber != null ? autonomousSystemNumber.intValue() : null;
         this.autonomousSystemOrganization = autonomousSystemOrganization;
@@ -55,10 +55,10 @@ public class AsnResponse extends AbstractResponse {
             Network network
     ) {
         this(
-            response.getAutonomousSystemNumber(),
-            response.getAutonomousSystemOrganization(),
-            ipAddress,
-            network
+                response.getAutonomousSystemNumber(),
+                response.getAutonomousSystemOrganization(),
+                ipAddress,
+                network
         );
     }
 

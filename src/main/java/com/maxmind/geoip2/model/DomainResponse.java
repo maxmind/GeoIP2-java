@@ -25,9 +25,9 @@ public class DomainResponse extends AbstractResponse {
 
     @MaxMindDbConstructor
     public DomainResponse(
-            @JsonProperty("domain") @MaxMindDbParameter(name="domain") String domain,
-            @JacksonInject("ip_address") @JsonProperty("ip_address") @MaxMindDbParameter(name="ip_address") String ipAddress,
-            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) @MaxMindDbParameter(name="network") Network network
+            @JsonProperty("domain") @MaxMindDbParameter(name = "domain") String domain,
+            @JacksonInject("ip_address") @JsonProperty("ip_address") @MaxMindDbParameter(name = "ip_address") String ipAddress,
+            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) @MaxMindDbParameter(name = "network") Network network
     ) {
         this.domain = domain;
         this.ipAddress = ipAddress;

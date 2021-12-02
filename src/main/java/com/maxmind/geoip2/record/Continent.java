@@ -40,16 +40,16 @@ public final class Continent extends AbstractNamedRecord {
 
     @MaxMindDbConstructor
     public Continent(
-            @MaxMindDbParameter(name="locales") List<String> locales,
-            @MaxMindDbParameter(name="code") String code,
-            @MaxMindDbParameter(name="geoname_id") Long geoNameId,
-            @MaxMindDbParameter(name="names") Map<String, String> names
+            @MaxMindDbParameter(name = "locales") List<String> locales,
+            @MaxMindDbParameter(name = "code") String code,
+            @MaxMindDbParameter(name = "geoname_id") Long geoNameId,
+            @MaxMindDbParameter(name = "names") Map<String, String> names
     ) {
         this(
-            locales,
-            code,
-            geoNameId != null ? geoNameId.intValue() : null,
-            names
+                locales,
+                code,
+                geoNameId != null ? geoNameId.intValue() : null,
+                names
         );
     }
 
@@ -58,10 +58,10 @@ public final class Continent extends AbstractNamedRecord {
             List<String> locales
     ) {
         this(
-            locales,
-            continent.getCode(),
-            continent.getGeoNameId(),
-            continent.getNames()
+                locales,
+                continent.getCode(),
+                continent.getGeoNameId(),
+                continent.getNames()
         );
     }
 
