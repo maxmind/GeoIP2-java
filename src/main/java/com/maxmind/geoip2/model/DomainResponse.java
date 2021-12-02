@@ -43,7 +43,7 @@ public class DomainResponse extends AbstractResponse {
     }
 
     /**
-     * @return the The second level domain associated with the IP address. This
+     * @return The second level domain associated with the IP address. This
      * will be something like "example.com" or "example.co.uk", not
      * "foo.example.com".
      */
@@ -61,7 +61,7 @@ public class DomainResponse extends AbstractResponse {
 
     /**
      * @return The network associated with the record. In particular, this is
-     * the largest network where all of the fields besides IP address have the
+     * the largest network where all the fields besides IP address have the
      * same value.
      */
     @JsonProperty

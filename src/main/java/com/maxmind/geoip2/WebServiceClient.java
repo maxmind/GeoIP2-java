@@ -327,7 +327,7 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
 
     /**
      * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @return A Insight model for the requested IP address.
+     * @return An Insight model for the requested IP address.
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
      */
