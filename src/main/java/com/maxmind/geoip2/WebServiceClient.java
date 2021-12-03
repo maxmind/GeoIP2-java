@@ -254,7 +254,6 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
             return this;
         }
 
-
         /**
          * @param val the proxy to use when making this request.
          * @return Builder object
