@@ -19,10 +19,6 @@ public class DomainResponse extends AbstractResponse {
     private final String ipAddress;
     private final Network network;
 
-    DomainResponse() {
-        this((String) null, null, null);
-    }
-
     @MaxMindDbConstructor
     public DomainResponse(
             @JsonProperty("domain") @MaxMindDbParameter(name = "domain") String domain,

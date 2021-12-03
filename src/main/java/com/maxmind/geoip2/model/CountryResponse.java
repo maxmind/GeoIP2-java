@@ -17,11 +17,6 @@ import java.util.List;
  * Services</a>
  */
 public final class CountryResponse extends AbstractCountryResponse {
-
-    CountryResponse() {
-        this(null, null, null, null, null, null);
-    }
-
     @MaxMindDbConstructor
     public CountryResponse(
             @JsonProperty("continent") @MaxMindDbParameter(name = "continent") Continent continent,

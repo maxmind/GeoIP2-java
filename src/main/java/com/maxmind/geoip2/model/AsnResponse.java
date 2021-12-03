@@ -20,10 +20,6 @@ public class AsnResponse extends AbstractResponse {
     private final String ipAddress;
     private final Network network;
 
-    AsnResponse() {
-        this((Integer) null, null, null, null);
-    }
-
     public AsnResponse(
             @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
             @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,

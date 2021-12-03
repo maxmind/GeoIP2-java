@@ -24,10 +24,6 @@ public class AnonymousIpResponse extends AbstractResponse {
     private final String ipAddress;
     private final Network network;
 
-    AnonymousIpResponse() {
-        this(null, false, false, false, false, false, false, null);
-    }
-
     public AnonymousIpResponse(
             @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
             @JsonProperty("is_anonymous") boolean isAnonymous,

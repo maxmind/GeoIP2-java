@@ -26,11 +26,6 @@ import java.util.List;
  * </p>
  */
 public final class CityResponse extends AbstractCityResponse {
-
-    CityResponse() {
-        this(null, null, null, null, null, null, null, null, null, null);
-    }
-
     @MaxMindDbConstructor
     public CityResponse(
             @JsonProperty("city") @MaxMindDbParameter(name = "city") City city,

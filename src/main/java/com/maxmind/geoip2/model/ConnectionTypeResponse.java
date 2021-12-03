@@ -64,10 +64,6 @@ public class ConnectionTypeResponse extends AbstractResponse {
     private final String ipAddress;
     private final Network network;
 
-    ConnectionTypeResponse() {
-        this((String) null, null, null);
-    }
-
     public ConnectionTypeResponse(
             @JsonProperty("connection_type") ConnectionType connectionType,
             @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,

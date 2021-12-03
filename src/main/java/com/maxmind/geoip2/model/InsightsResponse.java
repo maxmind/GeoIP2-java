@@ -22,11 +22,6 @@ import java.util.List;
  * </p>
  */
 public class InsightsResponse extends AbstractCityResponse {
-
-    InsightsResponse() {
-        this(null, null, null, null, null, null, null, null, null, null);
-    }
-
     public InsightsResponse(
             @JsonProperty("city") City city,
             @JsonProperty("continent") Continent continent,

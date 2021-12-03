@@ -18,10 +18,6 @@ public class IspResponse extends AsnResponse {
     private final String mobileCountryCode;
     private final String mobileNetworkCode;
 
-    IspResponse() {
-        this((Integer) null, null, null, null, null, null, null, null);
-    }
-
     public IspResponse(
             @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
             @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
