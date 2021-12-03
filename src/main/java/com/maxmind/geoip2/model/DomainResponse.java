@@ -19,27 +19,11 @@ public class DomainResponse extends AbstractResponse {
     private final String ipAddress;
     private final Network network;
 
-    DomainResponse() {
-        this(null, null);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public DomainResponse(
-            String domain,
-            String ipAddress
-    ) {
-        this(domain, ipAddress, null);
-    }
-
     @MaxMindDbConstructor
     public DomainResponse(
-            @JsonProperty("domain") @MaxMindDbParameter(name="domain") String domain,
-            @JacksonInject("ip_address") @JsonProperty("ip_address") @MaxMindDbParameter(name="ip_address") String ipAddress,
-            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) @MaxMindDbParameter(name="network") Network network
+            @JsonProperty("domain") @MaxMindDbParameter(name = "domain") String domain,
+            @JacksonInject("ip_address") @JsonProperty("ip_address") @MaxMindDbParameter(name = "ip_address") String ipAddress,
+            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) @MaxMindDbParameter(name = "network") Network network
     ) {
         this.domain = domain;
         this.ipAddress = ipAddress;
@@ -55,7 +39,7 @@ public class DomainResponse extends AbstractResponse {
     }
 
     /**
-     * @return the The second level domain associated with the IP address. This
+     * @return The second level domain associated with the IP address. This
      * will be something like "example.com" or "example.co.uk", not
      * "foo.example.com".
      */
@@ -73,7 +57,7 @@ public class DomainResponse extends AbstractResponse {
 
     /**
      * @return The network associated with the record. In particular, this is
-     * the largest network where all of the fields besides IP address have the
+     * the largest network where all the fields besides IP address have the
      * same value.
      */
     @JsonProperty

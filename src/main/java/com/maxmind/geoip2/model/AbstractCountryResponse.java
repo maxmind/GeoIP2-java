@@ -15,10 +15,6 @@ public abstract class AbstractCountryResponse extends AbstractResponse {
     private final RepresentedCountry representedCountry;
     private final Traits traits;
 
-    AbstractCountryResponse() {
-        this(null, null, null, null, null, null);
-    }
-
     AbstractCountryResponse(
             Continent continent,
             Country country,

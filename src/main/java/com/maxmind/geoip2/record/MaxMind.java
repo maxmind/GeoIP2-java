@@ -21,7 +21,7 @@ public final class MaxMind extends AbstractRecord {
     }
 
     @MaxMindDbConstructor
-    public MaxMind(@JsonProperty("queries_remaining") @MaxMindDbParameter(name="queries_remaining") Integer queriesRemaining) {
+    public MaxMind(@JsonProperty("queries_remaining") @MaxMindDbParameter(name = "queries_remaining") Integer queriesRemaining) {
         this.queriesRemaining = queriesRemaining;
     }
 

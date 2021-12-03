@@ -64,22 +64,6 @@ public class ConnectionTypeResponse extends AbstractResponse {
     private final String ipAddress;
     private final Network network;
 
-    ConnectionTypeResponse() {
-        this(null, null);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public ConnectionTypeResponse(
-            ConnectionType connectionType,
-            String ipAddress
-    ) {
-        this(connectionType, ipAddress, null);
-    }
-
     public ConnectionTypeResponse(
             @JsonProperty("connection_type") ConnectionType connectionType,
             @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
@@ -92,14 +76,14 @@ public class ConnectionTypeResponse extends AbstractResponse {
 
     @MaxMindDbConstructor
     public ConnectionTypeResponse(
-            @MaxMindDbParameter(name="connection_type") String connectionType,
-            @MaxMindDbParameter(name="ip_address") String ipAddress,
-            @MaxMindDbParameter(name="network") Network network
+            @MaxMindDbParameter(name = "connection_type") String connectionType,
+            @MaxMindDbParameter(name = "ip_address") String ipAddress,
+            @MaxMindDbParameter(name = "network") Network network
     ) {
         this(
-            ConnectionType.fromString(connectionType),
-            ipAddress,
-            network
+                ConnectionType.fromString(connectionType),
+                ipAddress,
+                network
         );
     }
 
@@ -109,9 +93,9 @@ public class ConnectionTypeResponse extends AbstractResponse {
             Network network
     ) {
         this(
-            response.getConnectionType(),
-            ipAddress,
-            network
+                response.getConnectionType(),
+                ipAddress,
+                network
         );
     }
 
@@ -133,7 +117,7 @@ public class ConnectionTypeResponse extends AbstractResponse {
 
     /**
      * @return The network associated with the record. In particular, this is
-     * the largest network where all of the fields besides IP address have the
+     * the largest network where all the fields besides IP address have the
      * same value.
      */
     @JsonProperty

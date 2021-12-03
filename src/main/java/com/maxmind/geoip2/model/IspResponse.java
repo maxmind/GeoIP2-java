@@ -18,57 +18,6 @@ public class IspResponse extends AsnResponse {
     private final String mobileCountryCode;
     private final String mobileNetworkCode;
 
-    IspResponse() {
-        this(null, null, null, null, null);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public IspResponse(
-            Integer autonomousSystemNumber,
-            String autonomousSystemOrganization,
-            String ipAddress,
-            String isp,
-            String organization
-    ) {
-        this(autonomousSystemNumber, autonomousSystemOrganization, ipAddress, isp, organization, null);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public IspResponse(
-            Integer autonomousSystemNumber,
-            String autonomousSystemOrganization,
-            String ipAddress,
-            String isp,
-            String organization,
-            Network network
-    ) {
-        this(autonomousSystemNumber, autonomousSystemOrganization, ipAddress, isp, null, null, organization, network);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public IspResponse(
-            Long autonomousSystemNumber,
-            String autonomousSystemOrganization,
-            String ipAddress,
-            String isp,
-            String organization,
-            Network network
-    ) {
-        this(autonomousSystemNumber, autonomousSystemOrganization, ipAddress, isp, null, null, organization, network);
-    }
-
     public IspResponse(
             @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
             @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
@@ -88,24 +37,24 @@ public class IspResponse extends AsnResponse {
 
     @MaxMindDbConstructor
     public IspResponse(
-            @MaxMindDbParameter(name="autonomous_system_number") Long autonomousSystemNumber,
-            @MaxMindDbParameter(name="autonomous_system_organization") String autonomousSystemOrganization,
-            @MaxMindDbParameter(name="ip_address") String ipAddress,
-            @MaxMindDbParameter(name="isp") String isp,
-            @MaxMindDbParameter(name="mobile_country_code") String mobileCountryCode,
-            @MaxMindDbParameter(name="mobile_network_code") String mobileNetworkCode,
-            @MaxMindDbParameter(name="organization") String organization,
-            @MaxMindDbParameter(name="network") Network network
+            @MaxMindDbParameter(name = "autonomous_system_number") Long autonomousSystemNumber,
+            @MaxMindDbParameter(name = "autonomous_system_organization") String autonomousSystemOrganization,
+            @MaxMindDbParameter(name = "ip_address") String ipAddress,
+            @MaxMindDbParameter(name = "isp") String isp,
+            @MaxMindDbParameter(name = "mobile_country_code") String mobileCountryCode,
+            @MaxMindDbParameter(name = "mobile_network_code") String mobileNetworkCode,
+            @MaxMindDbParameter(name = "organization") String organization,
+            @MaxMindDbParameter(name = "network") Network network
     ) {
         this(
-            autonomousSystemNumber != null ? autonomousSystemNumber.intValue() : null,
-            autonomousSystemOrganization,
-            ipAddress,
-            isp,
-            mobileCountryCode,
-            mobileNetworkCode,
-            organization,
-            network
+                autonomousSystemNumber != null ? autonomousSystemNumber.intValue() : null,
+                autonomousSystemOrganization,
+                ipAddress,
+                isp,
+                mobileCountryCode,
+                mobileNetworkCode,
+                organization,
+                network
         );
     }
 
@@ -115,14 +64,14 @@ public class IspResponse extends AsnResponse {
             Network network
     ) {
         this(
-            response.getAutonomousSystemNumber(),
-            response.getAutonomousSystemOrganization(),
-            ipAddress,
-            response.getIsp(),
-            response.getMobileCountryCode(),
-            response.getMobileNetworkCode(),
-            response.getOrganization(),
-            network
+                response.getAutonomousSystemNumber(),
+                response.getAutonomousSystemOrganization(),
+                ipAddress,
+                response.getIsp(),
+                response.getMobileCountryCode(),
+                response.getMobileNetworkCode(),
+                response.getOrganization(),
+                network
         );
     }
 

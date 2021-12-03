@@ -7,7 +7,6 @@ import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.record.*;
 
-import java.net.InetAddress;
 import java.util.List;
 
 /**
@@ -18,19 +17,14 @@ import java.util.List;
  * Services</a>
  */
 public final class CountryResponse extends AbstractCountryResponse {
-
-    CountryResponse() {
-        this(null, null, null, null, null, null);
-    }
-
     @MaxMindDbConstructor
     public CountryResponse(
-            @JsonProperty("continent") @MaxMindDbParameter(name="continent") Continent continent,
-            @JsonProperty("country") @MaxMindDbParameter(name="country") Country country,
-            @JsonProperty("maxmind") @MaxMindDbParameter(name="maxmind") MaxMind maxmind,
-            @JsonProperty("registered_country") @MaxMindDbParameter(name="registered_country") Country registeredCountry,
-            @JsonProperty("represented_country") @MaxMindDbParameter(name="represented_country") RepresentedCountry representedCountry,
-            @JacksonInject("traits") @JsonProperty("traits") @MaxMindDbParameter(name="traits") Traits traits
+            @JsonProperty("continent") @MaxMindDbParameter(name = "continent") Continent continent,
+            @JsonProperty("country") @MaxMindDbParameter(name = "country") Country country,
+            @JsonProperty("maxmind") @MaxMindDbParameter(name = "maxmind") MaxMind maxmind,
+            @JsonProperty("registered_country") @MaxMindDbParameter(name = "registered_country") Country registeredCountry,
+            @JsonProperty("represented_country") @MaxMindDbParameter(name = "represented_country") RepresentedCountry representedCountry,
+            @JacksonInject("traits") @JsonProperty("traits") @MaxMindDbParameter(name = "traits") Traits traits
     ) {
         super(continent, country, maxmind, registeredCountry, representedCountry, traits);
     }

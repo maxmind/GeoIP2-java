@@ -7,7 +7,6 @@ import com.maxmind.geoip2.record.*;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.hamcrest.CoreMatchers;
-import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +18,7 @@ import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.jcabi.matchers.RegexMatchers.matchesPattern;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringStartsWith.startsWith;
 import static org.junit.Assert.*;
 
@@ -33,7 +33,7 @@ public class WebServiceClientTest {
     public void test200WithNoBody() throws Exception {
         WebServiceClient client = createSuccessClient("insights", "me", "");
 
-        Exception ex = assertThrows(GeoIp2Exception.class, () -> client.insights());
+        Exception ex = assertThrows(GeoIp2Exception.class, client::insights);
         assertEquals("Received a 200 response but could not decode it as JSON", ex.getMessage());
     }
 
@@ -41,7 +41,7 @@ public class WebServiceClientTest {
     public void test200WithInvalidJson() throws Exception {
         WebServiceClient client = createSuccessClient("insights", "me", "{");
 
-        Exception ex = assertThrows(GeoIp2Exception.class, () -> client.insights());
+        Exception ex = assertThrows(GeoIp2Exception.class, client::insights);
         assertEquals("Received a 200 response but could not decode it as JSON", ex.getMessage());
     }
 
@@ -207,7 +207,7 @@ public class WebServiceClientTest {
     @Parameters({"INSUFFICIENT_FUNDS", "OUT_OF_QUERIES"})
     public void testInsufficientCredit(String code) throws Exception {
         Exception ex = assertThrows(OutOfQueriesException.class,
-                () ->  createInsightsMeError(
+                () -> createInsightsMeError(
                         402,
                         "application/json",
                         "{\"code\":\"" + code + "\",\"error\":\"out of credit\"}"
@@ -224,7 +224,7 @@ public class WebServiceClientTest {
             "ACCOUNT_ID_UNKNOWN"})
     public void testInvalidAuth(String code) throws Exception {
         Exception ex = assertThrows(AuthenticationException.class,
-                () ->  createInsightsMeError(
+                () -> createInsightsMeError(
                         401,
                         "application/json",
                         "{\"code\":\"" + code + "\",\"error\":\"Invalid auth\"}"
@@ -235,7 +235,7 @@ public class WebServiceClientTest {
     @Test
     public void testPermissionRequired() throws Exception {
         Exception ex = assertThrows(PermissionRequiredException.class,
-                () ->  createInsightsMeError(
+                () -> createInsightsMeError(
                         403,
                         "application/json",
                         "{\"code\":\"PERMISSION_REQUIRED\",\"error\":\"Permission required\"}"
@@ -246,7 +246,7 @@ public class WebServiceClientTest {
     @Test
     public void testInvalidRequest() throws Exception {
         Exception ex = assertThrows(InvalidRequestException.class,
-                () ->  createInsightsMeError(
+                () -> createInsightsMeError(
                         400,
                         "application/json",
                         "{\"code\":\"IP_ADDRESS_INVALID\",\"error\":\"IP invalid\"}"
@@ -257,7 +257,7 @@ public class WebServiceClientTest {
     @Test
     public void test400WithInvalidJson() throws Exception {
         Exception ex = assertThrows(HttpException.class,
-                () ->  createInsightsMeError(
+                () -> createInsightsMeError(
                         400,
                         "application/json",
                         "{blah}"
@@ -268,18 +268,18 @@ public class WebServiceClientTest {
     @Test
     public void test400WithNoBody() throws Exception {
         Exception ex = assertThrows(HttpException.class,
-                () ->  createInsightsMeError(
+                () -> createInsightsMeError(
                         400,
                         "application/json",
                         ""
                 ));
-        assertThat(ex.getMessage(), matchesPattern("Received a 400 error for .*/geoip/v2.1/insights/me but it did not include the expected JSON body: "));
+        assertThat(ex.getMessage(), matchesPattern("Received a 400 error for .*/geoip/v2.1/insights/me with no body"));
     }
 
     @Test
     public void test400WithUnexpectedContentType() throws Exception {
         Exception ex = assertThrows(HttpException.class,
-                () ->  createInsightsMeError(
+                () -> createInsightsMeError(
                         400,
                         "text/plain",
                         "text"
@@ -290,7 +290,7 @@ public class WebServiceClientTest {
     @Test
     public void test400WithUnexpectedJson() throws Exception {
         Exception ex = assertThrows(HttpException.class,
-                () ->  createInsightsMeError(
+                () -> createInsightsMeError(
                         400,
                         "application/json",
                         "{\"not\":\"expected\"}"
@@ -301,7 +301,7 @@ public class WebServiceClientTest {
     @Test
     public void test300() throws Exception {
         Exception ex = assertThrows(HttpException.class,
-                () ->  createInsightsMeError(
+                () -> createInsightsMeError(
                         300,
                         "application/json",
                         ""
@@ -312,7 +312,7 @@ public class WebServiceClientTest {
     @Test
     public void test500() throws Exception {
         Exception ex = assertThrows(HttpException.class,
-                () ->  createInsightsMeError(
+                () -> createInsightsMeError(
                         500,
                         "application/json",
                         ""
@@ -356,6 +356,7 @@ public class WebServiceClientTest {
         byte[] body = responseContent.getBytes(StandardCharsets.UTF_8);
         stubFor(get(urlEqualTo("/geoip/v2.1/" + service + "/" + ip))
                 .withHeader("Accept", equalTo("application/json"))
+                .withHeader("Authorization", equalTo("Basic NjowMTIzNDU2Nzg5"))
                 .willReturn(aResponse()
                         .withStatus(status)
                         // This is wrong if we use non-ASCII characters, but we don't currently

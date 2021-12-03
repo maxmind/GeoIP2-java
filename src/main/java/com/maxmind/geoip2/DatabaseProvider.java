@@ -3,10 +3,9 @@ package com.maxmind.geoip2;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.*;
 
-import java.util.Optional;
-
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.Optional;
 
 public interface DatabaseProvider extends GeoIp2Provider {
 
@@ -152,7 +151,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
     /**
      * Look up an IP address in a GeoIP2 ISP database.
      *
-     * @param ipAddress IPv4 or IPv6 address to lookup or empty if the IP address is not in the DB.
+     * @param ipAddress IPv4 or IPv6 address to look up or empty if the IP address is not in the DB.
      * @return an IspResponse for the requested IP address.
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error

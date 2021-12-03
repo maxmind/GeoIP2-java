@@ -27,22 +27,7 @@ public class Country extends AbstractNamedRecord {
     private final String isoCode;
 
     public Country() {
-        this(null, null, (Integer) null, false, null, null);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public Country(
-            List<String> locales,
-            Integer confidence,
-            Integer geoNameId,
-            String isoCode,
-            Map<String, String> names
-    ) {
-        this(locales, confidence, geoNameId, false, isoCode, names);
+        this(null, null, null, false, null, null);
     }
 
     public Country(
@@ -61,20 +46,20 @@ public class Country extends AbstractNamedRecord {
 
     @MaxMindDbConstructor
     public Country(
-            @MaxMindDbParameter(name="locales") List<String> locales,
-            @MaxMindDbParameter(name="confidence") Integer confidence,
-            @MaxMindDbParameter(name="geoname_id") Long geoNameId,
-            @MaxMindDbParameter(name="is_in_european_union") Boolean isInEuropeanUnion,
-            @MaxMindDbParameter(name="iso_code") String isoCode,
-            @MaxMindDbParameter(name="names") Map<String, String> names
+            @MaxMindDbParameter(name = "locales") List<String> locales,
+            @MaxMindDbParameter(name = "confidence") Integer confidence,
+            @MaxMindDbParameter(name = "geoname_id") Long geoNameId,
+            @MaxMindDbParameter(name = "is_in_european_union") Boolean isInEuropeanUnion,
+            @MaxMindDbParameter(name = "iso_code") String isoCode,
+            @MaxMindDbParameter(name = "names") Map<String, String> names
     ) {
         this(
-            locales,
-            confidence,
-            geoNameId != null ? geoNameId.intValue() : null,
-            isInEuropeanUnion != null ? isInEuropeanUnion : false,
-            isoCode,
-            names
+                locales,
+                confidence,
+                geoNameId != null ? geoNameId.intValue() : null,
+                isInEuropeanUnion != null ? isInEuropeanUnion : false,
+                isoCode,
+                names
         );
     }
 
@@ -83,12 +68,12 @@ public class Country extends AbstractNamedRecord {
             List<String> locales
     ) {
         this(
-            locales,
-            country.getConfidence(),
-            country.getGeoNameId(),
-            country.isInEuropeanUnion(),
-            country.getIsoCode(),
-            country.getNames()
+                locales,
+                country.getConfidence(),
+                country.getGeoNameId(),
+                country.isInEuropeanUnion(),
+                country.getIsoCode(),
+                country.getNames()
         );
     }
 

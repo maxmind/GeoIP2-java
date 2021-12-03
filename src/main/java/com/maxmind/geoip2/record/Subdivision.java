@@ -43,18 +43,18 @@ public final class Subdivision extends AbstractNamedRecord {
 
     @MaxMindDbConstructor
     public Subdivision(
-            @MaxMindDbParameter(name="locales") List<String> locales,
-            @MaxMindDbParameter(name="confidence") Integer confidence,
-            @MaxMindDbParameter(name="geoname_id") Long geoNameId,
-            @MaxMindDbParameter(name="iso_code") String isoCode,
-            @MaxMindDbParameter(name="names") Map<String, String> names
+            @MaxMindDbParameter(name = "locales") List<String> locales,
+            @MaxMindDbParameter(name = "confidence") Integer confidence,
+            @MaxMindDbParameter(name = "geoname_id") Long geoNameId,
+            @MaxMindDbParameter(name = "iso_code") String isoCode,
+            @MaxMindDbParameter(name = "names") Map<String, String> names
     ) {
         this(
-            locales,
-            confidence,
-            geoNameId != null ? geoNameId.intValue() : null,
-            isoCode,
-            names
+                locales,
+                confidence,
+                geoNameId != null ? geoNameId.intValue() : null,
+                isoCode,
+                names
         );
     }
 
@@ -63,11 +63,11 @@ public final class Subdivision extends AbstractNamedRecord {
             List<String> locales
     ) {
         this(
-            locales,
-            subdivision.getConfidence(),
-            subdivision.getGeoNameId(),
-            subdivision.getIsoCode(),
-            subdivision.getNames()
+                locales,
+                subdivision.getConfidence(),
+                subdivision.getGeoNameId(),
+                subdivision.getIsoCode(),
+                subdivision.getNames()
         );
     }
 

@@ -25,13 +25,13 @@ public class Location extends AbstractRecord {
 
     @MaxMindDbConstructor
     public Location(
-            @JsonProperty("accuracy_radius") @MaxMindDbParameter(name="accuracy_radius") Integer accuracyRadius,
-            @JsonProperty("average_income") @MaxMindDbParameter(name="average_income") Integer averageIncome,
-            @JsonProperty("latitude") @MaxMindDbParameter(name="latitude") Double latitude,
-            @JsonProperty("longitude") @MaxMindDbParameter(name="longitude") Double longitude,
-            @JsonProperty("metro_code") @MaxMindDbParameter(name="metro_code") Integer metroCode,
-            @JsonProperty("population_density") @MaxMindDbParameter(name="population_density") Integer populationDensity,
-            @JsonProperty("time_zone") @MaxMindDbParameter(name="time_zone") String timeZone
+            @JsonProperty("accuracy_radius") @MaxMindDbParameter(name = "accuracy_radius") Integer accuracyRadius,
+            @JsonProperty("average_income") @MaxMindDbParameter(name = "average_income") Integer averageIncome,
+            @JsonProperty("latitude") @MaxMindDbParameter(name = "latitude") Double latitude,
+            @JsonProperty("longitude") @MaxMindDbParameter(name = "longitude") Double longitude,
+            @JsonProperty("metro_code") @MaxMindDbParameter(name = "metro_code") Integer metroCode,
+            @JsonProperty("population_density") @MaxMindDbParameter(name = "population_density") Integer populationDensity,
+            @JsonProperty("time_zone") @MaxMindDbParameter(name = "time_zone") String timeZone
     ) {
         this.accuracyRadius = accuracyRadius;
         this.averageIncome = averageIncome;

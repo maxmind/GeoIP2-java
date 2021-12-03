@@ -45,195 +45,17 @@ public final class Traits extends AbstractRecord {
     private final Double staticIpScore;
 
     public Traits() {
-        this(null, null, null, null, false, false, null, null, null);
-    }
-
-    public Traits(String ipAddress) {
-        this(null, null, null, ipAddress, false, false, null, null, null);
+        this(null, null, null, null,
+                null, false, false, false, false,
+                false, false, false, false, false, null,
+                null, null, null, null, null, null, null);
     }
 
     public Traits(String ipAddress, Network network) {
-        this((Integer) null, null, null, null,
+        this(null, null, null, null,
                 ipAddress, false, false, false, false,
-                false, false, false, false, null,
-                network, null, null, null, null);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public Traits(
-            Integer autonomousSystemNumber,
-            String autonomousSystemOrganization,
-            String domain,
-            String ipAddress,
-            boolean isAnonymousProxy,
-            boolean isSatelliteProvider,
-            String isp,
-            String organization,
-            String userType
-    ) {
-        this(autonomousSystemNumber, autonomousSystemOrganization, null, domain,
-                ipAddress, isAnonymousProxy, false, isSatelliteProvider, isp,
-                organization, userType);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public Traits(
-            Integer autonomousSystemNumber,
-            String autonomousSystemOrganization,
-            ConnectionType connectionType,
-            String domain,
-            String ipAddress,
-            boolean isAnonymousProxy,
-            boolean isLegitimateProxy,
-            boolean isSatelliteProvider,
-            String isp,
-            String organization,
-            String userType
-    ) {
-        this(autonomousSystemNumber, autonomousSystemOrganization, connectionType, domain,
-                ipAddress, false, isAnonymousProxy, false, false, isLegitimateProxy,
-                false, isSatelliteProvider, false, isp, null, organization, userType, null, null);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public Traits(
-            Integer autonomousSystemNumber,
-            String autonomousSystemOrganization,
-            ConnectionType connectionType,
-            String domain,
-            String ipAddress,
-            boolean isAnonymous,
-            boolean isAnonymousProxy,
-            boolean isAnonymousVpn,
-            boolean isHostingProvider,
-            boolean isLegitimateProxy,
-            boolean isPublicProxy,
-            boolean isSatelliteProvider,
-            boolean isTorExitNode,
-            String isp,
-            String organization,
-            String userType
-    ) {
-        this(autonomousSystemNumber, autonomousSystemOrganization, connectionType, domain,
-                ipAddress, isAnonymous, isAnonymousProxy, isAnonymousVpn, isHostingProvider,
-                isLegitimateProxy, isPublicProxy, isSatelliteProvider, isTorExitNode, isp,
-                null, organization, userType, null, null);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public Traits(
-            Integer autonomousSystemNumber,
-            String autonomousSystemOrganization,
-            ConnectionType connectionType,
-            String domain,
-            String ipAddress,
-            boolean isAnonymous,
-            boolean isAnonymousProxy,
-            boolean isAnonymousVpn,
-            boolean isHostingProvider,
-            boolean isLegitimateProxy,
-            boolean isPublicProxy,
-            boolean isSatelliteProvider,
-            boolean isTorExitNode,
-            String isp,
-            Network network,
-            String organization,
-            String userType,
-            Integer userCount,
-            Double staticIpScore
-    ) {
-        this(autonomousSystemNumber, autonomousSystemOrganization,
-                connectionType, domain, ipAddress, isAnonymous,
-                isAnonymousProxy, isAnonymousVpn, isHostingProvider,
-                isLegitimateProxy, isPublicProxy, false, isSatelliteProvider,
-                isTorExitNode, isp, network, organization, userType, userCount,
-                staticIpScore);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public Traits(
-            Integer autonomousSystemNumber,
-            String autonomousSystemOrganization,
-            ConnectionType connectionType,
-            String domain,
-            String ipAddress,
-            boolean isAnonymous,
-            boolean isAnonymousProxy,
-            boolean isAnonymousVpn,
-            boolean isHostingProvider,
-            boolean isLegitimateProxy,
-            boolean isPublicProxy,
-            boolean isResidentialProxy,
-            boolean isSatelliteProvider,
-            boolean isTorExitNode,
-            String isp,
-            Network network,
-            String organization,
-            String userType,
-            Integer userCount,
-            Double staticIpScore
-    ) {
-        this(autonomousSystemNumber, autonomousSystemOrganization,
-                connectionType, domain, ipAddress, isAnonymous,
-                isAnonymousProxy, isAnonymousVpn, isHostingProvider,
-                isLegitimateProxy, isPublicProxy, isResidentialProxy, isSatelliteProvider,
-                isTorExitNode, isp, null, null, network,
-                organization, userType, userCount, staticIpScore);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public Traits(
-            Long autonomousSystemNumber,
-            String autonomousSystemOrganization,
-            String connectionType,
-            String domain,
-            String ipAddress,
-            Boolean isAnonymous,
-            Boolean isAnonymousProxy,
-            Boolean isAnonymousVpn,
-            Boolean isHostingProvider,
-            Boolean isLegitimateProxy,
-            Boolean isPublicProxy,
-            Boolean isResidentialProxy,
-            Boolean isSatelliteProvider,
-            Boolean isTorExitNode,
-            String isp,
-            Network network,
-            String organization,
-            String userType,
-            Integer userCount,
-            Double staticIpScore
-    ) {
-        this(autonomousSystemNumber, autonomousSystemOrganization,
-                connectionType, domain, ipAddress, isAnonymous,
-                isAnonymousProxy, isAnonymousVpn, isHostingProvider,
-                isLegitimateProxy, isPublicProxy, isResidentialProxy, isSatelliteProvider,
-                isTorExitNode, isp, null, null, network,
-                organization, userType, userCount, staticIpScore);
+                false, false, false, false, false, null,
+                null, null, network, null, null, null, null);
     }
 
     public Traits(
@@ -286,52 +108,52 @@ public final class Traits extends AbstractRecord {
 
     @MaxMindDbConstructor
     public Traits(
-            @MaxMindDbParameter(name="autonomous_system_number") Long autonomousSystemNumber,
-            @MaxMindDbParameter(name="autonomous_system_organization") String autonomousSystemOrganization,
-            @MaxMindDbParameter(name="connection_type") String connectionType,
-            @MaxMindDbParameter(name="domain") String domain,
-            @MaxMindDbParameter(name="ip_address") String ipAddress,
-            @MaxMindDbParameter(name="is_anonymous") Boolean isAnonymous,
-            @MaxMindDbParameter(name="is_anonymous_proxy") Boolean isAnonymousProxy,
-            @MaxMindDbParameter(name="is_anonymous_vpn") Boolean isAnonymousVpn,
-            @MaxMindDbParameter(name="is_hosting_provider") Boolean isHostingProvider,
-            @MaxMindDbParameter(name="is_legitimate_proxy") Boolean isLegitimateProxy,
-            @MaxMindDbParameter(name="is_public_proxy") Boolean isPublicProxy,
-            @MaxMindDbParameter(name="is_residential_proxy") Boolean isResidentialProxy,
-            @MaxMindDbParameter(name="is_satellite_provider") Boolean isSatelliteProvider,
-            @MaxMindDbParameter(name="is_tor_exit_node") Boolean isTorExitNode,
-            @MaxMindDbParameter(name="isp") String isp,
-            @MaxMindDbParameter(name="mobile_country_code") String mobileCountryCode,
-            @MaxMindDbParameter(name="mobile_network_code") String mobileNetworkCode,
-            @MaxMindDbParameter(name="network") Network network,
-            @MaxMindDbParameter(name="organization") String organization,
-            @MaxMindDbParameter(name="user_type") String userType,
-            @MaxMindDbParameter(name="user_count") Integer userCount,
-            @MaxMindDbParameter(name="static_ip_score") Double staticIpScore
+            @MaxMindDbParameter(name = "autonomous_system_number") Long autonomousSystemNumber,
+            @MaxMindDbParameter(name = "autonomous_system_organization") String autonomousSystemOrganization,
+            @MaxMindDbParameter(name = "connection_type") String connectionType,
+            @MaxMindDbParameter(name = "domain") String domain,
+            @MaxMindDbParameter(name = "ip_address") String ipAddress,
+            @MaxMindDbParameter(name = "is_anonymous") Boolean isAnonymous,
+            @MaxMindDbParameter(name = "is_anonymous_proxy") Boolean isAnonymousProxy,
+            @MaxMindDbParameter(name = "is_anonymous_vpn") Boolean isAnonymousVpn,
+            @MaxMindDbParameter(name = "is_hosting_provider") Boolean isHostingProvider,
+            @MaxMindDbParameter(name = "is_legitimate_proxy") Boolean isLegitimateProxy,
+            @MaxMindDbParameter(name = "is_public_proxy") Boolean isPublicProxy,
+            @MaxMindDbParameter(name = "is_residential_proxy") Boolean isResidentialProxy,
+            @MaxMindDbParameter(name = "is_satellite_provider") Boolean isSatelliteProvider,
+            @MaxMindDbParameter(name = "is_tor_exit_node") Boolean isTorExitNode,
+            @MaxMindDbParameter(name = "isp") String isp,
+            @MaxMindDbParameter(name = "mobile_country_code") String mobileCountryCode,
+            @MaxMindDbParameter(name = "mobile_network_code") String mobileNetworkCode,
+            @MaxMindDbParameter(name = "network") Network network,
+            @MaxMindDbParameter(name = "organization") String organization,
+            @MaxMindDbParameter(name = "user_type") String userType,
+            @MaxMindDbParameter(name = "user_count") Integer userCount,
+            @MaxMindDbParameter(name = "static_ip_score") Double staticIpScore
     ) {
         this(
-            autonomousSystemNumber != null ? autonomousSystemNumber.intValue() : null,
-            autonomousSystemOrganization,
-            ConnectionType.fromString(connectionType),
-            domain,
-            ipAddress,
-            isAnonymous != null ? isAnonymous : false,
-            isAnonymousProxy != null ? isAnonymousProxy : false,
-            isAnonymousVpn != null ? isAnonymousVpn : false,
-            isHostingProvider != null ? isHostingProvider : false,
-            isLegitimateProxy != null ? isLegitimateProxy : false,
-            isPublicProxy != null ? isPublicProxy : false,
-            isResidentialProxy != null ? isResidentialProxy : false,
-            isSatelliteProvider != null ? isSatelliteProvider : false,
-            isTorExitNode != null ? isTorExitNode : false,
-            isp,
-            mobileCountryCode,
-            mobileNetworkCode,
-            network,
-            organization,
-            userType,
-            userCount,
-            staticIpScore
+                autonomousSystemNumber != null ? autonomousSystemNumber.intValue() : null,
+                autonomousSystemOrganization,
+                ConnectionType.fromString(connectionType),
+                domain,
+                ipAddress,
+                isAnonymous != null ? isAnonymous : false,
+                isAnonymousProxy != null ? isAnonymousProxy : false,
+                isAnonymousVpn != null ? isAnonymousVpn : false,
+                isHostingProvider != null ? isHostingProvider : false,
+                isLegitimateProxy != null ? isLegitimateProxy : false,
+                isPublicProxy != null ? isPublicProxy : false,
+                isResidentialProxy != null ? isResidentialProxy : false,
+                isSatelliteProvider != null ? isSatelliteProvider : false,
+                isTorExitNode != null ? isTorExitNode : false,
+                isp,
+                mobileCountryCode,
+                mobileNetworkCode,
+                network,
+                organization,
+                userType,
+                userCount,
+                staticIpScore
         );
     }
 
@@ -341,28 +163,28 @@ public final class Traits extends AbstractRecord {
             Network network
     ) {
         this(
-            traits.getAutonomousSystemNumber(),
-            traits.getAutonomousSystemOrganization(),
-            traits.getConnectionType(),
-            traits.getDomain(),
-            ipAddress,
-            traits.isAnonymous(),
-            traits.isAnonymousProxy(),
-            traits.isAnonymousVpn(),
-            traits.isHostingProvider(),
-            traits.isLegitimateProxy(),
-            traits.isPublicProxy(),
-            traits.isResidentialProxy(),
-            traits.isSatelliteProvider(),
-            traits.isTorExitNode(),
-            traits.getIsp(),
-            traits.getMobileCountryCode(),
-            traits.getMobileNetworkCode(),
-            network,
-            traits.getOrganization(),
-            traits.getUserType(),
-            traits.getUserCount(),
-            traits.getStaticIpScore()
+                traits.getAutonomousSystemNumber(),
+                traits.getAutonomousSystemOrganization(),
+                traits.getConnectionType(),
+                traits.getDomain(),
+                ipAddress,
+                traits.isAnonymous(),
+                traits.isAnonymousProxy(),
+                traits.isAnonymousVpn(),
+                traits.isHostingProvider(),
+                traits.isLegitimateProxy(),
+                traits.isPublicProxy(),
+                traits.isResidentialProxy(),
+                traits.isSatelliteProvider(),
+                traits.isTorExitNode(),
+                traits.getIsp(),
+                traits.getMobileCountryCode(),
+                traits.getMobileNetworkCode(),
+                network,
+                traits.getOrganization(),
+                traits.getUserType(),
+                traits.getUserCount(),
+                traits.getStaticIpScore()
         );
     }
 
@@ -571,7 +393,7 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return The network associated with the record. In particular, this is
-     * the largest network where all of the fields besides IP address have the
+     * the largest network where all the fields besides IP address have the
      * same value.
      */
     @JsonProperty

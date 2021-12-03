@@ -1,6 +1,24 @@
 CHANGELOG
 =========
 
+3.0.0
+------------------
+
+* Java 11 or greater is now required.
+* Apache HttpClient has been replaced with `java.net.http.HttpClient`.
+* The `close()` method on `WebServiceClient` is now deprecated. It
+  no longer does anything.
+* On `WebServiceClient.Builder`:
+  * `connectTimeout(int)` has been deprecated in favor of
+    `connectTimeout(Duration)`.
+  * `readTimeout(int)` has been deprecated in favor of
+    `requestTimeout(Duration)`.
+  * `proxy(Proxy)` has been deprecated in favor of `proxy(ProxySelector)`.
+* On `HttpException` and `InvalidRequestException`, `getUrl()` has been
+  deprecated in favor of `getUri()`. Constructors that took a `URL` have
+  been replaced with the equivalent taking a `URI`.
+* Deprecated constructors on model and trait classes were removed.
+
 2.16.1 (2021-11-18)
 -------------------
 

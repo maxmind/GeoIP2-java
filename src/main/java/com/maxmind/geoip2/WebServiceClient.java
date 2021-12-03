@@ -10,23 +10,16 @@ import com.maxmind.geoip2.exception.*;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.model.InsightsResponse;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.auth.Credentials;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.auth.BasicScheme;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.*;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.*;
 
 /**
@@ -72,9 +65,7 @@ import java.util.*;
  * <p>
  * The {@code WebServiceClient} object is safe to share across threads. If you
  * are making multiple requests, the object should be reused so that new
- * connections are not created for each request. Once you have finished making
- * requests, you should close the object to ensure the connections are closed
- * and any resources are promptly returned to the system.
+ * connections are not created for each request.
  * </p>
  * <h2>Exceptions</h2>
  * <p>
@@ -102,14 +93,16 @@ import java.util.*;
 public class WebServiceClient implements GeoIp2Provider, Closeable {
     private final String host;
     private final List<String> locales;
-    private final String licenseKey;
-
-    private final int accountId;
+    private final String authHeader;
     private final boolean useHttps;
     private final int port;
+    private final Duration requestTimeout;
+    private final String userAgent = "GeoIP2/"
+            + getClass().getPackage().getImplementationVersion()
+            + " (Java/" + System.getProperty("java.version") + ")";
 
     private final ObjectMapper mapper;
-    private final CloseableHttpClient httpClient;
+    private final HttpClient httpClient;
 
 
     private WebServiceClient(Builder builder) {
@@ -117,30 +110,25 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
         this.port = builder.port;
         this.useHttps = builder.useHttps;
         this.locales = builder.locales;
-        this.licenseKey = builder.licenseKey;
-        this.accountId = builder.accountId;
+
+        // HttpClient supports basic auth, but it will only send it after the
+        // server responds with an unauthorized. As such, we just make the
+        // Authorization header ourselves.
+        this.authHeader = "Basic " +
+                Base64.getEncoder()
+                        .encodeToString((builder.accountId + ":" + builder.licenseKey)
+                                .getBytes(StandardCharsets.UTF_8));
 
         mapper = JsonMapper.builder()
                 .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .build();
 
-        RequestConfig.Builder configBuilder = RequestConfig.custom()
-                .setConnectTimeout(builder.connectTimeout)
-                .setSocketTimeout(builder.readTimeout);
-
-        if (builder.proxy != null && builder.proxy != Proxy.NO_PROXY) {
-            InetSocketAddress address = (InetSocketAddress) builder.proxy.address();
-            HttpHost proxyHost = new HttpHost(address.getHostName(), address.getPort());
-            configBuilder.setProxy(proxyHost);
-        }
-
-        RequestConfig config = configBuilder.build();
-        httpClient =
-                HttpClientBuilder.create()
-                        .setMaxConnPerRoute(20)
-                        .setUserAgent(userAgent())
-                        .setDefaultRequestConfig(config).build();
+        requestTimeout = builder.requestTimeout;
+        httpClient = HttpClient.newBuilder()
+                .connectTimeout(builder.connectTimeout)
+                .proxy(builder.proxy)
+                .build();
     }
 
     /**
@@ -167,11 +155,11 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
         int port = 443;
         boolean useHttps = true;
 
-        int connectTimeout = 3000;
-        int readTimeout = 20000;
+        Duration connectTimeout = Duration.ofSeconds(3);
+        Duration requestTimeout = Duration.ofSeconds(20);
 
         List<String> locales = Collections.singletonList("en");
-        private Proxy proxy;
+        private ProxySelector proxy = ProxySelector.getDefault();
 
         /**
          * @param accountId  Your MaxMind account ID.
@@ -186,8 +174,20 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
          * @param val Timeout in milliseconds to establish a connection to the
          *            web service. The default is 3000 (3 seconds).
          * @return Builder object
+         * @deprecated Use connectTimeout(Duration) instead
          */
+        @Deprecated
         public Builder connectTimeout(int val) {
+            this.connectTimeout = Duration.ofMillis(val);
+            return this;
+        }
+
+        /**
+         * @param val Timeout duration to establish a connection to the
+         *            web service. The default is 3 seconds.
+         * @return Builder object
+         */
+        public Builder connectTimeout(Duration val) {
             this.connectTimeout = val;
             return this;
         }
@@ -237,9 +237,33 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
          *            established connection to the web service. The default is
          *            20000 (20 seconds).
          * @return Builder object
+         * @deprecated Use requestTimeout(Duration) instead
          */
+        @Deprecated
         public Builder readTimeout(int val) {
-            this.readTimeout = val;
+            this.requestTimeout = Duration.ofMillis(val);
+            return this;
+        }
+
+        /**
+         * @param val Request timeout duration. The default is 20 seconds.
+         * @return Builder object
+         */
+        public Builder requestTimeout(Duration val) {
+            this.requestTimeout = val;
+            return this;
+        }
+
+        /**
+         * @param val the proxy to use when making this request.
+         * @return Builder object
+         * @deprecated Use proxy(ProxySelector)
+         */
+        @Deprecated
+        public Builder proxy(Proxy val) {
+            if (val != null && val != Proxy.NO_PROXY) {
+                this.proxy = ProxySelector.of((InetSocketAddress) val.address());
+            }
             return this;
         }
 
@@ -247,7 +271,7 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
          * @param val the proxy to use when making this request.
          * @return Builder object
          */
-        public Builder proxy(Proxy val) {
+        public Builder proxy(ProxySelector val) {
             this.proxy = val;
             return this;
         }
@@ -302,7 +326,7 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
 
     /**
      * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @return A Insight model for the requested IP address.
+     * @return An Insight model for the requested IP address.
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
      */
@@ -313,87 +337,76 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
 
     private <T> T responseFor(String path, InetAddress ipAddress, Class<T> cls)
             throws IOException, GeoIp2Exception {
-        URL url = createUri(path, ipAddress);
-        HttpGet request = getResponse(url);
+        URI uri = createUri(path, ipAddress);
 
-        try (CloseableHttpResponse response = httpClient.execute(request)) {
-            return handleResponse(response, url, cls);
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(uri)
+                .timeout(this.requestTimeout)
+                .header("Accept", "application/json")
+                .header("Authorization", authHeader)
+                .header("User-Agent", this.userAgent)
+                .GET()
+                .build();
+        HttpResponse<InputStream> response;
+        try {
+            response = this.httpClient
+                    .send(request, HttpResponse.BodyHandlers.ofInputStream());
+        } catch (InterruptedException e) {
+            throw new GeoIp2Exception("Interrupted sending request", e);
         }
+
+        return handleResponse(response, uri, cls);
     }
 
-    private HttpGet getResponse(URL url)
+    private <T> T handleResponse(HttpResponse<InputStream> response, URI uri, Class<T> cls)
             throws GeoIp2Exception, IOException {
-        Credentials credentials = new UsernamePasswordCredentials(Integer.toString(accountId), licenseKey);
-
-        HttpGet request;
-        try {
-            request = new HttpGet(url.toURI());
-        } catch (URISyntaxException e) {
-            throw new GeoIp2Exception("Error parsing request URL", e);
-        }
-        try {
-            request.addHeader(new BasicScheme().authenticate(credentials, request, null));
-        } catch (org.apache.http.auth.AuthenticationException e) {
-            throw new AuthenticationException("Error setting up request authentication", e);
-        }
-        request.addHeader("Accept", "application/json");
-
-        return request;
-    }
-
-    private <T> T handleResponse(CloseableHttpResponse response, URL url, Class<T> cls)
-            throws GeoIp2Exception, IOException {
-        int status = response.getStatusLine().getStatusCode();
+        int status = response.statusCode();
         if (status >= 400 && status < 500) {
-            this.handle4xxStatus(response, url);
+            this.handle4xxStatus(response, uri);
         } else if (status >= 500 && status < 600) {
             throw new HttpException("Received a server error (" + status
-                    + ") for " + url, status, url);
+                    + ") for " + uri, status, uri);
         } else if (status != 200) {
             throw new HttpException("Received an unexpected HTTP status ("
-                    + status + ") for " + url, status, url);
+                    + status + ") for " + uri, status, uri);
         }
 
         InjectableValues inject = new JsonInjector(locales, null, null);
 
-        HttpEntity entity = response.getEntity();
         try {
-            return mapper.readerFor(cls).with(inject).readValue(entity.getContent());
+            return mapper.readerFor(cls).with(inject).readValue(response.body());
         } catch (IOException e) {
             throw new GeoIp2Exception(
                     "Received a 200 response but could not decode it as JSON", e);
-        } finally {
-            EntityUtils.consume(entity);
         }
     }
 
-    private void handle4xxStatus(HttpResponse response, URL url)
+    private void handle4xxStatus(HttpResponse<InputStream> response, URI uri)
             throws GeoIp2Exception, IOException {
-        HttpEntity entity = response.getEntity();
-        int status = response.getStatusLine().getStatusCode();
+        int status = response.statusCode();
 
-        if (entity.getContentLength() == 0L) {
+        String body = new String(response.body().readAllBytes(), StandardCharsets.UTF_8);
+        if (body.equals("")) {
             throw new HttpException("Received a " + status + " error for "
-                    + url + " with no body", status, url);
+                    + uri + " with no body", status, uri);
         }
 
-        String body = EntityUtils.toString(entity, "UTF-8");
         try {
             Map<String, String> content = mapper.readValue(body,
                     new TypeReference<HashMap<String, String>>() {
                     });
-            handleErrorWithJsonBody(content, body, status, url);
+            handleErrorWithJsonBody(content, body, status, uri);
         } catch (HttpException e) {
             throw e;
         } catch (IOException e) {
             throw new HttpException("Received a " + status + " error for "
-                    + url + " but it did not include the expected JSON body: "
-                    + body, status, url);
+                    + uri + " but it did not include the expected JSON body: "
+                    + body, status, uri);
         }
     }
 
     private static void handleErrorWithJsonBody(Map<String, String> content,
-                                                String body, int status, URL url)
+                                                String body, int status, URI uri)
             throws GeoIp2Exception, HttpException {
         String error = content.get("error");
         String code = content.get("code");
@@ -401,7 +414,7 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
         if (error == null || code == null) {
             throw new HttpException(
                     "Error response contains JSON but it does not specify code or error keys: "
-                            + body, status, url);
+                            + body, status, uri);
         }
 
         switch (code) {
@@ -423,48 +436,44 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
         }
 
         // These should be fairly rare
-        throw new InvalidRequestException(error, code, url);
+        throw new InvalidRequestException(error, code, uri);
     }
 
-    private URL createUri(String service, InetAddress ipAddress) throws GeoIp2Exception {
+    private URI createUri(String service, InetAddress ipAddress) throws GeoIp2Exception {
+        String path = "/geoip/v2.1/" + service + "/"
+                + (ipAddress == null ? "me" : ipAddress.getHostAddress());
         try {
-            return new URIBuilder()
-                    .setScheme(useHttps ? "https" : "http")
-                    .setHost(host)
-                    .setPort(this.port)
-                    .setPath("/geoip/v2.1/" + service + "/"
-                            + (ipAddress == null ? "me" : ipAddress.getHostAddress()))
-                    .build().toURL();
-        } catch (MalformedURLException e) {
-            throw new GeoIp2Exception("Malformed service URL", e);
+            return new URI(
+                    useHttps ? "https" : "http",
+                    null,
+                    host,
+                    port,
+                    path,
+                    null,
+                    null
+            );
         } catch (URISyntaxException e) {
             throw new GeoIp2Exception("Syntax error creating service URL", e);
         }
     }
 
-    private String userAgent() {
-        return "GeoIP2/"
-                + getClass().getPackage().getImplementationVersion()
-                + " (Java/" + System.getProperty("java.version") + ")";
-    }
-
     /**
-     * Close any open connections and return resources to the system.
+     * @deprecated Closing is no longer necessary with java.net.http.HttpClient.
      */
+    @Deprecated
     @Override
     public void close() throws IOException {
-        httpClient.close();
     }
 
     @Override
     public String toString() {
         return "WebServiceClient{" +
-                ", host='" + host + '\'' +
+                "host='" + host + '\'' +
                 ", locales=" + locales +
-                ", licenseKey='" + licenseKey + '\'' +
-                ", accountId=" + accountId +
                 ", useHttps=" + useHttps +
                 ", port=" + port +
+                ", requestTimeout=" + requestTimeout +
+                ", userAgent='" + userAgent + '\'' +
                 ", mapper=" + mapper +
                 ", httpClient=" + httpClient +
                 '}';

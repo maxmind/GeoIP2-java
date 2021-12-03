@@ -13,9 +13,7 @@ import java.net.URISyntaxException;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.maxmind.geoip2.json.File.readJsonFile;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class CountryResponseTest {
     @Rule
@@ -63,7 +61,7 @@ public class CountryResponseTest {
         assertEquals("country.getCountry().getGeoNameId() does not return 1",
                 1, (int) this.country.getCountry().getGeoNameId());
         assertEquals("country.getCountry().getConfidence() does not return 56",
-                new Integer(56), this.country.getCountry().getConfidence());
+                Integer.valueOf(56), this.country.getCountry().getConfidence());
         assertEquals(
                 "country.getCountry().getName(\"en\") does not return United States",
                 "United States", this.country.getCountry().getName());

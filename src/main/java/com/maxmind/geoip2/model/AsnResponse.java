@@ -20,23 +20,6 @@ public class AsnResponse extends AbstractResponse {
     private final String ipAddress;
     private final Network network;
 
-    AsnResponse() {
-        this((Integer) null, null, null, null);
-    }
-
-    /**
-     * @deprecated This constructor exists for backwards compatibility. Will be
-     * removed in the next major release.
-     */
-    @Deprecated
-    public AsnResponse(
-            Integer autonomousSystemNumber,
-            String autonomousSystemOrganization,
-            String ipAddress
-    ) {
-        this(autonomousSystemNumber, autonomousSystemOrganization, ipAddress, null);
-    }
-
     public AsnResponse(
             @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
             @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
@@ -51,10 +34,10 @@ public class AsnResponse extends AbstractResponse {
 
     @MaxMindDbConstructor
     public AsnResponse(
-        @MaxMindDbParameter(name="autonomous_system_number") Long autonomousSystemNumber,
-        @MaxMindDbParameter(name="autonomous_system_organization") String autonomousSystemOrganization,
-        @MaxMindDbParameter(name="ip_address") String ipAddress,
-        @MaxMindDbParameter(name="network") Network network
+            @MaxMindDbParameter(name = "autonomous_system_number") Long autonomousSystemNumber,
+            @MaxMindDbParameter(name = "autonomous_system_organization") String autonomousSystemOrganization,
+            @MaxMindDbParameter(name = "ip_address") String ipAddress,
+            @MaxMindDbParameter(name = "network") Network network
     ) {
         this.autonomousSystemNumber = autonomousSystemNumber != null ? autonomousSystemNumber.intValue() : null;
         this.autonomousSystemOrganization = autonomousSystemOrganization;
@@ -68,10 +51,10 @@ public class AsnResponse extends AbstractResponse {
             Network network
     ) {
         this(
-            response.getAutonomousSystemNumber(),
-            response.getAutonomousSystemOrganization(),
-            ipAddress,
-            network
+                response.getAutonomousSystemNumber(),
+                response.getAutonomousSystemOrganization(),
+                ipAddress,
+                network
         );
     }
 
@@ -102,7 +85,7 @@ public class AsnResponse extends AbstractResponse {
 
     /**
      * @return The network associated with the record. In particular, this is
-     * the largest network where all of the fields besides IP address have the
+     * the largest network where all the fields besides IP address have the
      * same value.
      */
     @JsonProperty
