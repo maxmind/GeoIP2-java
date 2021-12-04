@@ -351,7 +351,7 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
         try {
             response = this.httpClient
                     .send(request, HttpResponse.BodyHandlers.ofInputStream());
-            return handleResponse(response, uri, cls);
+            return handleResponse(response, cls);
         } catch (InterruptedException e) {
             throw new GeoIp2Exception("Interrupted sending request", e);
         } finally {
@@ -361,11 +361,13 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
         }
     }
 
-    private <T> T handleResponse(HttpResponse<InputStream> response, URI uri, Class<T> cls)
+    private <T> T handleResponse(HttpResponse<InputStream> response, Class<T> cls)
             throws GeoIp2Exception, IOException {
         int status = response.statusCode();
+        URI uri = response.uri();
+
         if (status >= 400 && status < 500) {
-            this.handle4xxStatus(response, uri);
+            this.handle4xxStatus(response);
         } else if (status >= 500 && status < 600) {
             exhaustBody(response);
             throw new HttpException("Received a server error (" + status
@@ -386,9 +388,10 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
         }
     }
 
-    private void handle4xxStatus(HttpResponse<InputStream> response, URI uri)
+    private void handle4xxStatus(HttpResponse<InputStream> response)
             throws GeoIp2Exception, IOException {
         int status = response.statusCode();
+        URI uri = response.uri();
 
         String body = new String(response.body().readAllBytes(), StandardCharsets.UTF_8);
         if (body.equals("")) {
