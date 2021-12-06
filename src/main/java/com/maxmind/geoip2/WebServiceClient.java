@@ -347,26 +347,33 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
                 .header("User-Agent", this.userAgent)
                 .GET()
                 .build();
-        HttpResponse<InputStream> response;
+        HttpResponse<InputStream> response = null;
         try {
             response = this.httpClient
                     .send(request, HttpResponse.BodyHandlers.ofInputStream());
+            return handleResponse(response, cls);
         } catch (InterruptedException e) {
             throw new GeoIp2Exception("Interrupted sending request", e);
+        } finally {
+            if (response != null) {
+                response.body().close();
+            }
         }
-
-        return handleResponse(response, uri, cls);
     }
 
-    private <T> T handleResponse(HttpResponse<InputStream> response, URI uri, Class<T> cls)
+    private <T> T handleResponse(HttpResponse<InputStream> response, Class<T> cls)
             throws GeoIp2Exception, IOException {
         int status = response.statusCode();
+        URI uri = response.uri();
+
         if (status >= 400 && status < 500) {
-            this.handle4xxStatus(response, uri);
+            this.handle4xxStatus(response);
         } else if (status >= 500 && status < 600) {
+            exhaustBody(response);
             throw new HttpException("Received a server error (" + status
                     + ") for " + uri, status, uri);
         } else if (status != 200) {
+            exhaustBody(response);
             throw new HttpException("Received an unexpected HTTP status ("
                     + status + ") for " + uri, status, uri);
         }
@@ -381,9 +388,10 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
         }
     }
 
-    private void handle4xxStatus(HttpResponse<InputStream> response, URI uri)
+    private void handle4xxStatus(HttpResponse<InputStream> response)
             throws GeoIp2Exception, IOException {
         int status = response.statusCode();
+        URI uri = response.uri();
 
         String body = new String(response.body().readAllBytes(), StandardCharsets.UTF_8);
         if (body.equals("")) {
@@ -454,6 +462,19 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
             );
         } catch (URISyntaxException e) {
             throw new GeoIp2Exception("Syntax error creating service URL", e);
+        }
+    }
+
+    private void exhaustBody(HttpResponse<InputStream> response) throws HttpException {
+        InputStream body = response.body();
+
+        try {
+            // Make sure we read the stream until the end so that
+            // the connection can be reused.
+            while (body.read() != -1) {
+            }
+        } catch (IOException e) {
+            throw new HttpException("Error reading response body", response.statusCode(), response.uri(), e);
         }
     }
 
