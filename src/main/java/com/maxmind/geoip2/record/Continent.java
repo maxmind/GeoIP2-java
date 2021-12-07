@@ -25,32 +25,18 @@ public final class Continent extends AbstractNamedRecord {
     private final String code;
 
     public Continent() {
-        this(null, null, (Integer) null, null);
-    }
-
-    public Continent(
-            @JacksonInject("locales") List<String> locales,
-            @JsonProperty("code") String code,
-            @JsonProperty("geoname_id") Integer geoNameId,
-            @JsonProperty("names") Map<String, String> names
-    ) {
-        super(locales, geoNameId, names);
-        this.code = code;
+        this(null, null, null, null);
     }
 
     @MaxMindDbConstructor
     public Continent(
-            @MaxMindDbParameter(name = "locales") List<String> locales,
-            @MaxMindDbParameter(name = "code") String code,
-            @MaxMindDbParameter(name = "geoname_id") Long geoNameId,
-            @MaxMindDbParameter(name = "names") Map<String, String> names
+            @JacksonInject("locales") @MaxMindDbParameter(name = "locales") List<String> locales,
+            @JsonProperty("code") @MaxMindDbParameter(name = "code") String code,
+            @JsonProperty("geoname_id") @MaxMindDbParameter(name = "geoname_id") Long geoNameId,
+            @JsonProperty("names") @MaxMindDbParameter(name = "names") Map<String, String> names
     ) {
-        this(
-                locales,
-                code,
-                geoNameId != null ? geoNameId.intValue() : null,
-                names
-        );
+        super(locales, geoNameId, names);
+        this.code = code;
     }
 
     public Continent(

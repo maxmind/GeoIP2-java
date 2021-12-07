@@ -45,7 +45,7 @@ public class CountryResponseTest {
                 "NA", this.country.getContinent().getCode());
         assertEquals(
                 "country.getContinent().getGeoNameId() does not return 42", 42,
-                (int) this.country.getContinent().getGeoNameId());
+                (long) this.country.getContinent().getGeoNameId());
         assertEquals(
                 "country.getContinent().getName() does not return North America",
                 "North America", this.country.getContinent().getName());
@@ -59,7 +59,7 @@ public class CountryResponseTest {
         assertEquals("country.getCountry().getCode() does not return US", "US",
                 this.country.getCountry().getIsoCode());
         assertEquals("country.getCountry().getGeoNameId() does not return 1",
-                1, (int) this.country.getCountry().getGeoNameId());
+                1, (long) this.country.getCountry().getGeoNameId());
         assertEquals("country.getCountry().getConfidence() does not return 56",
                 Integer.valueOf(56), this.country.getCountry().getConfidence());
         assertEquals(
@@ -77,7 +77,7 @@ public class CountryResponseTest {
                 "CA", this.country.getRegisteredCountry().getIsoCode());
         assertEquals(
                 "country.getRegisteredCountry().getGeoNameId() does not return 2",
-                2, (int) this.country.getRegisteredCountry().getGeoNameId());
+                2, (long) this.country.getRegisteredCountry().getGeoNameId());
         assertEquals(
                 "country.getRegisteredCountry().getName(\"en\") does not return United States",
                 "Canada", this.country.getRegisteredCountry().getName());
@@ -93,7 +93,7 @@ public class CountryResponseTest {
                 "GB", this.country.getRepresentedCountry().getIsoCode());
         assertEquals(
                 "country.getRepresentedCountry().getGeoNameId() does not return 4",
-                4, (int) this.country.getRepresentedCountry().getGeoNameId());
+                4, (long) this.country.getRepresentedCountry().getGeoNameId());
         assertEquals(
                 "country.getRepresentedCountry().getName(\"en\") does not return United Kingdom",
                 "United Kingdom", this.country.getRepresentedCountry()

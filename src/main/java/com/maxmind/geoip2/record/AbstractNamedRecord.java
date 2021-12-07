@@ -14,14 +14,14 @@ import java.util.Map;
 public abstract class AbstractNamedRecord extends AbstractRecord {
 
     private final Map<String, String> names;
-    private final Integer geoNameId;
+    private final Long geoNameId;
     private final List<String> locales;
 
     AbstractNamedRecord() {
         this(null, null, null);
     }
 
-    AbstractNamedRecord(List<String> locales, Integer geoNameId, Map<String, String> names) {
+    AbstractNamedRecord(List<String> locales, Long geoNameId, Map<String, String> names) {
         this.names = names != null ? names : new HashMap<>();
         this.geoNameId = geoNameId;
         this.locales = locales != null ? locales : new ArrayList<>();
@@ -32,7 +32,7 @@ public abstract class AbstractNamedRecord extends AbstractRecord {
      * end points.
      */
     @JsonProperty("geoname_id")
-    public Integer getGeoNameId() {
+    public Long getGeoNameId() {
         return this.geoNameId;
     }
 

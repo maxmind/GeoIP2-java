@@ -21,7 +21,7 @@ import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
  */
 public final class Traits extends AbstractRecord {
 
-    private final Integer autonomousSystemNumber;
+    private final Long autonomousSystemNumber;
     private final String autonomousSystemOrganization;
     private final ConnectionType connectionType;
     private final String domain;
@@ -59,7 +59,7 @@ public final class Traits extends AbstractRecord {
     }
 
     public Traits(
-            @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
+            @JsonProperty("autonomous_system_number") Long autonomousSystemNumber,
             @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
             @JsonProperty("connection_type") ConnectionType connectionType,
             @JsonProperty("domain") String domain,
@@ -131,30 +131,28 @@ public final class Traits extends AbstractRecord {
             @MaxMindDbParameter(name = "user_count") Integer userCount,
             @MaxMindDbParameter(name = "static_ip_score") Double staticIpScore
     ) {
-        this(
-                autonomousSystemNumber != null ? autonomousSystemNumber.intValue() : null,
-                autonomousSystemOrganization,
-                ConnectionType.fromString(connectionType),
-                domain,
-                ipAddress,
-                isAnonymous != null ? isAnonymous : false,
-                isAnonymousProxy != null ? isAnonymousProxy : false,
-                isAnonymousVpn != null ? isAnonymousVpn : false,
-                isHostingProvider != null ? isHostingProvider : false,
-                isLegitimateProxy != null ? isLegitimateProxy : false,
-                isPublicProxy != null ? isPublicProxy : false,
-                isResidentialProxy != null ? isResidentialProxy : false,
-                isSatelliteProvider != null ? isSatelliteProvider : false,
-                isTorExitNode != null ? isTorExitNode : false,
-                isp,
-                mobileCountryCode,
-                mobileNetworkCode,
-                network,
-                organization,
-                userType,
-                userCount,
-                staticIpScore
-        );
+        this.autonomousSystemNumber = autonomousSystemNumber;
+        this.autonomousSystemOrganization = autonomousSystemOrganization;
+        this.connectionType = ConnectionType.fromString(connectionType);
+        this.domain = domain;
+        this.ipAddress = ipAddress;
+        this.isAnonymous = isAnonymous != null ? isAnonymous : false;
+        this.isAnonymousProxy = isAnonymousProxy != null ? isAnonymousProxy : false;
+        this.isAnonymousVpn = isAnonymousVpn != null ? isAnonymousVpn : false;
+        this.isHostingProvider = isHostingProvider != null ? isHostingProvider : false;
+        this.isLegitimateProxy = isLegitimateProxy != null ? isLegitimateProxy : false;
+        this.isPublicProxy = isPublicProxy != null ? isPublicProxy : false;
+        this.isResidentialProxy = isResidentialProxy != null ? isResidentialProxy : false;
+        this.isSatelliteProvider = isSatelliteProvider != null ? isSatelliteProvider : false;
+        this.isTorExitNode = isTorExitNode != null ? isTorExitNode : false;
+        this.isp = isp;
+        this.mobileCountryCode = mobileCountryCode;
+        this.mobileNetworkCode = mobileNetworkCode;
+        this.network = network;
+        this.organization = organization;
+        this.userType = userType;
+        this.userCount = userCount;
+        this.staticIpScore = staticIpScore;
     }
 
     public Traits(
@@ -196,7 +194,7 @@ public final class Traits extends AbstractRecord {
      * service end points and the GeoIP2 Enterprise database.
      */
     @JsonProperty("autonomous_system_number")
-    public Integer getAutonomousSystemNumber() {
+    public Long getAutonomousSystemNumber() {
         return this.autonomousSystemNumber;
     }
 
