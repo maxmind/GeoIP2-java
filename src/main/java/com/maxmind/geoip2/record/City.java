@@ -25,32 +25,18 @@ public final class City extends AbstractNamedRecord {
     private final Integer confidence;
 
     public City() {
-        this(null, null, (Integer) null, null);
-    }
-
-    public City(
-            @JacksonInject("locales") List<String> locales,
-            @JsonProperty("confidence") Integer confidence,
-            @JsonProperty("geoname_id") Integer geoNameId,
-            @JsonProperty("names") Map<String, String> names
-    ) {
-        super(locales, geoNameId, names);
-        this.confidence = confidence;
+        this(null, null, null, null);
     }
 
     @MaxMindDbConstructor
     public City(
-            @MaxMindDbParameter(name = "locales") List<String> locales,
-            @MaxMindDbParameter(name = "confidence") Integer confidence,
-            @MaxMindDbParameter(name = "geoname_id") Long geoNameId,
-            @MaxMindDbParameter(name = "names") Map<String, String> names
+            @JacksonInject("locales") @MaxMindDbParameter(name = "locales") List<String> locales,
+            @JsonProperty("confidence") @MaxMindDbParameter(name = "confidence") Integer confidence,
+            @JsonProperty("geoname_id") @MaxMindDbParameter(name = "geoname_id") Long geoNameId,
+            @JsonProperty("names") @MaxMindDbParameter(name = "names") Map<String, String> names
     ) {
-        this(
-                locales,
-                confidence,
-                geoNameId != null ? geoNameId.intValue() : null,
-                names
-        );
+        super(locales, geoNameId, names);
+        this.confidence = confidence;
     }
 
     public City(

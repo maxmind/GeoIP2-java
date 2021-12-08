@@ -80,7 +80,7 @@ public class InsightsResponseTest {
 
         assertNotNull("city.getTraits() returns null", traits);
         assertEquals("traits.getAutonomousSystemNumber() does not return 1234",
-                Integer.valueOf(1234), traits.getAutonomousSystemNumber());
+                Long.valueOf(1234), traits.getAutonomousSystemNumber());
         assertEquals(
                 "traits.getAutonomousSystemOrganization() does not return AS Organization",
                 "AS Organization", traits.getAutonomousSystemOrganization());

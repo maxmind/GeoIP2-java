@@ -18,44 +18,22 @@ public class IspResponse extends AsnResponse {
     private final String mobileCountryCode;
     private final String mobileNetworkCode;
 
+    @MaxMindDbConstructor
     public IspResponse(
-            @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
-            @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
-            @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
-            @JsonProperty("isp") String isp,
-            @JsonProperty("mobile_country_code") String mobileCountryCode,
-            @JsonProperty("mobile_network_code") String mobileNetworkCode,
-            @JsonProperty("organization") String organization,
-            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) Network network
+            @JsonProperty("autonomous_system_number") @MaxMindDbParameter(name = "autonomous_system_number") Long autonomousSystemNumber,
+            @JsonProperty("autonomous_system_organization") @MaxMindDbParameter(name = "autonomous_system_organization") String autonomousSystemOrganization,
+            @JacksonInject("ip_address") @JsonProperty("ip_address") @MaxMindDbParameter(name = "ip_address") String ipAddress,
+            @JsonProperty("isp") @MaxMindDbParameter(name = "isp") String isp,
+            @JsonProperty("mobile_country_code") @MaxMindDbParameter(name = "mobile_country_code") String mobileCountryCode,
+            @JsonProperty("mobile_network_code") @MaxMindDbParameter(name = "mobile_network_code") String mobileNetworkCode,
+            @JsonProperty("organization") @MaxMindDbParameter(name = "organization") String organization,
+            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) @MaxMindDbParameter(name = "network") Network network
     ) {
         super(autonomousSystemNumber, autonomousSystemOrganization, ipAddress, network);
         this.isp = isp;
         this.mobileCountryCode = mobileCountryCode;
         this.mobileNetworkCode = mobileNetworkCode;
         this.organization = organization;
-    }
-
-    @MaxMindDbConstructor
-    public IspResponse(
-            @MaxMindDbParameter(name = "autonomous_system_number") Long autonomousSystemNumber,
-            @MaxMindDbParameter(name = "autonomous_system_organization") String autonomousSystemOrganization,
-            @MaxMindDbParameter(name = "ip_address") String ipAddress,
-            @MaxMindDbParameter(name = "isp") String isp,
-            @MaxMindDbParameter(name = "mobile_country_code") String mobileCountryCode,
-            @MaxMindDbParameter(name = "mobile_network_code") String mobileNetworkCode,
-            @MaxMindDbParameter(name = "organization") String organization,
-            @MaxMindDbParameter(name = "network") Network network
-    ) {
-        this(
-                autonomousSystemNumber != null ? autonomousSystemNumber.intValue() : null,
-                autonomousSystemOrganization,
-                ipAddress,
-                isp,
-                mobileCountryCode,
-                mobileNetworkCode,
-                organization,
-                network
-        );
     }
 
     public IspResponse(

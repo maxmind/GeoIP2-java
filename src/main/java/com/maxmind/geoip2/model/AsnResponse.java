@@ -15,31 +15,19 @@ import com.maxmind.geoip2.NetworkDeserializer;
  */
 public class AsnResponse extends AbstractResponse {
 
-    private final Integer autonomousSystemNumber;
+    private final Long autonomousSystemNumber;
     private final String autonomousSystemOrganization;
     private final String ipAddress;
     private final Network network;
 
-    public AsnResponse(
-            @JsonProperty("autonomous_system_number") Integer autonomousSystemNumber,
-            @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
-            @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
-            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) Network network
-    ) {
-        this.autonomousSystemNumber = autonomousSystemNumber;
-        this.autonomousSystemOrganization = autonomousSystemOrganization;
-        this.ipAddress = ipAddress;
-        this.network = network;
-    }
-
     @MaxMindDbConstructor
     public AsnResponse(
-            @MaxMindDbParameter(name = "autonomous_system_number") Long autonomousSystemNumber,
-            @MaxMindDbParameter(name = "autonomous_system_organization") String autonomousSystemOrganization,
-            @MaxMindDbParameter(name = "ip_address") String ipAddress,
-            @MaxMindDbParameter(name = "network") Network network
+            @JsonProperty("autonomous_system_number") @MaxMindDbParameter(name = "autonomous_system_number") Long autonomousSystemNumber,
+            @JsonProperty("autonomous_system_organization") @MaxMindDbParameter(name = "autonomous_system_organization") String autonomousSystemOrganization,
+            @JacksonInject("ip_address") @JsonProperty("ip_address") @MaxMindDbParameter(name = "ip_address") String ipAddress,
+            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) @MaxMindDbParameter(name = "network") Network network
     ) {
-        this.autonomousSystemNumber = autonomousSystemNumber != null ? autonomousSystemNumber.intValue() : null;
+        this.autonomousSystemNumber = autonomousSystemNumber;
         this.autonomousSystemOrganization = autonomousSystemOrganization;
         this.ipAddress = ipAddress;
         this.network = network;
@@ -62,7 +50,7 @@ public class AsnResponse extends AbstractResponse {
      * @return The autonomous system number associated with the IP address.
      */
     @JsonProperty("autonomous_system_number")
-    public Integer getAutonomousSystemNumber() {
+    public Long getAutonomousSystemNumber() {
         return this.autonomousSystemNumber;
     }
 

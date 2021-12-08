@@ -26,36 +26,20 @@ public final class Subdivision extends AbstractNamedRecord {
     private final String isoCode;
 
     public Subdivision() {
-        this(null, null, (Integer) null, null, null);
-    }
-
-    public Subdivision(
-            @JacksonInject("locales") List<String> locales,
-            @JsonProperty("confidence") Integer confidence,
-            @JsonProperty("geoname_id") Integer geoNameId,
-            @JsonProperty("iso_code") String isoCode,
-            @JsonProperty("names") Map<String, String> names
-    ) {
-        super(locales, geoNameId, names);
-        this.confidence = confidence;
-        this.isoCode = isoCode;
+        this(null, null, null, null, null);
     }
 
     @MaxMindDbConstructor
     public Subdivision(
-            @MaxMindDbParameter(name = "locales") List<String> locales,
-            @MaxMindDbParameter(name = "confidence") Integer confidence,
-            @MaxMindDbParameter(name = "geoname_id") Long geoNameId,
-            @MaxMindDbParameter(name = "iso_code") String isoCode,
-            @MaxMindDbParameter(name = "names") Map<String, String> names
+            @JacksonInject("locales") @MaxMindDbParameter(name = "locales") List<String> locales,
+            @JsonProperty("confidence") @MaxMindDbParameter(name = "confidence") Integer confidence,
+            @JsonProperty("geoname_id") @MaxMindDbParameter(name = "geoname_id") Long geoNameId,
+            @JsonProperty("iso_code") @MaxMindDbParameter(name = "iso_code") String isoCode,
+            @JsonProperty("names") @MaxMindDbParameter(name = "names") Map<String, String> names
     ) {
-        this(
-                locales,
-                confidence,
-                geoNameId != null ? geoNameId.intValue() : null,
-                isoCode,
-                names
-        );
+        super(locales, geoNameId, names);
+        this.confidence = confidence;
+        this.isoCode = isoCode;
     }
 
     public Subdivision(
@@ -92,5 +76,4 @@ public final class Subdivision extends AbstractNamedRecord {
     public String getIsoCode() {
         return this.isoCode;
     }
-
 }

@@ -18,6 +18,12 @@ CHANGELOG
   deprecated in favor of `getUri()`. Constructors that took a `URL` have
   been replaced with the equivalent taking a `URI`.
 * Deprecated constructors on model and trait classes were removed.
+* Model data types were updated to better reflect database data types. In
+  particular:
+  * `getGeoNameId()` on `City`, `Continent`, `Country`, `RepresentedCountry`,
+    and `Subdivision` now returns a `Long` rather than an `Integer`.
+  * `getAutonomousSystemNumber()` on `AsnResponse` and `Traits` now returns
+    a `Long` rather than an `Integer`.
 
 2.16.1 (2021-11-18)
 -------------------

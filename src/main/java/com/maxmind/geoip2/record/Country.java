@@ -30,37 +30,19 @@ public class Country extends AbstractNamedRecord {
         this(null, null, null, false, null, null);
     }
 
+    @MaxMindDbConstructor
     public Country(
-            @JacksonInject("locales") List<String> locales,
-            @JsonProperty("confidence") Integer confidence,
-            @JsonProperty("geoname_id") Integer geoNameId,
-            @JsonProperty("is_in_european_union") boolean isInEuropeanUnion,
-            @JsonProperty("iso_code") String isoCode,
-            @JsonProperty("names") Map<String, String> names
+            @JacksonInject("locales") @MaxMindDbParameter(name = "locales") List<String> locales,
+            @JsonProperty("confidence") @MaxMindDbParameter(name = "confidence") Integer confidence,
+            @JsonProperty("geoname_id") @MaxMindDbParameter(name = "geoname_id") Long geoNameId,
+            @JsonProperty("is_in_european_union") @MaxMindDbParameter(name = "is_in_european_union") Boolean isInEuropeanUnion,
+            @JsonProperty("iso_code") @MaxMindDbParameter(name = "iso_code") String isoCode,
+            @JsonProperty("names") @MaxMindDbParameter(name = "names") Map<String, String> names
     ) {
         super(locales, geoNameId, names);
         this.confidence = confidence;
-        this.isInEuropeanUnion = isInEuropeanUnion;
+        this.isInEuropeanUnion = isInEuropeanUnion != null ? isInEuropeanUnion : false;
         this.isoCode = isoCode;
-    }
-
-    @MaxMindDbConstructor
-    public Country(
-            @MaxMindDbParameter(name = "locales") List<String> locales,
-            @MaxMindDbParameter(name = "confidence") Integer confidence,
-            @MaxMindDbParameter(name = "geoname_id") Long geoNameId,
-            @MaxMindDbParameter(name = "is_in_european_union") Boolean isInEuropeanUnion,
-            @MaxMindDbParameter(name = "iso_code") String isoCode,
-            @MaxMindDbParameter(name = "names") Map<String, String> names
-    ) {
-        this(
-                locales,
-                confidence,
-                geoNameId != null ? geoNameId.intValue() : null,
-                isInEuropeanUnion != null ? isInEuropeanUnion : false,
-                isoCode,
-                names
-        );
     }
 
     public Country(
