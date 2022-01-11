@@ -79,7 +79,7 @@ See the API documentation for more details.
 // connections alive for future requests.
 //
 // Replace "42" with your account ID and "license_key" with your license key.
-// To use the GeoLite2 web service instead of GeoIP2 Precision, call the
+// To use the GeoLite2 web service instead of the GeoIP2 web service, call the
 // host method on the builder with "geolite.info", e.g.
 // new WebServiceClient.Builder(42, "license_key").host("geolite.info").build()
 WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
@@ -96,7 +96,7 @@ System.out.println(country.getName());               // 'United States'
 System.out.println(country.getNames().get("zh-CN")); // '美国'
 ```
 
-### City Service ###
+### City Plus Service ###
 
 ```java
 // This creates a WebServiceClient object that is thread-safe and can be
@@ -104,7 +104,7 @@ System.out.println(country.getNames().get("zh-CN")); // '美国'
 // connections alive for future requests.
 //
 // Replace "42" with your account ID and "license_key" with your license key.
-// To use the GeoLite2 web service instead of GeoIP2 Precision, call the
+// To use the GeoLite2 web service instead of the GeoIP2 web service, call the
 // host method on the builder with "geolite.info", e.g.
 // new WebServiceClient.Builder(42, "license_key").host("geolite.info").build()
 WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
@@ -410,7 +410,7 @@ System.out.println(response.getOrganization());                 // 'University o
 ## Exceptions ##
 
 For details on the possible errors returned by the web service itself, [see
-the GeoIP2 Precision web service
+the GeoIP2 web service
 documentation](https://dev.maxmind.com/geoip/docs/web-services?lang=en).
 
 If the web service returns an explicit error document, this is thrown as an

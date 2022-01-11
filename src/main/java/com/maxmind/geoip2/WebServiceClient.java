@@ -25,21 +25,21 @@ import java.util.*;
 /**
  * <p>
  * The {@code WebServiceClient} class provides a client API for all the GeoIP2
- * Precision web service end points. The end points are Country, City, and
- * Insights. Each end point returns a different set of data about an IP
- * address, with Country returning the least data and Insights the most.
+ * web services. The services are Country, City Plus, and Insights. Each
+ * service returns a different set of data about an IP address, with Country
+ * returning the least data and Insights the most.
  * </p>
  * <p>
- * Each web service end point is represented by a different model class, and
- * these model classes in turn contain multiple Record classes. The record
- * classes have attributes which contain data about the IP address.
+ * Each service is represented by a different model class, and these model
+ * classes in turn contain multiple Record classes. The record classes have
+ * attributes which contain data about the IP address.
  * </p>
  * <p>
- * If the web service does not return a particular piece of data for an IP
+ * If the service does not return a particular piece of data for an IP
  * address, the associated attribute is not populated.
  * </p>
  * <p>
- * The web service may not return any information for an entire record, in which
+ * The service may not return any information for an entire record, in which
  * case all of the attributes for that record class will be empty.
  * </p>
  * <h2>Usage</h2>
@@ -52,11 +52,11 @@ import java.util.*;
  * set a {@code timeout} or set the {@code locales} fallback order using the
  * methods on the {@code Builder}. After you have created the
  * {@code WebServiceClient}, you may then call the method corresponding to a
- * specific end point, passing it the IP address you want to look up.
+ * specific service, passing it the IP address you want to look up.
  * </p>
  * <p>
  * If the request succeeds, the method call will return a model class for the
- * end point you called. This model in turn contains multiple record classes,
+ * service you called. This model in turn contains multiple record classes,
  * each of which represents part of the data returned by the web service.
  * </p>
  * <p>
@@ -205,7 +205,7 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
 
         /**
          * @param val The host to use. Set this to {@code geolite.info} to use the
-         *            GeoLite2 web service instead of GeoIP2 Precision.
+         *            GeoLite2 web services instead of the GeoIP2 web services.
          * @return Builder object
          */
         public Builder host(String val) {
@@ -301,7 +301,7 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
     }
 
     /**
-     * @return A City model for the requesting IP address
+     * @return A City Plus model for the requesting IP address
      * @throws GeoIp2Exception if there is an error from the web service
      * @throws IOException     if an IO error happens during the request
      */
