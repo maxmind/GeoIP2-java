@@ -185,8 +185,8 @@ public final class Traits extends AbstractRecord {
      * @return The <a
      * href="https://en.wikipedia.org/wiki/Autonomous_system_(Internet)"
      * >autonomous system number</a> associated with the IP address. This
-     * attribute is only available from the City Plus and Insights web
-     * services and the Enterprise database.
+     * is only available from the City Plus and Insights web services and
+     * the Enterprise database.
      */
     @JsonProperty("autonomous_system_number")
     public Long getAutonomousSystemNumber() {
@@ -196,9 +196,9 @@ public final class Traits extends AbstractRecord {
     /**
      * @return The organization associated with the registered <a
      * href="https://en.wikipedia.org/wiki/Autonomous_system_(Internet)"
-     * >autonomous system number</a> for the IP address. This attribute
-     * is only available from the City Plus and Insights web services
-     * and the Enterprise database.
+     * >autonomous system number</a> for the IP address. This is only
+     * available from the City Plus and Insights web services and the
+     * Enterprise database.
      */
     @JsonProperty("autonomous_system_organization")
     public String getAutonomousSystemOrganization() {
@@ -206,7 +206,7 @@ public final class Traits extends AbstractRecord {
     }
 
     /**
-     * @return The connection type of the IP address. This attribute is only
+     * @return The connection type of the IP address. This is only
      * available in the Enterprise database.
      */
     @JsonProperty("connection_type")
@@ -216,8 +216,8 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return The static IP score of the IP address. This is an indicator of
-     * how static or dynamic an IP address is. This attribute is only
-     * available from the Insights web service.
+     * how static or dynamic an IP address is. This is only available from
+     * the Insights web service.
      */
     @JsonProperty("static_ip_score")
     public Double getStaticIpScore() {
@@ -227,8 +227,8 @@ public final class Traits extends AbstractRecord {
     /**
      * @return The estimated number of users sharing the IP address/network
      * during the past 24 hours. For IPv4, the count is for the individual
-     * IP address. For IPv6, the count is for the /64 network. This attribute
-     * is only available from the Insights web service.
+     * IP address. For IPv6, the count is for the /64 network. This is only
+     * available from the Insights web service.
      */
     @JsonProperty("user_count")
     public Integer getUserCount() {
@@ -236,10 +236,10 @@ public final class Traits extends AbstractRecord {
     }
 
     /**
-     * @return The second level domain associated with the IP address. This will
-     * be something like "example.com" or "example.co.uk", not
-     * "foo.example.com". This attribute is only available from the City Plus
-     * and Insights web services and the Enterprise database.
+     * @return The second level domain associated with the IP address. This
+     * will be something like "example.com" or "example.co.uk", not
+     * "foo.example.com". This is only available from the City Plus and
+     * Insights web services and the Enterprise database.
      */
     @JsonProperty
     public String getDomain() {
@@ -251,8 +251,8 @@ public final class Traits extends AbstractRecord {
      * performed a "me" lookup against the web service, this will be the
      * externally routable IP address for the system the code is running
      * on. If the system is behind a NAT, this may differ from the IP
-     * address locally assigned to it. This attribute is available from
-     * all web services and databases.
+     * address locally assigned to it. This is available from all web
+     * services and databases.
      */
     @JsonProperty("ip_address")
     public String getIpAddress() {
@@ -261,8 +261,8 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return The name of the ISP associated with the IP address. This
-     * attribute is only available from the City Plus and Insights web
-     * services and the Enterprise database.
+     * is only available from the City Plus and Insights web services and
+     * the Enterprise database.
      */
     public String getIsp() {
         return this.isp;
@@ -278,8 +278,8 @@ public final class Traits extends AbstractRecord {
     }
 
     /**
-     * @return This is true if the IP is an anonymous proxy. This attribute is
-     * available from all web services and databases.
+     * @return This is true if the IP is an anonymous proxy. This is available
+     * from all web services and databases.
      * @deprecated Use our
      * <a href="https://www.maxmind.com/en/geoip2-anonymous-ip-database">GeoIP2
      * Anonymous IP database</a> instead.
@@ -333,8 +333,8 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return This is true if the IP address is on a suspected anonymizing
-     * network and belongs to a residential ISP. This attribute is only
-     * available from the Insights web service.
+     * network and belongs to a residential ISP. This is only available from
+     * the Insights web service.
      */
     @JsonProperty("is_residential_proxy")
     public boolean isResidentialProxy() {
@@ -343,7 +343,7 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return This is true if the IP belong to a satellite Internet provider.
-     * This attribute is available from all web services and databases.
+     * This is available from all web services and databases.
      * @deprecated Due to increased mobile usage, we have insufficient data to
      * maintain this field.
      */
@@ -365,8 +365,8 @@ public final class Traits extends AbstractRecord {
     /**
      * @return The <a href="https://en.wikipedia.org/wiki/Mobile_country_code">
      * mobile country code (MCC)</a> associated with the IP address and ISP.
-     * This property is available from the City Plus and Insights web services
-     * and the Enterprise database.
+     * This is available from the City Plus and Insights web services and the
+     * Enterprise database.
      */
     @JsonProperty("mobile_country_code")
     public String getMobileCountryCode() {
@@ -376,8 +376,8 @@ public final class Traits extends AbstractRecord {
     /**
      * @return The <a href="https://en.wikipedia.org/wiki/Mobile_country_code">
      * mobile network code (MNC)</a> associated with the IP address and ISP.
-     * This property is available from the City Plus and Insights web services
-     * and the Enterprise database.
+     * This is available from the City Plus and Insights web services and the
+     * Enterprise database.
      */
     @JsonProperty("mobile_network_code")
     public String getMobileNetworkCode() {
@@ -397,8 +397,8 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return The name of the organization associated with the IP address.
-     * This attribute is only available from the City Plus and Insights web
-     * services and the Enterprise database.
+     * This is only available from the City Plus and Insights web services and
+     * the Enterprise database.
      */
     @JsonProperty
     public String getOrganization() {
@@ -428,8 +428,8 @@ public final class Traits extends AbstractRecord {
      * <li>traveler
      * </ul>
      * <p>
-     * This attribute is only available from the Insights web service and the
-     * Enterprise database.
+     * This is only available from the Insights web service and the Enterprise
+     * database.
      * </p>
      */
     @JsonProperty("user_type")
