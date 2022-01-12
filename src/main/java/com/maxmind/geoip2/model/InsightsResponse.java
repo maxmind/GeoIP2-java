@@ -7,19 +7,11 @@ import com.maxmind.geoip2.record.*;
 import java.util.List;
 
 /**
- * <p>
- * This class provides a model for the data returned by the GeoIP2 Precision:
- * Insights end point.
- * </p>
- * <p>
- * The only difference between the City and Insights model classes is which
- * fields in each record may be populated.
- * </p>
- * <p>
+ * This class provides a model for the data returned by the Insights web
+ * service.
  *
  * @see <a href="https://dev.maxmind.com/geoip/docs/web-services?lang=en">GeoIP2 Web
  * Services</a>
- * </p>
  */
 public class InsightsResponse extends AbstractCityResponse {
     public InsightsResponse(

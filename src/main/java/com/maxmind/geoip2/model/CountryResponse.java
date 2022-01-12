@@ -10,8 +10,8 @@ import com.maxmind.geoip2.record.*;
 import java.util.List;
 
 /**
- * This class provides a model for the data returned by the GeoIP2 Precision:
- * Country end point.
+ * This class provides a model for the data returned by the Country web service
+ * and the Country database.
  *
  * @see <a href="https://dev.maxmind.com/geoip/docs/web-services?lang=en">GeoIP2 Web
  * Services</a>
