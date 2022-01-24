@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-3.0.0
+3.0.0 (2022-01-24)
 ------------------
 
 * Java 11 or greater is now required.
