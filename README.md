@@ -17,7 +17,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>2.16.1</version>
+        <version>3.0.0</version>
     </dependency>
 ```
 
@@ -30,7 +30,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.maxmind.geoip2:geoip2:2.16.1'
+    compile 'com.maxmind.geoip2:geoip2:3.0.0'
 }
 ```
 
