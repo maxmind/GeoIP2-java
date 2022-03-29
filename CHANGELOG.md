@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+3.0.1 (2022-03-29)
+------------------
+
+* Updated Jackson dependencies to address CVE-2020-36518. Pull request by
+  slunker. GitHub #306.
+* Minor doc updates.
+
 3.0.0 (2022-01-24)
 ------------------
 
