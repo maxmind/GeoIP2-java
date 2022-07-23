@@ -344,7 +344,7 @@ InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
 DomainResponse response = reader.domain(ipAddress);
 
-System.out.println(response.getDomain()); // 'Corporate'
+System.out.println(response.getDomain()); // 'umn.edu'
 ```
 
 ### Enterprise ###
