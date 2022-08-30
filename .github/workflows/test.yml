@@ -6,6 +6,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        distribution: ['zulu']
         os: [ubuntu-latest, windows-latest, macos-latest]
         version: [ 11, 12, 13, 14, 15, 16, 17 ]
     steps:
@@ -14,5 +15,6 @@ jobs:
           submodules: true
       - uses: actions/setup-java@v3
         with:
+          distribution: ${{ matrix.distribution }}
           java-version: ${{ matrix.version }}
       - run: mvn test -B
