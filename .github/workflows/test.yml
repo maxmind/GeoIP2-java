@@ -17,4 +17,5 @@ jobs:
         with:
           distribution: ${{ matrix.distribution }}
           java-version: ${{ matrix.version }}
+      - run: mvn javadoc:javadoc
       - run: mvn test -B
