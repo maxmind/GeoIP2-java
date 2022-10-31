@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+3.0.2 (2022-10-31)
+------------------
+
+* Updated Jackson and `maxmind-db` dependencies.
+
 3.0.1 (2022-03-29)
 ------------------
 
