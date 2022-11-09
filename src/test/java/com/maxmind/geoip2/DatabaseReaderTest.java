@@ -215,6 +215,26 @@ public class DatabaseReaderTest {
             assertEquals(response.toJson(), tryResponse.toJson());
         }
     }
+    @Test
+    public void testIPRisk() throws Exception {
+        try (DatabaseReader reader = new DatabaseReader.Builder(
+                this.getFile("GeoIP2-IP-Risk-Test.mmdb")).build()
+        ) {
+            InetAddress ipAddress = InetAddress.getByName("0000:0000:0000:0000:0000:0000:D602:0300");
+            IPRiskResponse response = reader.ipRisk(ipAddress);
+            assertTrue(response.isAnonymous());
+            assertTrue(response.isAnonymousVpn());
+            assertFalse(response.isHostingProvider());
+            assertFalse(response.isPublicProxy());
+            assertFalse(response.isResidentialProxy());
+            assertFalse(response.isTorExitNode());
+            assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
+            assertEquals(0.1,response.getIPRisk(), 0.0001);
+            assertEquals("0:0:0:0:0:0:d602:300/126", response.getNetwork().toString());
+            IPRiskResponse tryResponse = reader.tryIPRisk(ipAddress).get();
+            assertEquals(response.toJson(), tryResponse.toJson());
+        }
+    }
 
     @Test
     public void testAnonymousIpIsResidentialProxy() throws Exception {
@@ -277,7 +297,7 @@ public class DatabaseReaderTest {
 
             ConnectionTypeResponse response = reader.connectionType(ipAddress);
 
-            assertEquals(ConnectionType.CABLE_DSL, response.getConnectionType());
+            assertEquals(ConnectionType.CELLULAR, response.getConnectionType());
             assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
             assertEquals("1.0.1.0/24", response.getNetwork().toString());
 

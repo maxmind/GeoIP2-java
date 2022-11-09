@@ -75,6 +75,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         COUNTRY,
         DOMAIN,
         ENTERPRISE,
+        IP_RISK,
         ISP;
 
         final int type;
@@ -105,6 +106,9 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         int type = 0;
         if (databaseType.contains("GeoIP2-Anonymous-IP")) {
             type |= DatabaseType.ANONYMOUS_IP.type;
+        }
+        if (databaseType.contains("GeoIP2-IP-Risk")) {
+            type |= DatabaseType.IP_RISK.type;
         }
         if (databaseType.contains("GeoLite2-ASN")) {
             type |= DatabaseType.ASN.type;
@@ -409,6 +413,51 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                 )
         );
     }
+    /**
+ * Look up an IP address in a GeoIP2 IP Risk.
+ *
+ * @param ipAddress IPv4 or IPv6 address to lookup.
+ * @return a IPRiskResponse for the requested IP address.
+ * @throws GeoIp2Exception if there is an error looking up the IP
+ * @throws IOException     if there is an IO error
+ */
+@Override
+public IPRiskResponse ipRisk(InetAddress ipAddress) throws IOException,
+        GeoIp2Exception {
+    Optional<IPRiskResponse> r = getIPRisk(ipAddress);
+    if (r.isEmpty()) {
+        throw new AddressNotFoundException("The address "
+                + ipAddress.getHostAddress() + " is not in the database.");
+    }
+    return r.get();
+}
+
+@Override
+public Optional<IPRiskResponse> tryIPRisk(InetAddress ipAddress) throws IOException,
+        GeoIp2Exception {
+    return getIPRisk(ipAddress);
+}
+
+private Optional<IPRiskResponse> getIPRisk(
+        InetAddress ipAddress
+) throws IOException, GeoIp2Exception {
+    LookupResult<IPRiskResponse> result = this.get(
+            ipAddress,
+            IPRiskResponse.class,
+            DatabaseType.IP_RISK
+    );
+    IPRiskResponse response = result.getModel();
+    if (response == null) {
+        return Optional.empty();
+    }
+    return Optional.of(
+            new IPRiskResponse(
+                    response,
+                    result.getIpAddress(),
+                    result.getNetwork()
+            )
+    );
+}
 
     /**
      * Look up an IP address in a GeoLite2 ASN database.
