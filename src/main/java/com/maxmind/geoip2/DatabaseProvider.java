@@ -62,7 +62,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
     GeoIp2Exception;
 
 /**
-* Look up an IP address in a GeoIP2 Anonymous IP.
+* Look up an IP address in a GeoIP2 IP Risk database.
 *
 * @param ipAddress IPv4 or IPv6 address to lookup.
 * @return an IPRiskResponse for the requested IP address or empty if the IP address is not in the DB.
