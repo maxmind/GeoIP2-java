@@ -9,7 +9,7 @@ import com.maxmind.db.Network;
 import com.maxmind.geoip2.NetworkDeserializer;
 
 /**
- * This class provides the GeoIP2 risk model.
+ * This class provides the GeoIP2 IP Risk model.
  */
 public class IPRiskResponse extends IPBaseResponse {
 
