@@ -13,7 +13,7 @@ import com.maxmind.geoip2.NetworkDeserializer;
  */
 public class IpRiskResponse extends IpBaseResponse {
 
-    private final float ipRisk;
+    private final double ipRisk;
 
     public IpRiskResponse (
             @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
@@ -24,7 +24,7 @@ public class IpRiskResponse extends IpBaseResponse {
             @JsonProperty("is_residential_proxy") boolean isResidentialProxy,
             @JsonProperty("is_tor_exit_node") boolean isTorExitNode,
             @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) Network network,
-            @JsonProperty("ip_risk") float ipRisk
+            @JsonProperty("ip_risk") double ipRisk
     ) {
         super(ipAddress, isAnonymous, isAnonymousVpn, isHostingProvider, isPublicProxy, isResidentialProxy, isTorExitNode, network);
         this.ipRisk = ipRisk;
@@ -40,7 +40,7 @@ public class IpRiskResponse extends IpBaseResponse {
             @MaxMindDbParameter(name = "is_residential_proxy") Boolean isResidentialProxy,
             @MaxMindDbParameter(name = "is_tor_exit_node") Boolean isTorExitNode,
             @MaxMindDbParameter(name = "network") Network network,
-            @MaxMindDbParameter(name = "ip_risk") float ipRisk
+            @MaxMindDbParameter(name = "ip_risk") double ipRisk
 
     ) {
         this(
@@ -79,7 +79,7 @@ public class IpRiskResponse extends IpBaseResponse {
      * @return The IP risk of a model.
      */
     @JsonProperty("ip_risk")
-    public float getIPRisk(){
+    public double getIPRisk(){
         return this.ipRisk;
     }
 }
