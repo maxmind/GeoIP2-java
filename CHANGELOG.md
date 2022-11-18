@@ -3,7 +3,7 @@ CHANGELOG
 4.0.0 (2022-11-17)
 ------------------
 
-* Added support for ip risk database.
+* Added support for the GeoIP2 IP Risk database.
 
 3.0.2 (2022-10-31)
 ------------------
