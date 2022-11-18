@@ -422,9 +422,9 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
  * @throws IOException     if there is an IO error
  */
 @Override
-public IPRiskResponse ipRisk(InetAddress ipAddress) throws IOException,
+public IpRiskResponse ipRisk(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
-    Optional<IPRiskResponse> r = getIPRisk(ipAddress);
+    Optional<IpRiskResponse> r = getIpRisk(ipAddress);
     if (r.isEmpty()) {
         throw new AddressNotFoundException("The address "
                 + ipAddress.getHostAddress() + " is not in the database.");
@@ -433,25 +433,25 @@ public IPRiskResponse ipRisk(InetAddress ipAddress) throws IOException,
 }
 
 @Override
-public Optional<IPRiskResponse> tryIPRisk(InetAddress ipAddress) throws IOException,
+public Optional<IpRiskResponse> tryIpRisk(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
-    return getIPRisk(ipAddress);
+    return getIpRisk(ipAddress);
 }
 
-private Optional<IPRiskResponse> getIPRisk(
+private Optional<IpRiskResponse> getIpRisk(
         InetAddress ipAddress
 ) throws IOException, GeoIp2Exception {
-    LookupResult<IPRiskResponse> result = this.get(
+    LookupResult<IpRiskResponse> result = this.get(
             ipAddress,
-            IPRiskResponse.class,
+            IpRiskResponse.class,
             DatabaseType.IP_RISK
     );
-    IPRiskResponse response = result.getModel();
+    IpRiskResponse response = result.getModel();
     if (response == null) {
         return Optional.empty();
     }
     return Optional.of(
-            new IPRiskResponse(
+            new IpRiskResponse(
                     response,
                     result.getIpAddress(),
                     result.getNetwork()

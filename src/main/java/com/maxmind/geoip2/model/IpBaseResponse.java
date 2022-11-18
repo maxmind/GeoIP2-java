@@ -8,7 +8,7 @@ import com.maxmind.db.Network;
 /**
  * This class provides the base IP model.
  */
-public class IPBaseResponse extends AbstractResponse {
+public class IpBaseResponse extends AbstractResponse {
 
     private final boolean isAnonymous;
     private final boolean isAnonymousVpn;
@@ -19,7 +19,7 @@ public class IPBaseResponse extends AbstractResponse {
     private final String ipAddress;
     private final Network network;
 
-    public IPBaseResponse(
+    public IpBaseResponse(
              String ipAddress,
              boolean isAnonymous,
              boolean isAnonymousVpn,

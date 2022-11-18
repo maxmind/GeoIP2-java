@@ -58,7 +58,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
-    IPRiskResponse ipRisk(InetAddress ipAddress) throws IOException,
+    IpRiskResponse ipRisk(InetAddress ipAddress) throws IOException,
     GeoIp2Exception;
 
 /**
@@ -69,7 +69,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
 * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
 * @throws java.io.IOException                          if there is an IO error
 */
-Optional<IPRiskResponse> tryIPRisk(InetAddress ipAddress) throws IOException,
+Optional<IpRiskResponse> tryIpRisk(InetAddress ipAddress) throws IOException,
     GeoIp2Exception;
 
     /**

@@ -11,7 +11,7 @@ import com.maxmind.geoip2.NetworkDeserializer;
 /**
  * This class provides the GeoIP2 Anonymous IP model.
  */
-public class AnonymousIpResponse extends IPBaseResponse {
+public class AnonymousIpResponse extends IpBaseResponse {
 
     public AnonymousIpResponse(
             @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,

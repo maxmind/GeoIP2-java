@@ -221,7 +221,7 @@ public class DatabaseReaderTest {
                 this.getFile("GeoIP2-IP-Risk-Test.mmdb")).build()
         ) {
             InetAddress ipAddress = InetAddress.getByName("0000:0000:0000:0000:0000:0000:D602:0300");
-            IPRiskResponse response = reader.ipRisk(ipAddress);
+            IpRiskResponse response = reader.ipRisk(ipAddress);
             assertTrue(response.isAnonymous());
             assertTrue(response.isAnonymousVpn());
             assertFalse(response.isHostingProvider());
@@ -231,7 +231,7 @@ public class DatabaseReaderTest {
             assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
             assertEquals(0.1,response.getIPRisk(), 0.0001);
             assertEquals("0:0:0:0:0:0:d602:300/126", response.getNetwork().toString());
-            IPRiskResponse tryResponse = reader.tryIPRisk(ipAddress).get();
+            IpRiskResponse tryResponse = reader.tryIpRisk(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
         }
     }

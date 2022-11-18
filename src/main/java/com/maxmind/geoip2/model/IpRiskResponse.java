@@ -11,11 +11,11 @@ import com.maxmind.geoip2.NetworkDeserializer;
 /**
  * This class provides the GeoIP2 IP Risk model.
  */
-public class IPRiskResponse extends IPBaseResponse {
+public class IpRiskResponse extends IpBaseResponse {
 
     private final float ipRisk;
 
-    public IPRiskResponse (
+    public IpRiskResponse (
             @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
             @JsonProperty("is_anonymous") boolean isAnonymous,
             @JsonProperty("is_anonymous_vpn") boolean isAnonymousVpn,
@@ -31,7 +31,7 @@ public class IPRiskResponse extends IPBaseResponse {
     }
 
     @MaxMindDbConstructor
-    public IPRiskResponse(
+    public IpRiskResponse(
             @MaxMindDbParameter(name = "ip_address") String ipAddress,
             @MaxMindDbParameter(name = "is_anonymous") Boolean isAnonymous,
             @MaxMindDbParameter(name = "is_anonymous_vpn") Boolean isAnonymousVpn,
@@ -57,8 +57,8 @@ public class IPRiskResponse extends IPBaseResponse {
         );
     }
 
-    public IPRiskResponse(
-            IPRiskResponse response,
+    public IpRiskResponse(
+            IpRiskResponse response,
             String ipAddress,
             Network network
     ) {
