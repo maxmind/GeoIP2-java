@@ -215,6 +215,7 @@ public class DatabaseReaderTest {
             assertEquals(response.toJson(), tryResponse.toJson());
         }
     }
+
     @Test
     public void testIPRisk() throws Exception {
         try (DatabaseReader reader = new DatabaseReader.Builder(
