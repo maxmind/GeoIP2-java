@@ -75,6 +75,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         COUNTRY,
         DOMAIN,
         ENTERPRISE,
+        IP_RISK,
         ISP;
 
         final int type;
@@ -105,6 +106,9 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         int type = 0;
         if (databaseType.contains("GeoIP2-Anonymous-IP")) {
             type |= DatabaseType.ANONYMOUS_IP.type;
+        }
+        if (databaseType.contains("GeoIP2-IP-Risk")) {
+            type |= DatabaseType.IP_RISK.type;
         }
         if (databaseType.contains("GeoLite2-ASN")) {
             type |= DatabaseType.ASN.type;
@@ -403,6 +407,51 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         }
         return Optional.of(
                 new AnonymousIpResponse(
+                        response,
+                        result.getIpAddress(),
+                        result.getNetwork()
+                )
+        );
+    }
+
+    /**
+     * Look up an IP address in a GeoIP2 IP Risk database.
+     *
+     * @param ipAddress IPv4 or IPv6 address to lookup.
+     * @return a IPRiskResponse for the requested IP address.
+     * @throws GeoIp2Exception if there is an error looking up the IP
+     * @throws IOException     if there is an IO error
+     */
+    @Override
+    public IpRiskResponse ipRisk(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        Optional<IpRiskResponse> r = getIpRisk(ipAddress);
+        if (r.isEmpty()) {
+            throw new AddressNotFoundException("The address "
+                    + ipAddress.getHostAddress() + " is not in the database.");
+        }
+        return r.get();
+    }
+
+    @Override
+    public Optional<IpRiskResponse> tryIpRisk(InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        return getIpRisk(ipAddress);
+    }
+
+    private Optional<IpRiskResponse> getIpRisk(    InetAddress ipAddress) throws IOException,
+            GeoIp2Exception {
+        LookupResult<IpRiskResponse> result = this.get(
+                ipAddress,
+                IpRiskResponse.class,
+                DatabaseType.IP_RISK
+        );
+        IpRiskResponse response = result.getModel();
+        if (response == null) {
+            return Optional.empty();
+        }
+        return Optional.of(
+                new IpRiskResponse(
                         response,
                         result.getIpAddress(),
                         result.getNetwork()

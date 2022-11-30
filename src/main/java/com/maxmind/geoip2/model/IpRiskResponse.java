@@ -9,11 +9,13 @@ import com.maxmind.db.Network;
 import com.maxmind.geoip2.NetworkDeserializer;
 
 /**
- * This class provides the GeoIP2 Anonymous IP model.
+ * This class provides the GeoIP2 IP Risk model.
  */
-public class AnonymousIpResponse extends IpBaseResponse {
+public class IpRiskResponse extends IpBaseResponse {
 
-    public AnonymousIpResponse(
+    private final double ipRisk;
+
+    public IpRiskResponse (
             @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
             @JsonProperty("is_anonymous") boolean isAnonymous,
             @JsonProperty("is_anonymous_vpn") boolean isAnonymousVpn,
@@ -21,13 +23,15 @@ public class AnonymousIpResponse extends IpBaseResponse {
             @JsonProperty("is_public_proxy") boolean isPublicProxy,
             @JsonProperty("is_residential_proxy") boolean isResidentialProxy,
             @JsonProperty("is_tor_exit_node") boolean isTorExitNode,
-            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) Network network
+            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) Network network,
+            @JsonProperty("ip_risk") double ipRisk
     ) {
         super(ipAddress, isAnonymous, isAnonymousVpn, isHostingProvider, isPublicProxy, isResidentialProxy, isTorExitNode, network);
+        this.ipRisk = ipRisk;
     }
 
     @MaxMindDbConstructor
-    public AnonymousIpResponse(
+    public IpRiskResponse(
             @MaxMindDbParameter(name = "ip_address") String ipAddress,
             @MaxMindDbParameter(name = "is_anonymous") Boolean isAnonymous,
             @MaxMindDbParameter(name = "is_anonymous_vpn") Boolean isAnonymousVpn,
@@ -35,7 +39,9 @@ public class AnonymousIpResponse extends IpBaseResponse {
             @MaxMindDbParameter(name = "is_public_proxy") Boolean isPublicProxy,
             @MaxMindDbParameter(name = "is_residential_proxy") Boolean isResidentialProxy,
             @MaxMindDbParameter(name = "is_tor_exit_node") Boolean isTorExitNode,
-            @MaxMindDbParameter(name = "network") Network network
+            @MaxMindDbParameter(name = "network") Network network,
+            @MaxMindDbParameter(name = "ip_risk") double ipRisk
+
     ) {
         this(
                 ipAddress,
@@ -45,12 +51,14 @@ public class AnonymousIpResponse extends IpBaseResponse {
                 isPublicProxy != null ? isPublicProxy : false,
                 isResidentialProxy != null ? isResidentialProxy : false,
                 isTorExitNode != null ? isTorExitNode : false,
-                network
+                network,
+                ipRisk
+                
         );
     }
 
-    public AnonymousIpResponse(
-            AnonymousIpResponse response,
+    public IpRiskResponse(
+            IpRiskResponse response,
             String ipAddress,
             Network network
     ) {
@@ -62,7 +70,16 @@ public class AnonymousIpResponse extends IpBaseResponse {
                 response.isPublicProxy(),
                 response.isResidentialProxy(),
                 response.isTorExitNode(),
-                network
+                network,
+                response.ipRisk
         );
+    }
+
+    /**
+     * @return The IP risk of a model.
+     */
+    @JsonProperty("ip_risk")
+    public double getIPRisk(){
+        return this.ipRisk;
     }
 }
