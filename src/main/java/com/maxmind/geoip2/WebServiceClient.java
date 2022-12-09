@@ -129,10 +129,8 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
         // HttpClient supports basic auth, but it will only send it after the
         // server responds with an unauthorized. As such, we just make the
         // Authorization header ourselves.
-        this.authHeader = "Basic " +
-            Base64.getEncoder()
-                .encodeToString((builder.accountId + ":" + builder.licenseKey)
-                    .getBytes(StandardCharsets.UTF_8));
+        this.authHeader = "Basic " + Base64.getEncoder().encodeToString(
+            (builder.accountId + ":" + builder.licenseKey).getBytes(StandardCharsets.UTF_8));
 
         mapper = JsonMapper.builder()
             .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
@@ -156,7 +154,8 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
      * with the {@code Builder}:
      * </p>
      * <p>
-     * {@code WebServiceClient client = new WebServiceClient.Builder(12,"licensekey").host("geoip.maxmind.com").build();}
+     * {@code WebServiceClient client = new WebServiceClient.Builder(12,"licensekey")
+     *      .host("geoip.maxmind.com").build();}
      * </p>
      * <p>
      * Only the values set in the {@code Builder} constructor are required.
@@ -208,8 +207,8 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
         }
 
         /**
-         * Disables HTTPS to connect to a test server or proxy. The minFraud ScoreResponse and InsightsResponse web services require
-         * HTTPS.
+         * Disables HTTPS to connect to a test server or proxy. The minFraud ScoreResponse and
+         * InsightsResponse web services require HTTPS.
          *
          * @return Builder object
          */
@@ -456,10 +455,10 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
                 throw new OutOfQueriesException(error);
             case "PERMISSION_REQUIRED":
                 throw new PermissionRequiredException(error);
+            default:
+                // These should be fairly rare
+                throw new InvalidRequestException(error, code, uri);
         }
-
-        // These should be fairly rare
-        throw new InvalidRequestException(error, code, uri);
     }
 
     private URI createUri(String service, InetAddress ipAddress) throws GeoIp2Exception {
@@ -504,15 +503,15 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
 
     @Override
     public String toString() {
-        return "WebServiceClient{" +
-            "host='" + host + '\'' +
-            ", locales=" + locales +
-            ", useHttps=" + useHttps +
-            ", port=" + port +
-            ", requestTimeout=" + requestTimeout +
-            ", userAgent='" + userAgent + '\'' +
-            ", mapper=" + mapper +
-            ", httpClient=" + httpClient +
-            '}';
+        return "WebServiceClient{"
+            + "host='" + host + '\''
+            + ", locales=" + locales
+            + ", useHttps=" + useHttps
+            + ", port=" + port
+            + ", requestTimeout=" + requestTimeout
+            + ", userAgent='" + userAgent + '\''
+            + ", mapper=" + mapper
+            + ", httpClient=" + httpClient
+            + '}';
     }
 }

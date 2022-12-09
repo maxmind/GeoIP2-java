@@ -211,9 +211,9 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         /**
          * @param val The file mode used to open the GeoIP2 database
          * @return Builder object
-         * @throws java.lang.IllegalArgumentException if you initialized the Builder with a URL, which uses
-         *                                            {@link FileMode#MEMORY}, but you provided a different
-         *                                            FileMode to this method.
+         * @throws java.lang.IllegalArgumentException if you initialized the Builder with a URL,
+         *                                            which uses {@link FileMode#MEMORY}, but you
+         *                                            provided a different FileMode to this method.
          */
         public Builder fileMode(FileMode val) {
             if (this.stream != null && FileMode.MEMORY != val) {
@@ -262,7 +262,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * @param ipAddress    IPv4 or IPv6 address to lookup.
      * @param cls          The class to deserialize to.
      * @param expectedType The expected database type.
-     * @return A LookupResult<T> object with the data for the IP address
+     * @return A {@code LookupResult<T>} object with the data for the IP address
      * @throws IOException if there is an error opening or reading from the file.
      */
     private <T> LookupResult<T> get(InetAddress ipAddress, Class<T> cls,
