@@ -23,8 +23,8 @@ public final class Postal extends AbstractRecord {
 
     @MaxMindDbConstructor
     public Postal(
-            @JsonProperty("code") @MaxMindDbParameter(name = "code") String code,
-            @JsonProperty("confidence") @MaxMindDbParameter(name = "confidence") Integer confidence
+        @JsonProperty("code") @MaxMindDbParameter(name = "code") String code,
+        @JsonProperty("confidence") @MaxMindDbParameter(name = "confidence") Integer confidence
     ) {
         this.code = code;
         this.confidence = confidence;

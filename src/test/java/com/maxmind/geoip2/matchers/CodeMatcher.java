@@ -26,7 +26,7 @@ public class CodeMatcher extends TypeSafeMatcher<InvalidRequestException> {
     @Override
     public void describeTo(Description description) {
         description.appendValue(this.foundErrorCode)
-                .appendText(" was not found instead of ")
-                .appendValue(this.expectedErrorCode);
+            .appendText(" was not found instead of ")
+            .appendValue(this.expectedErrorCode);
     }
 }

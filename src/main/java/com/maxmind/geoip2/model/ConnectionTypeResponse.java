@@ -21,7 +21,7 @@ public class ConnectionTypeResponse extends AbstractResponse {
      */
     public enum ConnectionType {
         DIALUP("Dialup"), CABLE_DSL("Cable/DSL"), CORPORATE("Corporate"), CELLULAR(
-                "Cellular");
+            "Cellular");
 
         private final String name;
 
@@ -65,9 +65,10 @@ public class ConnectionTypeResponse extends AbstractResponse {
     private final Network network;
 
     public ConnectionTypeResponse(
-            @JsonProperty("connection_type") ConnectionType connectionType,
-            @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
-            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) Network network
+        @JsonProperty("connection_type") ConnectionType connectionType,
+        @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
+        @JacksonInject("network") @JsonProperty("network")
+        @JsonDeserialize(using = NetworkDeserializer.class) Network network
     ) {
         this.connectionType = connectionType;
         this.ipAddress = ipAddress;
@@ -76,26 +77,26 @@ public class ConnectionTypeResponse extends AbstractResponse {
 
     @MaxMindDbConstructor
     public ConnectionTypeResponse(
-            @MaxMindDbParameter(name = "connection_type") String connectionType,
-            @MaxMindDbParameter(name = "ip_address") String ipAddress,
-            @MaxMindDbParameter(name = "network") Network network
+        @MaxMindDbParameter(name = "connection_type") String connectionType,
+        @MaxMindDbParameter(name = "ip_address") String ipAddress,
+        @MaxMindDbParameter(name = "network") Network network
     ) {
         this(
-                ConnectionType.fromString(connectionType),
-                ipAddress,
-                network
+            ConnectionType.fromString(connectionType),
+            ipAddress,
+            network
         );
     }
 
     public ConnectionTypeResponse(
-            ConnectionTypeResponse response,
-            String ipAddress,
-            Network network
+        ConnectionTypeResponse response,
+        String ipAddress,
+        Network network
     ) {
         this(
-                response.getConnectionType(),
-                ipAddress,
-                network
+            response.getConnectionType(),
+            ipAddress,
+            network
         );
     }
 

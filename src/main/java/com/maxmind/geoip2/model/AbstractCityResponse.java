@@ -2,8 +2,15 @@ package com.maxmind.geoip2.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maxmind.db.Network;
-import com.maxmind.geoip2.record.*;
-
+import com.maxmind.geoip2.record.City;
+import com.maxmind.geoip2.record.Continent;
+import com.maxmind.geoip2.record.Country;
+import com.maxmind.geoip2.record.Location;
+import com.maxmind.geoip2.record.MaxMind;
+import com.maxmind.geoip2.record.Postal;
+import com.maxmind.geoip2.record.RepresentedCountry;
+import com.maxmind.geoip2.record.Subdivision;
+import com.maxmind.geoip2.record.Traits;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,16 +22,16 @@ public abstract class AbstractCityResponse extends AbstractCountryResponse {
     private final List<Subdivision> subdivisions;
 
     AbstractCityResponse(
-            City city,
-            Continent continent,
-            Country country,
-            Location location,
-            MaxMind maxmind,
-            Postal postal,
-            Country registeredCountry,
-            RepresentedCountry representedCountry,
-            List<Subdivision> subdivisions,
-            Traits traits
+        City city,
+        Continent continent,
+        Country country,
+        Location location,
+        MaxMind maxmind,
+        Postal postal,
+        Country registeredCountry,
+        RepresentedCountry representedCountry,
+        List<Subdivision> subdivisions,
+        Traits traits
     ) {
         super(continent, country, maxmind, registeredCountry, representedCountry, traits);
         this.city = city != null ? city : new City();
@@ -34,10 +41,10 @@ public abstract class AbstractCityResponse extends AbstractCountryResponse {
     }
 
     AbstractCityResponse(
-            AbstractCityResponse response,
-            String ipAddress,
-            Network network,
-            List<String> locales
+        AbstractCityResponse response,
+        String ipAddress,
+        Network network,
+        List<String> locales
     ) {
         super(response, ipAddress, network, locales);
         // The response fields will be non-null because of the above
@@ -49,8 +56,8 @@ public abstract class AbstractCityResponse extends AbstractCountryResponse {
     }
 
     private static ArrayList<Subdivision> mapSubdivisions(
-            List<Subdivision> subdivisions,
-            List<String> locales
+        List<Subdivision> subdivisions,
+        List<String> locales
     ) {
         ArrayList<Subdivision> subdivisions2 = new ArrayList<>(subdivisions.size());
         for (Subdivision subdivision : subdivisions) {

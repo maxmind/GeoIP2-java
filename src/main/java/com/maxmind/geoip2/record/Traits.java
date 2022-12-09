@@ -41,41 +41,42 @@ public final class Traits extends AbstractRecord {
 
     public Traits() {
         this(null, null, null, null,
-                null, false, false, false, false,
-                false, false, false, false, false, null,
-                null, null, null, null, null, null, null);
+            null, false, false, false, false,
+            false, false, false, false, false, null,
+            null, null, null, null, null, null, null);
     }
 
     public Traits(String ipAddress, Network network) {
         this(null, null, null, null,
-                ipAddress, false, false, false, false,
-                false, false, false, false, false, null,
-                null, null, network, null, null, null, null);
+            ipAddress, false, false, false, false,
+            false, false, false, false, false, null,
+            null, null, network, null, null, null, null);
     }
 
     public Traits(
-            @JsonProperty("autonomous_system_number") Long autonomousSystemNumber,
-            @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
-            @JsonProperty("connection_type") ConnectionType connectionType,
-            @JsonProperty("domain") String domain,
-            @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
-            @JsonProperty("is_anonymous") boolean isAnonymous,
-            @JsonProperty("is_anonymous_proxy") boolean isAnonymousProxy,
-            @JsonProperty("is_anonymous_vpn") boolean isAnonymousVpn,
-            @JsonProperty("is_hosting_provider") boolean isHostingProvider,
-            @JsonProperty("is_legitimate_proxy") boolean isLegitimateProxy,
-            @JsonProperty("is_public_proxy") boolean isPublicProxy,
-            @JsonProperty("is_residential_proxy") boolean isResidentialProxy,
-            @JsonProperty("is_satellite_provider") boolean isSatelliteProvider,
-            @JsonProperty("is_tor_exit_node") boolean isTorExitNode,
-            @JsonProperty("isp") String isp,
-            @JsonProperty("mobile_country_code") String mobileCountryCode,
-            @JsonProperty("mobile_network_code") String mobileNetworkCode,
-            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) Network network,
-            @JsonProperty("organization") String organization,
-            @JsonProperty("user_type") String userType,
-            @JsonProperty("user_count") Integer userCount,
-            @JsonProperty("static_ip_score") Double staticIpScore
+        @JsonProperty("autonomous_system_number") Long autonomousSystemNumber,
+        @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
+        @JsonProperty("connection_type") ConnectionType connectionType,
+        @JsonProperty("domain") String domain,
+        @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
+        @JsonProperty("is_anonymous") boolean isAnonymous,
+        @JsonProperty("is_anonymous_proxy") boolean isAnonymousProxy,
+        @JsonProperty("is_anonymous_vpn") boolean isAnonymousVpn,
+        @JsonProperty("is_hosting_provider") boolean isHostingProvider,
+        @JsonProperty("is_legitimate_proxy") boolean isLegitimateProxy,
+        @JsonProperty("is_public_proxy") boolean isPublicProxy,
+        @JsonProperty("is_residential_proxy") boolean isResidentialProxy,
+        @JsonProperty("is_satellite_provider") boolean isSatelliteProvider,
+        @JsonProperty("is_tor_exit_node") boolean isTorExitNode,
+        @JsonProperty("isp") String isp,
+        @JsonProperty("mobile_country_code") String mobileCountryCode,
+        @JsonProperty("mobile_network_code") String mobileNetworkCode,
+        @JacksonInject("network") @JsonProperty("network")
+        @JsonDeserialize(using = NetworkDeserializer.class) Network network,
+        @JsonProperty("organization") String organization,
+        @JsonProperty("user_type") String userType,
+        @JsonProperty("user_count") Integer userCount,
+        @JsonProperty("static_ip_score") Double staticIpScore
     ) {
         this.autonomousSystemNumber = autonomousSystemNumber;
         this.autonomousSystemOrganization = autonomousSystemOrganization;
@@ -103,28 +104,29 @@ public final class Traits extends AbstractRecord {
 
     @MaxMindDbConstructor
     public Traits(
-            @MaxMindDbParameter(name = "autonomous_system_number") Long autonomousSystemNumber,
-            @MaxMindDbParameter(name = "autonomous_system_organization") String autonomousSystemOrganization,
-            @MaxMindDbParameter(name = "connection_type") String connectionType,
-            @MaxMindDbParameter(name = "domain") String domain,
-            @MaxMindDbParameter(name = "ip_address") String ipAddress,
-            @MaxMindDbParameter(name = "is_anonymous") Boolean isAnonymous,
-            @MaxMindDbParameter(name = "is_anonymous_proxy") Boolean isAnonymousProxy,
-            @MaxMindDbParameter(name = "is_anonymous_vpn") Boolean isAnonymousVpn,
-            @MaxMindDbParameter(name = "is_hosting_provider") Boolean isHostingProvider,
-            @MaxMindDbParameter(name = "is_legitimate_proxy") Boolean isLegitimateProxy,
-            @MaxMindDbParameter(name = "is_public_proxy") Boolean isPublicProxy,
-            @MaxMindDbParameter(name = "is_residential_proxy") Boolean isResidentialProxy,
-            @MaxMindDbParameter(name = "is_satellite_provider") Boolean isSatelliteProvider,
-            @MaxMindDbParameter(name = "is_tor_exit_node") Boolean isTorExitNode,
-            @MaxMindDbParameter(name = "isp") String isp,
-            @MaxMindDbParameter(name = "mobile_country_code") String mobileCountryCode,
-            @MaxMindDbParameter(name = "mobile_network_code") String mobileNetworkCode,
-            @MaxMindDbParameter(name = "network") Network network,
-            @MaxMindDbParameter(name = "organization") String organization,
-            @MaxMindDbParameter(name = "user_type") String userType,
-            @MaxMindDbParameter(name = "user_count") Integer userCount,
-            @MaxMindDbParameter(name = "static_ip_score") Double staticIpScore
+        @MaxMindDbParameter(name = "autonomous_system_number") Long autonomousSystemNumber,
+        @MaxMindDbParameter(name = "autonomous_system_organization")
+        String autonomousSystemOrganization,
+        @MaxMindDbParameter(name = "connection_type") String connectionType,
+        @MaxMindDbParameter(name = "domain") String domain,
+        @MaxMindDbParameter(name = "ip_address") String ipAddress,
+        @MaxMindDbParameter(name = "is_anonymous") Boolean isAnonymous,
+        @MaxMindDbParameter(name = "is_anonymous_proxy") Boolean isAnonymousProxy,
+        @MaxMindDbParameter(name = "is_anonymous_vpn") Boolean isAnonymousVpn,
+        @MaxMindDbParameter(name = "is_hosting_provider") Boolean isHostingProvider,
+        @MaxMindDbParameter(name = "is_legitimate_proxy") Boolean isLegitimateProxy,
+        @MaxMindDbParameter(name = "is_public_proxy") Boolean isPublicProxy,
+        @MaxMindDbParameter(name = "is_residential_proxy") Boolean isResidentialProxy,
+        @MaxMindDbParameter(name = "is_satellite_provider") Boolean isSatelliteProvider,
+        @MaxMindDbParameter(name = "is_tor_exit_node") Boolean isTorExitNode,
+        @MaxMindDbParameter(name = "isp") String isp,
+        @MaxMindDbParameter(name = "mobile_country_code") String mobileCountryCode,
+        @MaxMindDbParameter(name = "mobile_network_code") String mobileNetworkCode,
+        @MaxMindDbParameter(name = "network") Network network,
+        @MaxMindDbParameter(name = "organization") String organization,
+        @MaxMindDbParameter(name = "user_type") String userType,
+        @MaxMindDbParameter(name = "user_count") Integer userCount,
+        @MaxMindDbParameter(name = "static_ip_score") Double staticIpScore
     ) {
         this.autonomousSystemNumber = autonomousSystemNumber;
         this.autonomousSystemOrganization = autonomousSystemOrganization;
@@ -151,33 +153,33 @@ public final class Traits extends AbstractRecord {
     }
 
     public Traits(
-            Traits traits,
-            String ipAddress,
-            Network network
+        Traits traits,
+        String ipAddress,
+        Network network
     ) {
         this(
-                traits.getAutonomousSystemNumber(),
-                traits.getAutonomousSystemOrganization(),
-                traits.getConnectionType(),
-                traits.getDomain(),
-                ipAddress,
-                traits.isAnonymous(),
-                traits.isAnonymousProxy(),
-                traits.isAnonymousVpn(),
-                traits.isHostingProvider(),
-                traits.isLegitimateProxy(),
-                traits.isPublicProxy(),
-                traits.isResidentialProxy(),
-                traits.isSatelliteProvider(),
-                traits.isTorExitNode(),
-                traits.getIsp(),
-                traits.getMobileCountryCode(),
-                traits.getMobileNetworkCode(),
-                network,
-                traits.getOrganization(),
-                traits.getUserType(),
-                traits.getUserCount(),
-                traits.getStaticIpScore()
+            traits.getAutonomousSystemNumber(),
+            traits.getAutonomousSystemOrganization(),
+            traits.getConnectionType(),
+            traits.getDomain(),
+            ipAddress,
+            traits.isAnonymous(),
+            traits.isAnonymousProxy(),
+            traits.isAnonymousVpn(),
+            traits.isHostingProvider(),
+            traits.isLegitimateProxy(),
+            traits.isPublicProxy(),
+            traits.isResidentialProxy(),
+            traits.isSatelliteProvider(),
+            traits.isTorExitNode(),
+            traits.getIsp(),
+            traits.getMobileCountryCode(),
+            traits.getMobileNetworkCode(),
+            network,
+            traits.getOrganization(),
+            traits.getUserType(),
+            traits.getUserCount(),
+            traits.getStaticIpScore()
         );
     }
 

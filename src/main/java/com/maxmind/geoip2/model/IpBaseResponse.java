@@ -20,14 +20,14 @@ public class IpBaseResponse extends AbstractResponse {
     private final Network network;
 
     public IpBaseResponse(
-             String ipAddress,
-             boolean isAnonymous,
-             boolean isAnonymousVpn,
-             boolean isHostingProvider,
-             boolean isPublicProxy,
-             boolean isResidentialProxy,
-             boolean isTorExitNode,
-             Network network
+        String ipAddress,
+        boolean isAnonymous,
+        boolean isAnonymousVpn,
+        boolean isHostingProvider,
+        boolean isPublicProxy,
+        boolean isResidentialProxy,
+        boolean isTorExitNode,
+        Network network
     ) {
         this.isAnonymous = isAnonymous;
         this.isAnonymousVpn = isAnonymousVpn;

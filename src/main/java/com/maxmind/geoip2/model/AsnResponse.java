@@ -22,10 +22,16 @@ public class AsnResponse extends AbstractResponse {
 
     @MaxMindDbConstructor
     public AsnResponse(
-            @JsonProperty("autonomous_system_number") @MaxMindDbParameter(name = "autonomous_system_number") Long autonomousSystemNumber,
-            @JsonProperty("autonomous_system_organization") @MaxMindDbParameter(name = "autonomous_system_organization") String autonomousSystemOrganization,
-            @JacksonInject("ip_address") @JsonProperty("ip_address") @MaxMindDbParameter(name = "ip_address") String ipAddress,
-            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) @MaxMindDbParameter(name = "network") Network network
+        @JsonProperty("autonomous_system_number")
+        @MaxMindDbParameter(name = "autonomous_system_number") Long autonomousSystemNumber,
+        @JsonProperty("autonomous_system_organization")
+        @MaxMindDbParameter(name = "autonomous_system_organization")
+        String autonomousSystemOrganization,
+        @JacksonInject("ip_address") @JsonProperty("ip_address")
+        @MaxMindDbParameter(name = "ip_address") String ipAddress,
+        @JacksonInject("network") @JsonProperty("network")
+        @JsonDeserialize(using = NetworkDeserializer.class) @MaxMindDbParameter(name = "network")
+        Network network
     ) {
         this.autonomousSystemNumber = autonomousSystemNumber;
         this.autonomousSystemOrganization = autonomousSystemOrganization;
@@ -34,15 +40,15 @@ public class AsnResponse extends AbstractResponse {
     }
 
     public AsnResponse(
-            AsnResponse response,
-            String ipAddress,
-            Network network
+        AsnResponse response,
+        String ipAddress,
+        Network network
     ) {
         this(
-                response.getAutonomousSystemNumber(),
-                response.getAutonomousSystemOrganization(),
-                ipAddress,
-                network
+            response.getAutonomousSystemNumber(),
+            response.getAutonomousSystemOrganization(),
+            ipAddress,
+            network
         );
     }
 
