@@ -243,7 +243,7 @@ public class DatabaseReaderTest {
             assertFalse(response.isResidentialProxy());
             assertFalse(response.isTorExitNode());
             assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
-            assertEquals(0.1, response.getIPRisk(), 0.0001);
+            assertEquals(0.1, response.getIpRisk(), 0.0001);
             assertEquals("0:0:0:0:0:0:d602:300/126", response.getNetwork().toString());
             IpRiskResponse tryResponse = reader.tryIpRisk(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());

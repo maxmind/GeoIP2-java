@@ -81,7 +81,7 @@ public class IpRiskResponse extends IpBaseResponse {
      * @return The IP risk of a model.
      */
     @JsonProperty("ip_risk")
-    public double getIPRisk() {
+    public double getIpRisk() {
         return this.ipRisk;
     }
 }
