@@ -2,7 +2,7 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v3.0.2
+version: v4.0.0
 ---
 
 # GeoIP2 Java API #
@@ -24,7 +24,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>3.0.2</version>
+        <version>4.0.0</version>
     </dependency>
 ```
 
@@ -37,7 +37,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.maxmind.geoip2:geoip2:3.0.2'
+    compile 'com.maxmind.geoip2:geoip2:4.0.0'
 }
 ```
 
@@ -197,7 +197,7 @@ object.
 
 After you have created the `DatabaseReader`, you may then call one of the
 appropriate methods, e.g., `city` or `tryCity`, for your database. These
-methods take the IP address to be looked up.  The methods with the `try`
+methods take the IP address to be looked up. The methods with the `try`
 prefix return an `Optional` object, which will be empty if the value is
 not present in the database. The method without the prefix will throw an
 `AddressNotFoundException` if the address is not in the database. If you
@@ -444,7 +444,8 @@ following:
 
 * `com.maxmind.geoip2.record.City` - `City.getGeoNameId`
 * `com.maxmind.geoip2.record.Continent` - `Continent.getCode` or `Continent.getGeoNameId`
-* `com.maxmind.geoip2.record.Country` and `com.maxmind.geoip2.record.RepresentedCountry` - `Country.getIsoCode` or `Country.getGeoNameId`
+* `com.maxmind.geoip2.record.Country` and `com.maxmind.geoip2.record.RepresentedCountry` - `Country.getIsoCode`
+  or `Country.getGeoNameId`
 * `com.maxmind.geoip2.record.Subdivision` - `Subdivision.getIsoCode` or `Subdivision.getGeoNameId`
 
 ## Multi-Threaded Use ##
