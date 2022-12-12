@@ -1,3 +1,4 @@
+@SuppressWarnings("module") // suppress terminal digit warning
 module com.maxmind.geoip2 {
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.databind;
