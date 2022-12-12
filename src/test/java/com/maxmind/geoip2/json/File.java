@@ -8,9 +8,9 @@ import java.nio.file.Paths;
 
 public class File {
     public static String readJsonFile(String name) throws IOException,
-            URISyntaxException {
+        URISyntaxException {
         URL resource = File.class
-                .getResource("/test-data/" + name + ".json");
+            .getResource("/test-data/" + name + ".json");
         return Files.readString(Paths.get(resource.toURI()));
     }
 }

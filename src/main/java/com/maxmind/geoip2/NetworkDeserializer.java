@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.maxmind.db.Network;
-
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -21,8 +20,8 @@ public class NetworkDeserializer extends StdDeserializer<Network> {
 
     @Override
     public Network deserialize(
-            JsonParser jsonparser, DeserializationContext context)
-            throws IOException {
+        JsonParser jsonparser, DeserializationContext context)
+        throws IOException {
 
         String cidr = jsonparser.getText();
         if (cidr == null) {

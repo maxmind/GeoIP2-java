@@ -17,5 +17,7 @@ jobs:
         with:
           distribution: ${{ matrix.distribution }}
           java-version: ${{ matrix.version }}
-      - run: mvn javadoc:javadoc
       - run: mvn test -B
+      # This is after the test run to work around
+      # https://issues.apache.org/jira/projects/MJAVADOC/issues/MJAVADOC-736
+      - run: mvn javadoc:javadoc

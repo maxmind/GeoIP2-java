@@ -23,14 +23,14 @@ Steps for releasing:
 4. Install or update [gh](https://github.com/cli/cli) as it used by the release script.
 5. Test that `mvn package` can complete successfully. Run `git clean -dxff`
    or something similar to clean up afterwards.
-5. Run `./dev-bin/release.sh`.
+6. Run `./dev-bin/release.sh`.
    * This will package the release, update the gh-pages branch, bump the
      version to the next development release, upload the release to GitHub
      and tag it, and upload to Sonatype.
    * It may prompt you about out of date dependencies. You should consider
      updating them if appropriate. Say no and review the changes and upate
      `pom.xml` and start the release process over again if you do.
-6. Complete the release on Sonatype
+7. Complete the release on Sonatype
 
 There is more information in the
 [minfraud-api-java](https://github.com/maxmind/minfraud-api-java/blob/main/README.dev.md)

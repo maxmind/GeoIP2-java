@@ -26,7 +26,7 @@ public class HttpStatusMatcher extends TypeSafeMatcher<HttpException> {
     @Override
     public void describeTo(Description description) {
         description.appendValue(String.valueOf(this.foundStatusCode))
-                .appendText(" was not found instead of ")
-                .appendValue(String.valueOf(this.expectedStatusCode));
+            .appendText(" was not found instead of ")
+            .appendValue(String.valueOf(this.expectedStatusCode));
     }
 }

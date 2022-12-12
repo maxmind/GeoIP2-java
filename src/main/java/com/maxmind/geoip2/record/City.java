@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maxmind.db.MaxMindDbConstructor;
 import com.maxmind.db.MaxMindDbParameter;
-
 import java.util.List;
 import java.util.Map;
 
@@ -30,24 +29,24 @@ public final class City extends AbstractNamedRecord {
 
     @MaxMindDbConstructor
     public City(
-            @JacksonInject("locales") @MaxMindDbParameter(name = "locales") List<String> locales,
-            @JsonProperty("confidence") @MaxMindDbParameter(name = "confidence") Integer confidence,
-            @JsonProperty("geoname_id") @MaxMindDbParameter(name = "geoname_id") Long geoNameId,
-            @JsonProperty("names") @MaxMindDbParameter(name = "names") Map<String, String> names
+        @JacksonInject("locales") @MaxMindDbParameter(name = "locales") List<String> locales,
+        @JsonProperty("confidence") @MaxMindDbParameter(name = "confidence") Integer confidence,
+        @JsonProperty("geoname_id") @MaxMindDbParameter(name = "geoname_id") Long geoNameId,
+        @JsonProperty("names") @MaxMindDbParameter(name = "names") Map<String, String> names
     ) {
         super(locales, geoNameId, names);
         this.confidence = confidence;
     }
 
     public City(
-            City city,
-            List<String> locales
+        City city,
+        List<String> locales
     ) {
         this(
-                locales,
-                city.getConfidence(),
-                city.getGeoNameId(),
-                city.getNames()
+            locales,
+            city.getConfidence(),
+            city.getGeoNameId(),
+            city.getNames()
         );
     }
 

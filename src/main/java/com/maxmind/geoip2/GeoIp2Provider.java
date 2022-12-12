@@ -3,7 +3,6 @@ package com.maxmind.geoip2;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CountryResponse;
-
 import java.io.IOException;
 import java.net.InetAddress;
 
@@ -16,7 +15,7 @@ public interface GeoIp2Provider {
      * @throws IOException     if there is an IO error
      */
     CountryResponse country(InetAddress ipAddress) throws IOException,
-            GeoIp2Exception;
+        GeoIp2Exception;
 
     /**
      * @param ipAddress IPv4 or IPv6 address to lookup.
@@ -25,5 +24,5 @@ public interface GeoIp2Provider {
      * @throws IOException     if there is an IO error
      */
     CityResponse city(InetAddress ipAddress) throws IOException,
-            GeoIp2Exception;
+        GeoIp2Exception;
 }

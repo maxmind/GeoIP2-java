@@ -1,21 +1,30 @@
 package com.maxmind.geoip2.model;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.maxmind.geoip2.json.File.readJsonFile;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.maxmind.geoip2.WebServiceClient;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.record.*;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-
+import com.maxmind.geoip2.record.Location;
+import com.maxmind.geoip2.record.MaxMind;
+import com.maxmind.geoip2.record.Postal;
+import com.maxmind.geoip2.record.Subdivision;
+import com.maxmind.geoip2.record.Traits;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URISyntaxException;
 import java.util.List;
-
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.maxmind.geoip2.json.File.readJsonFile;
-import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
 public class InsightsResponseTest {
     @Rule
@@ -25,23 +34,25 @@ public class InsightsResponseTest {
 
     @Before
     public void createClient() throws IOException, GeoIp2Exception,
-            URISyntaxException {
+        URISyntaxException {
         stubFor(get(urlEqualTo("/geoip/v2.1/insights/1.1.1.1"))
-                .willReturn(aResponse()
-                        .withStatus(200)
-                        .withHeader("Content-Type", "application/vnd.maxmind.com-insights+json; charset=UTF-8; version=2.1")
-                        .withBody(readJsonFile("insights0"))));
+            .willReturn(aResponse()
+                .withStatus(200)
+                .withHeader("Content-Type",
+                    "application/vnd.maxmind.com-insights+json; charset=UTF-8; version=2.1")
+                .withBody(readJsonFile("insights0"))));
         stubFor(get(urlEqualTo("/geoip/v2.1/insights/1.1.1.2"))
-                .willReturn(aResponse()
-                        .withStatus(200)
-                        .withHeader("Content-Type", "application/vnd.maxmind.com-insights+json; charset=UTF-8; version=2.1")
-                        .withBody(readJsonFile("insights1"))));
+            .willReturn(aResponse()
+                .withStatus(200)
+                .withHeader("Content-Type",
+                    "application/vnd.maxmind.com-insights+json; charset=UTF-8; version=2.1")
+                .withBody(readJsonFile("insights1"))));
 
         WebServiceClient client = new WebServiceClient.Builder(6, "0123456789")
-                .host("localhost")
-                .port(this.wireMockRule.port())
-                .disableHttps()
-                .build();
+            .host("localhost")
+            .port(this.wireMockRule.port())
+            .disableHttps()
+            .build();
 
         this.insights = client.insights(InetAddress.getByName("1.1.1.1"));
     }
@@ -55,23 +66,23 @@ public class InsightsResponseTest {
         }
         Subdivision subdivision = subdivisionsList.get(0);
         assertEquals("subdivision.getConfidence() does not return 88",
-                Integer.valueOf(88), subdivision.getConfidence());
+            Integer.valueOf(88), subdivision.getConfidence());
         assertEquals("subdivision.getGeoNameId() does not return 574635",
-                574635, subdivision.getGeoNameId().intValue());
+            574635, subdivision.getGeoNameId().intValue());
         assertEquals("subdivision.getCode() does not return MN", "MN",
-                subdivision.getIsoCode());
+            subdivision.getIsoCode());
     }
 
     @Test
     public void mostSpecificSubdivision() {
         assertEquals("Most specific subdivision returns last subdivision",
-                "TT", this.insights.getMostSpecificSubdivision().getIsoCode());
+            "TT", this.insights.getMostSpecificSubdivision().getIsoCode());
     }
 
     @Test
     public void leastSpecificSubdivision() {
         assertEquals("Most specific subdivision returns first subdivision",
-                "MN", this.insights.getLeastSpecificSubdivision().getIsoCode());
+            "MN", this.insights.getLeastSpecificSubdivision().getIsoCode());
     }
 
     @Test
@@ -80,15 +91,15 @@ public class InsightsResponseTest {
 
         assertNotNull("city.getTraits() returns null", traits);
         assertEquals("traits.getAutonomousSystemNumber() does not return 1234",
-                Long.valueOf(1234), traits.getAutonomousSystemNumber());
+            Long.valueOf(1234), traits.getAutonomousSystemNumber());
         assertEquals(
-                "traits.getAutonomousSystemOrganization() does not return AS Organization",
-                "AS Organization", traits.getAutonomousSystemOrganization());
+            "traits.getAutonomousSystemOrganization() does not return AS Organization",
+            "AS Organization", traits.getAutonomousSystemOrganization());
         assertEquals(
-                "traits.getAutonomousSystemOrganization() does not return example.com",
-                "example.com", traits.getDomain());
+            "traits.getAutonomousSystemOrganization() does not return example.com",
+            "example.com", traits.getDomain());
         assertEquals("traits.getIpAddress() does not return 1.2.3.4",
-                "1.2.3.4", traits.getIpAddress());
+            "1.2.3.4", traits.getIpAddress());
         assertTrue("traits.isAnonymous() returns true", traits.isAnonymous());
         assertTrue("traits.isAnonymousProxy() returns true", traits.isAnonymousProxy());
         assertTrue("traits.isAnonymousVpn() returns true", traits.isAnonymousVpn());
@@ -98,15 +109,15 @@ public class InsightsResponseTest {
         assertTrue("traits.isSatelliteProvider() returns true", traits.isSatelliteProvider());
         assertTrue("traits.isTorExitNode() returns true", traits.isTorExitNode());
         assertEquals("traits.getIsp() does not return Comcast", "Comcast",
-                traits.getIsp());
+            traits.getIsp());
         assertEquals("traits.getOrganization() does not return Blorg", "Blorg",
-                traits.getOrganization());
+            traits.getOrganization());
         assertEquals("traits.getUserType() does not return userType",
-                "college", traits.getUserType());
+            "college", traits.getUserType());
         assertEquals("traits.getStaticIpScore() does not return 1.3",
-                Double.valueOf(1.3), traits.getStaticIpScore());
+            Double.valueOf(1.3), traits.getStaticIpScore());
         assertEquals("traits.getUserCount() does not return 2",
-                Integer.valueOf(2), traits.getUserCount());
+            Integer.valueOf(2), traits.getUserCount());
     }
 
     @Test
@@ -117,30 +128,30 @@ public class InsightsResponseTest {
         assertNotNull("city.getLocation() returns null", location);
 
         assertEquals("location.getAverageIncome() does not return 24626,",
-                Integer.valueOf(24626), location.getAverageIncome());
+            Integer.valueOf(24626), location.getAverageIncome());
 
         assertEquals("location.getAccuracyRadius() does not return 1500",
-                Integer.valueOf(1500), location.getAccuracyRadius());
+            Integer.valueOf(1500), location.getAccuracyRadius());
 
         double latitude = location.getLatitude();
         assertEquals("location.getLatitude() does not return 44.98", 44.98,
-                latitude, 0.1);
+            latitude, 0.1);
         double longitude = location.getLongitude();
         assertEquals("location.getLongitude() does not return 93.2636",
-                93.2636, longitude, 0.1);
+            93.2636, longitude, 0.1);
         assertEquals("location.getMetroCode() does not return 765",
-                Integer.valueOf(765), location.getMetroCode());
+            Integer.valueOf(765), location.getMetroCode());
         assertEquals("location.getPopulationDensity() does not return 1341,",
-                Integer.valueOf(1341), location.getPopulationDensity());
+            Integer.valueOf(1341), location.getPopulationDensity());
         assertEquals("location.getTimeZone() does not return America/Chicago",
-                "America/Chicago", location.getTimeZone());
+            "America/Chicago", location.getTimeZone());
     }
 
     @Test
     public void testMaxMind() {
         MaxMind maxmind = this.insights.getMaxMind();
         assertEquals("Correct number of queries remaining", 11, maxmind
-                .getQueriesRemaining().intValue());
+            .getQueriesRemaining().intValue());
     }
 
     @Test
@@ -148,23 +159,23 @@ public class InsightsResponseTest {
 
         Postal postal = this.insights.getPostal();
         assertEquals("postal.getCode() does not return 55401", "55401",
-                postal.getCode());
+            postal.getCode());
         assertEquals("postal.getConfidence() does not return 33", Integer.valueOf(
-                33), postal.getConfidence());
+            33), postal.getConfidence());
 
     }
 
     @Test
     public void testRepresentedCountry() {
         assertNotNull("city.getRepresentedCountry() returns null",
-                this.insights.getRepresentedCountry());
+            this.insights.getRepresentedCountry());
 
         assertEquals(
-                "city.getRepresentedCountry().getType() does not return C<military>",
-                "C<military>", this.insights.getRepresentedCountry().getType());
+            "city.getRepresentedCountry().getType() does not return C<military>",
+            "C<military>", this.insights.getRepresentedCountry().getType());
         assertTrue(
-                "city.getRepresentedCountry().isInEuropeanUnion() does not return true",
-                this.insights.getRepresentedCountry().isInEuropeanUnion());
+            "city.getRepresentedCountry().isInEuropeanUnion() does not return true",
+            this.insights.getRepresentedCountry().isInEuropeanUnion());
     }
 
     @Test
@@ -173,18 +184,18 @@ public class InsightsResponseTest {
         // is_in_european_union flag set in locations not set in the other
         // fixture.
         WebServiceClient client = new WebServiceClient.Builder(6, "0123456789")
-                .host("localhost")
-                .port(this.wireMockRule.port())
-                .disableHttps()
-                .build();
+            .host("localhost")
+            .port(this.wireMockRule.port())
+            .disableHttps()
+            .build();
 
         InsightsResponse insights = client.insights(
-                InetAddress.getByName("1.1.1.2"));
+            InetAddress.getByName("1.1.1.2"));
 
         assertTrue("getCountry().isInEuropeanUnion() does not return true",
-                insights.getCountry().isInEuropeanUnion());
+            insights.getCountry().isInEuropeanUnion());
         assertTrue(
-                "getRegisteredCountry().() isInEuropeanUnion = does not return true",
-                insights.getRegisteredCountry().isInEuropeanUnion());
+            "getRegisteredCountry().() isInEuropeanUnion = does not return true",
+            insights.getRegisteredCountry().isInEuropeanUnion());
     }
 }

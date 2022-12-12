@@ -20,14 +20,23 @@ public class IspResponse extends AsnResponse {
 
     @MaxMindDbConstructor
     public IspResponse(
-            @JsonProperty("autonomous_system_number") @MaxMindDbParameter(name = "autonomous_system_number") Long autonomousSystemNumber,
-            @JsonProperty("autonomous_system_organization") @MaxMindDbParameter(name = "autonomous_system_organization") String autonomousSystemOrganization,
-            @JacksonInject("ip_address") @JsonProperty("ip_address") @MaxMindDbParameter(name = "ip_address") String ipAddress,
-            @JsonProperty("isp") @MaxMindDbParameter(name = "isp") String isp,
-            @JsonProperty("mobile_country_code") @MaxMindDbParameter(name = "mobile_country_code") String mobileCountryCode,
-            @JsonProperty("mobile_network_code") @MaxMindDbParameter(name = "mobile_network_code") String mobileNetworkCode,
-            @JsonProperty("organization") @MaxMindDbParameter(name = "organization") String organization,
-            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) @MaxMindDbParameter(name = "network") Network network
+        @JsonProperty("autonomous_system_number")
+        @MaxMindDbParameter(name = "autonomous_system_number") Long autonomousSystemNumber,
+        @JsonProperty("autonomous_system_organization")
+        @MaxMindDbParameter(name = "autonomous_system_organization")
+        String autonomousSystemOrganization,
+        @JacksonInject("ip_address") @JsonProperty("ip_address")
+        @MaxMindDbParameter(name = "ip_address") String ipAddress,
+        @JsonProperty("isp") @MaxMindDbParameter(name = "isp") String isp,
+        @JsonProperty("mobile_country_code") @MaxMindDbParameter(name = "mobile_country_code")
+        String mobileCountryCode,
+        @JsonProperty("mobile_network_code") @MaxMindDbParameter(name = "mobile_network_code")
+        String mobileNetworkCode,
+        @JsonProperty("organization") @MaxMindDbParameter(name = "organization")
+        String organization,
+        @JacksonInject("network") @JsonProperty("network")
+        @JsonDeserialize(using = NetworkDeserializer.class) @MaxMindDbParameter(name = "network")
+        Network network
     ) {
         super(autonomousSystemNumber, autonomousSystemOrganization, ipAddress, network);
         this.isp = isp;
@@ -37,19 +46,19 @@ public class IspResponse extends AsnResponse {
     }
 
     public IspResponse(
-            IspResponse response,
-            String ipAddress,
-            Network network
+        IspResponse response,
+        String ipAddress,
+        Network network
     ) {
         this(
-                response.getAutonomousSystemNumber(),
-                response.getAutonomousSystemOrganization(),
-                ipAddress,
-                response.getIsp(),
-                response.getMobileCountryCode(),
-                response.getMobileNetworkCode(),
-                response.getOrganization(),
-                network
+            response.getAutonomousSystemNumber(),
+            response.getAutonomousSystemOrganization(),
+            ipAddress,
+            response.getIsp(),
+            response.getMobileCountryCode(),
+            response.getMobileNetworkCode(),
+            response.getOrganization(),
+            network
         );
     }
 

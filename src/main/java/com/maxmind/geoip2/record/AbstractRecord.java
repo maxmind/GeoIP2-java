@@ -3,7 +3,6 @@ package com.maxmind.geoip2.record;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-
 import java.io.IOException;
 
 public abstract class AbstractRecord {
@@ -15,10 +14,10 @@ public abstract class AbstractRecord {
      */
     public String toJson() throws IOException {
         JsonMapper mapper = JsonMapper.builder()
-                .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
-                .serializationInclusion(JsonInclude.Include.NON_NULL)
-                .serializationInclusion(JsonInclude.Include.NON_EMPTY)
-                .build();
+            .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+            .serializationInclusion(JsonInclude.Include.NON_NULL)
+            .serializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .build();
 
         return mapper.writeValueAsString(this);
     }

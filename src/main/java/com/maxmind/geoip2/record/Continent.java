@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maxmind.db.MaxMindDbConstructor;
 import com.maxmind.db.MaxMindDbParameter;
-
 import java.util.List;
 import java.util.Map;
 
@@ -30,24 +29,24 @@ public final class Continent extends AbstractNamedRecord {
 
     @MaxMindDbConstructor
     public Continent(
-            @JacksonInject("locales") @MaxMindDbParameter(name = "locales") List<String> locales,
-            @JsonProperty("code") @MaxMindDbParameter(name = "code") String code,
-            @JsonProperty("geoname_id") @MaxMindDbParameter(name = "geoname_id") Long geoNameId,
-            @JsonProperty("names") @MaxMindDbParameter(name = "names") Map<String, String> names
+        @JacksonInject("locales") @MaxMindDbParameter(name = "locales") List<String> locales,
+        @JsonProperty("code") @MaxMindDbParameter(name = "code") String code,
+        @JsonProperty("geoname_id") @MaxMindDbParameter(name = "geoname_id") Long geoNameId,
+        @JsonProperty("names") @MaxMindDbParameter(name = "names") Map<String, String> names
     ) {
         super(locales, geoNameId, names);
         this.code = code;
     }
 
     public Continent(
-            Continent continent,
-            List<String> locales
+        Continent continent,
+        List<String> locales
     ) {
         this(
-                locales,
-                continent.getCode(),
-                continent.getGeoNameId(),
-                continent.getNames()
+            locales,
+            continent.getCode(),
+            continent.getGeoNameId(),
+            continent.getNames()
         );
     }
 

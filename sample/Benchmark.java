@@ -31,16 +31,20 @@ public class Benchmark {
         loop("Benchmarking", file, BENCHMARKS, new CHMCache());
     }
 
-    private static void loop(String msg, File file, int loops, NodeCache cache) throws GeoIp2Exception, IOException {
+    private static void loop(String msg, File file, int loops, NodeCache cache)
+        throws GeoIp2Exception, IOException {
         System.out.println(msg);
         for (int i = 0; i < loops; i++) {
-            DatabaseReader r = new DatabaseReader.Builder(file).fileMode(FileMode.MEMORY_MAPPED).withCache(cache).build();
+            DatabaseReader r =
+                new DatabaseReader.Builder(file).fileMode(FileMode.MEMORY_MAPPED).withCache(cache)
+                    .build();
             bench(r, COUNT, i);
         }
         System.out.println();
     }
 
-    private static void bench(DatabaseReader r, int count, int seed) throws GeoIp2Exception, UnknownHostException {
+    private static void bench(DatabaseReader r, int count, int seed)
+        throws GeoIp2Exception, UnknownHostException {
         Random random = new Random(seed);
         long startTime = System.nanoTime();
         byte[] address = new byte[4];

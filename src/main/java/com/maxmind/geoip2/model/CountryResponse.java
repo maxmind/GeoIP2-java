@@ -5,8 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maxmind.db.MaxMindDbConstructor;
 import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
-import com.maxmind.geoip2.record.*;
-
+import com.maxmind.geoip2.record.Continent;
+import com.maxmind.geoip2.record.Country;
+import com.maxmind.geoip2.record.MaxMind;
+import com.maxmind.geoip2.record.RepresentedCountry;
+import com.maxmind.geoip2.record.Traits;
 import java.util.List;
 
 /**
@@ -19,21 +22,24 @@ import java.util.List;
 public final class CountryResponse extends AbstractCountryResponse {
     @MaxMindDbConstructor
     public CountryResponse(
-            @JsonProperty("continent") @MaxMindDbParameter(name = "continent") Continent continent,
-            @JsonProperty("country") @MaxMindDbParameter(name = "country") Country country,
-            @JsonProperty("maxmind") @MaxMindDbParameter(name = "maxmind") MaxMind maxmind,
-            @JsonProperty("registered_country") @MaxMindDbParameter(name = "registered_country") Country registeredCountry,
-            @JsonProperty("represented_country") @MaxMindDbParameter(name = "represented_country") RepresentedCountry representedCountry,
-            @JacksonInject("traits") @JsonProperty("traits") @MaxMindDbParameter(name = "traits") Traits traits
+        @JsonProperty("continent") @MaxMindDbParameter(name = "continent") Continent continent,
+        @JsonProperty("country") @MaxMindDbParameter(name = "country") Country country,
+        @JsonProperty("maxmind") @MaxMindDbParameter(name = "maxmind") MaxMind maxmind,
+        @JsonProperty("registered_country") @MaxMindDbParameter(name = "registered_country")
+        Country registeredCountry,
+        @JsonProperty("represented_country") @MaxMindDbParameter(name = "represented_country")
+        RepresentedCountry representedCountry,
+        @JacksonInject("traits") @JsonProperty("traits") @MaxMindDbParameter(name = "traits")
+        Traits traits
     ) {
         super(continent, country, maxmind, registeredCountry, representedCountry, traits);
     }
 
     public CountryResponse(
-            CountryResponse response,
-            String ipAddress,
-            Network network,
-            List<String> locales
+        CountryResponse response,
+        String ipAddress,
+        Network network,
+        List<String> locales
     ) {
         super(response, ipAddress, network, locales);
     }

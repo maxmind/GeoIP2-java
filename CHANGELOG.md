@@ -4,6 +4,7 @@ CHANGELOG
 4.0.0
 ------------------
 
+* This library is now a Java module.
 * Added support for the GeoIP2 IP Risk database.
 
 3.0.2 (2022-10-31)
@@ -136,8 +137,8 @@ CHANGELOG
 -------------------
 
 * The following new anonymizer methods were added to
- `com.maxmind.geoip2.record.Traits` for use with GeoIP2 Precision Insights:
- `isAnonymous()`, `isAnonymousVpn()`, `isHostingProvider()`, `isPublicProxy()`,
+  `com.maxmind.geoip2.record.Traits` for use with GeoIP2 Precision Insights:
+  `isAnonymous()`, `isAnonymousVpn()`, `isHostingProvider()`, `isPublicProxy()`,
   and `isTorExitNode()`.
 
 2.9.0 (2017-05-08)

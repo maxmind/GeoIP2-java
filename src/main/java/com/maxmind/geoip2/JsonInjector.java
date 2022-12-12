@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.InjectableValues;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.record.Traits;
-
 import java.util.List;
 
 class JsonInjector extends InjectableValues {
