@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+4.0.1
+------------------
+
+* `com.maxmind.db` is now a transitive dependency of this Java module.
+
 4.0.0 (2022-12-12)
 ------------------
 
