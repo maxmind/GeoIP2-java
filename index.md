@@ -2,7 +2,7 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v4.0.0
+version: v4.0.1
 ---
 
 # GeoIP2 Java API #
@@ -24,7 +24,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>4.0.0</version>
+        <version>4.0.1</version>
     </dependency>
 ```
 
@@ -37,7 +37,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.maxmind.geoip2:geoip2:4.0.0'
+    compile 'com.maxmind.geoip2:geoip2:4.0.1'
 }
 ```
 
@@ -528,6 +528,6 @@ The GeoIP2 Java API uses [Semantic Versioning](https://semver.org/).
 
 ## Copyright and License ##
 
-This software is Copyright (c) 2013-2022 by MaxMind, Inc.
+This software is Copyright (c) 2013-2023 by MaxMind, Inc.
 
 This is free software, licensed under the Apache License, Version 2.0.
