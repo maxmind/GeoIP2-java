@@ -20,8 +20,11 @@ public class ConnectionTypeResponse extends AbstractResponse {
      * The enumerated values that connection-type may take.
      */
     public enum ConnectionType {
-        DIALUP("Dialup"), CABLE_DSL("Cable/DSL"), CORPORATE("Corporate"), CELLULAR(
-            "Cellular");
+        DIALUP("Dialup"),
+        CABLE_DSL("Cable/DSL"),
+        CORPORATE("Corporate"),
+        CELLULAR("Cellular"),
+        SATELLITE("Satellite");
 
         private final String name;
 
@@ -54,6 +57,8 @@ public class ConnectionTypeResponse extends AbstractResponse {
                     return ConnectionType.CORPORATE;
                 case "Cellular":
                     return ConnectionType.CELLULAR;
+                case "Satellite":
+                    return ConnectionType.SATELLITE;
                 default:
                     return null;
             }
