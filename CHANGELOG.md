@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-4.1.0
+4.1.0 (2023-07-28)
 ------------------
 
 * Added `SATELLITE` to the `ConnectionType` enum.
