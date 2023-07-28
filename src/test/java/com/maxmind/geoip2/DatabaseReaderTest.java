@@ -18,7 +18,6 @@ import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
 import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.model.DomainResponse;
 import com.maxmind.geoip2.model.EnterpriseResponse;
-import com.maxmind.geoip2.model.IpRiskResponse;
 import com.maxmind.geoip2.model.IspResponse;
 import java.io.File;
 import java.io.IOException;
@@ -224,28 +223,6 @@ public class DatabaseReaderTest {
             assertEquals("1.2.0.0/16", response.getNetwork().toString());
 
             AnonymousIpResponse tryResponse = reader.tryAnonymousIp(ipAddress).get();
-            assertEquals(response.toJson(), tryResponse.toJson());
-        }
-    }
-
-    @Test
-    public void testIPRisk() throws Exception {
-        try (DatabaseReader reader = new DatabaseReader.Builder(
-            this.getFile("GeoIP2-IP-Risk-Test.mmdb")).build()
-        ) {
-            InetAddress ipAddress =
-                InetAddress.getByName("0000:0000:0000:0000:0000:0000:D602:0300");
-            IpRiskResponse response = reader.ipRisk(ipAddress);
-            assertTrue(response.isAnonymous());
-            assertTrue(response.isAnonymousVpn());
-            assertFalse(response.isHostingProvider());
-            assertFalse(response.isPublicProxy());
-            assertFalse(response.isResidentialProxy());
-            assertFalse(response.isTorExitNode());
-            assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
-            assertEquals(0.1, response.getIpRisk(), 0.0001);
-            assertEquals("0:0:0:0:0:0:d602:300/126", response.getNetwork().toString());
-            IpRiskResponse tryResponse = reader.tryIpRisk(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
         }
     }

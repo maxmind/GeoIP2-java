@@ -10,7 +10,10 @@ import com.maxmind.geoip2.NetworkDeserializer;
 
 /**
  * This class provides the GeoIP2 IP Risk model.
+ *
+ * @deprecated This database has been discontinued.
  */
+@Deprecated
 public class IpRiskResponse extends IpBaseResponse {
 
     private final double ipRisk;

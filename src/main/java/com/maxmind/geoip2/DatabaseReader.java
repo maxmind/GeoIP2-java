@@ -434,7 +434,9 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * @return a IPRiskResponse for the requested IP address.
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
+     * @deprecated This database has been discontinued.
      */
+    @Deprecated
     @Override
     public IpRiskResponse ipRisk(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
@@ -446,6 +448,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         return r.get();
     }
 
+    @Deprecated
     @Override
     public Optional<IpRiskResponse> tryIpRisk(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
