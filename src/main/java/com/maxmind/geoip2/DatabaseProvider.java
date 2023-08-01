@@ -61,10 +61,12 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * Look up an IP address in a GeoIP2 IP Risk database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @return an IPRiskResponse for the requested IP address.
+     * @return an IpRiskResponse for the requested IP address.
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
+     * @deprecated This database has been discontinued.
      */
+    @Deprecated
     IpRiskResponse ipRisk(InetAddress ipAddress) throws IOException,
         GeoIp2Exception;
 

@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+4.2.0
+------------------
+
+* The GeoIP2 IP Risk database has been discontinued. Methods and classes
+  related to it have been deprecated.
+
 4.1.0 (2023-07-28)
 ------------------
 
