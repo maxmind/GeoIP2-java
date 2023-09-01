@@ -67,7 +67,8 @@ The `WebServiceClient` object is safe to share across threads. If you are
 making multiple requests, the object should be reused so that new connections
 are not created for each request.
 
-See the API documentation for more details.
+See the [API documentation](https://maxmind.github.io/GeoIP2-java/) for
+more details.
 
 ## Web Service Example ##
 
@@ -207,7 +208,8 @@ one for each lookup. The creation of this object is relatively expensive as it
 must read in metadata for the file. It is safe to share the object across
 threads.
 
-See the API documentation for more details.
+See the [API documentation](https://maxmind.github.io/GeoIP2-java/) for
+more details.
 
 ### Caching ###
 
