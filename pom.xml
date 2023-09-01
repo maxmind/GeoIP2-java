@@ -11,13 +11,13 @@
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.html</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
     <organization>
         <name>MaxMind, Inc.</name>
-        <url>http://www.maxmind.com/</url>
+        <url>https://www.maxmind.com/</url>
     </organization>
     <scm>
         <url>https://github.com/maxmind/GeoIP2-java</url>
@@ -125,7 +125,7 @@
                 <configuration>
                     <links>
                         <link>
-                            http://maxmind.github.io/MaxMind-DB-Reader-java/doc/latest/
+                            https://maxmind.github.io/MaxMind-DB-Reader-java/doc/latest/
                         </link>
                     </links>
                     <source>11</source>
