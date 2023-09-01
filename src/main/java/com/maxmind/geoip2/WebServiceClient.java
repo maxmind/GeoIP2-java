@@ -63,11 +63,13 @@ import java.util.Map;
  * using the {@code WebServiceClient.Builder}. You must provide the
  * {@code Builder} constructor your MaxMind {@code accountId} and
  * {@code licenseKey}. To use the GeoLite2 web services instead of GeoIP2, set
- * the {@code host} method on the builder to {@code geolite.info}. You may also
- * set a {@code timeout} or set the {@code locales} fallback order using the
- * methods on the {@code Builder}. After you have created the
- * {@code WebServiceClient}, you may then call the method corresponding to a
- * specific service, passing it the IP address you want to look up.
+ * the {@code host} method on the builder to {@code geolite.info}. To use the
+ * Sandbox GeoIP2 web services instead of the production GeoIP2 web services,
+ * set the {@code host} method on the builder to {@code sandbox.maxmind.com}.
+ * You may also set a {@code timeout} or set the {@code locales} fallback order
+ * using the methods on the {@code Builder}. After you have created the {@code
+ * WebServiceClient}, you may then call the method corresponding to a specific
+ * service, passing it the IP address you want to look up.
  * </p>
  * <p>
  * If the request succeeds, the method call will return a model class for the
@@ -220,6 +222,10 @@ public class WebServiceClient implements GeoIp2Provider, Closeable {
         /**
          * @param val The host to use. Set this to {@code geolite.info} to use the
          *            GeoLite2 web services instead of the GeoIP2 web services.
+         *            Set this to {@code sandbox.maxmind.com} to use the Sandbox
+         *            GeoIP2 web services instead of the production GeoIP2 web
+         *            services. The sandbox allows you to experiment with the
+         *            API without affecting your production data.
          * @return Builder object
          */
         public Builder host(String val) {
