@@ -51,11 +51,13 @@ should not be used to identify a particular address or household.
 To use the web service API, you must create a new `WebServiceClient` using the
 `WebServiceClient.Builder`. You must provide the `Builder` constructor your
 MaxMind `accountId` and `licenseKey`. To use the GeoLite2 web services instead
-of GeoIP2, set the `host` method on the builder to `geolite.info`. You may also
-set a `timeout` or set the `locales` fallback order using the methods on the
-`Builder`. After you have created the `WebServiceClient`, you may then call
-the method corresponding to a specific end point, passing it the IP address
-you want to look up.
+of GeoIP2, set the `host` method on the builder to `geolite.info`. To use
+the Sandbox GeoIP2 web services intead of the production GeoIP2 web
+services, set the `host` method on the builder to `sandbox.maxmind.com`.
+You may also set a `timeout` or set the `locales` fallback order using the
+methods on the `Builder`. After you have created the `WebServiceClient`,
+you may then call the method corresponding to a specific end point, passing
+it the IP address you want to look up.
 
 If the request succeeds, the method call will return a model class for the end
 point you called. This model in turn contains multiple record classes, each of
@@ -67,7 +69,8 @@ The `WebServiceClient` object is safe to share across threads. If you are
 making multiple requests, the object should be reused so that new connections
 are not created for each request.
 
-See the API documentation for more details.
+See the [API documentation](https://maxmind.github.io/GeoIP2-java/) for
+more details.
 
 ## Web Service Example ##
 
@@ -82,6 +85,10 @@ See the API documentation for more details.
 // To use the GeoLite2 web service instead of the GeoIP2 web service, call the
 // host method on the builder with "geolite.info", e.g.
 // new WebServiceClient.Builder(42, "license_key").host("geolite.info").build()
+// To use the Sandbox GeoIP2 web service instead of the production GeoIP2
+// web service, call the host method on the builder with
+// "sandbox.maxmind.com", e.g.
+// new WebServiceClient.Builder(42, "license_key").host("sandbox.maxmind.com").build()
 WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
     .build();
 
@@ -107,6 +114,10 @@ System.out.println(country.getNames().get("zh-CN")); // '美国'
 // To use the GeoLite2 web service instead of the GeoIP2 web service, call the
 // host method on the builder with "geolite.info", e.g.
 // new WebServiceClient.Builder(42, "license_key").host("geolite.info").build()
+// To use the Sandbox GeoIP2 web service instead of the production GeoIP2
+// web service, call the host method on the builder with
+// "sandbox.maxmind.com", e.g.
+// new WebServiceClient.Builder(42, "license_key").host("sandbox.maxmind.com").build()
 WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
     .build();
 
@@ -144,6 +155,10 @@ System.out.println(location.getLongitude());       // -93.2323
 //
 // Replace "42" with your account ID and "license_key" with your license key.
 // Please note that the GeoLite2 web service does not support Insights.
+// To use the Sandbox GeoIP2 web service instead of the production GeoIP2
+// web service, call the host method on the builder with
+// "sandbox.maxmind.com", e.g.
+// new WebServiceClient.Builder(42, "license_key").host("sandbox.maxmind.com").build()
 WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
     .build();
 
@@ -207,7 +222,8 @@ one for each lookup. The creation of this object is relatively expensive as it
 must read in metadata for the file. It is safe to share the object across
 threads.
 
-See the API documentation for more details.
+See the [API documentation](https://maxmind.github.io/GeoIP2-java/) for
+more details.
 
 ### Caching ###
 
