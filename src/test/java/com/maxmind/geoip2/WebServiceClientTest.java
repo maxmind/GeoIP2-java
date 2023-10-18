@@ -131,6 +131,7 @@ public class WebServiceClientTest {
         assertNotNull(traits);
         assertNull(traits.getAutonomousSystemNumber());
         assertNull(traits.getAutonomousSystemOrganization());
+        assertNull(traits.getConnectionType());
         assertNull(traits.getDomain());
         assertEquals("1.2.3.13", traits.getIpAddress());
         assertEquals("1.2.3.0/24", traits.getNetwork().toString());
