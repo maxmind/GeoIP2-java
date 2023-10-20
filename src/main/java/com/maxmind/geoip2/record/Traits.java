@@ -209,7 +209,8 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return The connection type of the IP address. This is only
-     * available in the Enterprise database.
+     * available from the City Plus and Insights web services and the
+     * Enterprise database.
      */
     @JsonProperty("connection_type")
     public ConnectionType getConnectionType() {

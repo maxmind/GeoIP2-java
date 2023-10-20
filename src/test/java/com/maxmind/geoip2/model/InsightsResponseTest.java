@@ -13,6 +13,7 @@ import static org.junit.Assert.fail;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.maxmind.geoip2.WebServiceClient;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
 import com.maxmind.geoip2.record.Location;
 import com.maxmind.geoip2.record.MaxMind;
 import com.maxmind.geoip2.record.Postal;
@@ -96,7 +97,10 @@ public class InsightsResponseTest {
             "traits.getAutonomousSystemOrganization() does not return AS Organization",
             "AS Organization", traits.getAutonomousSystemOrganization());
         assertEquals(
-            "traits.getAutonomousSystemOrganization() does not return example.com",
+            "traits.getConnectionType() does not return Cable/DSL",
+            ConnectionType.CABLE_DSL, traits.getConnectionType());
+        assertEquals(
+            "traits.getDomain() does not return example.com",
             "example.com", traits.getDomain());
         assertEquals("traits.getIpAddress() does not return 1.2.3.4",
             "1.2.3.4", traits.getIpAddress());
