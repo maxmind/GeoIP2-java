@@ -6,6 +6,10 @@ CHANGELOG
 
 * The GeoIP2 IP Risk database has been discontinued. Methods and classes
   related to it have been deprecated.
+* The `fromString` static method on the `ConnectionType` enum now has
+  the `JsonCreator` annotation so that it is used when deserializing.
+  This will prevent new additions in the future from causing a
+  deserialization error.
 
 4.1.0 (2023-07-28)
 ------------------

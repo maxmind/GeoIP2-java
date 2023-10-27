@@ -1,6 +1,7 @@
 package com.maxmind.geoip2.model;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -43,6 +44,7 @@ public class ConnectionTypeResponse extends AbstractResponse {
             return this.name;
         }
 
+        @JsonCreator
         public static ConnectionType fromString(String s) {
             if (s == null) {
                 return null;
