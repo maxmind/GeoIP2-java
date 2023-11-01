@@ -233,11 +233,6 @@
             </plugin>
         </plugins>
     </build>
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-    </parent>
     <profiles>
         <profile>
             <id>active-on-jdk-9-plus</id>
