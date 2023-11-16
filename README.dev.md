@@ -30,7 +30,7 @@ Steps for releasing:
    * It may prompt you about out of date dependencies. You should consider
      updating them if appropriate. Say no and review the changes and upate
      `pom.xml` and start the release process over again if you do.
-7. Complete the release on Sonatype
+7. The `nexus-staging-maven-plugin` will automatically promote the release on Sonatype.
 
 There is more information in the
 [minfraud-api-java](https://github.com/maxmind/minfraud-api-java/blob/main/README.dev.md)
