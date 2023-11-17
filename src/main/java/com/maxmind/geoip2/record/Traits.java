@@ -280,8 +280,7 @@ public final class Traits extends AbstractRecord {
     }
 
     /**
-     * @return This is true if the IP is an anonymous proxy. This is available
-     * from all web services and databases.
+     * @return This is true if the IP is an anonymous proxy.
      * @deprecated Use our
      * <a href="https://www.maxmind.com/en/geoip2-anonymous-ip-database">GeoIP2
      * Anonymous IP database</a> instead.
@@ -345,7 +344,6 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return This is true if the IP belong to a satellite Internet provider.
-     * This is available from all web services and databases.
      * @deprecated Due to increased mobile usage, we have insufficient data to
      * maintain this field.
      */
