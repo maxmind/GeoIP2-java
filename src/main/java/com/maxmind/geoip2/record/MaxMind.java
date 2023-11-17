@@ -8,9 +8,6 @@ import com.maxmind.db.MaxMindDbParameter;
  * <p>
  * Contains data related to your MaxMind account.
  * </p>
- * <p>
- * This record is returned by all the end points.
- * </p>
  */
 public final class MaxMind extends AbstractRecord {
 
@@ -29,7 +26,7 @@ public final class MaxMind extends AbstractRecord {
 
     /**
      * @return The number of remaining queried in your account for the current
-     * end point.
+     * web service. This returns {@code null} when called on a database.
      */
     @JsonProperty("queries_remaining")
     public Integer getQueriesRemaining() {

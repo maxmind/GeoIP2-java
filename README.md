@@ -56,7 +56,7 @@ the Sandbox GeoIP2 web services intead of the production GeoIP2 web
 services, set the `host` method on the builder to `sandbox.maxmind.com`.
 You may also set a `timeout` or set the `locales` fallback order using the
 methods on the `Builder`. After you have created the `WebServiceClient`,
-you may then call the method corresponding to a specific end point, passing
+you may then call the method corresponding to a specific web service, passing
 it the IP address you want to look up.
 
 If the request succeeds, the method call will return a model class for the end
@@ -465,17 +465,16 @@ we suggest creating one object and sharing that across threads.
 
 ## What data is returned? ##
 
-While many of the end points return the same basic records, the attributes
-which can be populated vary between end points. In addition, while an end
-point may offer a particular piece of data, MaxMind does not always have every
-piece of data for any given IP address.
+While many of the location databases and web services return the same
+basic records, the attributes poplulated can vary. In addition, MaxMind does
+not always have every piece of data for any given IP address.
 
-Because of these factors, it is possible for any end point to return a record
+Because of these factors, it is possible for any web service to return a record
 where some or all of the attributes are unpopulated.
 
 [See our web-service developer
 documentation](https://dev.maxmind.com/geoip/docs/web-services?lang=en) for
-details on what data each end point may return.
+details on what data each web service may return.
 
 The only piece of data which is always returned is the `ip_address`
 available at `lookup.getTraits().getIpAddress()`.

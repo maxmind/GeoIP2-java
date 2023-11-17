@@ -8,9 +8,6 @@ import com.maxmind.db.MaxMindDbParameter;
  * <p>
  * Contains data for the postal record associated with an IP address.
  * </p>
- * <p>
- * This record is returned by all the end points except the Country end point.
- * </p>
  */
 public final class Postal extends AbstractRecord {
 
@@ -33,8 +30,7 @@ public final class Postal extends AbstractRecord {
     /**
      * @return The postal code of the location. Postal codes are not available
      * for all countries. In some countries, this will only contain part
-     * of the postal code. This attribute is returned by all end points
-     * except the Country end point.
+     * of the postal code.
      */
     public String getCode() {
         return this.code;
@@ -43,7 +39,7 @@ public final class Postal extends AbstractRecord {
     /**
      * @return A value from 0-100 indicating MaxMind's confidence that the
      * postal code is correct. This attribute is only available from the
-     * Insights end point and the GeoIP2 Enterprise database.
+     * Insights web service and the GeoIP2 Enterprise database.
      */
     public Integer getConfidence() {
         return this.confidence;

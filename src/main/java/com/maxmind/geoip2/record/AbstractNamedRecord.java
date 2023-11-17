@@ -27,8 +27,7 @@ public abstract class AbstractNamedRecord extends AbstractRecord {
     }
 
     /**
-     * @return The GeoName ID for the city. This attribute is returned by all
-     * end points.
+     * @return The GeoName ID for the city.
      */
     @JsonProperty("geoname_id")
     public Long getGeoNameId() {
@@ -37,8 +36,7 @@ public abstract class AbstractNamedRecord extends AbstractRecord {
 
     /**
      * @return The name of the city based on the locales list passed to the
-     * {@link com.maxmind.geoip2.WebServiceClient} constructor. This
-     * attribute is returned by all end points.
+     * constructor.
      */
     @JsonIgnore
     public String getName() {
@@ -51,8 +49,7 @@ public abstract class AbstractNamedRecord extends AbstractRecord {
     }
 
     /**
-     * @return A {@link Map} from locale codes to the name in that locale. This
-     * attribute is returned by all end points.
+     * @return A {@link Map} from locale codes to the name in that locale.
      */
     @JsonProperty("names")
     public Map<String, String> getNames() {

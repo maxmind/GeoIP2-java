@@ -254,8 +254,7 @@ public final class Traits extends AbstractRecord {
      * performed a "me" lookup against the web service, this will be the
      * externally routable IP address for the system the code is running
      * on. If the system is behind a NAT, this may differ from the IP
-     * address locally assigned to it. This is available from all web
-     * services and databases.
+     * address locally assigned to it.
      */
     @JsonProperty("ip_address")
     public String getIpAddress() {
@@ -281,8 +280,7 @@ public final class Traits extends AbstractRecord {
     }
 
     /**
-     * @return This is true if the IP is an anonymous proxy. This is available
-     * from all web services and databases.
+     * @return This is true if the IP is an anonymous proxy.
      * @deprecated Use our
      * <a href="https://www.maxmind.com/en/geoip2-anonymous-ip-database">GeoIP2
      * Anonymous IP database</a> instead.
@@ -346,7 +344,6 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return This is true if the IP belong to a satellite Internet provider.
-     * This is available from all web services and databases.
      * @deprecated Due to increased mobile usage, we have insufficient data to
      * maintain this field.
      */
