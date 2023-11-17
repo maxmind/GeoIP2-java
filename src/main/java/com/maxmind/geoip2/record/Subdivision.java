@@ -12,9 +12,6 @@ import java.util.Map;
  * Contains data for the subdivisions associated with an IP address.
  * </p>
  * <p>
- * This record is returned by all the end points except the Country end point.
- * </p>
- * <p>
  * Do not use any of the subdivision names as a database or map key. Use the
  * value returned by {@link #getGeoNameId} or {@link #getIsoCode} instead.
  * </p>
@@ -57,7 +54,7 @@ public final class Subdivision extends AbstractNamedRecord {
     /**
      * @return This is a value from 0-100 indicating MaxMind's confidence that
      * the subdivision is correct. This attribute is only available from
-     * the Insights end point and the GeoIP2 Enterprise database.
+     * the Insights web service and the GeoIP2 Enterprise database.
      */
     @JsonProperty("confidence")
     public Integer getConfidence() {
@@ -68,8 +65,7 @@ public final class Subdivision extends AbstractNamedRecord {
      * @return This is a string up to three characters long contain the
      * subdivision portion of the <a
      * href="https://en.wikipedia.org/wiki/ISO_3166-2">ISO
-     * 3166-2code</a>. This attribute is returned by all end points
-     * except Country.
+     * 3166-2code</a>.
      */
     @JsonProperty("iso_code")
     public String getIsoCode() {

@@ -12,9 +12,6 @@ import java.util.Map;
  * Contains data for the country record associated with an IP address.
  * </p>
  * <p>
- * This record is returned by all the end points.
- * </p>
- * <p>
  * Do not use any of the country names as a database or map key. Use the value
  * returned by {@link #getGeoNameId} or {@link #getIsoCode} instead.
  * </p>
@@ -62,7 +59,7 @@ public class Country extends AbstractNamedRecord {
     /**
      * @return A value from 0-100 indicating MaxMind's confidence that the
      * country is correct. This attribute is only available from the
-     * Insights end point and the GeoIP2 Enterprise database.
+     * Insights web service and the GeoIP2 Enterprise database.
      */
     public Integer getConfidence() {
         return this.confidence;
@@ -70,8 +67,7 @@ public class Country extends AbstractNamedRecord {
 
     /**
      * @return This is true if the country is a member state of the European
-     * Union. This attribute is returned by all location services and
-     * databases.
+     * Union.
      */
     @JsonProperty("is_in_european_union")
     public boolean isInEuropeanUnion() {
@@ -81,12 +77,10 @@ public class Country extends AbstractNamedRecord {
     /**
      * @return The <a
      * href="https://en.wikipedia.org/wiki/ISO_3166-1">two-character ISO
-     * 3166-1 alpha code</a> for the country. This attribute is returned
-     * by all end points.
+     * 3166-1 alpha code</a> for the country.
      */
     @JsonProperty("iso_code")
     public String getIsoCode() {
         return this.isoCode;
     }
-
 }

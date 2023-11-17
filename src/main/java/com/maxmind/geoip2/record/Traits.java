@@ -254,8 +254,7 @@ public final class Traits extends AbstractRecord {
      * performed a "me" lookup against the web service, this will be the
      * externally routable IP address for the system the code is running
      * on. If the system is behind a NAT, this may differ from the IP
-     * address locally assigned to it. This is available from all web
-     * services and databases.
+     * address locally assigned to it.
      */
     @JsonProperty("ip_address")
     public String getIpAddress() {
