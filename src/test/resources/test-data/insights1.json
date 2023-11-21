@@ -85,6 +85,7 @@
   "traits": {
     "autonomous_system_number": 1234,
     "autonomous_system_organization": "AS Organization",
+    "connection_type": "Satellite",
     "domain": "example.com",
     "ip_address": "1.2.3.4",
     "isp": "Comcast",

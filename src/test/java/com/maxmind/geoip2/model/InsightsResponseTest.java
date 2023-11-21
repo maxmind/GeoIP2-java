@@ -3,6 +3,7 @@ package com.maxmind.geoip2.model;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.maxmind.geoip2.WebServiceClient;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
 import com.maxmind.geoip2.record.*;
 import org.junit.Before;
 import org.junit.Rule;
@@ -87,6 +88,9 @@ public class InsightsResponseTest {
         assertEquals(
                 "traits.getAutonomousSystemOrganization() does not return example.com",
                 "example.com", traits.getDomain());
+        assertEquals(
+                "traits.getConnectionType() does not return satellite",
+                ConnectionType.SATELLITE, traits.getConnectionType());
         assertEquals("traits.getIpAddress() does not return 1.2.3.4",
                 "1.2.3.4", traits.getIpAddress());
         assertTrue("traits.isAnonymous() returns true", traits.isAnonymous());
