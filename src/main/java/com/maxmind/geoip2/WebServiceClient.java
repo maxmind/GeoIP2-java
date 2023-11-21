@@ -413,10 +413,13 @@ public class WebServiceClient implements WebServiceProvider, Closeable {
         int status = response.statusCode();
         URI uri = response.uri();
 
-        String body = new String(response.body().readAllBytes(), StandardCharsets.UTF_8);
-        if (body.equals("")) {
-            throw new HttpException("Received a " + status + " error for "
-                + uri + " with no body", status, uri);
+        String body;
+        try (InputStream bodyStream = response.body()) {
+            body = new String(bodyStream.readAllBytes(), StandardCharsets.UTF_8);
+            if (body.equals("")) {
+                throw new HttpException("Received a " + status + " error for "
+                    + uri + " with no body", status, uri);
+            }
         }
 
         try {
@@ -486,9 +489,7 @@ public class WebServiceClient implements WebServiceProvider, Closeable {
     }
 
     private void exhaustBody(HttpResponse<InputStream> response) throws HttpException {
-        InputStream body = response.body();
-
-        try {
+        try (InputStream body = response.body()) {
             // Make sure we read the stream until the end so that
             // the connection can be reused.
             while (body.read() != -1) {
