@@ -20,26 +20,27 @@ public abstract class AbstractCountryResponse extends AbstractResponse {
     }
 
     AbstractCountryResponse(
-            Continent continent,
-            Country country,
-            MaxMind maxmind,
-            Country registeredCountry,
-            RepresentedCountry representedCountry,
-            Traits traits
+        Continent continent,
+        Country country,
+        MaxMind maxmind,
+        Country registeredCountry,
+        RepresentedCountry representedCountry,
+        Traits traits
     ) {
         this.continent = continent != null ? continent : new Continent();
         this.country = country != null ? country : new Country();
         this.registeredCountry = registeredCountry != null ? registeredCountry : new Country();
         this.maxmind = maxmind != null ? maxmind : new MaxMind();
-        this.representedCountry = representedCountry != null ? representedCountry : new RepresentedCountry();
+        this.representedCountry =
+            representedCountry != null ? representedCountry : new RepresentedCountry();
         this.traits = traits != null ? traits : new Traits();
     }
 
     AbstractCountryResponse(
-            AbstractCountryResponse response,
-            String ipAddress,
-            Network network,
-            List<String> locales
+        AbstractCountryResponse response,
+        String ipAddress,
+        Network network,
+        List<String> locales
     ) {
         // The response fields will be non-null because of the above
         // constructor used during deserializing.

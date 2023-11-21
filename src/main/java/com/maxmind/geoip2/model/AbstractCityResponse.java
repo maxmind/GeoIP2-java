@@ -19,16 +19,16 @@ public abstract class AbstractCityResponse extends AbstractCountryResponse {
     }
 
     AbstractCityResponse(
-            City city,
-            Continent continent,
-            Country country,
-            Location location,
-            MaxMind maxmind,
-            Postal postal,
-            Country registeredCountry,
-            RepresentedCountry representedCountry,
-            List<Subdivision> subdivisions,
-            Traits traits
+        City city,
+        Continent continent,
+        Country country,
+        Location location,
+        MaxMind maxmind,
+        Postal postal,
+        Country registeredCountry,
+        RepresentedCountry representedCountry,
+        List<Subdivision> subdivisions,
+        Traits traits
     ) {
         super(continent, country, maxmind, registeredCountry, representedCountry, traits);
         this.city = city != null ? city : new City();
@@ -38,10 +38,10 @@ public abstract class AbstractCityResponse extends AbstractCountryResponse {
     }
 
     AbstractCityResponse(
-            AbstractCityResponse response,
-            String ipAddress,
-            Network network,
-            List<String> locales
+        AbstractCityResponse response,
+        String ipAddress,
+        Network network,
+        List<String> locales
     ) {
         super(response, ipAddress, network, locales);
         // The response fields will be non-null because of the above
@@ -53,8 +53,8 @@ public abstract class AbstractCityResponse extends AbstractCountryResponse {
     }
 
     private static ArrayList<Subdivision> mapSubdivisions(
-            List<Subdivision> subdivisions,
-            List<String> locales
+        List<Subdivision> subdivisions,
+        List<String> locales
     ) {
         ArrayList<Subdivision> subdivisions2 = new ArrayList<>(subdivisions.size());
         for (Subdivision subdivision : subdivisions) {

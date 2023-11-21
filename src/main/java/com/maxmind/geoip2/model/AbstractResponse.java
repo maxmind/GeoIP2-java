@@ -2,9 +2,7 @@ package com.maxmind.geoip2.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-
 import java.io.IOException;
 
 public abstract class AbstractResponse {
@@ -16,10 +14,10 @@ public abstract class AbstractResponse {
      */
     public String toJson() throws IOException {
         JsonMapper mapper = JsonMapper.builder()
-                .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
-                .serializationInclusion(Include.NON_NULL)
-                .serializationInclusion(Include.NON_EMPTY)
-                .build();
+            .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+            .serializationInclusion(Include.NON_NULL)
+            .serializationInclusion(Include.NON_EMPTY)
+            .build();
 
         return mapper.writeValueAsString(this);
     }

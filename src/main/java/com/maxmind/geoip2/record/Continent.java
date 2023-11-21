@@ -4,16 +4,12 @@ import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maxmind.db.MaxMindDbConstructor;
 import com.maxmind.db.MaxMindDbParameter;
-
 import java.util.List;
 import java.util.Map;
 
 /**
  * <p>
  * Contains data for the continent record associated with an IP address.
- * </p>
- * <p>
- * This record is returned by all the end points.
  * </p>
  * <p>
  * Do not use any of the continent names as a database or map key. Use the
@@ -54,8 +50,8 @@ public final class Continent extends AbstractNamedRecord {
     }
 
     public Continent(
-            Continent continent,
-            List<String> locales
+        Continent continent,
+        List<String> locales
     ) {
         this(
             locales,
@@ -67,7 +63,7 @@ public final class Continent extends AbstractNamedRecord {
 
     /**
      * @return A two character continent code like "NA" (North America) or "OC"
-     * (Oceania). This attribute is returned by all end points.
+     * (Oceania).
      */
     public String getCode() {
         return this.code;

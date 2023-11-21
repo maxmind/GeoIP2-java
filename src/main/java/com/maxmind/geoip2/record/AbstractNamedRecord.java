@@ -2,7 +2,6 @@ package com.maxmind.geoip2.record;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,8 +27,7 @@ public abstract class AbstractNamedRecord extends AbstractRecord {
     }
 
     /**
-     * @return The GeoName ID for the city. This attribute is returned by all
-     * end points.
+     * @return The GeoName ID for the city.
      */
     @JsonProperty("geoname_id")
     public Integer getGeoNameId() {
@@ -38,8 +36,7 @@ public abstract class AbstractNamedRecord extends AbstractRecord {
 
     /**
      * @return The name of the city based on the locales list passed to the
-     * {@link com.maxmind.geoip2.WebServiceClient} constructor. This
-     * attribute is returned by all end points.
+     * constructor.
      */
     @JsonIgnore
     public String getName() {
@@ -52,8 +49,7 @@ public abstract class AbstractNamedRecord extends AbstractRecord {
     }
 
     /**
-     * @return A {@link Map} from locale codes to the name in that locale. This
-     * attribute is returned by all end points.
+     * @return A {@link Map} from locale codes to the name in that locale.
      */
     @JsonProperty("names")
     public Map<String, String> getNames() {

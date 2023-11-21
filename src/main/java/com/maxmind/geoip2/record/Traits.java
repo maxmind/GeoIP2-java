@@ -12,12 +12,7 @@ import com.maxmind.geoip2.NetworkDeserializer;
 import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
 
 /**
- * <p>
  * Contains data for the traits record associated with an IP address.
- * </p>
- * <p>
- * This record is returned by all the end points.
- * </p>
  */
 public final class Traits extends AbstractRecord {
 
@@ -369,9 +364,9 @@ public final class Traits extends AbstractRecord {
     /**
      * @return The <a
      * href="https://en.wikipedia.org/wiki/Autonomous_system_(Internet)"
-     * >autonomous system number</a> associated with the IP address.
-     * This attribute is only available from the City and Insights web
-     * service end points and the GeoIP2 Enterprise database.
+     * >autonomous system number</a> associated with the IP address. This
+     * is only available from the City Plus and Insights web services and
+     * the Enterprise database.
      */
     @JsonProperty("autonomous_system_number")
     public Integer getAutonomousSystemNumber() {
@@ -381,9 +376,9 @@ public final class Traits extends AbstractRecord {
     /**
      * @return The organization associated with the registered <a
      * href="https://en.wikipedia.org/wiki/Autonomous_system_(Internet)"
-     * >autonomous system number</a> for the IP address. This attribute
-     * is only available from the City and Insights web service end
-     * points and the GeoIP2 Enterprise database.
+     * >autonomous system number</a> for the IP address. This is only
+     * available from the City Plus and Insights web services and the
+     * Enterprise database.
      */
     @JsonProperty("autonomous_system_organization")
     public String getAutonomousSystemOrganization() {
@@ -391,8 +386,9 @@ public final class Traits extends AbstractRecord {
     }
 
     /**
-     * @return The connection type of the IP address. This attribute is only
-     * available in the GeoIP2 Enterprise database.
+     * @return The connection type of the IP address. This is only
+     * available from the City Plus and Insights web services and the
+     * Enterprise database.
      */
     @JsonProperty("connection_type")
     public ConnectionType getConnectionType() {
@@ -401,8 +397,8 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return The static IP score of the IP address. This is an indicator of
-     * how static or dynamic an IP address is. This attribute is only
-     * available from GeoIP2 Precision Insights.
+     * how static or dynamic an IP address is. This is only available from
+     * the Insights web service.
      */
     @JsonProperty("static_ip_score")
     public Double getStaticIpScore() {
@@ -412,8 +408,8 @@ public final class Traits extends AbstractRecord {
     /**
      * @return The estimated number of users sharing the IP address/network
      * during the past 24 hours. For IPv4, the count is for the individual
-     * IP address. For IPv6, the count is for the /64 network. This attribute
-     * is only available from GeoIP2 Precision Insights.
+     * IP address. For IPv6, the count is for the /64 network. This is only
+     * available from the Insights web service.
      */
     @JsonProperty("user_count")
     public Integer getUserCount() {
@@ -421,10 +417,10 @@ public final class Traits extends AbstractRecord {
     }
 
     /**
-     * @return The second level domain associated with the IP address. This will
-     * be something like "example.com" or "example.co.uk", not
-     * "foo.example.com". This attribute is only available from the City
-     * and Insights web service end points and the GeoIP2 Enterprise database.
+     * @return The second level domain associated with the IP address. This
+     * will be something like "example.com" or "example.co.uk", not
+     * "foo.example.com". This is only available from the City Plus and
+     * Insights web services and the Enterprise database.
      */
     @JsonProperty
     public String getDomain() {
@@ -436,8 +432,7 @@ public final class Traits extends AbstractRecord {
      * performed a "me" lookup against the web service, this will be the
      * externally routable IP address for the system the code is running
      * on. If the system is behind a NAT, this may differ from the IP
-     * address locally assigned to it. This attribute is returned by all
-     * end points.
+     * address locally assigned to it.
      */
     @JsonProperty("ip_address")
     public String getIpAddress() {
@@ -446,8 +441,8 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return The name of the ISP associated with the IP address. This
-     * attribute is only available from the City and Insights web
-     * service end points and the GeoIP2 Enterprise database.
+     * is only available from the City Plus and Insights web services and
+     * the Enterprise database.
      */
     public String getIsp() {
         return this.isp;
@@ -455,7 +450,7 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return This is true if the IP address belongs to any sort of anonymous
-     * network. This is only available from GeoIP2 Precision Insights.
+     * network. This is only available from the Insights web service.
      */
     @JsonProperty("is_anonymous")
     public boolean isAnonymous() {
@@ -463,8 +458,7 @@ public final class Traits extends AbstractRecord {
     }
 
     /**
-     * @return This is true if the IP is an anonymous proxy. This attribute is
-     * returned by all end points.
+     * @return This is true if the IP is an anonymous proxy.
      * @deprecated Use our
      * <a href="https://www.maxmind.com/en/geoip2-anonymous-ip-database">GeoIP2
      * Anonymous IP database</a> instead.
@@ -479,8 +473,8 @@ public final class Traits extends AbstractRecord {
      * @return This is true if the IP address is registered to an anonymous
      * VPN provider. If a VPN provider does not register subnets under names
      * associated with them, we will likely only flag their IP ranges using
-     * isHostingProvider.
-     * This is only available from GeoIP2 Precision Insights.
+     * isHostingProvider. This is only available from the Insights web
+     * service.
      */
     @JsonProperty("is_anonymous_vpn")
     public boolean isAnonymousVpn() {
@@ -489,8 +483,8 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return This is true if the IP address belongs to a hosting or
-     * VPN provider (see description of isAnonymousVpn).
-     * This is only available from GeoIP2 Precision Insights.
+     * VPN provider (see description of isAnonymousVpn). This is only
+     * available from the Insights web service.
      */
     @JsonProperty("is_hosting_provider")
     public boolean isHostingProvider() {
@@ -500,7 +494,7 @@ public final class Traits extends AbstractRecord {
     /**
      * @return This is true if MaxMind believes this IP address to be a
      * legitimate proxy, such as an internal VPN used by a corporation. This is
-     * only available in the GeoIP2 Enterprise database.
+     * only available in the Enterprise database.
      */
     @JsonProperty("is_legitimate_proxy")
     public boolean isLegitimateProxy() {
@@ -509,7 +503,7 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return This is true if the IP address belongs to a public proxy.
-     * This is only available from GeoIP2 Precision Insights.
+     * This is only available from the Insights web service.
      */
     @JsonProperty("is_public_proxy")
     public boolean isPublicProxy() {
@@ -518,8 +512,8 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return This is true if the IP address is on a suspected anonymizing
-     * network and belongs to a residential ISP. This attribute is only
-     * available from GeoIP2 Precision Insights.
+     * network and belongs to a residential ISP. This is only available from
+     * the Insights web service.
      */
     @JsonProperty("is_residential_proxy")
     public boolean isResidentialProxy() {
@@ -528,7 +522,6 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return This is true if the IP belong to a satellite Internet provider.
-     * This attribute is returned by all end points.
      * @deprecated Due to increased mobile usage, we have insufficient data to
      * maintain this field.
      */
@@ -540,7 +533,7 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return This is true if the IP address belongs to a Tor exit node.
-     * This is only available from GeoIP2 Precision Insights.
+     * This is only available from the Insights web service.
      */
     @JsonProperty("is_tor_exit_node")
     public boolean isTorExitNode() {
@@ -550,8 +543,8 @@ public final class Traits extends AbstractRecord {
     /**
      * @return The <a href="https://en.wikipedia.org/wiki/Mobile_country_code">
      * mobile country code (MCC)</a> associated with the IP address and ISP.
-     * This property is available from the City and Insights web services and
-     * the GeoIP2 Enterprise database.
+     * This is available from the City Plus and Insights web services and the
+     * Enterprise database.
      */
     @JsonProperty("mobile_country_code")
     public String getMobileCountryCode() {
@@ -561,8 +554,8 @@ public final class Traits extends AbstractRecord {
     /**
      * @return The <a href="https://en.wikipedia.org/wiki/Mobile_country_code">
      * mobile network code (MNC)</a> associated with the IP address and ISP.
-     * This property is available from the City and Insights web services and
-     * the GeoIP2 Enterprise database.
+     * This is available from the City Plus and Insights web services and the
+     * Enterprise database.
      */
     @JsonProperty("mobile_network_code")
     public String getMobileNetworkCode() {
@@ -571,7 +564,7 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @return The network associated with the record. In particular, this is
-     * the largest network where all of the fields besides IP address have the
+     * the largest network where all the fields besides IP address have the
      * same value.
      */
     @JsonProperty
@@ -581,9 +574,9 @@ public final class Traits extends AbstractRecord {
     }
 
     /**
-     * @return The name of the organization associated with the IP address. This
-     * attribute is only available from the City and Insights web
-     * service end points and the GeoIP2 Enterprise database.
+     * @return The name of the organization associated with the IP address.
+     * This is only available from the City Plus and Insights web services and
+     * the Enterprise database.
      */
     @JsonProperty
     public String getOrganization() {
@@ -600,6 +593,7 @@ public final class Traits extends AbstractRecord {
      * <li>cafe
      * <li>cellular
      * <li>college
+     * <li>consumer_privacy_network
      * <li>content_delivery_network
      * <li>dialup
      * <li>government
@@ -613,8 +607,8 @@ public final class Traits extends AbstractRecord {
      * <li>traveler
      * </ul>
      * <p>
-     * This attribute is only available from the Insights end point and the
-     * GeoIP2 Enterprise database.
+     * This is only available from the Insights web service and the Enterprise
+     * database.
      * </p>
      */
     @JsonProperty("user_type")

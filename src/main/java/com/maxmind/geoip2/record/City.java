@@ -4,16 +4,12 @@ import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maxmind.db.MaxMindDbConstructor;
 import com.maxmind.db.MaxMindDbParameter;
-
 import java.util.List;
 import java.util.Map;
 
 /**
  * <p>
  * City-level data associated with an IP address.
- * </p>
- * <p>
- * This record is returned by all the end points except the Country end point.
  * </p>
  * <p>
  * Do not use any of the city names as a database or map key. Use the value
@@ -54,8 +50,8 @@ public final class City extends AbstractNamedRecord {
     }
 
     public City(
-            City city,
-            List<String> locales
+        City city,
+        List<String> locales
     ) {
         this(
             locales,
@@ -68,7 +64,7 @@ public final class City extends AbstractNamedRecord {
     /**
      * @return A value from 0-100 indicating MaxMind's confidence that the city
      * is correct. This attribute is only available from the Insights
-     * end point and the GeoIP2 Enterprise database.
+     * web service and the GeoIP2 Enterprise database.
      */
     public Integer getConfidence() {
         return this.confidence;

@@ -4,6 +4,9 @@ CHANGELOG
 2.17.0 (2023-11-21)
 -------------------
 
+* Updated model classes with non-breaking changes from the 4.2.0
+  branch. In particular, this fixes an issue deserializing the
+  new `connection_type` from the GeoIP2 web services.
 * Updated Jackson and `maxmind-db` dependencies.
 
 2.16.1 (2021-11-18)

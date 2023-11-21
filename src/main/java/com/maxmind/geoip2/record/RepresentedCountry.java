@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maxmind.db.MaxMindDbConstructor;
 import com.maxmind.db.MaxMindDbParameter;
-
 import java.util.List;
 import java.util.Map;
 
@@ -98,7 +97,7 @@ public final class RepresentedCountry extends Country {
 
     /**
      * @return A string indicating the type of entity that is representing the
-     * country. Currently we only return {@code military} but this could
+     * country. Currently, we only return {@code military} but this could
      * expand to include other types in the future.
      */
     public String getType() {

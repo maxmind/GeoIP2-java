@@ -44,7 +44,8 @@ public class Location extends AbstractRecord {
 
     /**
      * @return The average income in US dollars associated with the requested
-     * IP address. This attribute is only available from the Insights end point.
+     * IP address. This attribute is only available from the Insights web
+     * service.
      */
     @JsonProperty("average_income")
     public Integer getAverageIncome() {
@@ -53,7 +54,8 @@ public class Location extends AbstractRecord {
 
     /**
      * @return The estimated population per square kilometer associated with the
-     * IP address. This attribute is only available from the Insights end point.
+     * IP address. This attribute is only available from the Insights web
+     * service.
      */
     @JsonProperty("population_density")
     public Integer getPopulationDensity() {

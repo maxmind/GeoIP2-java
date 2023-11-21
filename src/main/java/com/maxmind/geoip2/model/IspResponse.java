@@ -110,9 +110,9 @@ public class IspResponse extends AsnResponse {
     }
 
     public IspResponse(
-            IspResponse response,
-            String ipAddress,
-            Network network
+        IspResponse response,
+        String ipAddress,
+        Network network
     ) {
         this(
             response.getAutonomousSystemNumber(),

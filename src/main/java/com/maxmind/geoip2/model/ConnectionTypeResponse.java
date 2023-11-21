@@ -1,6 +1,7 @@
 package com.maxmind.geoip2.model;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -20,8 +21,11 @@ public class ConnectionTypeResponse extends AbstractResponse {
      * The enumerated values that connection-type may take.
      */
     public enum ConnectionType {
-        DIALUP("Dialup"), CABLE_DSL("Cable/DSL"), CORPORATE("Corporate"), CELLULAR(
-                "Cellular");
+        DIALUP("Dialup"),
+        CABLE_DSL("Cable/DSL"),
+        CORPORATE("Corporate"),
+        CELLULAR("Cellular"),
+        SATELLITE("Satellite");
 
         private final String name;
 
@@ -40,6 +44,7 @@ public class ConnectionTypeResponse extends AbstractResponse {
             return this.name;
         }
 
+        @JsonCreator
         public static ConnectionType fromString(String s) {
             if (s == null) {
                 return null;
@@ -54,6 +59,8 @@ public class ConnectionTypeResponse extends AbstractResponse {
                     return ConnectionType.CORPORATE;
                 case "Cellular":
                     return ConnectionType.CELLULAR;
+                case "Satellite":
+                    return ConnectionType.SATELLITE;
                 default:
                     return null;
             }
@@ -81,9 +88,10 @@ public class ConnectionTypeResponse extends AbstractResponse {
     }
 
     public ConnectionTypeResponse(
-            @JsonProperty("connection_type") ConnectionType connectionType,
-            @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
-            @JacksonInject("network") @JsonProperty("network") @JsonDeserialize(using = NetworkDeserializer.class) Network network
+        @JsonProperty("connection_type") ConnectionType connectionType,
+        @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
+        @JacksonInject("network") @JsonProperty("network")
+        @JsonDeserialize(using = NetworkDeserializer.class) Network network
     ) {
         this.connectionType = connectionType;
         this.ipAddress = ipAddress;
@@ -92,9 +100,9 @@ public class ConnectionTypeResponse extends AbstractResponse {
 
     @MaxMindDbConstructor
     public ConnectionTypeResponse(
-            @MaxMindDbParameter(name="connection_type") String connectionType,
-            @MaxMindDbParameter(name="ip_address") String ipAddress,
-            @MaxMindDbParameter(name="network") Network network
+        @MaxMindDbParameter(name = "connection_type") String connectionType,
+        @MaxMindDbParameter(name = "ip_address") String ipAddress,
+        @MaxMindDbParameter(name = "network") Network network
     ) {
         this(
             ConnectionType.fromString(connectionType),
@@ -104,9 +112,9 @@ public class ConnectionTypeResponse extends AbstractResponse {
     }
 
     public ConnectionTypeResponse(
-            ConnectionTypeResponse response,
-            String ipAddress,
-            Network network
+        ConnectionTypeResponse response,
+        String ipAddress,
+        Network network
     ) {
         this(
             response.getConnectionType(),
@@ -133,7 +141,7 @@ public class ConnectionTypeResponse extends AbstractResponse {
 
     /**
      * @return The network associated with the record. In particular, this is
-     * the largest network where all of the fields besides IP address have the
+     * the largest network where all the fields besides IP address have the
      * same value.
      */
     @JsonProperty
