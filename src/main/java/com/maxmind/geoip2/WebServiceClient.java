@@ -107,7 +107,7 @@ import java.util.Map;
  * throws a {@link GeoIp2Exception}.
  * </p>
  */
-public class WebServiceClient implements GeoIp2Provider, Closeable {
+public class WebServiceClient implements WebServiceProvider, Closeable {
     private final String host;
     private final List<String> locales;
     private final String authHeader;

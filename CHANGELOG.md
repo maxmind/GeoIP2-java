@@ -4,6 +4,8 @@ CHANGELOG
 4.2.0
 ------------------
 
+* A `WebServiceProvider` interface has been added to facilitate mocking of
+  `WebServiceClient`. Requested by Evan Chrisinger. GitHub #359.
 * The GeoIP2 IP Risk database has been discontinued. Methods and classes
   related to it have been deprecated.
 * The `fromString` static method on the `ConnectionType` enum now has
