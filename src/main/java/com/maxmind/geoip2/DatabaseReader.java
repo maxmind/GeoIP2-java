@@ -455,6 +455,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         return getIpRisk(ipAddress);
     }
 
+    @Deprecated
     private Optional<IpRiskResponse> getIpRisk(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
         LookupResult<IpRiskResponse> result = this.get(
