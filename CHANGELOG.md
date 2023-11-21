@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.17.0 (2023-11-21)
+-------------------
+
+* Updated Jackson and `maxmind-db` dependencies.
+
 2.16.1 (2021-11-18)
 -------------------
 
