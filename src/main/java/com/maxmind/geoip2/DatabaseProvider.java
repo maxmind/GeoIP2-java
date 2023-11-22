@@ -77,7 +77,9 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * @return an IPRiskResponse for the requested IP address or empty if it is not in the DB.
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
+     * @deprecated This database has been discontinued.
      */
+    @Deprecated
     Optional<IpRiskResponse> tryIpRisk(InetAddress ipAddress) throws IOException,
         GeoIp2Exception;
 

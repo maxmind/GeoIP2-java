@@ -267,7 +267,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      */
     private <T> LookupResult<T> get(InetAddress ipAddress, Class<T> cls,
                                     DatabaseType expectedType)
-        throws IOException, AddressNotFoundException {
+        throws IOException {
 
         if ((databaseType & expectedType.type) == 0) {
             String caller = Thread.currentThread().getStackTrace()[3]
@@ -455,6 +455,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         return getIpRisk(ipAddress);
     }
 
+    @Deprecated
     private Optional<IpRiskResponse> getIpRisk(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
         LookupResult<IpRiskResponse> result = this.get(
