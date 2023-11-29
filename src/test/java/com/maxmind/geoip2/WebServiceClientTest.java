@@ -3,19 +3,20 @@ package com.maxmind.geoip2;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static com.jcabi.matchers.RegexMatchers.matchesPattern;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.StringStartsWith.startsWith;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
+import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.AuthenticationException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
@@ -37,19 +38,18 @@ import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
 import org.hamcrest.CoreMatchers;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-
-@RunWith(JUnitParamsRunner.class)
+@WireMockTest
 public class WebServiceClientTest {
-
-    @Rule
-    public final WireMockRule wireMockRule = new WireMockRule(0); // 0 picks random port
+    @RegisterExtension
+    static WireMockExtension wireMock = WireMockExtension.newInstance()
+        .options(wireMockConfig().dynamicPort().dynamicHttpsPort())
+        .build();
 
     @Test
     public void test200WithNoBody() throws Exception {
@@ -228,8 +228,8 @@ public class WebServiceClientTest {
         assertEquals("invalid", ex.getMessage());
     }
 
-    @Test
-    @Parameters({"INSUFFICIENT_FUNDS", "OUT_OF_QUERIES"})
+    @ParameterizedTest
+    @ValueSource(strings = {"INSUFFICIENT_FUNDS", "OUT_OF_QUERIES"})
     public void testInsufficientCredit(String code) throws Exception {
         Exception ex = assertThrows(OutOfQueriesException.class,
             () -> createInsightsMeError(
@@ -240,8 +240,8 @@ public class WebServiceClientTest {
         assertEquals("out of credit", ex.getMessage());
     }
 
-    @Test
-    @Parameters({"AUTHORIZATION_INVALID",
+    @ParameterizedTest
+    @ValueSource(strings = {"AUTHORIZATION_INVALID",
         "LICENSE_KEY_REQUIRED",
         "USER_ID_REQUIRED",
         "USER_ID_UNKNOWN",
@@ -380,7 +380,7 @@ public class WebServiceClientTest {
             service,
             ip,
             200,
-            "application/vnd.maxmind.com-" + service + "+json; charset=UTF-8; version=2.1\n",
+            "application/vnd.maxmind.com-" + service + "+json; charset=UTF-8; version=2.1",
             responseContent
         );
     }
@@ -389,7 +389,7 @@ public class WebServiceClientTest {
                                           String responseContent)
         throws UnsupportedEncodingException {
         byte[] body = responseContent.getBytes(StandardCharsets.UTF_8);
-        stubFor(get(urlEqualTo("/geoip/v2.1/" + service + "/" + ip))
+        wireMock.stubFor(get(urlEqualTo("/geoip/v2.1/" + service + "/" + ip))
             .withHeader("Accept", equalTo("application/json"))
             .withHeader("Authorization", equalTo("Basic NjowMTIzNDU2Nzg5"))
             .willReturn(aResponse()
@@ -401,7 +401,7 @@ public class WebServiceClientTest {
 
         return new WebServiceClient.Builder(6, "0123456789")
             .host("localhost")
-            .port(this.wireMockRule.port())
+            .port(wireMock.getPort())
             .disableHttps()
             .build();
     }

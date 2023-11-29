@@ -50,6 +50,7 @@ fi
 
 popd
 
+mvn versions:display-plugin-updates
 mvn versions:display-dependency-updates
 
 read -r -n 1 -p "Continue given above dependencies? (y/n) " should_continue

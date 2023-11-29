@@ -2,14 +2,15 @@ package com.maxmind.geoip2.model;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static com.maxmind.geoip2.json.File.readJsonFile;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
+import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import com.maxmind.geoip2.WebServiceClient;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import java.io.IOException;
@@ -17,20 +18,23 @@ import java.net.InetAddress;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collections;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
 // In addition to testing the CityResponse, this code exercises the locale
 // handling of the models
+@WireMockTest
 public class CityResponseTest {
-    @Rule
-    public final WireMockRule wireMockRule = new WireMockRule(0);
+    @RegisterExtension
+    static WireMockExtension wireMock = WireMockExtension.newInstance()
+        .options(wireMockConfig().dynamicPort().dynamicHttpsPort())
+        .build();
 
-    @Before
+    @BeforeEach
     public void createClient() throws IOException, GeoIp2Exception,
         URISyntaxException {
-        stubFor(get(urlEqualTo("/geoip/v2.1/city/1.1.1.2"))
+        wireMock.stubFor(get(urlEqualTo("/geoip/v2.1/city/1.1.1.2"))
             .willReturn(aResponse()
                 .withStatus(200)
                 .withHeader("Content-Type",
@@ -43,18 +47,27 @@ public class CityResponseTest {
     public void testNames() throws Exception {
         WebServiceClient client = new WebServiceClient.Builder(6, "0123456789")
             .host("localhost")
-            .port(this.wireMockRule.port())
+            .port(wireMock.getPort())
             .disableHttps()
             .locales(Arrays.asList("zh-CN", "ru"))
             .build();
 
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
-        assertEquals("country.getContinent().getName() does not return 北美洲",
-            "北美洲", city.getContinent().getName());
-        assertEquals("country.getCountry().getName() does not return 美国", "美国",
-            city.getCountry().getName());
-        assertEquals("toString() returns getName()", city.getCountry()
-            .getName(), city.getCountry().getName());
+        assertEquals(
+            "北美洲",
+            city.getContinent().getName(),
+            "country.getContinent().getName() does not return 北美洲"
+        );
+        assertEquals(
+            "美国",
+            city.getCountry().getName(),
+            "country.getCountry().getName() does not return 美国"
+        );
+        assertEquals(
+            city.getCountry()
+                .getName(), city.getCountry().getName(),
+            "toString() returns getName()"
+        );
     }
 
     @Test
@@ -62,14 +75,16 @@ public class CityResponseTest {
         WebServiceClient client = new WebServiceClient.Builder(42,
             "abcdef123456")
             .host("localhost")
-            .port(this.wireMockRule.port())
+            .port(wireMock.getPort())
             .disableHttps()
             .locales(Arrays.asList("as", "ru")).build();
 
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
         assertEquals(
-            "country.getCountry().getName() does not return объединяет государства",
-            "объединяет государства", city.getCountry().getName());
+            "объединяет государства",
+            city.getCountry().getName(),
+            "country.getCountry().getName() does not return объединяет государства"
+        );
 
     }
 
@@ -78,12 +93,15 @@ public class CityResponseTest {
         WebServiceClient client = new WebServiceClient.Builder(42,
             "abcdef123456")
             .host("localhost")
-            .port(this.wireMockRule.port())
+            .port(wireMock.getPort())
             .disableHttps()
             .locales(Arrays.asList("pt", "en", "zh-CN")).build();
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
-        assertEquals("en is returned when pt is missing", "North America", city.getContinent()
-            .getName());
+        assertEquals(
+            "North America",
+            city.getContinent().getName(),
+            "en is returned when pt is missing"
+        );
 
     }
 
@@ -92,13 +110,15 @@ public class CityResponseTest {
         WebServiceClient client = new WebServiceClient.Builder(42,
             "abcdef123456")
             .host("localhost")
-            .port(this.wireMockRule.port())
+            .port(wireMock.getPort())
             .disableHttps()
             .locales(Arrays.asList("pt", "es", "af")).build();
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
 
-        assertNull("null is returned when locale is not available", city
-            .getContinent().getName());
+        assertNull(
+            city.getContinent().getName(),
+            "null is returned when locale is not available"
+        );
     }
 
     @Test
@@ -106,12 +126,15 @@ public class CityResponseTest {
         WebServiceClient client = new WebServiceClient.Builder(42,
             "abcdef123456")
             .host("localhost")
-            .port(this.wireMockRule.port())
+            .port(wireMock.getPort())
             .disableHttps()
             .build();
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
-        assertEquals("en is returned when no locales are specified", "North America", city
-            .getContinent().getName());
+        assertEquals(
+            "North America",
+            city.getContinent().getName(),
+            "en is returned when no locales are specified"
+        );
 
     }
 
@@ -120,13 +143,12 @@ public class CityResponseTest {
         WebServiceClient client = new WebServiceClient.Builder(42,
             "abcdef123456")
             .host("localhost")
-            .port(this.wireMockRule.port())
+            .port(wireMock.getPort())
             .disableHttps()
             .locales(Collections.singletonList("en")).build();
 
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
         assertNotNull(city.getCity());
-        assertNull("null is returned when names object is missing", city
-            .getCity().getName());
+        assertNull(city.getCity().getName(), "null is returned when names object is missing");
     }
 }

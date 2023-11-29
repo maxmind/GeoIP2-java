@@ -2,33 +2,37 @@ package com.maxmind.geoip2.model;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static com.maxmind.geoip2.json.File.readJsonFile;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
+import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import com.maxmind.geoip2.WebServiceClient;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URISyntaxException;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
+@WireMockTest
 public class CountryResponseTest {
-    @Rule
-    public final WireMockRule wireMockRule = new WireMockRule(0);
+    @RegisterExtension
+    static WireMockExtension wireMock = WireMockExtension.newInstance()
+        .options(wireMockConfig().dynamicPort().dynamicHttpsPort())
+        .build();
 
     private CountryResponse country;
 
-    @Before
+    @BeforeEach
     public void createClient() throws IOException, GeoIp2Exception,
         URISyntaxException {
-        stubFor(get(urlEqualTo("/geoip/v2.1/country/1.1.1.1"))
+        wireMock.stubFor(get(urlEqualTo("/geoip/v2.1/country/1.1.1.1"))
             .willReturn(aResponse()
                 .withStatus(200)
                 .withHeader("Content-Type",
@@ -37,7 +41,7 @@ public class CountryResponseTest {
 
         WebServiceClient client = new WebServiceClient.Builder(6, "0123456789")
             .host("localhost")
-            .port(this.wireMockRule.port())
+            .port(wireMock.getPort())
             .disableHttps()
             .build();
 
@@ -46,74 +50,110 @@ public class CountryResponseTest {
 
     @Test
     public void testContinent() {
-        assertEquals("country.getContinent().getCode() does not return NA",
-            "NA", this.country.getContinent().getCode());
         assertEquals(
-            "country.getContinent().getGeoNameId() does not return 42", 42,
-            (long) this.country.getContinent().getGeoNameId());
+            "NA",
+            this.country.getContinent().getCode(),
+            "country.getContinent().getCode() does not return NA"
+        );
         assertEquals(
-            "country.getContinent().getName() does not return North America",
-            "North America", this.country.getContinent().getName());
+            42,
+            this.country.getContinent().getGeoNameId(),
+            "country.getContinent().getGeoNameId() does not return 42"
+        );
+        assertEquals(
+            "North America",
+            this.country.getContinent().getName(),
+            "country.getContinent().getName() does not return North America"
+        );
     }
 
     @Test
     public void testCountry() {
         assertFalse(
-            "country.getCountry().isInEuropeanUnion() does not return false",
-            this.country.getCountry().isInEuropeanUnion());
-        assertEquals("country.getCountry().getCode() does not return US", "US",
-            this.country.getCountry().getIsoCode());
-        assertEquals("country.getCountry().getGeoNameId() does not return 1",
-            1, (long) this.country.getCountry().getGeoNameId());
-        assertEquals("country.getCountry().getConfidence() does not return 56",
-            Integer.valueOf(56), this.country.getCountry().getConfidence());
+            this.country.getCountry().isInEuropeanUnion(),
+            "country.getCountry().isInEuropeanUnion() does not return false"
+        );
         assertEquals(
-            "country.getCountry().getName(\"en\") does not return United States",
-            "United States", this.country.getCountry().getName());
+            this.country.getCountry().getIsoCode(),
+            "US",
+            "country.getCountry().getCode() does not return US"
+        );
+        assertEquals(
+            1,
+            (long) this.country.getCountry().getGeoNameId(),
+            "country.getCountry().getGeoNameId() does not return 1"
+        );
+        assertEquals(
+            Integer.valueOf(56),
+            this.country.getCountry().getConfidence(),
+            "country.getCountry().getConfidence() does not return 56"
+        );
+        assertEquals(
+            "United States",
+            this.country.getCountry().getName(),
+            "country.getCountry().getName(\"en\") does not return United States"
+        );
     }
 
     @Test
     public void testRegisteredCountry() {
         assertFalse(
-            "country.getRegisteredCountry().isInEuropeanUnion() does not return false",
-            this.country.getRegisteredCountry().isInEuropeanUnion());
+            this.country.getRegisteredCountry().isInEuropeanUnion(),
+            "country.getRegisteredCountry().isInEuropeanUnion() does not return false"
+        );
         assertEquals(
-            "country.getRegisteredCountry().getIsoCode() does not return CA",
-            "CA", this.country.getRegisteredCountry().getIsoCode());
+            "CA",
+            this.country.getRegisteredCountry().getIsoCode(),
+            "country.getRegisteredCountry().getIsoCode() does not return CA"
+        );
         assertEquals(
-            "country.getRegisteredCountry().getGeoNameId() does not return 2",
-            2, (long) this.country.getRegisteredCountry().getGeoNameId());
+            2,
+            (long) this.country.getRegisteredCountry().getGeoNameId(),
+            "country.getRegisteredCountry().getGeoNameId() does not return 2"
+        );
         assertEquals(
-            "country.getRegisteredCountry().getName(\"en\") does not return United States",
-            "Canada", this.country.getRegisteredCountry().getName());
+            "Canada",
+            this.country.getRegisteredCountry().getName(),
+            "country.getRegisteredCountry().getName(\"en\") does not return United States"
+        );
     }
 
     @Test
     public void testRepresentedCountry() {
         assertTrue(
-            "country.getRepresentedCountry().isInEuropeanUnion() does not return true",
-            this.country.getRepresentedCountry().isInEuropeanUnion());
+            this.country.getRepresentedCountry().isInEuropeanUnion(),
+            "country.getRepresentedCountry().isInEuropeanUnion() does not return true"
+        );
         assertEquals(
-            "country.getRepresentedCountry().getCode() does not return GB",
-            "GB", this.country.getRepresentedCountry().getIsoCode());
+            "GB",
+            this.country.getRepresentedCountry().getIsoCode(),
+            "country.getRepresentedCountry().getCode() does not return GB"
+        );
         assertEquals(
-            "country.getRepresentedCountry().getGeoNameId() does not return 4",
-            4, (long) this.country.getRepresentedCountry().getGeoNameId());
+            4,
+            (long) this.country.getRepresentedCountry().getGeoNameId(),
+            "country.getRepresentedCountry().getGeoNameId() does not return 4"
+        );
         assertEquals(
-            "country.getRepresentedCountry().getName(\"en\") does not return United Kingdom",
-            "United Kingdom", this.country.getRepresentedCountry()
-                .getName());
+            "United Kingdom",
+            this.country.getRepresentedCountry().getName(),
+            "country.getRepresentedCountry().getName(\"en\") does not return United Kingdom"
+        );
         assertEquals(
-            "country.getRepresentedCountry().getType() does not return military",
-            "military", this.country.getRepresentedCountry().getType());
+            "military",
+            this.country.getRepresentedCountry().getType(),
+            "country.getRepresentedCountry().getType() does not return military"
+        );
     }
 
     @Test
     public void testTraits() {
 
         assertEquals(
-            "country.getTraits().getIpAddress does not return 1.2.3.4",
-            "1.2.3.4", this.country.getTraits().getIpAddress());
+            "1.2.3.4",
+            this.country.getTraits().getIpAddress(),
+            "country.getTraits().getIpAddress does not return 1.2.3.4"
+        );
 
     }
 }
