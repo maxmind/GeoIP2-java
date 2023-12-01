@@ -12,6 +12,11 @@ CHANGELOG
   the `JsonCreator` annotation so that it is used when deserializing.
   This will prevent new additions in the future from causing a
   deserialization error.
+* The `isAnycast()` method was added to `com.maxmind.geoip2.record.Traits`.
+  This returns `true` if the IP address belongs to an [anycast
+  network](https://en.wikipedia.org/wiki/Anycast). This is available for the
+  GeoIP2 Country, City Plus, and Insights web services and the GeoIP2 Country,
+  City, and Enterprise databases.
 
 4.1.0 (2023-07-28)
 ------------------

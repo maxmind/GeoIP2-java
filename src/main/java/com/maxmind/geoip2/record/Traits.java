@@ -24,6 +24,7 @@ public final class Traits extends AbstractRecord {
     private final boolean isAnonymous;
     private final boolean isAnonymousProxy;
     private final boolean isAnonymousVpn;
+    private final boolean isAnycast;
     private final boolean isHostingProvider;
     private final boolean isLegitimateProxy;
     private final boolean isPublicProxy;
@@ -41,14 +42,14 @@ public final class Traits extends AbstractRecord {
 
     public Traits() {
         this(null, null, null, null,
-            null, false, false, false, false,
+            null, false, false, false, false, false,
             false, false, false, false, false, null,
             null, null, null, null, null, null, null);
     }
 
     public Traits(String ipAddress, Network network) {
         this(null, null, null, null,
-            ipAddress, false, false, false, false,
+            ipAddress, false, false, false, false, false,
             false, false, false, false, false, null,
             null, null, network, null, null, null, null);
     }
@@ -62,6 +63,7 @@ public final class Traits extends AbstractRecord {
         @JsonProperty("is_anonymous") boolean isAnonymous,
         @JsonProperty("is_anonymous_proxy") boolean isAnonymousProxy,
         @JsonProperty("is_anonymous_vpn") boolean isAnonymousVpn,
+        @JsonProperty("is_anycast") boolean isAnycast,
         @JsonProperty("is_hosting_provider") boolean isHostingProvider,
         @JsonProperty("is_legitimate_proxy") boolean isLegitimateProxy,
         @JsonProperty("is_public_proxy") boolean isPublicProxy,
@@ -86,6 +88,7 @@ public final class Traits extends AbstractRecord {
         this.isAnonymous = isAnonymous;
         this.isAnonymousProxy = isAnonymousProxy;
         this.isAnonymousVpn = isAnonymousVpn;
+        this.isAnycast = isAnycast;
         this.isHostingProvider = isHostingProvider;
         this.isLegitimateProxy = isLegitimateProxy;
         this.isPublicProxy = isPublicProxy;
@@ -113,6 +116,7 @@ public final class Traits extends AbstractRecord {
         @MaxMindDbParameter(name = "is_anonymous") Boolean isAnonymous,
         @MaxMindDbParameter(name = "is_anonymous_proxy") Boolean isAnonymousProxy,
         @MaxMindDbParameter(name = "is_anonymous_vpn") Boolean isAnonymousVpn,
+        @MaxMindDbParameter(name = "is_anycast") Boolean isAnycast,
         @MaxMindDbParameter(name = "is_hosting_provider") Boolean isHostingProvider,
         @MaxMindDbParameter(name = "is_legitimate_proxy") Boolean isLegitimateProxy,
         @MaxMindDbParameter(name = "is_public_proxy") Boolean isPublicProxy,
@@ -136,6 +140,7 @@ public final class Traits extends AbstractRecord {
         this.isAnonymous = isAnonymous != null ? isAnonymous : false;
         this.isAnonymousProxy = isAnonymousProxy != null ? isAnonymousProxy : false;
         this.isAnonymousVpn = isAnonymousVpn != null ? isAnonymousVpn : false;
+        this.isAnycast = isAnycast != null ? isAnycast : false;
         this.isHostingProvider = isHostingProvider != null ? isHostingProvider : false;
         this.isLegitimateProxy = isLegitimateProxy != null ? isLegitimateProxy : false;
         this.isPublicProxy = isPublicProxy != null ? isPublicProxy : false;
@@ -152,6 +157,110 @@ public final class Traits extends AbstractRecord {
         this.staticIpScore = staticIpScore;
     }
 
+    @Deprecated
+    public Traits(
+        Long autonomousSystemNumber,
+        String autonomousSystemOrganization,
+        ConnectionType connectionType,
+        String domain,
+        String ipAddress,
+        boolean isAnonymous,
+        boolean isAnonymousProxy,
+        boolean isAnonymousVpn,
+        boolean isHostingProvider,
+        boolean isLegitimateProxy,
+        boolean isPublicProxy,
+        boolean isResidentialProxy,
+        boolean isSatelliteProvider,
+        boolean isTorExitNode,
+        String isp,
+        String mobileCountryCode,
+        String mobileNetworkCode,
+        Network network,
+        String organization,
+        String userType,
+        Integer userCount,
+        Double staticIpScore
+    ) {
+        this(
+            autonomousSystemNumber,
+            autonomousSystemOrganization,
+            connectionType,
+            domain,
+            ipAddress,
+            isAnonymous,
+            isAnonymousProxy,
+            isAnonymousVpn,
+            false, // isAnycast
+            isHostingProvider,
+            isLegitimateProxy,
+            isPublicProxy,
+            isResidentialProxy,
+            isSatelliteProvider,
+            isTorExitNode,
+            isp,
+            mobileCountryCode,
+            mobileNetworkCode,
+            network,
+            organization,
+            userType,
+            userCount,
+            staticIpScore
+        );
+    }
+
+    @Deprecated
+    public Traits(
+        Long autonomousSystemNumber,
+        String autonomousSystemOrganization,
+        String connectionType,
+        String domain,
+        String ipAddress,
+        Boolean isAnonymous,
+        Boolean isAnonymousProxy,
+        Boolean isAnonymousVpn,
+        Boolean isHostingProvider,
+        Boolean isLegitimateProxy,
+        Boolean isPublicProxy,
+        Boolean isResidentialProxy,
+        Boolean isSatelliteProvider,
+        Boolean isTorExitNode,
+        String isp,
+        String mobileCountryCode,
+        String mobileNetworkCode,
+        Network network,
+        String organization,
+        String userType,
+        Integer userCount,
+        Double staticIpScore
+    ) {
+        this(
+            autonomousSystemNumber,
+            autonomousSystemOrganization,
+            connectionType,
+            domain,
+            ipAddress,
+            isAnonymous,
+            isAnonymousProxy,
+            isAnonymousVpn,
+            false, // isAnycast
+            isHostingProvider,
+            isLegitimateProxy,
+            isPublicProxy,
+            isResidentialProxy,
+            isSatelliteProvider,
+            isTorExitNode,
+            isp,
+            mobileCountryCode,
+            mobileNetworkCode,
+            network,
+            organization,
+            userType,
+            userCount,
+            staticIpScore
+        );
+    }
+
     public Traits(
         Traits traits,
         String ipAddress,
@@ -166,6 +275,7 @@ public final class Traits extends AbstractRecord {
             traits.isAnonymous(),
             traits.isAnonymousProxy(),
             traits.isAnonymousVpn(),
+            traits.isAnycast(),
             traits.isHostingProvider(),
             traits.isLegitimateProxy(),
             traits.isPublicProxy(),
@@ -301,6 +411,16 @@ public final class Traits extends AbstractRecord {
     @JsonProperty("is_anonymous_vpn")
     public boolean isAnonymousVpn() {
         return this.isAnonymousVpn;
+    }
+
+    /**
+     * @return This is true if the IP address belongs to an <a
+     * href="https://en.wikipedia.org/wiki/Anycast">anycast network</a>.
+     * This is not available from GeoLite databases or web services.
+     */
+    @JsonProperty("is_anycast")
+    public boolean isAnycast() {
+        return this.isAnycast;
     }
 
     /**

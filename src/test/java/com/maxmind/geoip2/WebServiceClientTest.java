@@ -141,6 +141,7 @@ public class WebServiceClientTest {
         assertNull(traits.getStaticIpScore());
         assertNull(traits.getUserCount());
         assertFalse(traits.isAnonymousProxy());
+        assertFalse(traits.isAnycast());
         assertFalse(traits.isSatelliteProvider());
 
         for (Country c : new Country[] {country, registeredCountry,

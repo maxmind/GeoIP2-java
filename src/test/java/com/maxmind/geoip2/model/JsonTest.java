@@ -38,6 +38,7 @@ public class JsonTest {
             .put("is_anonymous", true)
             .put("is_anonymous_proxy", true)
             .put("is_anonymous_vpn", true)
+            .put("is_anycast", true)
             .put("is_hosting_provider", true)
             .put("is_legitimate_proxy", true)
             .put("is_public_proxy", true)
@@ -144,6 +145,7 @@ public class JsonTest {
             // difference
             .put("is_anonymous", false)
             .put("is_anonymous_vpn", false)
+            .put("is_anycast", true)
             .put("is_hosting_provider", false)
             .put("is_legitimate_proxy", false)
             .put("is_public_proxy", false)
@@ -232,6 +234,7 @@ public class JsonTest {
             // difference
             .put("is_anonymous", false)
             .put("is_anonymous_vpn", false)
+            .put("is_anycast", true)
             .put("is_hosting_provider", false)
             .put("is_legitimate_proxy", false)
             .put("is_public_proxy", false)
@@ -349,5 +352,4 @@ public class JsonTest {
 
         assertEquals(expectedNode, actualNode);
     }
-
 }
