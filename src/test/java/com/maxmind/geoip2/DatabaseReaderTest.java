@@ -273,6 +273,10 @@ public class DatabaseReaderTest {
             CityResponse tryResponse = reader.tryCity(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
 
+            // This IP has is_anycast
+            response = reader.city(InetAddress.getByName("214.1.1.0"));
+            assertTrue(response.getTraits().isAnycast());
+
             // Test that the methods can be called on DB without
             // an exception
             reader.country(ipAddress);
@@ -313,6 +317,10 @@ public class DatabaseReaderTest {
 
             CountryResponse tryResponse = reader.tryCountry(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
+
+            // This IP has is_anycast
+            response = reader.country(InetAddress.getByName("214.1.1.0"));
+            assertTrue(response.getTraits().isAnycast());
         }
     }
 
@@ -356,6 +364,10 @@ public class DatabaseReaderTest {
             response = reader.enterprise(ipAddress);
             assertEquals("310", response.getTraits().getMobileCountryCode());
             assertEquals("004", response.getTraits().getMobileNetworkCode());
+
+            // This IP has is_anycast
+            response = reader.enterprise(InetAddress.getByName("214.1.1.0"));
+            assertTrue(response.getTraits().isAnycast());
 
             // Test that the city and country methods can be called without
             // an exception
