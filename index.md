@@ -2,7 +2,7 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v2.17.0
+version: v4.2.0
 ---
 
 # GeoIP2 Java API #
@@ -24,7 +24,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>2.17.0</version>
+        <version>4.2.0</version>
     </dependency>
 ```
 
@@ -37,7 +37,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.maxmind.geoip2:geoip2:2.17.0'
+    compile 'com.maxmind.geoip2:geoip2:4.2.0'
 }
 ```
 
@@ -58,11 +58,13 @@ should not be used to identify a particular address or household.
 To use the web service API, you must create a new `WebServiceClient` using the
 `WebServiceClient.Builder`. You must provide the `Builder` constructor your
 MaxMind `accountId` and `licenseKey`. To use the GeoLite2 web services instead
-of GeoIP2, set the `host` method on the builder to `geolite.info`. You may also
-set a `timeout` or set the `locales` fallback order using the methods on the
-`Builder`. After you have created the `WebServiceClient`, you may then call
-the method corresponding to a specific end point, passing it the IP address
-you want to look up.
+of GeoIP2, set the `host` method on the builder to `geolite.info`. To use
+the Sandbox GeoIP2 web services intead of the production GeoIP2 web
+services, set the `host` method on the builder to `sandbox.maxmind.com`.
+You may also set a `timeout` or set the `locales` fallback order using the
+methods on the `Builder`. After you have created the `WebServiceClient`,
+you may then call the method corresponding to a specific web service, passing
+it the IP address you want to look up.
 
 If the request succeeds, the method call will return a model class for the end
 point you called. This model in turn contains multiple record classes, each of
@@ -72,11 +74,10 @@ If the request fails, the client class throws an exception.
 
 The `WebServiceClient` object is safe to share across threads. If you are
 making multiple requests, the object should be reused so that new connections
-are not created for each request. Once you have finished making requests, you
-should close the object to ensure the connections are closed and any
-resources are promptly returned to the system.
+are not created for each request.
 
-See the API documentation for more details.
+See the [API documentation](https://maxmind.github.io/GeoIP2-java/) for
+more details.
 
 ## Web Service Example ##
 
@@ -85,67 +86,71 @@ See the API documentation for more details.
 ```java
 // This creates a WebServiceClient object that is thread-safe and can be
 // reused across requests. Reusing the object will allow it to keep
-// connections alive for future requests. The object is closeable, but
-// it should not be closed until you are finished making requests with it.
+// connections alive for future requests.
 //
 // Replace "42" with your account ID and "license_key" with your license key.
-// To use the GeoLite2 web service instead of GeoIP2 Precision, call the
+// To use the GeoLite2 web service instead of the GeoIP2 web service, call the
 // host method on the builder with "geolite.info", e.g.
 // new WebServiceClient.Builder(42, "license_key").host("geolite.info").build()
-try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
-        .build()) {
+// To use the Sandbox GeoIP2 web service instead of the production GeoIP2
+// web service, call the host method on the builder with
+// "sandbox.maxmind.com", e.g.
+// new WebServiceClient.Builder(42, "license_key").host("sandbox.maxmind.com").build()
+WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
+    .build();
 
-    InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
+InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
-    // Do the lookup
-    CountryResponse response = client.country(ipAddress);
+// Do the lookup
+CountryResponse response = client.country(ipAddress);
 
-    Country country = response.getCountry();
-    System.out.println(country.getIsoCode());            // 'US'
-    System.out.println(country.getName());               // 'United States'
-    System.out.println(country.getNames().get("zh-CN")); // '美国'
-}
+Country country = response.getCountry();
+System.out.println(country.getIsoCode());            // 'US'
+System.out.println(country.getName());               // 'United States'
+System.out.println(country.getNames().get("zh-CN")); // '美国'
 ```
 
-### City Service ###
+### City Plus Service ###
 
 ```java
 // This creates a WebServiceClient object that is thread-safe and can be
 // reused across requests. Reusing the object will allow it to keep
-// connections alive for future requests. The object is closeable, but
-// it should not be closed until you are finished making requests with it.
+// connections alive for future requests.
 //
 // Replace "42" with your account ID and "license_key" with your license key.
-// To use the GeoLite2 web service instead of GeoIP2 Precision, call the
+// To use the GeoLite2 web service instead of the GeoIP2 web service, call the
 // host method on the builder with "geolite.info", e.g.
 // new WebServiceClient.Builder(42, "license_key").host("geolite.info").build()
-try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
-        .build()) {
+// To use the Sandbox GeoIP2 web service instead of the production GeoIP2
+// web service, call the host method on the builder with
+// "sandbox.maxmind.com", e.g.
+// new WebServiceClient.Builder(42, "license_key").host("sandbox.maxmind.com").build()
+WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
+    .build();
 
-    InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
+InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
-    // Do the lookup
-    CityResponse response = client.city(ipAddress);
+// Do the lookup
+CityResponse response = client.city(ipAddress);
 
-    Country country = response.getCountry();
-    System.out.println(country.getIsoCode());            // 'US'
-    System.out.println(country.getName());               // 'United States'
-    System.out.println(country.getNames().get("zh-CN")); // '美国'
+Country country = response.getCountry();
+System.out.println(country.getIsoCode());            // 'US'
+System.out.println(country.getName());               // 'United States'
+System.out.println(country.getNames().get("zh-CN")); // '美国'
 
-    Subdivision subdivision = response.getMostSpecificSubdivision();
-    System.out.println(subdivision.getName());       // 'Minnesota'
-    System.out.println(subdivision.getIsoCode());    // 'MN'
+Subdivision subdivision = response.getMostSpecificSubdivision();
+System.out.println(subdivision.getName());       // 'Minnesota'
+System.out.println(subdivision.getIsoCode());    // 'MN'
 
-    City city = response.getCity();
-    System.out.println(city.getName());       // 'Minneapolis'
+City city = response.getCity();
+System.out.println(city.getName());       // 'Minneapolis'
 
-    Postal postal = response.getPostal();
-    System.out.println(postal.getCode());       // '55455'
+Postal postal = response.getPostal();
+System.out.println(postal.getCode());       // '55455'
 
-    Location location = response.getLocation();
-    System.out.println(location.getLatitude());        // 44.9733
-    System.out.println(location.getLongitude());       // -93.2323
-}
+Location location = response.getLocation();
+System.out.println(location.getLatitude());        // 44.9733
+System.out.println(location.getLongitude());       // -93.2323
 ```
 
 ### Insights Service ###
@@ -153,46 +158,48 @@ try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
 ```java
 // This creates a WebServiceClient object that is thread-safe and can be
 // reused across requests. Reusing the object will allow it to keep
-// connections alive for future requests. The object is closeable, but
-// it should not be closed until you are finished making requests with it.
+// connections alive for future requests.
 //
 // Replace "42" with your account ID and "license_key" with your license key.
 // Please note that the GeoLite2 web service does not support Insights.
-try (WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
-        .build()) {
+// To use the Sandbox GeoIP2 web service instead of the production GeoIP2
+// web service, call the host method on the builder with
+// "sandbox.maxmind.com", e.g.
+// new WebServiceClient.Builder(42, "license_key").host("sandbox.maxmind.com").build()
+WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
+    .build();
 
-    InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
+InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
-    // Do the lookup
-    InsightsResponse response = client.insights(ipAddress);
+// Do the lookup
+InsightsResponse response = client.insights(ipAddress);
 
-    Country country = response.getCountry();
-    System.out.println(country.getIsoCode());            // 'US'
-    System.out.println(country.getName());               // 'United States'
-    System.out.println(country.getNames().get("zh-CN")); // '美国'
-    System.out.println(country.getConfidence());         // 99
+Country country = response.getCountry();
+System.out.println(country.getIsoCode());            // 'US'
+System.out.println(country.getName());               // 'United States'
+System.out.println(country.getNames().get("zh-CN")); // '美国'
+System.out.println(country.getConfidence());         // 99
 
-    Subdivision subdivision = response.getMostSpecificSubdivision();
-    System.out.println(subdivision.getName());       // 'Minnesota'
-    System.out.println(subdivision.getIsoCode());    // 'MN'
-    System.out.println(subdivision.getConfidence()); // 90
+Subdivision subdivision = response.getMostSpecificSubdivision();
+System.out.println(subdivision.getName());       // 'Minnesota'
+System.out.println(subdivision.getIsoCode());    // 'MN'
+System.out.println(subdivision.getConfidence()); // 90
 
-    City city = response.getCity();
-    System.out.println(city.getName());       // 'Minneapolis'
-    System.out.println(city.getConfidence()); // 50
+City city = response.getCity();
+System.out.println(city.getName());       // 'Minneapolis'
+System.out.println(city.getConfidence()); // 50
 
-    Postal postal = response.getPostal();
-    System.out.println(postal.getCode());       // '55455'
-    System.out.println(postal.getConfidence()); // 40
+Postal postal = response.getPostal();
+System.out.println(postal.getCode());       // '55455'
+System.out.println(postal.getConfidence()); // 40
 
-    Location location = response.getLocation();
-    System.out.println(location.getLatitude());        // 44.9733
-    System.out.println(location.getLongitude());       // -93.2323
-    System.out.println(location.getAccuracyRadius());  // 3
-    System.out.println(location.getTimeZone());        // 'America/Chicago'
+Location location = response.getLocation();
+System.out.println(location.getLatitude());        // 44.9733
+System.out.println(location.getLongitude());       // -93.2323
+System.out.println(location.getAccuracyRadius());  // 3
+System.out.println(location.getTimeZone());        // 'America/Chicago'
 
-    System.out.println(response.getTraits().getUserType()); // 'college'
-}
+System.out.println(response.getTraits().getUserType()); // 'college'
 ```
 
 ## Database Usage ##
@@ -205,7 +212,7 @@ object.
 
 After you have created the `DatabaseReader`, you may then call one of the
 appropriate methods, e.g., `city` or `tryCity`, for your database. These
-methods take the IP address to be looked up.  The methods with the `try`
+methods take the IP address to be looked up. The methods with the `try`
 prefix return an `Optional` object, which will be empty if the value is
 not present in the database. The method without the prefix will throw an
 `AddressNotFoundException` if the address is not in the database. If you
@@ -222,7 +229,8 @@ one for each lookup. The creation of this object is relatively expensive as it
 must read in metadata for the file. It is safe to share the object across
 threads.
 
-See the API documentation for more details.
+See the [API documentation](https://maxmind.github.io/GeoIP2-java/) for
+more details.
 
 ### Caching ###
 
@@ -291,9 +299,7 @@ File database = new File("/path/to/GeoIP2-Anonymous-IP.mmdb");
 
 // This creates the DatabaseReader object. To improve performance, reuse
 // the object across lookups. The object is thread-safe.
-DatabaseReader reader = new DatabaseReader.Builder(database).build();
-
-try {
+try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
     InetAddress ipAddress = InetAddress.getByName("85.25.43.84");
 
     AnonymousIpResponse response = reader.anonymousIp(ipAddress);
@@ -304,8 +310,6 @@ try {
     System.out.println(response.isPublicProxy()); // false
     System.out.println(response.isResidentialProxy()); // false
     System.out.println(response.isTorExitNode()); //true
-} finally {
-    reader.close();
 }
 
 ```
@@ -363,7 +367,7 @@ InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
 DomainResponse response = reader.domain(ipAddress);
 
-System.out.println(response.getDomain()); // 'Corporate'
+System.out.println(response.getDomain()); // 'umn.edu'
 ```
 
 ### Enterprise ###
@@ -429,7 +433,7 @@ System.out.println(response.getOrganization());                 // 'University o
 ## Exceptions ##
 
 For details on the possible errors returned by the web service itself, [see
-the GeoIP2 Precision web service
+the GeoIP2 web service
 documentation](https://dev.maxmind.com/geoip/docs/web-services?lang=en).
 
 If the web service returns an explicit error document, this is thrown as an
@@ -456,7 +460,8 @@ following:
 
 * `com.maxmind.geoip2.record.City` - `City.getGeoNameId`
 * `com.maxmind.geoip2.record.Continent` - `Continent.getCode` or `Continent.getGeoNameId`
-* `com.maxmind.geoip2.record.Country` and `com.maxmind.geoip2.record.RepresentedCountry` - `Country.getIsoCode` or `Country.getGeoNameId`
+* `com.maxmind.geoip2.record.Country` and `com.maxmind.geoip2.record.RepresentedCountry` - `Country.getIsoCode`
+  or `Country.getGeoNameId`
 * `com.maxmind.geoip2.record.Subdivision` - `Subdivision.getIsoCode` or `Subdivision.getGeoNameId`
 
 ## Multi-Threaded Use ##
@@ -467,17 +472,16 @@ we suggest creating one object and sharing that across threads.
 
 ## What data is returned? ##
 
-While many of the end points return the same basic records, the attributes
-which can be populated vary between end points. In addition, while an end
-point may offer a particular piece of data, MaxMind does not always have every
-piece of data for any given IP address.
+While many of the location databases and web services return the same
+basic records, the attributes poplulated can vary. In addition, MaxMind does
+not always have every piece of data for any given IP address.
 
-Because of these factors, it is possible for any end point to return a record
+Because of these factors, it is possible for any web service to return a record
 where some or all of the attributes are unpopulated.
 
 [See our web-service developer
 documentation](https://dev.maxmind.com/geoip/docs/web-services?lang=en) for
-details on what data each end point may return.
+details on what data each web service may return.
 
 The only piece of data which is always returned is the `ip_address`
 available at `lookup.getTraits().getIpAddress()`.
@@ -512,8 +516,8 @@ data set, it will be automatically incorporated into future MaxMind
 releases.
 
 If you are a paying MaxMind customer and you're not sure where to submit
-a correction, please [contact MaxMind support]
-(https://www.maxmind.com/en/support) for help.
+a correction, please [contact MaxMind support](https://www.maxmind.com/en/support)
+for help.
 
 ## Other Support ##
 
@@ -526,7 +530,7 @@ to the client API, please
 
 ## Requirements  ##
 
-MaxMind has tested this API with Java 8 and above.
+MaxMind has tested this API with Java 11 and above.
 
 ## Contributing ##
 
@@ -539,6 +543,6 @@ The GeoIP2 Java API uses [Semantic Versioning](https://semver.org/).
 
 ## Copyright and License ##
 
-This software is Copyright (c) 2013-2021 by MaxMind, Inc.
+This software is Copyright (c) 2013-2023 by MaxMind, Inc.
 
 This is free software, licensed under the Apache License, Version 2.0.
