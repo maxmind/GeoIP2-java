@@ -124,6 +124,3 @@ git push --tags
 gh release create --target "$(git branch --show-current)" -t "$version" -n "$notes" "$tag" \
     "target/geoip2-$version-with-dependencies.zip" \
     "target/geoip2-$version-with-dependencies.zip.asc"
-
-
-echo "Remember to do the release on https://oss.sonatype.org/!"
