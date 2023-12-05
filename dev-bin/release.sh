@@ -93,7 +93,7 @@ mvn release:clean
 mvn release:prepare -DreleaseVersion="$version" -Dtag="$tag"
 mvn release:perform
 rm -fr ".gh-pages/doc/$tag"
-cp -r target/apidocs ".gh-pages/doc/$tag"
+cp -r target/checkout/target/apidocs ".gh-pages/doc/$tag"
 ln -Tfs "$tag" .gh-pages/doc/latest
 
 pushd .gh-pages
@@ -122,5 +122,5 @@ git push
 git push --tags
 
 gh release create --target "$(git branch --show-current)" -t "$version" -n "$notes" "$tag" \
-    "target/geoip2-$version-with-dependencies.zip" \
-    "target/geoip2-$version-with-dependencies.zip.asc"
+    "target/checkout/target/geoip2-$version-with-dependencies.zip" \
+    "target/checkout/target/geoip2-$version-with-dependencies.zip.asc"
