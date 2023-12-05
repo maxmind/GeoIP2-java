@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-4.2.0
+4.2.0 (2023-12-05)
 ------------------
 
 * A `WebServiceProvider` interface has been added to facilitate mocking of
