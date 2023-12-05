@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.maxmind.geoip2</groupId>
     <artifactId>geoip2</artifactId>
-    <version>4.1.1-SNAPSHOT</version>
+    <version>4.2.0</version>
     <packaging>jar</packaging>
     <name>MaxMind GeoIP2 API</name>
     <description>GeoIP2 webservice client and database reader</description>
@@ -23,7 +23,8 @@
         <url>https://github.com/maxmind/GeoIP2-java</url>
         <connection>scm:git:git://github.com:maxmind/GeoIP2-java.git</connection>
         <developerConnection>scm:git:git@github.com:maxmind/GeoIP2-java.git</developerConnection>
-    </scm>
+      <tag>v4.2.0</tag>
+  </scm>
     <issueManagement>
         <url>https://github.com/maxmind/GeoIP2-java/issues</url>
         <system>GitHub</system>
