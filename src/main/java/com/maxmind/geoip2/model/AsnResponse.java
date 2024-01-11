@@ -20,6 +20,9 @@ public class AsnResponse extends AbstractResponse {
     private final String ipAddress;
     private final Network network;
 
+    /**
+     * Constructs an instance of {@code AsnResponse} with the specified values for all fields.
+     */
     @MaxMindDbConstructor
     public AsnResponse(
         @JsonProperty("autonomous_system_number")
@@ -39,6 +42,9 @@ public class AsnResponse extends AbstractResponse {
         this.network = network;
     }
 
+    /**
+     * Constructs an instance of {@code AsnResponse} with only the specified values set.
+     */
     public AsnResponse(
         AsnResponse response,
         String ipAddress,

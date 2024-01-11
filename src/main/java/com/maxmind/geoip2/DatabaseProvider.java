@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Optional;
 
+/**
+ * Interface for GeoIP2 database providers.
+ */
 public interface DatabaseProvider extends GeoIp2Provider {
 
     /**

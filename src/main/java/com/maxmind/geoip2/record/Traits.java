@@ -40,6 +40,9 @@ public final class Traits extends AbstractRecord {
     private final Integer userCount;
     private final Double staticIpScore;
 
+    /**
+     * Constructs an instance of {@code Traits}.
+     */
     public Traits() {
         this(null, null, null, null,
             null, false, false, false, false, false,
@@ -47,6 +50,12 @@ public final class Traits extends AbstractRecord {
             null, null, null, null, null, null, null);
     }
 
+    /**
+     * Constructs an instance of {@code Traits}.
+     *
+     * @param ipAddress the IP address
+     * @param network   the network
+     */
     public Traits(String ipAddress, Network network) {
         this(null, null, null, null,
             ipAddress, false, false, false, false, false,
@@ -54,6 +63,33 @@ public final class Traits extends AbstractRecord {
             null, null, network, null, null, null, null);
     }
 
+    /**
+     * Constructs an instance of {@code Traits}.
+     * 
+     * @param autonomousSystemNumber the autonomous system number
+     * @param autonomousSystemOrganization the autonomous system organization
+     * @param connectionType the connection type
+     * @param domain the domain
+     * @param ipAddress the IP address
+     * @param isAnonymous the anonymous flag
+     * @param isAnonymousProxy the anonymous proxy flag
+     * @param isAnonymousVpn the anonymous VPN flag
+     * @param isAnycast the anycast flag
+     * @param isHostingProvider the hosting provider flag
+     * @param isLegitimateProxy the legitimate proxy flag
+     * @param isPublicProxy the public proxy flag
+     * @param isResidentialProxy the residential proxy flag
+     * @param isSatelliteProvider the satellite provider flag
+     * @param isTorExitNode the Tor exit node flag
+     * @param isp the ISP
+     * @param mobileCountryCode the mobile country code
+     * @param mobileNetworkCode the mobile network code
+     * @param network the network
+     * @param organization the organization
+     * @param userType the user type
+     * @param userCount the user count
+     * @param staticIpScore the static IP score
+     */
     public Traits(
         @JsonProperty("autonomous_system_number") Long autonomousSystemNumber,
         @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
@@ -105,6 +141,33 @@ public final class Traits extends AbstractRecord {
         this.staticIpScore = staticIpScore;
     }
 
+    /**
+     * Constructs an instance of {@code Traits}. 
+     * 
+     * @param autonomousSystemNumber the autonomous system number
+     * @param autonomousSystemOrganization the autonomous system organization
+     * @param connectionType the connection type
+     * @param domain the domain
+     * @param ipAddress the IP address
+     * @param isAnonymous the anonymous flag
+     * @param isAnonymousProxy the anonymous proxy flag
+     * @param isAnonymousVpn the anonymous VPN flag
+     * @param isAnycast the anycast flag
+     * @param isHostingProvider the hosting provider flag
+     * @param isLegitimateProxy the legitimate proxy flag
+     * @param isPublicProxy the public proxy flag
+     * @param isResidentialProxy the residential proxy flag
+     * @param isSatelliteProvider the satellite provider flag
+     * @param isTorExitNode the Tor exit node flag
+     * @param isp the ISP
+     * @param mobileCountryCode the mobile country code
+     * @param mobileNetworkCode the mobile network code
+     * @param network the network
+     * @param organization the organization
+     * @param userType the user type
+     * @param userCount the user count
+     * @param staticIpScore the static IP score
+     */
     @MaxMindDbConstructor
     public Traits(
         @MaxMindDbParameter(name = "autonomous_system_number") Long autonomousSystemNumber,
@@ -157,6 +220,9 @@ public final class Traits extends AbstractRecord {
         this.staticIpScore = staticIpScore;
     }
 
+    /**
+     * deprecated
+     */
     @Deprecated
     public Traits(
         Long autonomousSystemNumber,
@@ -209,6 +275,9 @@ public final class Traits extends AbstractRecord {
         );
     }
 
+    /**
+     * deprecated
+     */
     @Deprecated
     public Traits(
         Long autonomousSystemNumber,
@@ -261,6 +330,13 @@ public final class Traits extends AbstractRecord {
         );
     }
 
+    /**
+     * Constructs an instance of {@code Traits}. 
+     * 
+     * @param traits the traits
+     * @param ipAddress the IP address
+     * @param network the network
+     */
     public Traits(
         Traits traits,
         String ipAddress,

@@ -18,6 +18,9 @@ public class IspResponse extends AsnResponse {
     private final String mobileCountryCode;
     private final String mobileNetworkCode;
 
+    /**
+     * Constructs an instance of {@code IspResponse}.
+     */
     @MaxMindDbConstructor
     public IspResponse(
         @JsonProperty("autonomous_system_number")
@@ -45,6 +48,13 @@ public class IspResponse extends AsnResponse {
         this.organization = organization;
     }
 
+    /**
+     * Constructs an instance of {@code IspResponse}. 
+     * 
+     * @param response The {@code AsnResponse} object to copy.
+     * @param ipAddress The IP address that the data in the model is for.
+     * @param network The network associated with the record.
+     */
     public IspResponse(
         IspResponse response,
         String ipAddress,

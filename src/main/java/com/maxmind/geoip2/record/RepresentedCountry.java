@@ -29,6 +29,9 @@ public final class RepresentedCountry extends Country {
         this(null, null, null, false, null, null, null);
     }
 
+    /**
+     * Constructs an instance of {@code RepresentedCountry}.
+     */
     @MaxMindDbConstructor
     public RepresentedCountry(
         @JacksonInject("locales") @MaxMindDbParameter(name = "locales") List<String> locales,
@@ -45,6 +48,9 @@ public final class RepresentedCountry extends Country {
         this.type = type;
     }
 
+    /** 
+     * Constructs an instance of {@code RepresentedCountry}.
+     */
     public RepresentedCountry(
         RepresentedCountry country,
         List<String> locales

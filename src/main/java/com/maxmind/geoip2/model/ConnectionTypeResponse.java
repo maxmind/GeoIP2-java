@@ -44,6 +44,9 @@ public class ConnectionTypeResponse extends AbstractResponse {
             return this.name;
         }
 
+        /**
+         * Creates an instance of {@code ConnectionType} from a string.
+         */
         @JsonCreator
         public static ConnectionType fromString(String s) {
             if (s == null) {
@@ -71,6 +74,9 @@ public class ConnectionTypeResponse extends AbstractResponse {
     private final String ipAddress;
     private final Network network;
 
+    /**
+     * Constructs an instance of {@code ConnectionTypeResponse}.
+     */
     public ConnectionTypeResponse(
         @JsonProperty("connection_type") ConnectionType connectionType,
         @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
@@ -82,6 +88,9 @@ public class ConnectionTypeResponse extends AbstractResponse {
         this.network = network;
     }
 
+    /**
+     * Constructs an instance of {@code ConnectionTypeResponse}.
+     */
     @MaxMindDbConstructor
     public ConnectionTypeResponse(
         @MaxMindDbParameter(name = "connection_type") String connectionType,
@@ -95,6 +104,9 @@ public class ConnectionTypeResponse extends AbstractResponse {
         );
     }
 
+    /**
+     * Constructs an instance of {@code ConnectionTypeResponse}.
+     */
     public ConnectionTypeResponse(
         ConnectionTypeResponse response,
         String ipAddress,

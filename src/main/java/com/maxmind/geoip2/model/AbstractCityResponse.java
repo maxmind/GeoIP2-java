@@ -14,6 +14,9 @@ import com.maxmind.geoip2.record.Traits;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents the GeoIP2 City response model.
+ */
 public abstract class AbstractCityResponse extends AbstractCountryResponse {
 
     private final City city;

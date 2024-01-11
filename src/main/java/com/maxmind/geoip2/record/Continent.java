@@ -35,6 +35,9 @@ public final class Continent extends AbstractNamedRecord {
         this.code = code;
     }
 
+    /**
+     * Constructs an instance of {@code Continent}.
+     */
     public Continent(
         Continent continent,
         List<String> locales

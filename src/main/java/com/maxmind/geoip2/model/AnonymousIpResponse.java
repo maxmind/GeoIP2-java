@@ -28,6 +28,10 @@ public class AnonymousIpResponse extends IpBaseResponse {
             isResidentialProxy, isTorExitNode, network);
     }
 
+    /**
+     * Constructs an instance of {@code AnonymousIpResponse} based on the values in the passed
+     * in response.
+     */
     @MaxMindDbConstructor
     public AnonymousIpResponse(
         @MaxMindDbParameter(name = "ip_address") String ipAddress,
@@ -51,6 +55,9 @@ public class AnonymousIpResponse extends IpBaseResponse {
         );
     }
 
+    /**
+     * Constructs an instance of {@code AnonymousIpResponse} with only the specified values set.
+     */
     public AnonymousIpResponse(
         AnonymousIpResponse response,
         String ipAddress,

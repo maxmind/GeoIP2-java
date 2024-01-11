@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import java.io.IOException;
 
+/**
+ * Abstract class for records that may be returned by the GeoIP2 web service.
+ */
 public abstract class AbstractResponse {
 
     /**

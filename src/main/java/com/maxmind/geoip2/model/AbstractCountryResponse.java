@@ -9,6 +9,9 @@ import com.maxmind.geoip2.record.RepresentedCountry;
 import com.maxmind.geoip2.record.Traits;
 import java.util.List;
 
+/**
+ * This class represents the GeoIP2 Country response model.
+ */
 public abstract class AbstractCountryResponse extends AbstractResponse {
 
     private final Continent continent;

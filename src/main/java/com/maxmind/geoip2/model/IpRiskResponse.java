@@ -18,6 +18,9 @@ public class IpRiskResponse extends IpBaseResponse {
 
     private final double ipRisk;
 
+    /**
+     * Constructs an instance of {@code IpRiskResponse}.
+     */
     public IpRiskResponse(
         @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
         @JsonProperty("is_anonymous") boolean isAnonymous,
@@ -35,6 +38,9 @@ public class IpRiskResponse extends IpBaseResponse {
         this.ipRisk = ipRisk;
     }
 
+    /**
+     * Constructs an instance of {@code IpRiskResponse}.
+     */
     @MaxMindDbConstructor
     public IpRiskResponse(
         @MaxMindDbParameter(name = "ip_address") String ipAddress,
@@ -62,6 +68,9 @@ public class IpRiskResponse extends IpBaseResponse {
         );
     }
 
+    /**
+     * Constructs an instance of {@code IpRiskResponse}.
+     */
     public IpRiskResponse(
         IpRiskResponse response,
         String ipAddress,

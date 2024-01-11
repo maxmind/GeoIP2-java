@@ -26,6 +26,9 @@ public class Country extends AbstractNamedRecord {
         this(null, null, null, false, null, null);
     }
 
+    /** 
+     * Constructs an instance of {@code Country}.
+     */
     @MaxMindDbConstructor
     public Country(
         @JacksonInject("locales") @MaxMindDbParameter(name = "locales") List<String> locales,
@@ -42,6 +45,9 @@ public class Country extends AbstractNamedRecord {
         this.isoCode = isoCode;
     }
 
+    /**
+     * Constructs an instance of {@code Country}.
+     */
     public Country(
         Country country,
         List<String> locales

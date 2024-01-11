@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/**
+ * This class provides a deserializer for the Network class.
+ */
 public class NetworkDeserializer extends StdDeserializer<Network> {
 
     public NetworkDeserializer() {

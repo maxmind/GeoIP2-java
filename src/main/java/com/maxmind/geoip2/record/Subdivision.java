@@ -25,6 +25,9 @@ public final class Subdivision extends AbstractNamedRecord {
         this(null, null, null, null, null);
     }
 
+   /**
+    * Constructs an instance of {@code Subdivision}.
+    */
     @MaxMindDbConstructor
     public Subdivision(
         @JacksonInject("locales") @MaxMindDbParameter(name = "locales") List<String> locales,
@@ -38,6 +41,9 @@ public final class Subdivision extends AbstractNamedRecord {
         this.isoCode = isoCode;
     }
 
+    /**
+     * Constructs an instance of {@code Subdivision}.
+     */
     public Subdivision(
         Subdivision subdivision,
         List<String> locales

@@ -23,6 +23,9 @@ public class Location extends AbstractRecord {
         this(null, null, null, null, null, null, null);
     }
 
+    /**
+     * Constructs an instance of {@code Location}.
+     */
     @MaxMindDbConstructor
     public Location(
         @JsonProperty("accuracy_radius") @MaxMindDbParameter(name = "accuracy_radius")

@@ -326,6 +326,11 @@
             <property name="target"
                       value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF, VARIABLE_DEF"/>
         </module> -->
+        <module name="JavadocType"/>
+        <module name="JavadocVariable">
+            <property name="tokens" value="VARIABLE_DEF"/>
+            <property name="scope" value="public"/>
+        </module>
         <module name="JavadocMethod">
             <property name="accessModifiers" value="public"/>
             <property name="allowMissingParamTags" value="true"/>
@@ -342,14 +347,14 @@
             <property name="allowMissingPropertyJavadoc" value="true"/>
         </module>
 
-        <!-- <module name="MissingJavadocType">
+        <module name="MissingJavadocType">
             <property name="scope" value="protected"/>
             <property name="tokens"
                       value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF,
                       RECORD_DEF, ANNOTATION_DEF"/>
             <property name="excludeScope" value="nothing"/>
-        </module> -->
-        <!-- <module name="MethodName">
+        </module>
+        <module name="MethodName">
             <property name="format" value="^[a-z][a-z0-9]\w*$"/>
             <message key="name.invalidPattern"
                      value="Method name ''{0}'' must match pattern ''{1}''."/>
@@ -357,7 +362,7 @@
         <module name="SingleLineJavadoc"/>
         <module name="EmptyCatchBlock">
             <property name="exceptionVariableName" value="expected"/>
-        </module> -->
+        </module>
         <!-- <module name="CommentsIndentation">
             <property name="tokens" value="SINGLE_LINE_COMMENT, BLOCK_COMMENT_BEGIN"/>
         </module> -->

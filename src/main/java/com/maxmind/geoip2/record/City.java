@@ -35,6 +35,9 @@ public final class City extends AbstractNamedRecord {
         this.confidence = confidence;
     }
 
+    /**
+     * Constructs an instance of {@code City}.
+     */
     public City(
         City city,
         List<String> locales

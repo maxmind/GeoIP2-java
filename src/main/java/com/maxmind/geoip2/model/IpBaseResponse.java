@@ -19,6 +19,9 @@ public class IpBaseResponse extends AbstractResponse {
     private final String ipAddress;
     private final Network network;
 
+    /**
+     * Constructs an instance of {@code IpBaseResponse}.
+     */
     public IpBaseResponse(
         String ipAddress,
         boolean isAnonymous,

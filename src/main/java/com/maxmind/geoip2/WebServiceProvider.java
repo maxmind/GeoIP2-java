@@ -7,6 +7,9 @@ import com.maxmind.geoip2.model.InsightsResponse;
 import java.io.IOException;
 import java.net.InetAddress;
 
+/**
+ * Interface for GeoIP2 web service providers.
+ */
 public interface WebServiceProvider extends GeoIp2Provider {
     /**
      * @return A Country model for the requesting IP address
