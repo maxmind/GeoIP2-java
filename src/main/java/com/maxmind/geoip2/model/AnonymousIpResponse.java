@@ -13,6 +13,18 @@ import com.maxmind.geoip2.NetworkDeserializer;
  */
 public class AnonymousIpResponse extends IpBaseResponse {
 
+    /**
+     * Constructs an instance of {@code AnonymousIpResponse} with the specified values.
+     * 
+     * @param ipAddress          the IP address being checked
+     * @param isAnonymous        whether the IP address belongs to any sort of anonymous network
+     * @param isAnonymousVpn     whether the IP address belongs to an anonymous VPN system
+     * @param isHostingProvider  whether the IP address belongs to a hosting provider
+     * @param isPublicProxy      whether the IP address belongs to a public proxy system
+     * @param isResidentialProxy whether the IP address belongs to a residential proxy system
+     * @param isTorExitNode      whether the IP address is a Tor exit node
+     * @param network            the network associated with the record
+     */
     public AnonymousIpResponse(
         @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
         @JsonProperty("is_anonymous") boolean isAnonymous,
@@ -29,8 +41,16 @@ public class AnonymousIpResponse extends IpBaseResponse {
     }
 
     /**
-     * Constructs an instance of {@code AnonymousIpResponse} based on the values in the passed
-     * in response.
+     * Constructs an instance of {@code AnonymousIpResponse} with the specified values.
+     * 
+     * @param ipAddress         the IP address being checked
+     * @param isAnonymous       whether the IP address belongs to any sort of anonymous network
+     * @param isAnonymousVpn    whether the IP address belongs to an anonymous VPN system
+     * @param isHostingProvider whether the IP address belongs to a hosting provider
+     * @param isPublicProxy     whether the IP address belongs to a public proxy system
+     * @param isResidentialProxy whether the IP address belongs to a residential proxy system
+     * @param isTorExitNode     whether the IP address is a Tor exit node
+     * @param network           the network associated with the record
      */
     @MaxMindDbConstructor
     public AnonymousIpResponse(
