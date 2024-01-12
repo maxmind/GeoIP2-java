@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class represents the GeoIP2 City response model.
+ * Abstract class for models that contain City data.
  */
 public abstract class AbstractCityResponse extends AbstractCountryResponse {
 

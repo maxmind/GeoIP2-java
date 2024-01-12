@@ -45,7 +45,7 @@ public class ConnectionTypeResponse extends AbstractResponse {
         }
 
         /**
-         * Creates an instance of {@code ConnectionType} from a string.
+         * Creates an instance of {@code ConnectionTypeResponse} from a string.
          */
         @JsonCreator
         public static ConnectionType fromString(String s) {

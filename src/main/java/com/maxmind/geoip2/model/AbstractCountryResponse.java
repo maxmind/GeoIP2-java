@@ -10,7 +10,7 @@ import com.maxmind.geoip2.record.Traits;
 import java.util.List;
 
 /**
- * This class represents the GeoIP2 Country response model.
+* Abstract class for models that contain Country data.
  */
 public abstract class AbstractCountryResponse extends AbstractResponse {
 

@@ -221,7 +221,7 @@ public final class Traits extends AbstractRecord {
     }
 
     /**
-     * deprecated
+     * @deprecated will be removed in the next major version.
      */
     @Deprecated
     public Traits(
@@ -276,7 +276,7 @@ public final class Traits extends AbstractRecord {
     }
 
     /**
-     * deprecated
+     * @deprecated will be removed in the next major version.
      */
     @Deprecated
     public Traits(
