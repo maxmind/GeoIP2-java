@@ -20,6 +20,16 @@ public class IpRiskResponse extends IpBaseResponse {
 
     /**
      * Constructs an instance of {@code IpRiskResponse}.
+     *
+     * @param ipAddress          the IP address being checked
+     * @param isAnonymous        whether the IP address belongs to any sort of anonymous network
+     * @param isAnonymousVpn     whether the IP address belongs to an anonymous VPN system
+     * @param isHostingProvider  whether the IP address belongs to a hosting provider
+     * @param isPublicProxy      whether the IP address belongs to a public proxy system
+     * @param isResidentialProxy whether the IP address belongs to a residential proxy system
+     * @param isTorExitNode      whether the IP address is a Tor exit node
+     * @param network            the network associated with the record
+     * @param ipRisk             the IP risk of a model
      */
     public IpRiskResponse(
         @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
@@ -40,6 +50,17 @@ public class IpRiskResponse extends IpBaseResponse {
 
     /**
      * Constructs an instance of {@code IpRiskResponse}.
+     *
+     * @param ipAddress          the IP address being checked
+     * @param isAnonymous        whether the IP address belongs to any sort of anonymous network
+     * @param isAnonymousVpn     whether the IP address belongs to an anonymous VPN system
+     * @param isHostingProvider  whether the IP address belongs to a hosting provider
+     * @param isPublicProxy      whether the IP address belongs to a public proxy system
+     * @param isResidentialProxy whether the IP address belongs to a residential proxy system
+     * @param isTorExitNode      whether the IP address is a Tor exit node
+     * @param network            the network associated with the record
+     * @param ipRisk             the IP risk of a model
+     * 
      */
     @MaxMindDbConstructor
     public IpRiskResponse(
@@ -70,6 +91,10 @@ public class IpRiskResponse extends IpBaseResponse {
 
     /**
      * Constructs an instance of {@code IpRiskResponse}.
+     *
+     * @param response The {@code IpRiskResponse} object to copy.
+     * @param ipAddress The IP address that the data in the model is for.
+     * @param network The network associated with the record.
      */
     public IpRiskResponse(
         IpRiskResponse response,

@@ -37,6 +37,9 @@ public final class City extends AbstractNamedRecord {
 
     /**
      * Constructs an instance of {@code City}.
+     *
+     * @param city The {@code City} object to copy.
+     * @param locales The locales to use.
      */
     public City(
         City city,

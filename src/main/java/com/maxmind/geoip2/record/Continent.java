@@ -37,6 +37,9 @@ public final class Continent extends AbstractNamedRecord {
 
     /**
      * Constructs an instance of {@code Continent}.
+     *
+     * @param continent The {@code Continent} object to copy.
+     * @param locales The locales to use.
      */
     public Continent(
         Continent continent,

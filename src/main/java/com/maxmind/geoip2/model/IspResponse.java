@@ -20,6 +20,18 @@ public class IspResponse extends AsnResponse {
 
     /**
      * Constructs an instance of {@code IspResponse}.
+     *
+     * @param autonomousSystemNumber       the autonomous system number associated with the IP
+     * address
+     * @param autonomousSystemOrganization the organization associated with the registered
+     * autonomous system number for the IP address
+     * @param ipAddress                    the IP address that the data in the model is for
+     * @param isp                          the name of the ISP associated with the IP address
+     * @param mobileCountryCode            the mobile country code (MCC) associated with the IP
+     * @param mobileNetworkCode            the mobile network code (MNC) associated with the IP
+     * @param organization                 the name of the organization associated with the IP
+     * address
+     * @param network                      the network associated with the record
      */
     @MaxMindDbConstructor
     public IspResponse(

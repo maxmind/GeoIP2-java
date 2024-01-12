@@ -31,6 +31,19 @@ public final class RepresentedCountry extends Country {
 
     /**
      * Constructs an instance of {@code RepresentedCountry}.
+     *
+     * @param locales The locales to use.
+     * @param confidence This is a value from 0-100 indicating MaxMind's
+     * confidence that the country is correct.
+     * @param geoNameId This is a GeoName ID for the country.
+     * @param isInEuropeanUnion This is true if the country is a member state of
+     * the European Union.
+     * @param isoCode This is a string up to three characters long contain the
+     * country code.
+     * @param names This is a map from locale codes to the names for the country
+     * in that locale.
+     * @param type This is a string indicating the type of entity that is
+     * representing the country.
      */
     @MaxMindDbConstructor
     public RepresentedCountry(
@@ -50,6 +63,9 @@ public final class RepresentedCountry extends Country {
 
     /** 
      * Constructs an instance of {@code RepresentedCountry}.
+     *
+     * @param country The {@code RepresentedCountry} object to copy.
+     * @param locales The locales to use.
      */
     public RepresentedCountry(
         RepresentedCountry country,

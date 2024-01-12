@@ -27,6 +27,13 @@ public final class Subdivision extends AbstractNamedRecord {
 
    /**
     * Constructs an instance of {@code Subdivision}.
+    *
+    * @param locales The locales to use.
+    * @param confidence This is a value from 0-100 indicating MaxMind's
+    * confidence that the subdivision is correct.
+    * @param geoNameId This is a GeoName ID for the subdivision.
+    * @param isoCode This is a string up to three characters long contain the subdivision code.
+    * @param names This is a map from locale codes to the names for the subdivision in that locale.
     */
     @MaxMindDbConstructor
     public Subdivision(
@@ -43,6 +50,9 @@ public final class Subdivision extends AbstractNamedRecord {
 
     /**
      * Constructs an instance of {@code Subdivision}.
+     *
+     * @param subdivision The {@code Subdivision} object to copy.
+     * @param locales The locales to use.
      */
     public Subdivision(
         Subdivision subdivision,

@@ -76,7 +76,12 @@ public class AnonymousIpResponse extends IpBaseResponse {
     }
 
     /**
-     * Constructs an instance of {@code AnonymousIpResponse} with only the specified values set.
+     * Constructs an instance of {@code AnonymousIpResponse} from the values in the passed
+     * response and the specified IP address and network.
+     *
+     * @param response the response to copy
+     * @param ipAddress the IP address being checked
+     * @param network   the network associated with the record
      */
     public AnonymousIpResponse(
         AnonymousIpResponse response,

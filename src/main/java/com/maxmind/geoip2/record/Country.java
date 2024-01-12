@@ -28,6 +28,17 @@ public class Country extends AbstractNamedRecord {
 
     /** 
      * Constructs an instance of {@code Country}.
+     *
+     * @param locales The locales to use.
+     * @param confidence This is a value from 0-100 indicating MaxMind's
+     * confidence that the country is correct.
+     * @param geoNameId This is a GeoName ID for the country.
+     * @param isInEuropeanUnion This is true if the country is a member state of
+     * the European Union.
+     * @param isoCode This is a string up to three characters long contain the
+     * country code.
+     * @param names This is a map from locale codes to the names for the country
+     * in that locale.
      */
     @MaxMindDbConstructor
     public Country(
@@ -47,6 +58,9 @@ public class Country extends AbstractNamedRecord {
 
     /**
      * Constructs an instance of {@code Country}.
+     *
+     * @param country The {@code Country} object to copy.
+     * @param locales The locales to use.
      */
     public Country(
         Country country,

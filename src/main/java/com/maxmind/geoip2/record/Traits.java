@@ -222,6 +222,29 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @deprecated will be removed in the next major version.
+     * 
+     * @param autonomousSystemNumber the autonomous system number
+     * @param autonomousSystemOrganization the autonomous system organization
+     * @param connectionType the connection type
+     * @param domain the domain
+     * @param ipAddress the IP address
+     * @param isAnonymous the anonymous flag
+     * @param isAnonymousProxy the anonymous proxy flag
+     * @param isAnonymousVpn the anonymous VPN flag
+     * @param isHostingProvider the hosting provider flag
+     * @param isLegitimateProxy the legitimate proxy flag
+     * @param isPublicProxy the public proxy flag
+     * @param isResidentialProxy the residential proxy flag
+     * @param isSatelliteProvider the satellite provider flag
+     * @param isTorExitNode the Tor exit node flag
+     * @param isp the ISP
+     * @param mobileCountryCode the mobile country code
+     * @param mobileNetworkCode the mobile network code
+     * @param network the network
+     * @param organization the organization
+     * @param userType the user type
+     * @param userCount the user count
+     * @param staticIpScore the static IP score
      */
     @Deprecated
     public Traits(
@@ -277,6 +300,29 @@ public final class Traits extends AbstractRecord {
 
     /**
      * @deprecated will be removed in the next major version.
+     * 
+     * @param autonomousSystemNumber the autonomous system number
+     * @param autonomousSystemOrganization the autonomous system organization
+     * @param connectionType the connection type
+     * @param domain the domain
+     * @param ipAddress the IP address
+     * @param isAnonymous the anonymous flag
+     * @param isAnonymousProxy the anonymous proxy flag
+     * @param isAnonymousVpn the anonymous VPN flag
+     * @param isHostingProvider the hosting provider flag
+     * @param isLegitimateProxy the legitimate proxy flag
+     * @param isPublicProxy the public proxy flag
+     * @param isResidentialProxy the residential proxy flag
+     * @param isSatelliteProvider the satellite provider flag
+     * @param isTorExitNode the Tor exit node flag
+     * @param isp the ISP
+     * @param mobileCountryCode the mobile country code
+     * @param mobileNetworkCode the mobile network code
+     * @param network the network
+     * @param organization the organization
+     * @param userType the user type
+     * @param userCount the user count
+     * @param staticIpScore the static IP score
      */
     @Deprecated
     public Traits(

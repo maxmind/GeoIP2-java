@@ -46,6 +46,8 @@ public class ConnectionTypeResponse extends AbstractResponse {
 
         /**
          * Creates an instance of {@code ConnectionTypeResponse} from a string.
+         *
+         * @param s The string to create the instance from.
          */
         @JsonCreator
         public static ConnectionType fromString(String s) {
@@ -76,6 +78,10 @@ public class ConnectionTypeResponse extends AbstractResponse {
 
     /**
      * Constructs an instance of {@code ConnectionTypeResponse}.
+     *
+     * @param connectionType The connection type of the IP address.
+     * @param ipAddress The IP address that the data in the model is for.
+     * @param network The network associated with the record.
      */
     public ConnectionTypeResponse(
         @JsonProperty("connection_type") ConnectionType connectionType,
@@ -90,6 +96,10 @@ public class ConnectionTypeResponse extends AbstractResponse {
 
     /**
      * Constructs an instance of {@code ConnectionTypeResponse}.
+     *
+     * @param connectionType The connection type of the IP address.
+     * @param ipAddress The IP address that the data in the model is for.
+     * @param network The network associated with the record.   
      */
     @MaxMindDbConstructor
     public ConnectionTypeResponse(
@@ -106,6 +116,10 @@ public class ConnectionTypeResponse extends AbstractResponse {
 
     /**
      * Constructs an instance of {@code ConnectionTypeResponse}.
+     *
+     * @param response The {@code ConnectionTypeResponse} object to copy.
+     * @param ipAddress The IP address that the data in the model is for.
+     * @param network The network associated with the record. 
      */
     public ConnectionTypeResponse(
         ConnectionTypeResponse response,
