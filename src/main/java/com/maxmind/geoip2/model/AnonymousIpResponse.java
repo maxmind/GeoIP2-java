@@ -15,7 +15,7 @@ public class AnonymousIpResponse extends IpBaseResponse {
 
     /**
      * Constructs an instance of {@code AnonymousIpResponse} with the specified values.
-     * 
+     *
      * @param ipAddress          the IP address being checked
      * @param isAnonymous        whether the IP address belongs to any sort of anonymous network
      * @param isAnonymousVpn     whether the IP address belongs to an anonymous VPN system
@@ -42,7 +42,7 @@ public class AnonymousIpResponse extends IpBaseResponse {
 
     /**
      * Constructs an instance of {@code AnonymousIpResponse} with the specified values.
-     * 
+     *
      * @param ipAddress         the IP address being checked
      * @param isAnonymous       whether the IP address belongs to any sort of anonymous network
      * @param isAnonymousVpn    whether the IP address belongs to an anonymous VPN system

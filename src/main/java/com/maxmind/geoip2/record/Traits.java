@@ -65,7 +65,7 @@ public final class Traits extends AbstractRecord {
 
     /**
      * Constructs an instance of {@code Traits}.
-     * 
+     *
      * @param autonomousSystemNumber the autonomous system number
      * @param autonomousSystemOrganization the autonomous system organization
      * @param connectionType the connection type
@@ -143,7 +143,7 @@ public final class Traits extends AbstractRecord {
 
     /**
      * Constructs an instance of {@code Traits}. 
-     * 
+     *
      * @param autonomousSystemNumber the autonomous system number
      * @param autonomousSystemOrganization the autonomous system organization
      * @param connectionType the connection type
@@ -332,7 +332,7 @@ public final class Traits extends AbstractRecord {
 
     /**
      * Constructs an instance of {@code Traits}. 
-     * 
+     *
      * @param traits the traits
      * @param ipAddress the IP address
      * @param network the network
