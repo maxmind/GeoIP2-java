@@ -21,6 +21,20 @@ import java.util.List;
  * Services</a>
  */
 public class InsightsResponse extends AbstractCityResponse {
+    /**
+     * Constructs and instance of {@code InsightsResponse} with the specified parameters.
+     *
+     * @param city city
+     * @param continent continent
+     * @param country country
+     * @param location location
+     * @param maxmind maxmind record for the response
+     * @param postal postal
+     * @param registeredCountry registered country
+     * @param representedCountry represented country
+     * @param subdivisions subdivisions
+     * @param traits traits
+     */
     public InsightsResponse(
         @JsonProperty("city") City city,
         @JsonProperty("continent") Continent continent,

@@ -22,6 +22,9 @@ public class Country extends AbstractNamedRecord {
     private final boolean isInEuropeanUnion;
     private final String isoCode;
 
+    /**
+     * Constructs an instance of {@code Country} with no data.
+     */
     public Country() {
         this(null, null, null, false, null, null);
     }

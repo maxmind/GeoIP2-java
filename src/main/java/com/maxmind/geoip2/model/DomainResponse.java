@@ -40,6 +40,13 @@ public class DomainResponse extends AbstractResponse {
         this.network = network;
     }
 
+    /**
+     * Constructs an instance of {@code DomainResponse} with only required parameters. 
+     *
+     * @param response the response
+     * @param ipAddress the IP address that the data in the model is for.
+     * @param network the network associated with the record.
+     */
     public DomainResponse(
         DomainResponse response,
         String ipAddress,

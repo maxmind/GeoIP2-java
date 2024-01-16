@@ -25,6 +25,9 @@ public final class RepresentedCountry extends Country {
 
     private final String type;
 
+    /**
+     * Constructs an instance of {@code RepresentedCountry} with no data.
+     */
     public RepresentedCountry() {
         this(null, null, null, false, null, null, null);
     }

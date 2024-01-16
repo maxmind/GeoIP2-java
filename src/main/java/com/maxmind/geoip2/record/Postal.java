@@ -14,10 +14,23 @@ public final class Postal extends AbstractRecord {
     private final String code;
     private final Integer confidence;
 
+    /**
+     * Constructs a {@code Postal} record.
+     */
     public Postal() {
         this(null, null);
     }
 
+    /**
+     * Constructs an instance of {@code Postal}.
+     *
+     * @param code       The postal code of the location. Postal codes are not available
+     *                   for all countries. In some countries, this will only contain part
+     *                   of the postal code.
+     * @param confidence A value from 0-100 indicating MaxMind's confidence that the
+     *                   postal code is correct. This attribute is only available from the
+     *                   Insights web service and the GeoIP2 Enterprise database.
+     */
     @MaxMindDbConstructor
     public Postal(
         @JsonProperty("code") @MaxMindDbParameter(name = "code") String code,

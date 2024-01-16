@@ -13,10 +13,18 @@ import java.net.UnknownHostException;
  */
 public class NetworkDeserializer extends StdDeserializer<Network> {
 
+    /**
+     * Constructs a @{code NetworkDeserializer} object.
+     */
     public NetworkDeserializer() {
         this(null);
     }
 
+    /**
+     * Constructs a @{code NetworkDeserializer} object.
+     *
+     * @param vc a class
+     */
     public NetworkDeserializer(Class<?> vc) {
         super(vc);
     }

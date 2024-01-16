@@ -19,6 +19,9 @@ public class Location extends AbstractRecord {
     private final Integer populationDensity;
     private final String timeZone;
 
+    /**
+     * Constructs a {@code Location} record with {@code null} values for all the fields.
+     */
     public Location() {
         this(null, null, null, null, null, null, null);
     }

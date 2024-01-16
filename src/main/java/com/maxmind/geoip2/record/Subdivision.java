@@ -21,6 +21,9 @@ public final class Subdivision extends AbstractNamedRecord {
     private final Integer confidence;
     private final String isoCode;
 
+    /**
+     * Constructs a {@code Subdivision} record.
+     */
     public Subdivision() {
         this(null, null, null, null, null);
     }
@@ -49,7 +52,7 @@ public final class Subdivision extends AbstractNamedRecord {
     }
 
     /**
-     * Constructs an instance of {@code Subdivision}.
+     * Constructs an instance of {@code Subdivision} with the specified parameters.
      *
      * @param subdivision The {@code Subdivision} object to copy.
      * @param locales The locales to use.
