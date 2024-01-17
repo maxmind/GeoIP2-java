@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class InsightsResponse extends AbstractCityResponse {
     /**
-     * Constructs and instance of {@code InsightsResponse} with the specified parameters.
+     * Constructs an instance of {@code InsightsResponse} with the specified parameters.
      *
      * @param city city
      * @param continent continent

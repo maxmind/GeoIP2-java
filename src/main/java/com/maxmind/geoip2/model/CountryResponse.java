@@ -22,7 +22,7 @@ import java.util.List;
 public final class CountryResponse extends AbstractCountryResponse {
 
     /**
-     * Constructs and instance of {@code CountryResponse} with the specified parameters.
+     * Constructs an instance of {@code CountryResponse} with the specified parameters.
      *
      * @param continent the continent
      * @param country the country
@@ -47,7 +47,7 @@ public final class CountryResponse extends AbstractCountryResponse {
     }
 
     /**
-     * Constructs and instance of {@code CountryResponse} with the specified parameters.
+     * Constructs an instance of {@code CountryResponse} with the specified parameters.
      *
      * @param response the response
      * @param ipAddress the IP address that the data in the model is for.

@@ -26,7 +26,7 @@ import java.util.List;
  */
 public final class CityResponse extends AbstractCityResponse {
     /**
-     * Constructs and instance of {@code CityResponse} with the specified parameters.
+     * Constructs an instance of {@code CityResponse} with the specified parameters.
      *
      * @param city city
      * @param continent continent
@@ -61,7 +61,7 @@ public final class CityResponse extends AbstractCityResponse {
     }
 
     /**
-     * Constructs and instance of {@code CityResponse} with the specified parameters.
+     * Constructs an instance of {@code CityResponse} with the specified parameters.
      *
      * @param response the response
      * @param ipAddress the IP address that the data in the model is for.

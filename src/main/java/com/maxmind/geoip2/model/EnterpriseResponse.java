@@ -26,7 +26,7 @@ import java.util.List;
 public final class EnterpriseResponse extends AbstractCityResponse {
 
     /**
-     * Constructs and instance of EnterpriseResponse with the specified parameters.
+     * Constructs an instance of {@code EnterpriseResponse} with the specified parameters.
      *
      * @param city city
      * @param continent continent
