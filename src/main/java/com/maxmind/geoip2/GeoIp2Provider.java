@@ -6,6 +6,9 @@ import com.maxmind.geoip2.model.CountryResponse;
 import java.io.IOException;
 import java.net.InetAddress;
 
+/**
+ * Interface for GeoIP2 providers.
+ */
 public interface GeoIp2Provider {
 
     /**

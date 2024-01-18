@@ -19,10 +19,41 @@ public class Location extends AbstractRecord {
     private final Integer populationDensity;
     private final String timeZone;
 
+    /**
+     * Constructs a {@code Location} record with {@code null} values for all the fields.
+     */
     public Location() {
         this(null, null, null, null, null, null, null);
     }
 
+    /**
+     * Constructs an instance of {@code Location}.
+     *
+     * @param accuracyRadius The approximate accuracy radius in kilometers
+     * around the latitude and longitude for the IP address. This is the radius
+     * where we have a 67% confidence that the device using the IP address
+     * resides within the circle centered at the latitude and longitude with
+     * the provided radius.
+     * @param averageIncome The average income in US dollars associated with
+     * the requested IP address. This attribute is only available from the
+     * Insights web service.
+     * @param latitude The approximate latitude of the location associated
+     * with the IP address. This value is not precise and should not be used
+     * to identify a particular address or household.
+     * @param longitude The approximate longitude of the location associated
+     * with the IP address. This value is not precise and should not be used
+     * to identify a particular address or household.
+     * @param metroCode The metro code of the location if the location is in
+     * the US. MaxMind returns the same metro codes as the <a href=
+     * "https://developers.google.com/adwords/api/docs/appendix/cities-DMAregions"
+     * >Google AdWords API</a>.
+     * @param populationDensity The estimated population per square kilometer
+     * associated with the IP address. This attribute is only available from
+     * the Insights web service.
+     * @param timeZone The time zone associated with location, as specified by
+     * the <a href="https://www.iana.org/time-zones">IANA Time Zone
+     * Database</a>, e.g., "America/New_York".
+     */
     @MaxMindDbConstructor
     public Location(
         @JsonProperty("accuracy_radius") @MaxMindDbParameter(name = "accuracy_radius")

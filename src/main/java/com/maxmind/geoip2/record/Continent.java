@@ -20,10 +20,22 @@ public final class Continent extends AbstractNamedRecord {
 
     private final String code;
 
+    /**
+     * Constructs an instance of {@code Continent} with no data.
+     */
     public Continent() {
         this(null, null, null, null);
     }
 
+    /**
+     * Constructs an instance of {@code Continent}.
+     *
+     * @param locales   The locales to use.
+     * @param code      A two character continent code like "NA" (North America) or
+     *                  "OC" (Oceania).
+     * @param geoNameId The GeoName ID for the continent.
+     * @param names     A map from locale codes to the continent names.
+     */
     @MaxMindDbConstructor
     public Continent(
         @JacksonInject("locales") @MaxMindDbParameter(name = "locales") List<String> locales,
@@ -35,6 +47,12 @@ public final class Continent extends AbstractNamedRecord {
         this.code = code;
     }
 
+    /**
+     * Constructs an instance of {@code Continent}.
+     *
+     * @param continent The {@code Continent} object to copy.
+     * @param locales The locales to use.
+     */
     public Continent(
         Continent continent,
         List<String> locales

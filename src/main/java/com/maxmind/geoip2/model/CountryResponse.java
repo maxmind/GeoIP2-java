@@ -20,6 +20,17 @@ import java.util.List;
  * Services</a>
  */
 public final class CountryResponse extends AbstractCountryResponse {
+
+    /**
+     * Constructs an instance of {@code CountryResponse} with the specified parameters.
+     *
+     * @param continent the continent
+     * @param country the country
+     * @param maxmind the MaxMind record
+     * @param registeredCountry the registered country
+     * @param representedCountry the represented country
+     * @param traits the traits
+     */
     @MaxMindDbConstructor
     public CountryResponse(
         @JsonProperty("continent") @MaxMindDbParameter(name = "continent") Continent continent,
@@ -35,6 +46,14 @@ public final class CountryResponse extends AbstractCountryResponse {
         super(continent, country, maxmind, registeredCountry, representedCountry, traits);
     }
 
+    /**
+     * Constructs an instance of {@code CountryResponse} with the specified parameters.
+     *
+     * @param response the response
+     * @param ipAddress the IP address that the data in the model is for.
+     * @param network the network associated with the record.
+     * @param locales the locales
+     */
     public CountryResponse(
         CountryResponse response,
         String ipAddress,

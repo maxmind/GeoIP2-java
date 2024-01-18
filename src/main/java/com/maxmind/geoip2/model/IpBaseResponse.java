@@ -19,6 +19,18 @@ public class IpBaseResponse extends AbstractResponse {
     private final String ipAddress;
     private final Network network;
 
+    /**
+     * Constructs an instance of {@code IpBaseResponse}.
+     *
+     * @param ipAddress          the IP address that the data in the model is for
+     * @param isAnonymous        whether the IP address belongs to any sort of anonymous network
+     * @param isAnonymousVpn     whether the IP address belongs to an anonymous VPN system
+     * @param isHostingProvider  whether the IP address belongs to a hosting provider
+     * @param isPublicProxy      whether the IP address belongs to a public proxy system
+     * @param isResidentialProxy whether the IP address belongs to a residential proxy system
+     * @param isTorExitNode      whether the IP address is a Tor exit node
+     * @param network            the network associated with the record
+     */
     public IpBaseResponse(
         String ipAddress,
         boolean isAnonymous,

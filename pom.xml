@@ -144,6 +144,7 @@
                         </link>
                     </links>
                     <source>11</source>
+                    <doclint>-missing</doclint> 
                 </configuration>
                 <executions>
                     <execution>

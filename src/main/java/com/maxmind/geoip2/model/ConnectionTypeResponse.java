@@ -44,6 +44,11 @@ public class ConnectionTypeResponse extends AbstractResponse {
             return this.name;
         }
 
+        /**
+         * Creates an instance of {@code ConnectionTypeResponse} from a string.
+         *
+         * @param s The string to create the instance from.
+         */
         @JsonCreator
         public static ConnectionType fromString(String s) {
             if (s == null) {
@@ -71,6 +76,13 @@ public class ConnectionTypeResponse extends AbstractResponse {
     private final String ipAddress;
     private final Network network;
 
+    /**
+     * Constructs an instance of {@code ConnectionTypeResponse}.
+     *
+     * @param connectionType The connection type of the IP address.
+     * @param ipAddress The IP address that the data in the model is for.
+     * @param network The network associated with the record.
+     */
     public ConnectionTypeResponse(
         @JsonProperty("connection_type") ConnectionType connectionType,
         @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
@@ -82,6 +94,13 @@ public class ConnectionTypeResponse extends AbstractResponse {
         this.network = network;
     }
 
+    /**
+     * Constructs an instance of {@code ConnectionTypeResponse}.
+     *
+     * @param connectionType The connection type of the IP address.
+     * @param ipAddress The IP address that the data in the model is for.
+     * @param network The network associated with the record.   
+     */
     @MaxMindDbConstructor
     public ConnectionTypeResponse(
         @MaxMindDbParameter(name = "connection_type") String connectionType,
@@ -95,6 +114,13 @@ public class ConnectionTypeResponse extends AbstractResponse {
         );
     }
 
+    /**
+     * Constructs an instance of {@code ConnectionTypeResponse}.
+     *
+     * @param response The {@code ConnectionTypeResponse} object to copy.
+     * @param ipAddress The IP address that the data in the model is for.
+     * @param network The network associated with the record. 
+     */
     public ConnectionTypeResponse(
         ConnectionTypeResponse response,
         String ipAddress,

@@ -19,6 +19,13 @@ public class DomainResponse extends AbstractResponse {
     private final String ipAddress;
     private final Network network;
 
+    /**
+     * Constructs an instance of {@code DomainResponse}.
+     *
+     * @param domain    the second level domain associated with the IP address
+     * @param ipAddress the IP address that the data in the model is for
+     * @param network   the network associated with the record
+     */
     @MaxMindDbConstructor
     public DomainResponse(
         @JsonProperty("domain") @MaxMindDbParameter(name = "domain") String domain,
@@ -33,6 +40,13 @@ public class DomainResponse extends AbstractResponse {
         this.network = network;
     }
 
+    /**
+     * Constructs an instance of {@code DomainResponse} with only required parameters. 
+     *
+     * @param response the response
+     * @param ipAddress the IP address that the data in the model is for.
+     * @param network the network associated with the record.
+     */
     public DomainResponse(
         DomainResponse response,
         String ipAddress,

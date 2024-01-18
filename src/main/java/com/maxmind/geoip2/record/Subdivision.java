@@ -21,10 +21,23 @@ public final class Subdivision extends AbstractNamedRecord {
     private final Integer confidence;
     private final String isoCode;
 
+    /**
+     * Constructs a {@code Subdivision} record.
+     */
     public Subdivision() {
         this(null, null, null, null, null);
     }
 
+   /**
+    * Constructs an instance of {@code Subdivision}.
+    *
+    * @param locales The locales to use.
+    * @param confidence This is a value from 0-100 indicating MaxMind's
+    * confidence that the subdivision is correct.
+    * @param geoNameId This is a GeoName ID for the subdivision.
+    * @param isoCode This is a string up to three characters long contain the subdivision code.
+    * @param names This is a map from locale codes to the names for the subdivision in that locale.
+    */
     @MaxMindDbConstructor
     public Subdivision(
         @JacksonInject("locales") @MaxMindDbParameter(name = "locales") List<String> locales,
@@ -38,6 +51,12 @@ public final class Subdivision extends AbstractNamedRecord {
         this.isoCode = isoCode;
     }
 
+    /**
+     * Constructs an instance of {@code Subdivision} with the specified parameters.
+     *
+     * @param subdivision The {@code Subdivision} object to copy.
+     * @param locales The locales to use.
+     */
     public Subdivision(
         Subdivision subdivision,
         List<String> locales

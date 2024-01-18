@@ -20,10 +20,22 @@ public final class City extends AbstractNamedRecord {
 
     private final Integer confidence;
 
+    /**
+     * Constructs an instance of {@code City} with no data.
+     */
     public City() {
         this(null, null, null, null);
     }
 
+    /**
+     * Constructs an instance of {@code City} with the specified parameters.
+     *
+     * @param locales    The locales to use.
+     * @param confidence A value from 0-100 indicating MaxMind's confidence that the
+     *                   city is correct. .
+     * @param geoNameId  The GeoName ID for the city.
+     * @param names      A map from locale codes to the city name in that locale.
+     */
     @MaxMindDbConstructor
     public City(
         @JacksonInject("locales") @MaxMindDbParameter(name = "locales") List<String> locales,
@@ -35,6 +47,12 @@ public final class City extends AbstractNamedRecord {
         this.confidence = confidence;
     }
 
+    /**
+     * Constructs an instance of {@code City}.
+     *
+     * @param city The {@code City} object to copy.
+     * @param locales The locales to use.
+     */
     public City(
         City city,
         List<String> locales

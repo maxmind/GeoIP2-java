@@ -20,6 +20,16 @@ public class AsnResponse extends AbstractResponse {
     private final String ipAddress;
     private final Network network;
 
+    /**
+     * Constructs an instance of {@code AsnResponse} with the specified values for all fields.
+     *
+     * @param autonomousSystemNumber          the autonomous system number associated with the IP
+     * address
+     * @param autonomousSystemOrganization    the organization associated with the registered
+     * autonomous system number for the IP address
+     * @param ipAddress                       the IP address that the data in the model is for
+     * @param network                         the network associated with the record
+     */
     @MaxMindDbConstructor
     public AsnResponse(
         @JsonProperty("autonomous_system_number")
@@ -39,6 +49,13 @@ public class AsnResponse extends AbstractResponse {
         this.network = network;
     }
 
+    /**
+     * Constructs an instance of {@code AsnResponse} with only the specified values set.
+     *
+     * @param response The {@code AsnResponse} object to copy.
+     * @param ipAddress The IP address that the data in the model is for.
+     * @param network The network associated with the record.
+     */
     public AsnResponse(
         AsnResponse response,
         String ipAddress,

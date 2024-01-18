@@ -13,10 +13,19 @@ public final class MaxMind extends AbstractRecord {
 
     private final Integer queriesRemaining;
 
+    /**
+     * Constructs a {@code MaxMind} record.
+     */
     public MaxMind() {
         this(null);
     }
 
+    /**
+     * Constructs a {@code MaxMind} record. 
+     *
+     * @param queriesRemaining The number of remaining queries in the current web service call.
+     * This returns {@code null} when called on a database.
+     */
     @MaxMindDbConstructor
     public MaxMind(
         @JsonProperty("queries_remaining") @MaxMindDbParameter(name = "queries_remaining")

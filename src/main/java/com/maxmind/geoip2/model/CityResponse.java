@@ -25,6 +25,20 @@ import java.util.List;
  * Services</a>
  */
 public final class CityResponse extends AbstractCityResponse {
+    /**
+     * Constructs an instance of {@code CityResponse} with the specified parameters.
+     *
+     * @param city city
+     * @param continent continent
+     * @param country country
+     * @param location location
+     * @param maxmind maxmind record for the response
+     * @param postal postal
+     * @param registeredCountry registered country
+     * @param representedCountry represented country
+     * @param subdivisions subdivisions
+     * @param traits traits
+     */
     @MaxMindDbConstructor
     public CityResponse(
         @JsonProperty("city") @MaxMindDbParameter(name = "city") City city,
@@ -46,6 +60,14 @@ public final class CityResponse extends AbstractCityResponse {
             representedCountry, subdivisions, traits);
     }
 
+    /**
+     * Constructs an instance of {@code CityResponse} with the specified parameters.
+     *
+     * @param response the response
+     * @param ipAddress the IP address that the data in the model is for.
+     * @param network the network associated with the record.
+     * @param locales the locales
+     */
     public CityResponse(
         CityResponse response,
         String ipAddress,
