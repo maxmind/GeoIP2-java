@@ -193,8 +193,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.12.1</version>
                 <configuration>
-                    <source>1.11</source>
-                    <target>1.11</target>
+                    <release>11</release>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -231,33 +232,6 @@
                 <version>3.2.5</version>
             </plugin>
             <plugin>
-                <!--
-                    We need this for updating the submodule during release. Maven SCM
-                    doesn't support this itself apparently. See
-                    https://github.com/apache/maven-scm/pull/179
-                -->
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <!--
-                    We are using 3.0.0 as 3.1.1 fails due to this issue:
-                    https://github.com/mojohaus/exec-maven-plugin/issues/373
-                -->
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <phase>initialize</phase>
-                        <id>invoke build</id>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <executable>git</executable>
-                    <commandlineArgs>submodule update --init --recursive</commandlineArgs>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
                 <version>2.16.2</version>
@@ -286,17 +260,39 @@
     </build>
     <profiles>
         <profile>
-            <id>active-on-jdk-9-plus</id>
+            <id>not-windows</id>
+            <!--
+                Starting with 3.1.0, this fails on Windows. Given that we only
+                technically need this when release and we don't release on Windows,
+                we can just disable it on Widnows. See this issue:
+                https://github.com/mojohaus/exec-maven-plugin/issues/373
+            -->
             <activation>
-                <jdk>[9,)</jdk>
+                <os><family>!Windows</family></os>
             </activation>
             <build>
                 <plugins>
                     <plugin>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.12.1</version>
+                            <!--
+                            We need this for updating the submodule during release. Maven SCM
+                            doesn't support this itself apparently. See
+                            https://github.com/apache/maven-scm/pull/179
+                        -->
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <executions>
+                            <execution>
+                                <phase>initialize</phase>
+                                <id>invoke build</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                         <configuration>
-                            <release>11</release>
+                            <executable>git</executable>
+                            <commandlineArgs>submodule update --init --recursive</commandlineArgs>
                         </configuration>
                     </plugin>
                 </plugins>
