@@ -93,7 +93,7 @@ mvn release:clean
 mvn release:prepare -DreleaseVersion="$version" -Dtag="$tag"
 mvn release:perform
 rm -fr ".gh-pages/doc/$tag"
-cp -r target/checkout/target/apidocs ".gh-pages/doc/$tag"
+cp -r target/checkout/target/reports/apidocs ".gh-pages/doc/$tag"
 ln -Tfs "$tag" .gh-pages/doc/latest
 
 pushd .gh-pages
