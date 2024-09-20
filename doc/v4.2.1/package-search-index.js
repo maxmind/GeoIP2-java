@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"com.maxmind.geoip2","l":"com.maxmind.geoip2"},{"m":"com.maxmind.geoip2","l":"com.maxmind.geoip2.exception"},{"m":"com.maxmind.geoip2","l":"com.maxmind.geoip2.model"},{"m":"com.maxmind.geoip2","l":"com.maxmind.geoip2.record"}];updateSearchResults();
