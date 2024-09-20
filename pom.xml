@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.maxmind.geoip2</groupId>
     <artifactId>geoip2</artifactId>
-    <version>4.2.1-SNAPSHOT</version>
+    <version>4.2.2-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>MaxMind GeoIP2 API</name>
     <description>GeoIP2 webservice client and database reader</description>
@@ -40,7 +40,7 @@
         <dependency>
             <groupId>com.maxmind.db</groupId>
             <artifactId>maxmind-db</artifactId>
-            <version>3.1.0</version>
+            <version>3.1.1</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -100,7 +100,7 @@
                     <configuration>
                       <rules>
                         <requireMavenVersion>
-                          <version>3.2.5</version>
+                          <version>3.6.3</version>
                         </requireMavenVersion>
                       </rules>
                     </configuration>
