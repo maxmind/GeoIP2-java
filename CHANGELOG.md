@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+4.2.1 (2024-09-20)
+------------------
+
+* Dependency updates:
+  * `maxmind-db` was upgraded to 3.3.1.
+  * Jackson was upgraded to 2.17.2.
+* Added missing API documentation.
+
 4.2.0 (2023-12-05)
 ------------------
 
