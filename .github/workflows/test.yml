@@ -13,6 +13,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: true
+          persist-credentials: false
       - uses: actions/setup-java@v4
         with:
           distribution: ${{ matrix.distribution }}
