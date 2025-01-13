@@ -105,6 +105,7 @@ public class InsightsResponseTest {
         );
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testTraits() {
         Traits traits = this.insights.getTraits();
@@ -172,6 +173,7 @@ public class InsightsResponseTest {
         );
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testLocation() {
 

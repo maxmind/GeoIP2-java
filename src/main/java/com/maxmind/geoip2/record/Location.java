@@ -119,12 +119,12 @@ public class Location extends AbstractRecord {
     }
 
     /**
-     * @return The metro code of the location if the location is in the US.
-     * MaxMind returns the same metro codes as the <a href=
-     * "https://developers.google.com/adwords/api/docs/appendix/cities-DMAregions"
-     * >Google AdWords API</a>.
+     * @return The metro code is a no-longer-maintained code for targeting
+     * advertisements in Google.
+     * @deprecated Code values are no longer maintained.
      */
     @JsonProperty("metro_code")
+    @Deprecated
     public Integer getMetroCode() {
         return this.metroCode;
     }
