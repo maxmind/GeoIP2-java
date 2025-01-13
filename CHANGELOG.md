@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+4.3.0
+------------------
+
+* `getMetroCode` in the `Location` model has been deprecated. The code
+  values are no longer being maintained.
+
 4.2.1 (2024-09-20)
 ------------------
 

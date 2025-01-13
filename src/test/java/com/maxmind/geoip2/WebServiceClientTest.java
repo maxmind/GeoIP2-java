@@ -67,6 +67,7 @@ public class WebServiceClientTest {
         assertEquals("Received a 200 response but could not decode it as JSON", ex.getMessage());
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void test200WithDefaultValues() throws Exception {
         WebServiceClient client = createSuccessClient("insights", "1.2.3.13",
