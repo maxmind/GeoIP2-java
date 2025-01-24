@@ -1,5 +1,6 @@
 name: Run tests
 on: [push, pull_request]
+permissions: {}
 jobs:
   test:
     runs-on: ${{ matrix.os }}
