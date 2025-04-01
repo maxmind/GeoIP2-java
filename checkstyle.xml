@@ -329,7 +329,7 @@
         <module name="JavadocType"/>
         <module name="JavadocVariable">
             <property name="tokens" value="VARIABLE_DEF"/>
-            <property name="scope" value="public"/>
+            <property name="accessModifiers" value="public"/>
         </module>
         <module name="JavadocMethod">
             <property name="accessModifiers" value="public"/>
