@@ -4,6 +4,9 @@ CHANGELOG
 4.3.0
 ------------------
 
+* Support for the GeoIP Anonymous Plus database has been added. To do a
+  lookup in this database, use the `anonymousPlus` method on
+  `DatabaseReader`.
 * `getMetroCode` in the `Location` model has been deprecated. The code
   values are no longer being maintained.
 

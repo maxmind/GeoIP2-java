@@ -2,6 +2,7 @@ package com.maxmind.geoip2;
 
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.AnonymousIpResponse;
+import com.maxmind.geoip2.model.AnonymousPlusResponse;
 import com.maxmind.geoip2.model.AsnResponse;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.ConnectionTypeResponse;
@@ -59,6 +60,27 @@ public interface DatabaseProvider extends GeoIp2Provider {
     Optional<AnonymousIpResponse> tryAnonymousIp(InetAddress ipAddress) throws IOException,
         GeoIp2Exception;
 
+    /**
+     * Look up an IP address in a GeoIP2 Anonymous Plus.
+     *
+     * @param ipAddress IPv4 or IPv6 address to lookup.
+     * @return a AnonymousPlusResponse for the requested IP address.
+     * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
+     * @throws java.io.IOException                          if there is an IO error
+     */
+    AnonymousPlusResponse anonymousPlus(InetAddress ipAddress) throws IOException,
+        GeoIp2Exception;
+
+    /**
+     * Look up an IP address in a GeoIP2 Anonymous Plus.
+     *
+     * @param ipAddress IPv4 or IPv6 address to lookup.
+     * @return a AnonymousPlusResponse for the requested IP address or empty if it is not in the DB.
+     * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
+     * @throws java.io.IOException                          if there is an IO error
+     */
+    Optional<AnonymousPlusResponse> tryAnonymousPlus(InetAddress ipAddress) throws IOException,
+        GeoIp2Exception;
 
     /**
      * Look up an IP address in a GeoIP2 IP Risk database.
