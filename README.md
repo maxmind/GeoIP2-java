@@ -52,7 +52,7 @@ To use the web service API, you must create a new `WebServiceClient` using the
 `WebServiceClient.Builder`. You must provide the `Builder` constructor your
 MaxMind `accountId` and `licenseKey`. To use the GeoLite2 web services instead
 of GeoIP2, set the `host` method on the builder to `geolite.info`. To use
-the Sandbox GeoIP2 web services intead of the production GeoIP2 web
+the Sandbox GeoIP2 web services instead of the production GeoIP2 web
 services, set the `host` method on the builder to `sandbox.maxmind.com`.
 You may also set a `timeout` or set the `locales` fallback order using the
 methods on the `Builder`. After you have created the `WebServiceClient`,
