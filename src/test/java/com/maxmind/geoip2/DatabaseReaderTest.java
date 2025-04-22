@@ -11,6 +11,7 @@ import com.maxmind.db.Reader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.AnonymousIpResponse;
+import com.maxmind.geoip2.model.AnonymousPlusResponse;
 import com.maxmind.geoip2.model.AsnResponse;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.ConnectionTypeResponse;
@@ -223,6 +224,30 @@ public class DatabaseReaderTest {
             assertEquals("1.2.0.0/16", response.getNetwork().toString());
 
             AnonymousIpResponse tryResponse = reader.tryAnonymousIp(ipAddress).get();
+            assertEquals(response.toJson(), tryResponse.toJson());
+        }
+    }
+
+    @Test
+    public void testAnonymousPlus() throws Exception {
+        try (DatabaseReader reader = new DatabaseReader.Builder(
+            this.getFile("GeoIP-Anonymous-Plus-Test.mmdb")).build()
+        ) {
+            InetAddress ipAddress = InetAddress.getByName("1.2.0.1");
+            AnonymousPlusResponse response = reader.anonymousPlus(ipAddress);
+            assertEquals(30, response.getAnonymizerConfidence());
+            assertTrue(response.isAnonymous());
+            assertTrue(response.isAnonymousVpn());
+            assertFalse(response.isHostingProvider());
+            assertFalse(response.isPublicProxy());
+            assertFalse(response.isResidentialProxy());
+            assertFalse(response.isTorExitNode());
+            assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
+            assertEquals("1.2.0.1/32", response.getNetwork().toString());
+            assertEquals("2025-04-14", response.getNetworkLastSeen().toString());
+            assertEquals("foo", response.getProviderName());
+
+            AnonymousPlusResponse tryResponse = reader.tryAnonymousPlus(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
         }
     }

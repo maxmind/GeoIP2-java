@@ -304,7 +304,31 @@ try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
     System.out.println(response.isResidentialProxy()); // false
     System.out.println(response.isTorExitNode()); //true
 }
+```
 
+### Anonymous Plus ###
+
+```java
+// A File object pointing to your GeoIP2 Anonymous Plus database
+File database = new File("/path/to/GeoIP-Anonymous-Plus.mmdb");
+
+// This creates the DatabaseReader object. To improve performance, reuse
+// the object across lookups. The object is thread-safe.
+try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
+    InetAddress ipAddress = InetAddress.getByName("85.25.43.84");
+
+    AnonymousIpResponse response = reader.anonymousPlus(ipAddress);
+
+    System.out.println(response.getAnonymizerConfidence()); // 30
+    System.out.println(response.isAnonymous()); // true
+    System.out.println(response.isAnonymousVpn()); // false
+    System.out.println(response.isHostingProvider()); // false
+    System.out.println(response.isPublicProxy()); // false
+    System.out.println(response.isResidentialProxy()); // false
+    System.out.println(response.isTorExitNode()); // true
+    System.out.println(response.getNetworkLastSeen()); // "2025-04-14"
+    System.out.println(response.getProviderName()); // "FooBar VPN"
+}
 ```
 
 ### ASN ###

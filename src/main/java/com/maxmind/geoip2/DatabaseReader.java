@@ -10,6 +10,7 @@ import com.maxmind.db.Reader.FileMode;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.AnonymousIpResponse;
+import com.maxmind.geoip2.model.AnonymousPlusResponse;
 import com.maxmind.geoip2.model.AsnResponse;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.ConnectionTypeResponse;
@@ -81,6 +82,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
 
     private enum DatabaseType {
         ANONYMOUS_IP,
+        ANONYMOUS_PLUS,
         ASN,
         CITY,
         CONNECTION_TYPE,
@@ -118,6 +120,9 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         int type = 0;
         if (databaseType.contains("GeoIP2-Anonymous-IP")) {
             type |= DatabaseType.ANONYMOUS_IP.type;
+        }
+        if (databaseType.contains("GeoIP-Anonymous-Plus")) {
+            type |= DatabaseType.ANONYMOUS_PLUS.type;
         }
         if (databaseType.contains("GeoIP2-IP-Risk")) {
             type |= DatabaseType.IP_RISK.type;
@@ -426,6 +431,54 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             )
         );
     }
+
+    /**
+     * Look up an IP address in a GeoIP2 Anonymous Plus.
+     *
+     * @param ipAddress IPv4 or IPv6 address to lookup.
+     * @return a AnonymousPlusResponse for the requested IP address.
+     * @throws GeoIp2Exception if there is an error looking up the IP
+     * @throws IOException     if there is an IO error
+     */
+    @Override
+    public AnonymousPlusResponse anonymousPlus(InetAddress ipAddress) throws IOException,
+        GeoIp2Exception {
+        Optional<AnonymousPlusResponse> r = getAnonymousPlus(ipAddress);
+        if (r.isEmpty()) {
+            throw new AddressNotFoundException("The address "
+                + ipAddress.getHostAddress() + " is not in the database.");
+        }
+        return r.get();
+    }
+
+    @Override
+    public Optional<AnonymousPlusResponse> tryAnonymousPlus(InetAddress ipAddress)
+        throws IOException,
+        GeoIp2Exception {
+        return getAnonymousPlus(ipAddress);
+    }
+
+    private Optional<AnonymousPlusResponse> getAnonymousPlus(
+        InetAddress ipAddress
+    ) throws IOException, GeoIp2Exception {
+        LookupResult<AnonymousPlusResponse> result = this.get(
+            ipAddress,
+            AnonymousPlusResponse.class,
+            DatabaseType.ANONYMOUS_PLUS
+        );
+        AnonymousPlusResponse response = result.getModel();
+        if (response == null) {
+            return Optional.empty();
+        }
+        return Optional.of(
+            new AnonymousPlusResponse(
+                response,
+                result.getIpAddress(),
+                result.getNetwork()
+            )
+        );
+    }
+
 
     /**
      * Look up an IP address in a GeoIP2 IP Risk database.
