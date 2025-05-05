@@ -2,7 +2,7 @@
 layout: default
 title: MaxMind GeoIP2 Java API
 language: java
-version: v4.2.1
+version: v4.3.0
 ---
 
 # GeoIP2 Java API #
@@ -24,7 +24,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>4.2.1</version>
+        <version>4.3.0</version>
     </dependency>
 ```
 
@@ -37,7 +37,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.maxmind.geoip2:geoip2:4.2.1'
+    compile 'com.maxmind.geoip2:geoip2:4.3.0'
 }
 ```
 
@@ -59,7 +59,7 @@ To use the web service API, you must create a new `WebServiceClient` using the
 `WebServiceClient.Builder`. You must provide the `Builder` constructor your
 MaxMind `accountId` and `licenseKey`. To use the GeoLite2 web services instead
 of GeoIP2, set the `host` method on the builder to `geolite.info`. To use
-the Sandbox GeoIP2 web services intead of the production GeoIP2 web
+the Sandbox GeoIP2 web services instead of the production GeoIP2 web
 services, set the `host` method on the builder to `sandbox.maxmind.com`.
 You may also set a `timeout` or set the `locales` fallback order using the
 methods on the `Builder`. After you have created the `WebServiceClient`,
@@ -311,7 +311,31 @@ try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
     System.out.println(response.isResidentialProxy()); // false
     System.out.println(response.isTorExitNode()); //true
 }
+```
 
+### Anonymous Plus ###
+
+```java
+// A File object pointing to your GeoIP2 Anonymous Plus database
+File database = new File("/path/to/GeoIP-Anonymous-Plus.mmdb");
+
+// This creates the DatabaseReader object. To improve performance, reuse
+// the object across lookups. The object is thread-safe.
+try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
+    InetAddress ipAddress = InetAddress.getByName("85.25.43.84");
+
+    AnonymousIpResponse response = reader.anonymousPlus(ipAddress);
+
+    System.out.println(response.getAnonymizerConfidence()); // 30
+    System.out.println(response.isAnonymous()); // true
+    System.out.println(response.isAnonymousVpn()); // false
+    System.out.println(response.isHostingProvider()); // false
+    System.out.println(response.isPublicProxy()); // false
+    System.out.println(response.isResidentialProxy()); // false
+    System.out.println(response.isTorExitNode()); // true
+    System.out.println(response.getNetworkLastSeen()); // "2025-04-14"
+    System.out.println(response.getProviderName()); // "FooBar VPN"
+}
 ```
 
 ### ASN ###
@@ -473,7 +497,7 @@ we suggest creating one object and sharing that across threads.
 ## What data is returned? ##
 
 While many of the location databases and web services return the same
-basic records, the attributes poplulated can vary. In addition, MaxMind does
+basic records, the attributes populated can vary. In addition, MaxMind does
 not always have every piece of data for any given IP address.
 
 Because of these factors, it is possible for any web service to return a record
@@ -543,6 +567,6 @@ The GeoIP2 Java API uses [Semantic Versioning](https://semver.org/).
 
 ## Copyright and License ##
 
-This software is Copyright (c) 2013-2023 by MaxMind, Inc.
+This software is Copyright (c) 2013-2025 by MaxMind, Inc.
 
 This is free software, licensed under the Apache License, Version 2.0.
