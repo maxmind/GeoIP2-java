@@ -490,7 +490,7 @@ we suggest creating one object and sharing that across threads.
 ## What data is returned? ##
 
 While many of the location databases and web services return the same
-basic records, the attributes poplulated can vary. In addition, MaxMind does
+basic records, the attributes populated can vary. In addition, MaxMind does
 not always have every piece of data for any given IP address.
 
 Because of these factors, it is possible for any web service to return a record
