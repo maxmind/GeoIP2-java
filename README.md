@@ -17,7 +17,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>4.2.1</version>
+        <version>4.3.0</version>
     </dependency>
 ```
 
@@ -30,7 +30,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.maxmind.geoip2:geoip2:4.2.1'
+    compile 'com.maxmind.geoip2:geoip2:4.3.0'
 }
 ```
 
@@ -490,7 +490,7 @@ we suggest creating one object and sharing that across threads.
 ## What data is returned? ##
 
 While many of the location databases and web services return the same
-basic records, the attributes poplulated can vary. In addition, MaxMind does
+basic records, the attributes populated can vary. In addition, MaxMind does
 not always have every piece of data for any given IP address.
 
 Because of these factors, it is possible for any web service to return a record
@@ -560,6 +560,6 @@ The GeoIP2 Java API uses [Semantic Versioning](https://semver.org/).
 
 ## Copyright and License ##
 
-This software is Copyright (c) 2013-2023 by MaxMind, Inc.
+This software is Copyright (c) 2013-2025 by MaxMind, Inc.
 
 This is free software, licensed under the Apache License, Version 2.0.
