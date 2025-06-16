@@ -5,6 +5,10 @@ updates:
   schedule:
     interval: daily
   open-pull-requests-limit: 10
+  groups:
+    jackson:
+      patterns:
+        - "com.fasterxml.jackson*"
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:
