@@ -17,7 +17,7 @@ To do this, add the dependency to your pom.xml:
     <dependency>
         <groupId>com.maxmind.geoip2</groupId>
         <artifactId>geoip2</artifactId>
-        <version>4.3.1</version>
+        <version>4.3.2</version>
     </dependency>
 ```
 
@@ -30,7 +30,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'com.maxmind.geoip2:geoip2:4.3.1'
+    compile 'com.maxmind.geoip2:geoip2:4.3.2'
 }
 ```
 
@@ -71,6 +71,187 @@ are not created for each request.
 
 See the [API documentation](https://maxmind.github.io/GeoIP2-java/) for
 more details.
+
+## HTTP Protocol Configuration ##
+
+The `WebServiceClient` provides extensive HTTP protocol configuration options
+through the `WebServiceClient.Builder`:
+
+### HTTP Version ###
+
+You can specify the HTTP protocol version to use:
+
+```java
+import java.net.http.HttpClient;
+
+// Force HTTP/1.1
+WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
+    .httpVersion(HttpClient.Version.HTTP_1_1)
+    .build();
+
+// Force HTTP/2
+WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
+    .httpVersion(HttpClient.Version.HTTP_2)
+    .build();
+
+// Default behavior: prefer HTTP/2 but negotiate down to HTTP/1.1 if needed
+WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
+    .build();
+```
+
+### HTTPS/HTTP Protocol ###
+
+By default, the client uses HTTPS. You can disable HTTPS for testing or proxy scenarios:
+
+```java
+// Disable HTTPS (use HTTP instead)
+WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
+    .disableHttps()
+    .build();
+```
+
+**Note:** The minFraud Score and Insights web services require HTTPS.
+
+### Timeouts ###
+
+Configure connection and request timeouts:
+
+```java
+import java.time.Duration;
+
+WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
+    .connectTimeout(Duration.ofSeconds(5))    // Connection timeout (default: 3 seconds)
+    .requestTimeout(Duration.ofSeconds(30))   // Request timeout (default: 20 seconds)
+    .build();
+```
+
+### Proxy Configuration ###
+
+Configure HTTP proxy settings:
+
+```java
+import java.net.InetSocketAddress;
+import java.net.ProxySelector;
+
+// Using ProxySelector (recommended)
+ProxySelector proxy = ProxySelector.of(new InetSocketAddress("proxy.example.com", 8080));
+WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
+    .proxy(proxy)
+    .build();
+
+// Using system default proxy
+WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
+    .proxy(ProxySelector.getDefault())
+    .build();
+```
+
+### Custom Host and Port ###
+
+Configure custom host and port:
+
+```java
+WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
+    .host("custom.geoip.server.com")
+    .port(8443)
+    .build();
+```
+
+### Complete HTTP Configuration Example ###
+
+```java
+import java.net.InetSocketAddress;
+import java.net.ProxySelector;
+import java.net.http.HttpClient;
+import java.time.Duration;
+import java.util.Arrays;
+
+WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
+    .host("geoip.maxmind.com")
+    .port(443)
+    .httpVersion(HttpClient.Version.HTTP_2)
+    .connectTimeout(Duration.ofSeconds(5))
+    .requestTimeout(Duration.ofSeconds(30))
+    .proxy(ProxySelector.of(new InetSocketAddress("proxy.example.com", 8080)))
+    .locales(Arrays.asList("en", "fr", "es"))
+    .build();
+```
+
+### HTTP Headers ###
+
+The client automatically sets the following HTTP headers:
+- `Accept: application/json`
+- `Authorization: Basic <base64-encoded-credentials>`
+- `User-Agent: GeoIP2/<version> (Java/<java-version>)`
+
+### HTTP Error Handling ###
+
+The client handles various HTTP status codes:
+- **200**: Success - response is parsed and returned
+- **4xx**: Client errors - throws specific exceptions like `AddressNotFoundException`, `AuthenticationException`, etc.
+- **5xx**: Server errors - throws `HttpException`
+- **Other status codes**: Throws `HttpException`
+
+HTTP transport errors (network issues, timeouts, etc.) are thrown as `HttpException`, which extends `IOException`.
+
+### HTTP Client Implementation ###
+
+The GeoIP2 Java library uses Java's built-in `java.net.http.HttpClient` (available since Java 11) for HTTP communication. This provides:
+
+- **Connection pooling**: Connections are automatically reused across requests
+- **HTTP/2 support**: Modern HTTP/2 protocol with fallback to HTTP/1.1
+- **Asynchronous capabilities**: Though the GeoIP2 client uses synchronous calls
+- **Built-in proxy support**: System proxy settings are respected by default
+- **TLS/SSL support**: Secure HTTPS connections with modern cipher suites
+
+### Authentication ###
+
+The client uses HTTP Basic Authentication with your MaxMind account credentials:
+
+- Credentials are Base64-encoded and sent in the `Authorization` header
+- Authentication is sent with every request (no challenge-response)
+- Credentials are never logged or exposed in error messages
+
+### Connection Management ###
+
+- **Thread-safe**: The `WebServiceClient` can be safely shared across multiple threads
+- **Connection reuse**: The underlying HTTP client maintains a connection pool
+- **Resource cleanup**: The client automatically manages connection lifecycle
+- **No explicit cleanup needed**: The `close()` method is deprecated and no longer required
+
+### HTTP API Endpoints ###
+
+The client makes HTTP GET requests to the following endpoint pattern:
+```
+https://geoip.maxmind.com/geoip/v2.1/{service}/{ip_address}
+```
+
+Where:
+- `{service}` is one of: `country`, `city`, `insights`
+- `{ip_address}` is the IP address to look up, or `me` for the client's IP
+
+Examples:
+- `https://geoip.maxmind.com/geoip/v2.1/country/128.101.101.101`
+- `https://geoip.maxmind.com/geoip/v2.1/city/me`
+- `https://geolite.info/geoip/v2.1/country/192.168.1.1` (GeoLite2)
+- `https://sandbox.maxmind.com/geoip/v2.1/insights/8.8.8.8` (Sandbox)
+
+### Request Format ###
+
+All requests are HTTP GET requests with:
+- **Method**: GET
+- **Content-Type**: Not applicable (no request body)
+- **Accept**: `application/json`
+- **Authorization**: `Basic <base64-credentials>`
+- **User-Agent**: `GeoIP2/<version> (Java/<java-version>)`
+
+### Response Format ###
+
+All successful responses return JSON with HTTP 200 status. The JSON structure varies by service but typically includes:
+- IP address information
+- Geographic location data (country, city, subdivisions)
+- ISP and organization data
+- Confidence scores (for paid services)
+- Additional metadata
 
 ## Web Service Example ##
 

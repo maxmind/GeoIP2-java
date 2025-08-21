@@ -1,6 +1,17 @@
 CHANGELOG
 =========
 
+4.3.2 (2025-08-22)
+------------------
+
+* Added `httpVersion()` method on `WebServiceClient.Builder`
+  which allows configuring HTTP protocol version (HTTP/1.1 or HTTP/2) for web
+  service requests.
+* Updated README.md with comprehensive HTTP protocol configuration documentation.
+* Added detailed information about HTTP version settings, proxy configuration,
+  timeout settings, authentication, and connection management.
+* Improved documentation for developers using the web service client.
+
 4.3.1 (2025-05-28)
 ------------------
 
