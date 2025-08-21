@@ -66,10 +66,11 @@ import java.util.Map;
  * the {@code host} method on the builder to {@code geolite.info}. To use the
  * Sandbox GeoIP2 web services instead of the production GeoIP2 web services,
  * set the {@code host} method on the builder to {@code sandbox.maxmind.com}.
- * You may also set a {@code timeout} or set the {@code locales} fallback order
- * using the methods on the {@code Builder}. After you have created the {@code
- * WebServiceClient}, you may then call the method corresponding to a specific
- * service, passing it the IP address you want to look up.
+ * You may also set a {@code timeout}, set the {@code locales} fallback order,
+ * or specify the HTTP protocol version using the methods on the {@code Builder}.
+ * After you have created the {@code WebServiceClient}, you may then call the
+ * method corresponding to a specific service, passing it the IP address you want
+ * to look up.
  * </p>
  * <p>
  * If the request succeeds, the method call will return a model class for the
@@ -140,10 +141,13 @@ public class WebServiceClient implements WebServiceProvider, Closeable {
             .build();
 
         requestTimeout = builder.requestTimeout;
-        httpClient = HttpClient.newBuilder()
+        HttpClient.Builder httpClientBuilder = HttpClient.newBuilder()
             .connectTimeout(builder.connectTimeout)
-            .proxy(builder.proxy)
-            .build();
+            .proxy(builder.proxy);
+        if (builder.httpVersion != null) {
+            httpClientBuilder.version(builder.httpVersion);
+        }
+        httpClient = httpClientBuilder.build();
     }
 
     /**
@@ -157,7 +161,7 @@ public class WebServiceClient implements WebServiceProvider, Closeable {
      * </p>
      * <p>
      * {@code WebServiceClient client = new WebServiceClient.Builder(12,"licensekey")
-     *      .host("geoip.maxmind.com").build();}
+     *      .host("geoip.maxmind.com").httpVersion(HttpClient.Version.HTTP_1_1).build();}
      * </p>
      * <p>
      * Only the values set in the {@code Builder} constructor are required.
@@ -170,6 +174,7 @@ public class WebServiceClient implements WebServiceProvider, Closeable {
         String host = "geoip.maxmind.com";
         int port = 443;
         boolean useHttps = true;
+        HttpClient.Version httpVersion;
 
         Duration connectTimeout = Duration.ofSeconds(3);
         Duration requestTimeout = Duration.ofSeconds(20);
@@ -293,6 +298,18 @@ public class WebServiceClient implements WebServiceProvider, Closeable {
          */
         public Builder proxy(ProxySelector val) {
             this.proxy = val;
+            return this;
+        }
+
+        /**
+         * @param val the HTTP protocol version to use. If not set, the HttpClient
+         *            will prefer HTTP/2 but will negotiate down to HTTP/1.1 if needed.
+         *            Use HttpClient.Version.HTTP_1_1 to force HTTP/1.1 or
+         *            HttpClient.Version.HTTP_2 to force HTTP/2.
+         * @return Builder object
+         */
+        public Builder httpVersion(HttpClient.Version val) {
+            this.httpVersion = val;
             return this;
         }
 

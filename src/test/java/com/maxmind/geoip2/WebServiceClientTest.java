@@ -36,6 +36,7 @@ import com.maxmind.geoip2.record.Subdivision;
 import com.maxmind.geoip2.record.Traits;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
+import java.net.http.HttpClient;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import org.hamcrest.CoreMatchers;
@@ -350,6 +351,35 @@ public class WebServiceClientTest {
                 ""
             ));
         assertThat(ex.getMessage(), startsWith("Received a server error (500)"));
+    }
+
+    @Test
+    public void testHttpVersionConfiguration() throws Exception {
+        // Test that HTTP version can be configured without errors
+        WebServiceClient clientHttp11 = new WebServiceClient.Builder(6, "0123456789")
+            .host("localhost")
+            .port(wireMock.getPort())
+            .disableHttps()
+            .httpVersion(HttpClient.Version.HTTP_1_1)
+            .build();
+
+        WebServiceClient clientHttp2 = new WebServiceClient.Builder(6, "0123456789")
+            .host("localhost")
+            .port(wireMock.getPort())
+            .disableHttps()
+            .httpVersion(HttpClient.Version.HTTP_2)
+            .build();
+
+        WebServiceClient clientDefault = new WebServiceClient.Builder(6, "0123456789")
+            .host("localhost")
+            .port(wireMock.getPort())
+            .disableHttps()
+            .build();
+
+        // Verify that clients can be created successfully
+        assertNotNull(clientHttp11);
+        assertNotNull(clientHttp2);
+        assertNotNull(clientDefault);
     }
 
     private void createInsightsError(String ip, int status, String contentType,
