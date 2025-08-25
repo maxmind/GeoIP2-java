@@ -141,7 +141,6 @@ public class WebServiceClient implements WebServiceProvider, Closeable {
 
         requestTimeout = builder.requestTimeout;
 
-        // Use custom HttpClient if provided, otherwise create a default one
         if (builder.httpClient != null) {
             httpClient = builder.httpClient;
         } else {
@@ -177,11 +176,11 @@ public class WebServiceClient implements WebServiceProvider, Closeable {
         int port = 443;
         boolean useHttps = true;
 
-        Duration connectTimeout = Duration.ofSeconds(3);
+        Duration connectTimeout = null;
         Duration requestTimeout = Duration.ofSeconds(20);
 
         List<String> locales = Collections.singletonList("en");
-        private ProxySelector proxy = ProxySelector.getDefault();
+        private ProxySelector proxy = null;
         private HttpClient httpClient = null;
 
         /**
@@ -322,17 +321,22 @@ public class WebServiceClient implements WebServiceProvider, Closeable {
          */
         public WebServiceClient build() {
             if (httpClient != null) {
-                // Check if connectTimeout was changed from default
-                if (!connectTimeout.equals(Duration.ofSeconds(3))) {
+                if (connectTimeout != null) {
                     throw new IllegalArgumentException(
                         "Cannot set both httpClient and connectTimeout. "
                         + "Configure timeout on the provided HttpClient instead.");
                 }
-                // Check if proxy was changed from default
-                if (proxy != ProxySelector.getDefault()) {
+                if (proxy != null) {
                     throw new IllegalArgumentException(
                         "Cannot set both httpClient and proxy. "
                         + "Configure proxy on the provided HttpClient instead.");
+                }
+            } else {
+                if (connectTimeout == null) {
+                    connectTimeout = Duration.ofSeconds(3);
+                }
+                if (proxy == null) {
+                    proxy = ProxySelector.getDefault();
                 }
             }
             return new WebServiceClient(this);
