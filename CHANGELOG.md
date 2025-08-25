@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+4.4.0
+------------------
+
+* `WebServiceClient.Builder` now has an `httpClient()` method to allow
+  passing in a custom `HttpClient`.
+
 4.3.1 (2025-05-28)
 ------------------
 
