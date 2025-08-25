@@ -140,10 +140,16 @@ public class WebServiceClient implements WebServiceProvider, Closeable {
             .build();
 
         requestTimeout = builder.requestTimeout;
-        httpClient = HttpClient.newBuilder()
-            .connectTimeout(builder.connectTimeout)
-            .proxy(builder.proxy)
-            .build();
+
+        // Use custom HttpClient if provided, otherwise create a default one
+        if (builder.httpClient != null) {
+            httpClient = builder.httpClient;
+        } else {
+            httpClient = HttpClient.newBuilder()
+                .connectTimeout(builder.connectTimeout)
+                .proxy(builder.proxy)
+                .build();
+        }
     }
 
     /**
@@ -176,6 +182,7 @@ public class WebServiceClient implements WebServiceProvider, Closeable {
 
         List<String> locales = Collections.singletonList("en");
         private ProxySelector proxy = ProxySelector.getDefault();
+        private HttpClient httpClient = null;
 
         /**
          * @param accountId  Your MaxMind account ID.
@@ -297,10 +304,37 @@ public class WebServiceClient implements WebServiceProvider, Closeable {
         }
 
         /**
+         * @param val the custom HttpClient to use for requests. When providing a
+         *            custom HttpClient, you cannot also set connectTimeout or proxy
+         *            parameters as these should be configured on the provided client.
+         * @return Builder object
+         */
+        public Builder httpClient(HttpClient val) {
+            this.httpClient = val;
+            return this;
+        }
+
+        /**
          * @return an instance of {@code WebServiceClient} created from the
          * fields set on this builder.
+         * @throws IllegalArgumentException if httpClient is provided along with
+         *                                  connectTimeout or proxy settings
          */
         public WebServiceClient build() {
+            if (httpClient != null) {
+                // Check if connectTimeout was changed from default
+                if (!connectTimeout.equals(Duration.ofSeconds(3))) {
+                    throw new IllegalArgumentException(
+                        "Cannot set both httpClient and connectTimeout. "
+                        + "Configure timeout on the provided HttpClient instead.");
+                }
+                // Check if proxy was changed from default
+                if (proxy != ProxySelector.getDefault()) {
+                    throw new IllegalArgumentException(
+                        "Cannot set both httpClient and proxy. "
+                        + "Configure proxy on the provided HttpClient instead.");
+                }
+            }
             return new WebServiceClient(this);
         }
     }

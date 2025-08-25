@@ -36,7 +36,11 @@ import com.maxmind.geoip2.record.Subdivision;
 import com.maxmind.geoip2.record.Traits;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.ProxySelector;
+import java.net.http.HttpClient;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.List;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
@@ -407,4 +411,53 @@ public class WebServiceClientTest {
             .disableHttps()
             .build();
     }
+
+    @Test
+    public void testHttpClientWithConnectTimeoutThrowsException() {
+        HttpClient customClient = HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(10))
+            .build();
+
+        WebServiceClient.Builder builder = new WebServiceClient.Builder(6, "0123456789")
+            .httpClient(customClient)
+            .connectTimeout(Duration.ofSeconds(5));
+
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, builder::build);
+        assertEquals("Cannot set both httpClient and connectTimeout. Configure timeout on the provided HttpClient instead.",
+            ex.getMessage());
+    }
+
+    @Test
+    public void testHttpClientWithProxyThrowsException() {
+        HttpClient customClient = HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(10))
+            .build();
+
+        ProxySelector proxySelector = ProxySelector.of(new InetSocketAddress("proxy.example.com", 8080));
+        WebServiceClient.Builder builder = new WebServiceClient.Builder(6, "0123456789")
+            .httpClient(customClient)
+            .proxy(proxySelector);
+
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, builder::build);
+        assertEquals("Cannot set both httpClient and proxy. Configure proxy on the provided HttpClient instead.",
+            ex.getMessage());
+    }
+
+    @Test
+    public void testHttpClientWithDefaultSettingsDoesNotThrow() throws Exception {
+        HttpClient customClient = HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(10))
+            .build();
+
+        // Should not throw because we're not setting connectTimeout or proxy
+        WebServiceClient client = new WebServiceClient.Builder(6, "0123456789")
+            .host("localhost")
+            .port(8080)
+            .disableHttps()
+            .httpClient(customClient)
+            .build();
+
+        assertNotNull(client);
+    }
+
 }
