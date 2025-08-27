@@ -17,6 +17,8 @@ CHANGELOG
 * **BREAKING:** The deprecated `Traits` constructors and methods
   `isAnonymousProxy()` and `isSatelliteProvider()` have been removed. Use the
   GeoIP2 Anonymous IP database for anonymous proxy detection instead.
+* **BREAKING:** The deprecated `Location.getMetroCode()` method has been
+  removed. Metro code values are no longer maintained.
 
 4.4.0 (2025-08-28)
 ------------------
