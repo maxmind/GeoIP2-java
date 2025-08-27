@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+5.0.0
+------------------
+
+* The deprecation notices for IP Risk database support have been removed.
+  IP Risk database support will continue to be maintained.
+
 4.4.0 (2025-08-28)
 ------------------
 
