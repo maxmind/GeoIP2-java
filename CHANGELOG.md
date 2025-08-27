@@ -6,6 +6,12 @@ CHANGELOG
 
 * The deprecation notices for IP Risk database support have been removed.
   IP Risk database support will continue to be maintained.
+* **BREAKING:** The deprecated `WebServiceClient.Builder` methods
+  `connectTimeout(int)`, `readTimeout(int)`, and `proxy(Proxy)` have been
+  removed. Use `connectTimeout(Duration)`, `requestTimeout(Duration)`, and
+  `proxy(ProxySelector)` respectively.
+* **BREAKING:** The deprecated `WebServiceClient.close()` method has been
+  removed along with the `Closeable` interface implementation.
 
 4.4.0 (2025-08-28)
 ------------------
