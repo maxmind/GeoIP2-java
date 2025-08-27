@@ -19,6 +19,10 @@ CHANGELOG
   GeoIP2 Anonymous IP database for anonymous proxy detection instead.
 * **BREAKING:** The deprecated `Location.getMetroCode()` method has been
   removed. Metro code values are no longer maintained.
+* **BREAKING:** Java 11 support has been dropped. Java 17 or later is now required.
+* Updated project to use Java 17 language features including switch expressions
+  and modern collection factories.
+* Updated GitHub Actions workflow to test on Java 17, 21, 22, and 23.
 
 4.4.0 (2025-08-28)
 ------------------

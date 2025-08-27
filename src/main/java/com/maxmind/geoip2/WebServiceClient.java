@@ -28,9 +28,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -177,7 +175,7 @@ public class WebServiceClient implements WebServiceProvider {
         Duration connectTimeout = null;
         Duration requestTimeout = Duration.ofSeconds(20);
 
-        List<String> locales = Collections.singletonList("en");
+        List<String> locales = List.of("en");
         private ProxySelector proxy = null;
         private HttpClient httpClient = null;
 
@@ -241,7 +239,7 @@ public class WebServiceClient implements WebServiceProvider {
          * @return Builder object
          */
         public Builder locales(List<String> val) {
-            this.locales = new ArrayList<>(val);
+            this.locales = List.copyOf(val);
             return this;
         }
 
