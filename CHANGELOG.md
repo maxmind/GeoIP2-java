@@ -23,6 +23,8 @@ CHANGELOG
 * Updated project to use Java 17 language features including switch expressions
   and modern collection factories.
 * Updated GitHub Actions workflow to test on Java 17, 21, 22, and 23.
+* **BREAKING:** Removed explicit `serialVersionUID` from all exception classes.
+  Java will auto-generate serialVersionUID when needed, following modern practices.
 
 4.4.0 (2025-08-28)
 ------------------

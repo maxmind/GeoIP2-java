@@ -8,7 +8,6 @@ import java.net.URI;
  * but the request sent was invalid in some way.
  */
 public final class InvalidRequestException extends GeoIp2Exception {
-    private static final long serialVersionUID = 8662062420258379643L;
     private final String code;
     private final URI uri;
 

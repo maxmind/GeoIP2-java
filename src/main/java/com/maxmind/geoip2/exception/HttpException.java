@@ -9,7 +9,6 @@ import java.net.URI;
  * GeoIp2Exception.
  */
 public final class HttpException extends IOException {
-    private static final long serialVersionUID = -8301101841509056974L;
     private final int httpStatus;
     private final URI uri;
 

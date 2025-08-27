@@ -6,7 +6,6 @@ package com.maxmind.geoip2.exception;
  */
 public class GeoIp2Exception extends Exception {
 
-    private static final long serialVersionUID = -1923104535309628719L;
 
     /**
      * @param message A message describing the reason why the exception was thrown.
