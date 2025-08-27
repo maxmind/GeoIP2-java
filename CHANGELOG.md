@@ -14,6 +14,9 @@ CHANGELOG
   removed along with the `Closeable` interface implementation.
 * **BREAKING:** The deprecated `getUrl()` methods in `HttpException` and
   `InvalidRequestException` have been removed. Use `getUri()` instead.
+* **BREAKING:** The deprecated `Traits` constructors and methods
+  `isAnonymousProxy()` and `isSatelliteProvider()` have been removed. Use the
+  GeoIP2 Anonymous IP database for anonymous proxy detection instead.
 
 4.4.0 (2025-08-28)
 ------------------

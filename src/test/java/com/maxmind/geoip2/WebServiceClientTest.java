@@ -99,7 +99,6 @@ public class WebServiceClientTest {
         assertNull(location.getAccuracyRadius());
         assertNull(location.getLatitude());
         assertNull(location.getLongitude());
-        assertNull(location.getMetroCode());
         assertNull(location.getTimeZone());
         assertThat(location.toString(),
             CoreMatchers.equalTo("com.maxmind.geoip2.record.Location [ {} ]"));
@@ -145,9 +144,7 @@ public class WebServiceClientTest {
         assertNull(traits.getUserType());
         assertNull(traits.getStaticIpScore());
         assertNull(traits.getUserCount());
-        assertFalse(traits.isAnonymousProxy());
         assertFalse(traits.isAnycast());
-        assertFalse(traits.isSatelliteProvider());
 
         for (Country c : new Country[] {country, registeredCountry,
             representedCountry}) {
