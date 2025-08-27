@@ -12,6 +12,8 @@ CHANGELOG
   `proxy(ProxySelector)` respectively.
 * **BREAKING:** The deprecated `WebServiceClient.close()` method has been
   removed along with the `Closeable` interface implementation.
+* **BREAKING:** The deprecated `getUrl()` methods in `HttpException` and
+  `InvalidRequestException` have been removed. Use `getUri()` instead.
 
 4.4.0 (2025-08-28)
 ------------------
