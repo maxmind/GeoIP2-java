@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-4.4.0
+4.4.0 (2025-08-28)
 ------------------
 
 * `WebServiceClient.Builder` now has an `httpClient()` method to allow
