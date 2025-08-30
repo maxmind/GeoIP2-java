@@ -20,9 +20,6 @@ CHANGELOG
 * **BREAKING:** The deprecated `Location.getMetroCode()` method has been
   removed. Metro code values are no longer maintained.
 * **BREAKING:** Java 11 support has been dropped. Java 17 or later is now required.
-* Updated project to use Java 17 language features including switch expressions
-  and modern collection factories.
-* Updated GitHub Actions workflow to test on Java 17, 21, and 24.
 * **BREAKING:** Removed explicit `serialVersionUID` from all exception classes.
   Java will auto-generate serialVersionUID when needed, following modern practices.
 
