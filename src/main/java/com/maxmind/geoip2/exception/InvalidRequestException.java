@@ -1,8 +1,6 @@
 package com.maxmind.geoip2.exception;
 
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
 
 /**
  * This class represents a non-specific error returned by MaxMind's GeoIP2 web
@@ -10,7 +8,6 @@ import java.net.URL;
  * but the request sent was invalid in some way.
  */
 public final class InvalidRequestException extends GeoIp2Exception {
-    private static final long serialVersionUID = 8662062420258379643L;
     private final String code;
     private final URI uri;
 
@@ -53,16 +50,4 @@ public final class InvalidRequestException extends GeoIp2Exception {
         return this.uri;
     }
 
-    /**
-     * @return the URL queried.
-     * @deprecated Use getUri() instead
-     */
-    @Deprecated
-    public URL getUrl() {
-        try {
-            return this.uri.toURL();
-        } catch (MalformedURLException e) {
-            return null;
-        }
-    }
 }

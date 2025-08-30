@@ -15,7 +15,6 @@ public class Location extends AbstractRecord {
     private final Integer averageIncome;
     private final Double latitude;
     private final Double longitude;
-    private final Integer metroCode;
     private final Integer populationDensity;
     private final String timeZone;
 
@@ -23,7 +22,7 @@ public class Location extends AbstractRecord {
      * Constructs a {@code Location} record with {@code null} values for all the fields.
      */
     public Location() {
-        this(null, null, null, null, null, null, null);
+        this(null, null, null, null, null, null);
     }
 
     /**
@@ -43,10 +42,6 @@ public class Location extends AbstractRecord {
      * @param longitude The approximate longitude of the location associated
      * with the IP address. This value is not precise and should not be used
      * to identify a particular address or household.
-     * @param metroCode The metro code of the location if the location is in
-     * the US. MaxMind returns the same metro codes as the <a href=
-     * "https://developers.google.com/adwords/api/docs/appendix/cities-DMAregions"
-     * >Google AdWords API</a>.
      * @param populationDensity The estimated population per square kilometer
      * associated with the IP address. This attribute is only available from
      * the Insights web service.
@@ -62,7 +57,6 @@ public class Location extends AbstractRecord {
         Integer averageIncome,
         @JsonProperty("latitude") @MaxMindDbParameter(name = "latitude") Double latitude,
         @JsonProperty("longitude") @MaxMindDbParameter(name = "longitude") Double longitude,
-        @JsonProperty("metro_code") @MaxMindDbParameter(name = "metro_code") Integer metroCode,
         @JsonProperty("population_density") @MaxMindDbParameter(name = "population_density")
         Integer populationDensity,
         @JsonProperty("time_zone") @MaxMindDbParameter(name = "time_zone") String timeZone
@@ -71,7 +65,6 @@ public class Location extends AbstractRecord {
         this.averageIncome = averageIncome;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.metroCode = metroCode;
         this.populationDensity = populationDensity;
         this.timeZone = timeZone;
     }
@@ -118,16 +111,6 @@ public class Location extends AbstractRecord {
         return this.accuracyRadius;
     }
 
-    /**
-     * @return The metro code is a no-longer-maintained code for targeting
-     * advertisements in Google.
-     * @deprecated Code values are no longer maintained.
-     */
-    @JsonProperty("metro_code")
-    @Deprecated
-    public Integer getMetroCode() {
-        return this.metroCode;
-    }
 
     /**
      * @return The approximate latitude of the location associated with the

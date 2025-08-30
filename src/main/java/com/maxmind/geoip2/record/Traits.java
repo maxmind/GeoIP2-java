@@ -22,14 +22,12 @@ public final class Traits extends AbstractRecord {
     private final String domain;
     private final String ipAddress;
     private final boolean isAnonymous;
-    private final boolean isAnonymousProxy;
     private final boolean isAnonymousVpn;
     private final boolean isAnycast;
     private final boolean isHostingProvider;
     private final boolean isLegitimateProxy;
     private final boolean isPublicProxy;
     private final boolean isResidentialProxy;
-    private final boolean isSatelliteProvider;
     private final boolean isTorExitNode;
     private final String isp;
     private final String mobileCountryCode;
@@ -45,8 +43,8 @@ public final class Traits extends AbstractRecord {
      */
     public Traits() {
         this(null, null, null, null,
-            null, false, false, false, false, false,
-            false, false, false, false, false, null,
+            null, false, false, false, false,
+            false, false, false, false, null,
             null, null, null, null, null, null, null);
     }
 
@@ -58,8 +56,8 @@ public final class Traits extends AbstractRecord {
      */
     public Traits(String ipAddress, Network network) {
         this(null, null, null, null,
-            ipAddress, false, false, false, false, false,
-            false, false, false, false, false, null,
+            ipAddress, false, false, false, false,
+            false, false, false, false, null,
             null, null, network, null, null, null, null);
     }
 
@@ -72,14 +70,12 @@ public final class Traits extends AbstractRecord {
      * @param domain the domain
      * @param ipAddress the IP address
      * @param isAnonymous the anonymous flag
-     * @param isAnonymousProxy the anonymous proxy flag
      * @param isAnonymousVpn the anonymous VPN flag
      * @param isAnycast the anycast flag
      * @param isHostingProvider the hosting provider flag
      * @param isLegitimateProxy the legitimate proxy flag
      * @param isPublicProxy the public proxy flag
      * @param isResidentialProxy the residential proxy flag
-     * @param isSatelliteProvider the satellite provider flag
      * @param isTorExitNode the Tor exit node flag
      * @param isp the ISP
      * @param mobileCountryCode the mobile country code
@@ -97,14 +93,12 @@ public final class Traits extends AbstractRecord {
         @JsonProperty("domain") String domain,
         @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
         @JsonProperty("is_anonymous") boolean isAnonymous,
-        @JsonProperty("is_anonymous_proxy") boolean isAnonymousProxy,
         @JsonProperty("is_anonymous_vpn") boolean isAnonymousVpn,
         @JsonProperty("is_anycast") boolean isAnycast,
         @JsonProperty("is_hosting_provider") boolean isHostingProvider,
         @JsonProperty("is_legitimate_proxy") boolean isLegitimateProxy,
         @JsonProperty("is_public_proxy") boolean isPublicProxy,
         @JsonProperty("is_residential_proxy") boolean isResidentialProxy,
-        @JsonProperty("is_satellite_provider") boolean isSatelliteProvider,
         @JsonProperty("is_tor_exit_node") boolean isTorExitNode,
         @JsonProperty("isp") String isp,
         @JsonProperty("mobile_country_code") String mobileCountryCode,
@@ -122,14 +116,12 @@ public final class Traits extends AbstractRecord {
         this.domain = domain;
         this.ipAddress = ipAddress;
         this.isAnonymous = isAnonymous;
-        this.isAnonymousProxy = isAnonymousProxy;
         this.isAnonymousVpn = isAnonymousVpn;
         this.isAnycast = isAnycast;
         this.isHostingProvider = isHostingProvider;
         this.isLegitimateProxy = isLegitimateProxy;
         this.isPublicProxy = isPublicProxy;
         this.isResidentialProxy = isResidentialProxy;
-        this.isSatelliteProvider = isSatelliteProvider;
         this.isTorExitNode = isTorExitNode;
         this.isp = isp;
         this.mobileCountryCode = mobileCountryCode;
@@ -150,14 +142,12 @@ public final class Traits extends AbstractRecord {
      * @param domain the domain
      * @param ipAddress the IP address
      * @param isAnonymous the anonymous flag
-     * @param isAnonymousProxy the anonymous proxy flag
      * @param isAnonymousVpn the anonymous VPN flag
      * @param isAnycast the anycast flag
      * @param isHostingProvider the hosting provider flag
      * @param isLegitimateProxy the legitimate proxy flag
      * @param isPublicProxy the public proxy flag
      * @param isResidentialProxy the residential proxy flag
-     * @param isSatelliteProvider the satellite provider flag
      * @param isTorExitNode the Tor exit node flag
      * @param isp the ISP
      * @param mobileCountryCode the mobile country code
@@ -177,14 +167,12 @@ public final class Traits extends AbstractRecord {
         @MaxMindDbParameter(name = "domain") String domain,
         @MaxMindDbParameter(name = "ip_address") String ipAddress,
         @MaxMindDbParameter(name = "is_anonymous") Boolean isAnonymous,
-        @MaxMindDbParameter(name = "is_anonymous_proxy") Boolean isAnonymousProxy,
         @MaxMindDbParameter(name = "is_anonymous_vpn") Boolean isAnonymousVpn,
         @MaxMindDbParameter(name = "is_anycast") Boolean isAnycast,
         @MaxMindDbParameter(name = "is_hosting_provider") Boolean isHostingProvider,
         @MaxMindDbParameter(name = "is_legitimate_proxy") Boolean isLegitimateProxy,
         @MaxMindDbParameter(name = "is_public_proxy") Boolean isPublicProxy,
         @MaxMindDbParameter(name = "is_residential_proxy") Boolean isResidentialProxy,
-        @MaxMindDbParameter(name = "is_satellite_provider") Boolean isSatelliteProvider,
         @MaxMindDbParameter(name = "is_tor_exit_node") Boolean isTorExitNode,
         @MaxMindDbParameter(name = "isp") String isp,
         @MaxMindDbParameter(name = "mobile_country_code") String mobileCountryCode,
@@ -201,14 +189,12 @@ public final class Traits extends AbstractRecord {
         this.domain = domain;
         this.ipAddress = ipAddress;
         this.isAnonymous = isAnonymous != null ? isAnonymous : false;
-        this.isAnonymousProxy = isAnonymousProxy != null ? isAnonymousProxy : false;
         this.isAnonymousVpn = isAnonymousVpn != null ? isAnonymousVpn : false;
         this.isAnycast = isAnycast != null ? isAnycast : false;
         this.isHostingProvider = isHostingProvider != null ? isHostingProvider : false;
         this.isLegitimateProxy = isLegitimateProxy != null ? isLegitimateProxy : false;
         this.isPublicProxy = isPublicProxy != null ? isPublicProxy : false;
         this.isResidentialProxy = isResidentialProxy != null ? isResidentialProxy : false;
-        this.isSatelliteProvider = isSatelliteProvider != null ? isSatelliteProvider : false;
         this.isTorExitNode = isTorExitNode != null ? isTorExitNode : false;
         this.isp = isp;
         this.mobileCountryCode = mobileCountryCode;
@@ -220,161 +206,7 @@ public final class Traits extends AbstractRecord {
         this.staticIpScore = staticIpScore;
     }
 
-    /**
-     * @deprecated will be removed in the next major version.
-     * 
-     * @param autonomousSystemNumber the autonomous system number
-     * @param autonomousSystemOrganization the autonomous system organization
-     * @param connectionType the connection type
-     * @param domain the domain
-     * @param ipAddress the IP address
-     * @param isAnonymous the anonymous flag
-     * @param isAnonymousProxy the anonymous proxy flag
-     * @param isAnonymousVpn the anonymous VPN flag
-     * @param isHostingProvider the hosting provider flag
-     * @param isLegitimateProxy the legitimate proxy flag
-     * @param isPublicProxy the public proxy flag
-     * @param isResidentialProxy the residential proxy flag
-     * @param isSatelliteProvider the satellite provider flag
-     * @param isTorExitNode the Tor exit node flag
-     * @param isp the ISP
-     * @param mobileCountryCode the mobile country code
-     * @param mobileNetworkCode the mobile network code
-     * @param network the network
-     * @param organization the organization
-     * @param userType the user type
-     * @param userCount the user count
-     * @param staticIpScore the static IP score
-     */
-    @Deprecated
-    public Traits(
-        Long autonomousSystemNumber,
-        String autonomousSystemOrganization,
-        ConnectionType connectionType,
-        String domain,
-        String ipAddress,
-        boolean isAnonymous,
-        boolean isAnonymousProxy,
-        boolean isAnonymousVpn,
-        boolean isHostingProvider,
-        boolean isLegitimateProxy,
-        boolean isPublicProxy,
-        boolean isResidentialProxy,
-        boolean isSatelliteProvider,
-        boolean isTorExitNode,
-        String isp,
-        String mobileCountryCode,
-        String mobileNetworkCode,
-        Network network,
-        String organization,
-        String userType,
-        Integer userCount,
-        Double staticIpScore
-    ) {
-        this(
-            autonomousSystemNumber,
-            autonomousSystemOrganization,
-            connectionType,
-            domain,
-            ipAddress,
-            isAnonymous,
-            isAnonymousProxy,
-            isAnonymousVpn,
-            false, // isAnycast
-            isHostingProvider,
-            isLegitimateProxy,
-            isPublicProxy,
-            isResidentialProxy,
-            isSatelliteProvider,
-            isTorExitNode,
-            isp,
-            mobileCountryCode,
-            mobileNetworkCode,
-            network,
-            organization,
-            userType,
-            userCount,
-            staticIpScore
-        );
-    }
 
-    /**
-     * @deprecated will be removed in the next major version.
-     * 
-     * @param autonomousSystemNumber the autonomous system number
-     * @param autonomousSystemOrganization the autonomous system organization
-     * @param connectionType the connection type
-     * @param domain the domain
-     * @param ipAddress the IP address
-     * @param isAnonymous the anonymous flag
-     * @param isAnonymousProxy the anonymous proxy flag
-     * @param isAnonymousVpn the anonymous VPN flag
-     * @param isHostingProvider the hosting provider flag
-     * @param isLegitimateProxy the legitimate proxy flag
-     * @param isPublicProxy the public proxy flag
-     * @param isResidentialProxy the residential proxy flag
-     * @param isSatelliteProvider the satellite provider flag
-     * @param isTorExitNode the Tor exit node flag
-     * @param isp the ISP
-     * @param mobileCountryCode the mobile country code
-     * @param mobileNetworkCode the mobile network code
-     * @param network the network
-     * @param organization the organization
-     * @param userType the user type
-     * @param userCount the user count
-     * @param staticIpScore the static IP score
-     */
-    @Deprecated
-    public Traits(
-        Long autonomousSystemNumber,
-        String autonomousSystemOrganization,
-        String connectionType,
-        String domain,
-        String ipAddress,
-        Boolean isAnonymous,
-        Boolean isAnonymousProxy,
-        Boolean isAnonymousVpn,
-        Boolean isHostingProvider,
-        Boolean isLegitimateProxy,
-        Boolean isPublicProxy,
-        Boolean isResidentialProxy,
-        Boolean isSatelliteProvider,
-        Boolean isTorExitNode,
-        String isp,
-        String mobileCountryCode,
-        String mobileNetworkCode,
-        Network network,
-        String organization,
-        String userType,
-        Integer userCount,
-        Double staticIpScore
-    ) {
-        this(
-            autonomousSystemNumber,
-            autonomousSystemOrganization,
-            connectionType,
-            domain,
-            ipAddress,
-            isAnonymous,
-            isAnonymousProxy,
-            isAnonymousVpn,
-            false, // isAnycast
-            isHostingProvider,
-            isLegitimateProxy,
-            isPublicProxy,
-            isResidentialProxy,
-            isSatelliteProvider,
-            isTorExitNode,
-            isp,
-            mobileCountryCode,
-            mobileNetworkCode,
-            network,
-            organization,
-            userType,
-            userCount,
-            staticIpScore
-        );
-    }
 
     /**
      * Constructs an instance of {@code Traits}. 
@@ -395,14 +227,12 @@ public final class Traits extends AbstractRecord {
             traits.getDomain(),
             ipAddress,
             traits.isAnonymous(),
-            traits.isAnonymousProxy(),
             traits.isAnonymousVpn(),
             traits.isAnycast(),
             traits.isHostingProvider(),
             traits.isLegitimateProxy(),
             traits.isPublicProxy(),
             traits.isResidentialProxy(),
-            traits.isSatelliteProvider(),
             traits.isTorExitNode(),
             traits.getIsp(),
             traits.getMobileCountryCode(),
@@ -511,17 +341,6 @@ public final class Traits extends AbstractRecord {
         return this.isAnonymous;
     }
 
-    /**
-     * @return This is true if the IP is an anonymous proxy.
-     * @deprecated Use our
-     * <a href="https://www.maxmind.com/en/geoip2-anonymous-ip-database">GeoIP2
-     * Anonymous IP database</a> instead.
-     */
-    @Deprecated
-    @JsonProperty("is_anonymous_proxy")
-    public boolean isAnonymousProxy() {
-        return this.isAnonymousProxy;
-    }
 
     /**
      * @return This is true if the IP address is registered to an anonymous
@@ -584,16 +403,6 @@ public final class Traits extends AbstractRecord {
         return this.isResidentialProxy;
     }
 
-    /**
-     * @return This is true if the IP belong to a satellite Internet provider.
-     * @deprecated Due to increased mobile usage, we have insufficient data to
-     * maintain this field.
-     */
-    @Deprecated
-    @JsonProperty("is_satellite_provider")
-    public boolean isSatelliteProvider() {
-        return this.isSatelliteProvider;
-    }
 
     /**
      * @return This is true if the IP address belongs to a Tor exit node.

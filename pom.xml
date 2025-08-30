@@ -148,7 +148,7 @@
                             https://maxmind.github.io/MaxMind-DB-Reader-java/doc/latest/
                         </link>
                     </links>
-                    <source>11</source>
+                    <source>17</source>
                     <doclint>-missing</doclint> 
                 </configuration>
                 <executions>
@@ -198,8 +198,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.14.0</version>
                 <configuration>
-                    <release>11</release>
-                    <source>11</source>
+                    <release>17</release>
+                    <source>17</source>
                     <target>11</target>
                 </configuration>
             </plugin>

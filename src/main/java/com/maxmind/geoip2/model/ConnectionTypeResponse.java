@@ -55,20 +55,14 @@ public class ConnectionTypeResponse extends AbstractResponse {
                 return null;
             }
 
-            switch (s) {
-                case "Dialup":
-                    return ConnectionType.DIALUP;
-                case "Cable/DSL":
-                    return ConnectionType.CABLE_DSL;
-                case "Corporate":
-                    return ConnectionType.CORPORATE;
-                case "Cellular":
-                    return ConnectionType.CELLULAR;
-                case "Satellite":
-                    return ConnectionType.SATELLITE;
-                default:
-                    return null;
-            }
+            return switch (s) {
+                case "Dialup" -> ConnectionType.DIALUP;
+                case "Cable/DSL" -> ConnectionType.CABLE_DSL;
+                case "Corporate" -> ConnectionType.CORPORATE;
+                case "Cellular" -> ConnectionType.CELLULAR;
+                case "Satellite" -> ConnectionType.SATELLITE;
+                default -> null;
+            };
         }
     }
 

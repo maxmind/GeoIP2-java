@@ -6,7 +6,6 @@ package com.maxmind.geoip2.exception;
  */
 public final class AddressNotFoundException extends GeoIp2Exception {
 
-    private static final long serialVersionUID = -639962574626980783L;
 
     /**
      * @param message A message explaining the cause of the error.
