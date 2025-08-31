@@ -16,12 +16,10 @@ import com.maxmind.geoip2.exception.PermissionRequiredException;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.model.InsightsResponse;
-import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -30,9 +28,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,7 +103,7 @@ import java.util.Map;
  * throws a {@link GeoIp2Exception}.
  * </p>
  */
-public class WebServiceClient implements WebServiceProvider, Closeable {
+public class WebServiceClient implements WebServiceProvider {
     private final String host;
     private final List<String> locales;
     private final String authHeader;
@@ -179,7 +175,7 @@ public class WebServiceClient implements WebServiceProvider, Closeable {
         Duration connectTimeout = null;
         Duration requestTimeout = Duration.ofSeconds(20);
 
-        List<String> locales = Collections.singletonList("en");
+        List<String> locales = List.of("en");
         private ProxySelector proxy = null;
         private HttpClient httpClient = null;
 
@@ -192,17 +188,6 @@ public class WebServiceClient implements WebServiceProvider, Closeable {
             this.licenseKey = licenseKey;
         }
 
-        /**
-         * @param val Timeout in milliseconds to establish a connection to the
-         *            web service. The default is 3000 (3 seconds).
-         * @return Builder object
-         * @deprecated Use connectTimeout(Duration) instead
-         */
-        @Deprecated
-        public Builder connectTimeout(int val) {
-            this.connectTimeout = Duration.ofMillis(val);
-            return this;
-        }
 
         /**
          * @param val Timeout duration to establish a connection to the
@@ -254,22 +239,10 @@ public class WebServiceClient implements WebServiceProvider, Closeable {
          * @return Builder object
          */
         public Builder locales(List<String> val) {
-            this.locales = new ArrayList<>(val);
+            this.locales = List.copyOf(val);
             return this;
         }
 
-        /**
-         * @param val readTimeout in milliseconds to read data from an
-         *            established connection to the web service. The default is
-         *            20000 (20 seconds).
-         * @return Builder object
-         * @deprecated Use requestTimeout(Duration) instead
-         */
-        @Deprecated
-        public Builder readTimeout(int val) {
-            this.requestTimeout = Duration.ofMillis(val);
-            return this;
-        }
 
         /**
          * @param val Request timeout duration. The default is 20 seconds.
@@ -280,18 +253,6 @@ public class WebServiceClient implements WebServiceProvider, Closeable {
             return this;
         }
 
-        /**
-         * @param val the proxy to use when making this request.
-         * @return Builder object
-         * @deprecated Use proxy(ProxySelector)
-         */
-        @Deprecated
-        public Builder proxy(Proxy val) {
-            if (val != null && val != Proxy.NO_PROXY) {
-                this.proxy = ProxySelector.of((InetSocketAddress) val.address());
-            }
-            return this;
-        }
 
         /**
          * @param val the proxy to use when making this request.
@@ -538,13 +499,6 @@ public class WebServiceClient implements WebServiceProvider, Closeable {
         }
     }
 
-    /**
-     * @deprecated Closing is no longer necessary with java.net.http.HttpClient.
-     */
-    @Deprecated
-    @Override
-    public void close() throws IOException {
-    }
 
     @Override
     public String toString() {

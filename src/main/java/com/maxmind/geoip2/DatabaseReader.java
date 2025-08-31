@@ -24,7 +24,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -150,9 +149,8 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             type |= DatabaseType.ISP.type;
         }
         if (type == 0) {
-            // XXX - exception type
-            throw new UnsupportedOperationException(
-                "Invalid attempt to open an unknown database type: " + databaseType);
+            throw new IllegalArgumentException(
+                "Unsupported database type: " + databaseType);
         }
         return type;
     }
@@ -174,7 +172,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         final File database;
         final InputStream stream;
 
-        List<String> locales = Collections.singletonList("en");
+        List<String> locales = List.of("en");
         FileMode mode = FileMode.MEMORY_MAPPED;
         NodeCache cache = NoCache.getInstance();
 
@@ -239,28 +237,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         }
     }
 
-    static final class LookupResult<T> {
-        final T model;
-        final String ipAddress;
-        final Network network;
-
-        LookupResult(T model, String ipAddress, Network network) {
-            this.model = model;
-            this.ipAddress = ipAddress;
-            this.network = network;
-        }
-
-        T getModel() {
-            return this.model;
-        }
-
-        String getIpAddress() {
-            return this.ipAddress;
-        }
-
-        Network getNetwork() {
-            return this.network;
-        }
+    static record LookupResult<T>(T model, String ipAddress, Network network) {
     }
 
     /**
@@ -333,15 +310,15 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             CountryResponse.class,
             DatabaseType.COUNTRY
         );
-        CountryResponse response = result.getModel();
+        CountryResponse response = result.model();
         if (response == null) {
             return Optional.empty();
         }
         return Optional.of(
             new CountryResponse(
                 response,
-                result.getIpAddress(),
-                result.getNetwork(),
+                result.ipAddress(),
+                result.network(),
                 locales
             )
         );
@@ -372,15 +349,15 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             CityResponse.class,
             DatabaseType.CITY
         );
-        CityResponse response = result.getModel();
+        CityResponse response = result.model();
         if (response == null) {
             return Optional.empty();
         }
         return Optional.of(
             new CityResponse(
                 response,
-                result.getIpAddress(),
-                result.getNetwork(),
+                result.ipAddress(),
+                result.network(),
                 locales
             )
         );
@@ -419,15 +396,15 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             AnonymousIpResponse.class,
             DatabaseType.ANONYMOUS_IP
         );
-        AnonymousIpResponse response = result.getModel();
+        AnonymousIpResponse response = result.model();
         if (response == null) {
             return Optional.empty();
         }
         return Optional.of(
             new AnonymousIpResponse(
                 response,
-                result.getIpAddress(),
-                result.getNetwork()
+                result.ipAddress(),
+                result.network()
             )
         );
     }
@@ -466,15 +443,15 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             AnonymousPlusResponse.class,
             DatabaseType.ANONYMOUS_PLUS
         );
-        AnonymousPlusResponse response = result.getModel();
+        AnonymousPlusResponse response = result.model();
         if (response == null) {
             return Optional.empty();
         }
         return Optional.of(
             new AnonymousPlusResponse(
                 response,
-                result.getIpAddress(),
-                result.getNetwork()
+                result.ipAddress(),
+                result.network()
             )
         );
     }
@@ -487,9 +464,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * @return a IPRiskResponse for the requested IP address.
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
-     * @deprecated This database has been discontinued.
      */
-    @Deprecated
     @Override
     public IpRiskResponse ipRisk(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
@@ -501,14 +476,12 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         return r.get();
     }
 
-    @Deprecated
     @Override
     public Optional<IpRiskResponse> tryIpRisk(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
         return getIpRisk(ipAddress);
     }
 
-    @Deprecated
     private Optional<IpRiskResponse> getIpRisk(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
         LookupResult<IpRiskResponse> result = this.get(
@@ -516,15 +489,15 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             IpRiskResponse.class,
             DatabaseType.IP_RISK
         );
-        IpRiskResponse response = result.getModel();
+        IpRiskResponse response = result.model();
         if (response == null) {
             return Optional.empty();
         }
         return Optional.of(
             new IpRiskResponse(
                 response,
-                result.getIpAddress(),
-                result.getNetwork()
+                result.ipAddress(),
+                result.network()
             )
         );
     }
@@ -561,15 +534,15 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             AsnResponse.class,
             DatabaseType.ASN
         );
-        AsnResponse response = result.getModel();
+        AsnResponse response = result.model();
         if (response == null) {
             return Optional.empty();
         }
         return Optional.of(
             new AsnResponse(
                 response,
-                result.getIpAddress(),
-                result.getNetwork()
+                result.ipAddress(),
+                result.network()
             )
         );
     }
@@ -607,15 +580,15 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             ConnectionTypeResponse.class,
             DatabaseType.CONNECTION_TYPE
         );
-        ConnectionTypeResponse response = result.getModel();
+        ConnectionTypeResponse response = result.model();
         if (response == null) {
             return Optional.empty();
         }
         return Optional.of(
             new ConnectionTypeResponse(
                 response,
-                result.getIpAddress(),
-                result.getNetwork()
+                result.ipAddress(),
+                result.network()
             )
         );
     }
@@ -653,15 +626,15 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             DomainResponse.class,
             DatabaseType.DOMAIN
         );
-        DomainResponse response = result.getModel();
+        DomainResponse response = result.model();
         if (response == null) {
             return Optional.empty();
         }
         return Optional.of(
             new DomainResponse(
                 response,
-                result.getIpAddress(),
-                result.getNetwork()
+                result.ipAddress(),
+                result.network()
             )
         );
     }
@@ -699,15 +672,15 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             EnterpriseResponse.class,
             DatabaseType.ENTERPRISE
         );
-        EnterpriseResponse response = result.getModel();
+        EnterpriseResponse response = result.model();
         if (response == null) {
             return Optional.empty();
         }
         return Optional.of(
             new EnterpriseResponse(
                 response,
-                result.getIpAddress(),
-                result.getNetwork(),
+                result.ipAddress(),
+                result.network(),
                 locales
             )
         );
@@ -746,15 +719,15 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             IspResponse.class,
             DatabaseType.ISP
         );
-        IspResponse response = result.getModel();
+        IspResponse response = result.model();
         if (response == null) {
             return Optional.empty();
         }
         return Optional.of(
             new IspResponse(
                 response,
-                result.getIpAddress(),
-                result.getNetwork()
+                result.ipAddress(),
+                result.network()
             )
         );
     }

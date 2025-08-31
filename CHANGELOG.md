@@ -1,6 +1,28 @@
 CHANGELOG
 =========
 
+5.0.0
+------------------
+
+* The deprecation notices for IP Risk database support have been removed.
+  IP Risk database support will continue to be maintained.
+* **BREAKING:** The deprecated `WebServiceClient.Builder` methods
+  `connectTimeout(int)`, `readTimeout(int)`, and `proxy(Proxy)` have been
+  removed. Use `connectTimeout(Duration)`, `requestTimeout(Duration)`, and
+  `proxy(ProxySelector)` respectively.
+* **BREAKING:** The deprecated `WebServiceClient.close()` method has been
+  removed along with the `Closeable` interface implementation.
+* **BREAKING:** The deprecated `getUrl()` methods in `HttpException` and
+  `InvalidRequestException` have been removed. Use `getUri()` instead.
+* **BREAKING:** The deprecated `Traits` constructors and methods
+  `isAnonymousProxy()` and `isSatelliteProvider()` have been removed. Use the
+  GeoIP2 Anonymous IP database for anonymous proxy detection instead.
+* **BREAKING:** The deprecated `Location.getMetroCode()` method has been
+  removed. Metro code values are no longer maintained.
+* **BREAKING:** Java 11 support has been dropped. Java 17 or later is now required.
+* **BREAKING:** Removed explicit `serialVersionUID` from all exception classes.
+  Java will auto-generate serialVersionUID when needed, following modern practices.
+
 4.4.0 (2025-08-28)
 ------------------
 

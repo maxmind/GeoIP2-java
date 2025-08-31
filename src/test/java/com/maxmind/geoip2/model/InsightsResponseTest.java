@@ -139,12 +139,10 @@ public class InsightsResponseTest {
             "traits.getIpAddress() does not return 1.2.3.4"
         );
         assertTrue(traits.isAnonymous(), "traits.isAnonymous() returns true");
-        assertTrue(traits.isAnonymousProxy(), "traits.isAnonymousProxy() returns true");
         assertTrue(traits.isAnonymousVpn(), "traits.isAnonymousVpn() returns true");
         assertTrue(traits.isHostingProvider(), "traits.isHostingProvider() returns true");
         assertTrue(traits.isPublicProxy(), "traits.isPublicProxy() returns true");
         assertTrue(traits.isResidentialProxy(), "traits.isResidentialProxy() returns true");
-        assertTrue(traits.isSatelliteProvider(), "traits.isSatelliteProvider() returns true");
         assertTrue(traits.isTorExitNode(), "traits.isTorExitNode() returns true");
         assertEquals(
             "Comcast",
@@ -206,11 +204,6 @@ public class InsightsResponseTest {
             longitude,
             0.1,
             "location.getLongitude() does not return 93.2636"
-        );
-        assertEquals(
-            Integer.valueOf(765),
-            location.getMetroCode(),
-            "location.getMetroCode() does not return 765"
         );
         assertEquals(
             Integer.valueOf(1341),

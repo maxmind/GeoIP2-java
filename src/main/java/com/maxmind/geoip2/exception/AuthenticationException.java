@@ -5,7 +5,6 @@ package com.maxmind.geoip2.exception;
  */
 public final class AuthenticationException extends GeoIp2Exception {
 
-    private static final long serialVersionUID = 2255398691576141427L;
 
     /**
      * @param message A message explaining the cause of the error.

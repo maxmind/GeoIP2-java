@@ -1,9 +1,7 @@
 package com.maxmind.geoip2.exception;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
 
 /**
  * This class represents an HTTP transport error. This is not an error returned
@@ -11,7 +9,6 @@ import java.net.URL;
  * GeoIp2Exception.
  */
 public final class HttpException extends IOException {
-    private static final long serialVersionUID = -8301101841509056974L;
     private final int httpStatus;
     private final URI uri;
 
@@ -53,17 +50,5 @@ public final class HttpException extends IOException {
         return this.uri;
     }
 
-    /**
-     * @return the URL queried.
-     * @deprecated Use getUri() instead
-     */
-    @Deprecated
-    public URL getUrl() {
-        try {
-            return this.uri.toURL();
-        } catch (MalformedURLException e) {
-            return null;
-        }
-    }
 
 }
