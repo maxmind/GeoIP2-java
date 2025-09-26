@@ -40,7 +40,7 @@ public class IspResponse extends AsnResponse {
         @JsonProperty("autonomous_system_organization")
         @MaxMindDbParameter(name = "autonomous_system_organization")
         String autonomousSystemOrganization,
-        @JacksonInject("ip_address") @JsonProperty("ip_address")
+        @JsonProperty("ip_address")
         @MaxMindDbParameter(name = "ip_address") String ipAddress,
         @JsonProperty("isp") @MaxMindDbParameter(name = "isp") String isp,
         @JsonProperty("mobile_country_code") @MaxMindDbParameter(name = "mobile_country_code")
@@ -49,7 +49,7 @@ public class IspResponse extends AsnResponse {
         String mobileNetworkCode,
         @JsonProperty("organization") @MaxMindDbParameter(name = "organization")
         String organization,
-        @JacksonInject("network") @JsonProperty("network")
+        @JsonProperty("network")
         @JsonDeserialize(using = NetworkDeserializer.class) @MaxMindDbParameter(name = "network")
         Network network
     ) {

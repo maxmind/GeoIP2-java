@@ -40,7 +40,7 @@ public final class CountryResponse extends AbstractCountryResponse {
         Country registeredCountry,
         @JsonProperty("represented_country") @MaxMindDbParameter(name = "represented_country")
         RepresentedCountry representedCountry,
-        @JacksonInject("traits") @JsonProperty("traits") @MaxMindDbParameter(name = "traits")
+        @JsonProperty("traits") @MaxMindDbParameter(name = "traits")
         Traits traits
     ) {
         super(continent, country, maxmind, registeredCountry, representedCountry, traits);
