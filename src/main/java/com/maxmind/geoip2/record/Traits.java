@@ -91,7 +91,7 @@ public final class Traits extends AbstractRecord {
         @JsonProperty("autonomous_system_organization") String autonomousSystemOrganization,
         @JsonProperty("connection_type") ConnectionType connectionType,
         @JsonProperty("domain") String domain,
-        @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
+        @JsonProperty("ip_address") String ipAddress,
         @JsonProperty("is_anonymous") boolean isAnonymous,
         @JsonProperty("is_anonymous_vpn") boolean isAnonymousVpn,
         @JsonProperty("is_anycast") boolean isAnycast,
@@ -103,7 +103,7 @@ public final class Traits extends AbstractRecord {
         @JsonProperty("isp") String isp,
         @JsonProperty("mobile_country_code") String mobileCountryCode,
         @JsonProperty("mobile_network_code") String mobileNetworkCode,
-        @JacksonInject("network") @JsonProperty("network")
+        @JsonProperty("network")
         @JsonDeserialize(using = NetworkDeserializer.class) Network network,
         @JsonProperty("organization") String organization,
         @JsonProperty("user_type") String userType,

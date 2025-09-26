@@ -53,7 +53,7 @@ public final class CityResponse extends AbstractCityResponse {
         RepresentedCountry representedCountry,
         @JsonProperty("subdivisions") @MaxMindDbParameter(name = "subdivisions")
         ArrayList<Subdivision> subdivisions,
-        @JacksonInject("traits") @JsonProperty("traits") @MaxMindDbParameter(name = "traits")
+        @JsonProperty("traits") @MaxMindDbParameter(name = "traits")
         Traits traits
     ) {
         super(city, continent, country, location, maxmind, postal, registeredCountry,

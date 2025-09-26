@@ -26,14 +26,14 @@ public class AnonymousIpResponse extends IpBaseResponse {
      * @param network            the network associated with the record
      */
     public AnonymousIpResponse(
-        @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
+        @JsonProperty("ip_address") String ipAddress,
         @JsonProperty("is_anonymous") boolean isAnonymous,
         @JsonProperty("is_anonymous_vpn") boolean isAnonymousVpn,
         @JsonProperty("is_hosting_provider") boolean isHostingProvider,
         @JsonProperty("is_public_proxy") boolean isPublicProxy,
         @JsonProperty("is_residential_proxy") boolean isResidentialProxy,
         @JsonProperty("is_tor_exit_node") boolean isTorExitNode,
-        @JacksonInject("network") @JsonProperty("network")
+        @JsonProperty("network")
         @JsonDeserialize(using = NetworkDeserializer.class) Network network
     ) {
         super(ipAddress, isAnonymous, isAnonymousVpn, isHostingProvider, isPublicProxy,
