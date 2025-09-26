@@ -22,6 +22,9 @@ CHANGELOG
 * **BREAKING:** Java 11 support has been dropped. Java 17 or later is now required.
 * **BREAKING:** Removed explicit `serialVersionUID` from all exception classes.
   Java will auto-generate serialVersionUID when needed, following modern practices.
+* **BREAKING:** Removed no longer necessary `JacksonInject` annotations for
+  `ip_address`, `network`, and `traits` from several classes. The
+  `JsonInjector` class was removed.
 
 4.4.0 (2025-08-28)
 ------------------

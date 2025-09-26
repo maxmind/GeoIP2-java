@@ -397,7 +397,8 @@ public class WebServiceClient implements WebServiceProvider {
                 + status + ") for " + uri, status, uri);
         }
 
-        InjectableValues inject = new JsonInjector(locales, null, null);
+        InjectableValues inject = new InjectableValues.Std()
+            .addValue("locales", locales);
 
         try {
             return mapper.readerFor(cls).with(inject).readValue(response.body());

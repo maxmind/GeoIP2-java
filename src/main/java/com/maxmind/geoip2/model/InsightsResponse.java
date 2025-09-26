@@ -45,7 +45,7 @@ public class InsightsResponse extends AbstractCityResponse {
         @JsonProperty("registered_country") Country registeredCountry,
         @JsonProperty("represented_country") RepresentedCountry representedCountry,
         @JsonProperty("subdivisions") List<Subdivision> subdivisions,
-        @JacksonInject("traits") @JsonProperty("traits") Traits traits
+        @JsonProperty("traits") Traits traits
     ) {
         super(city, continent, country, location, maxmind, postal, registeredCountry,
             representedCountry, subdivisions, traits);

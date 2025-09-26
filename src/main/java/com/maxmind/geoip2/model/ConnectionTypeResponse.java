@@ -79,8 +79,8 @@ public class ConnectionTypeResponse extends AbstractResponse {
      */
     public ConnectionTypeResponse(
         @JsonProperty("connection_type") ConnectionType connectionType,
-        @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
-        @JacksonInject("network") @JsonProperty("network")
+        @JsonProperty("ip_address") String ipAddress,
+        @JsonProperty("network")
         @JsonDeserialize(using = NetworkDeserializer.class) Network network
     ) {
         this.connectionType = connectionType;

@@ -34,14 +34,14 @@ public class AnonymousPlusResponse extends AnonymousIpResponse {
      */
     public AnonymousPlusResponse(
         @JsonProperty("anonymizer_confidence") Integer anonymizerConfidence,
-        @JacksonInject("ip_address") @JsonProperty("ip_address") String ipAddress,
+        @JsonProperty("ip_address") String ipAddress,
         @JsonProperty("is_anonymous") Boolean isAnonymous,
         @JsonProperty("is_anonymous_vpn") Boolean isAnonymousVpn,
         @JsonProperty("is_hosting_provider") Boolean isHostingProvider,
         @JsonProperty("is_public_proxy") Boolean isPublicProxy,
         @JsonProperty("is_residential_proxy") Boolean isResidentialProxy,
         @JsonProperty("is_tor_exit_node") Boolean isTorExitNode,
-        @JacksonInject("network") @JsonDeserialize(using = NetworkDeserializer.class)
+        @JsonDeserialize(using = NetworkDeserializer.class)
         @JsonProperty("network") Network network,
         @JsonProperty("network_last_seen") LocalDate networkLastSeen,
         @JsonProperty("provider_name") String providerName
