@@ -37,7 +37,7 @@ public final class NetworkDeserializer extends StdDeserializer<Network> {
         if (cidr == null || cidr.isBlank()) {
             return null;
         }
-        return parseCidr(cidr.trim());
+        return parseCidr(cidr);
     }
 
     private static Network parseCidr(String cidr) throws IOException {
@@ -46,8 +46,8 @@ public final class NetworkDeserializer extends StdDeserializer<Network> {
             throw new IllegalArgumentException("Invalid CIDR format: " + cidr);
         }
 
-        final String addrPart = parts[0].trim();
-        final String prefixPart = parts[1].trim();
+        final String addrPart = parts[0];
+        final String prefixPart = parts[1];
 
         final InetAddress address;
         try {

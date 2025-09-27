@@ -40,10 +40,11 @@ final class NetworkDeserializerTest {
     }
 
     @Test
-    void trimsWhitespace() throws Exception {
-        Network actual = parse("\"  10.0.0.0/8  \"");
-        assertNetwork(actual, "10.0.0.0", 8);
+    void rejectsWhitespaceInCidr() {
+        assertThrows(IOException.class, () -> parse("\"  10.0.0.0/8  \""));
     }
+
+
 
 
     @Test
