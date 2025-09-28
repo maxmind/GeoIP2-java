@@ -11,10 +11,10 @@ import java.net.UnknownHostException;
 /**
  * This class provides a deserializer for the Network class.
  */
-public class NetworkDeserializer extends StdDeserializer<Network> {
+public final class NetworkDeserializer extends StdDeserializer<Network> {
 
     /**
-     * Constructs a @{code NetworkDeserializer} object.
+     * Constructs a {@code NetworkDeserializer} with no type specified.
      */
     public NetworkDeserializer() {
         this(null);
@@ -30,23 +30,46 @@ public class NetworkDeserializer extends StdDeserializer<Network> {
     }
 
     @Override
-    public Network deserialize(
-        JsonParser jsonparser, DeserializationContext context)
-        throws IOException {
+    public Network deserialize(JsonParser jsonparser, DeserializationContext context)
+            throws IOException {
 
-        String cidr = jsonparser.getText();
-        if (cidr == null) {
+        final String cidr = jsonparser.getValueAsString();
+        if (cidr == null || cidr.isBlank()) {
             return null;
         }
-        String[] parts = cidr.split("/", 2);
+        return parseCidr(cidr);
+    }
+
+    private static Network parseCidr(String cidr) throws IOException {
+        final String[] parts = cidr.split("/", 2);
         if (parts.length != 2) {
-            throw new RuntimeException("Invalid cidr format: " + cidr);
+            throw new IllegalArgumentException("Invalid CIDR format: " + cidr);
         }
-        int prefixLength = Integer.parseInt(parts[1]);
+
+        final String addrPart = parts[0];
+        final String prefixPart = parts[1];
+
+        final InetAddress address;
         try {
-            return new Network(InetAddress.getByName(parts[0]), prefixLength);
+            address = InetAddress.getByName(addrPart);
         } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
+            throw new IOException("Unknown host in CIDR: " + cidr, e);
         }
+
+        final int prefixLength;
+        try {
+            prefixLength = Integer.parseInt(prefixPart);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(
+                    "Invalid prefix length in CIDR: " + cidr, e);
+        }
+
+        final int maxPrefix = (address.getAddress().length == 4) ? 32 : 128;
+        if (prefixLength < 0 || prefixLength > maxPrefix) {
+            throw new IllegalArgumentException(
+                    "Prefix length out of range (0-" + maxPrefix + ") for CIDR: " + cidr);
+        }
+
+        return new Network(address, prefixLength);
     }
 }
