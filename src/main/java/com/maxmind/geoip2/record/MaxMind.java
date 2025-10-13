@@ -3,15 +3,28 @@ package com.maxmind.geoip2.record;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maxmind.db.MaxMindDbConstructor;
 import com.maxmind.db.MaxMindDbParameter;
+import com.maxmind.geoip2.JsonSerializable;
 
 /**
  * <p>
  * Contains data related to your MaxMind account.
  * </p>
+ *
+ * @param queriesRemaining The number of remaining queries in your account for the current
+ *                         web service. This returns {@code null} when called on a database.
  */
-public final class MaxMind extends AbstractRecord {
+public record MaxMind(
+    @JsonProperty("queries_remaining")
+    @MaxMindDbParameter(name = "queries_remaining")
+    Integer queriesRemaining
+) implements JsonSerializable {
 
-    private final Integer queriesRemaining;
+    /**
+     * Compact canonical constructor.
+     */
+    @MaxMindDbConstructor
+    public MaxMind {
+    }
 
     /**
      * Constructs a {@code MaxMind} record.
@@ -21,24 +34,13 @@ public final class MaxMind extends AbstractRecord {
     }
 
     /**
-     * Constructs a {@code MaxMind} record. 
-     *
-     * @param queriesRemaining The number of remaining queries in the current web service call.
-     * This returns {@code null} when called on a database.
-     */
-    @MaxMindDbConstructor
-    public MaxMind(
-        @JsonProperty("queries_remaining") @MaxMindDbParameter(name = "queries_remaining")
-        Integer queriesRemaining) {
-        this.queriesRemaining = queriesRemaining;
-    }
-
-    /**
      * @return The number of remaining queried in your account for the current
      * web service. This returns {@code null} when called on a database.
+     * @deprecated Use {@link #queriesRemaining()} instead. This method will be removed in 6.0.0.
      */
+    @Deprecated(since = "5.0.0", forRemoval = true)
     @JsonProperty("queries_remaining")
     public Integer getQueriesRemaining() {
-        return this.queriesRemaining;
+        return queriesRemaining();
     }
 }

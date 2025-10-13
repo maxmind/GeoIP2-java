@@ -19,7 +19,7 @@ public class CodeMatcher extends TypeSafeMatcher<InvalidRequestException> {
 
     @Override
     protected boolean matchesSafely(final InvalidRequestException exception) {
-        this.foundErrorCode = exception.getCode();
+        this.foundErrorCode = exception.code();
         return this.foundErrorCode.equalsIgnoreCase(this.expectedErrorCode);
     }
 

@@ -63,7 +63,7 @@ public class DatabaseReaderTest {
     private void testDefaultLocale(DatabaseReader reader) throws IOException,
         GeoIp2Exception {
         CityResponse city = reader.city(InetAddress.getByName("81.2.69.160"));
-        assertEquals("London", city.getCity().getName());
+        assertEquals("London", city.city().name());
     }
 
     @Test
@@ -72,8 +72,8 @@ public class DatabaseReaderTest {
             .build()
         ) {
             CityResponse city = reader.city(InetAddress.getByName("89.160.20.128"));
-            assertTrue(city.getCountry().isInEuropeanUnion());
-            assertTrue(city.getRegisteredCountry().isInEuropeanUnion());
+            assertTrue(city.country().isInEuropeanUnion());
+            assertTrue(city.registeredCountry().isInEuropeanUnion());
         }
     }
 
@@ -100,7 +100,7 @@ public class DatabaseReaderTest {
     private void testLocaleList(DatabaseReader reader) throws IOException,
         GeoIp2Exception {
         CityResponse city = reader.city(InetAddress.getByName("81.2.69.160"));
-        assertEquals("Лондон", city.getCity().getName());
+        assertEquals("Лондон", city.city().name());
     }
 
     @Test
@@ -124,15 +124,15 @@ public class DatabaseReaderTest {
     private void testMemoryMode(DatabaseReader reader) throws IOException,
         GeoIp2Exception {
         CityResponse city = reader.city(InetAddress.getByName("81.2.69.160"));
-        assertEquals("London", city.getCity().getName());
-        assertEquals(100, city.getLocation().getAccuracyRadius().longValue());
+        assertEquals("London", city.city().name());
+        assertEquals(100, city.location().accuracyRadius().longValue());
     }
 
     @Test
     public void metadata() throws IOException {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
             .fileMode(Reader.FileMode.MEMORY).build();
-        assertEquals("GeoIP2-City", reader.getMetadata().getDatabaseType());
+        assertEquals("GeoIP2-City", reader.metadata().getDatabaseType());
     }
 
     @Test
@@ -156,8 +156,8 @@ public class DatabaseReaderTest {
     private void hasIpInfo(DatabaseReader reader) throws IOException,
         GeoIp2Exception {
         CityResponse cio = reader.city(InetAddress.getByName("81.2.69.160"));
-        assertEquals("81.2.69.160", cio.getTraits().getIpAddress());
-        assertEquals("81.2.69.160/27", cio.getTraits().getNetwork().toString());
+        assertEquals("81.2.69.160", cio.traits().ipAddress());
+        assertEquals("81.2.69.160/27", cio.traits().network().toString());
     }
 
     @Test
@@ -220,8 +220,8 @@ public class DatabaseReaderTest {
             assertFalse(response.isPublicProxy());
             assertFalse(response.isResidentialProxy());
             assertFalse(response.isTorExitNode());
-            assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
-            assertEquals("1.2.0.0/16", response.getNetwork().toString());
+            assertEquals(ipAddress.getHostAddress(), response.ipAddress());
+            assertEquals("1.2.0.0/16", response.network().toString());
 
             AnonymousIpResponse tryResponse = reader.tryAnonymousIp(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
@@ -235,17 +235,17 @@ public class DatabaseReaderTest {
         ) {
             InetAddress ipAddress = InetAddress.getByName("1.2.0.1");
             AnonymousPlusResponse response = reader.anonymousPlus(ipAddress);
-            assertEquals(30, response.getAnonymizerConfidence());
+            assertEquals(30, response.anonymizerConfidence());
             assertTrue(response.isAnonymous());
             assertTrue(response.isAnonymousVpn());
             assertFalse(response.isHostingProvider());
             assertFalse(response.isPublicProxy());
             assertFalse(response.isResidentialProxy());
             assertFalse(response.isTorExitNode());
-            assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
-            assertEquals("1.2.0.1/32", response.getNetwork().toString());
-            assertEquals("2025-04-14", response.getNetworkLastSeen().toString());
-            assertEquals("foo", response.getProviderName());
+            assertEquals(ipAddress.getHostAddress(), response.ipAddress());
+            assertEquals("1.2.0.1/32", response.network().toString());
+            assertEquals("2025-04-14", response.networkLastSeen().toString());
+            assertEquals("foo", response.providerName());
 
             AnonymousPlusResponse tryResponse = reader.tryAnonymousPlus(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
@@ -270,11 +270,11 @@ public class DatabaseReaderTest {
         ) {
             InetAddress ipAddress = InetAddress.getByName("1.128.0.0");
             AsnResponse response = reader.asn(ipAddress);
-            assertEquals(1221, response.getAutonomousSystemNumber().intValue());
+            assertEquals(1221, response.autonomousSystemNumber().intValue());
             assertEquals("Telstra Pty Ltd",
-                response.getAutonomousSystemOrganization());
-            assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
-            assertEquals("1.128.0.0/11", response.getNetwork().toString());
+                response.autonomousSystemOrganization());
+            assertEquals(ipAddress.getHostAddress(), response.ipAddress());
+            assertEquals("1.128.0.0/11", response.network().toString());
 
             AsnResponse tryResponse = reader.tryAsn(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
@@ -289,18 +289,18 @@ public class DatabaseReaderTest {
             InetAddress ipAddress = InetAddress.getByName("81.2.69.192");
 
             CityResponse response = reader.city(ipAddress);
-            assertEquals(2635167, response.getCountry().getGeoNameId().intValue());
-            assertEquals(100, response.getLocation().getAccuracyRadius().intValue());
-            assertFalse(response.getTraits().isLegitimateProxy());
-            assertEquals(ipAddress.getHostAddress(), response.getTraits().getIpAddress());
-            assertEquals("81.2.69.192/28", response.getTraits().getNetwork().toString());
+            assertEquals(2635167, response.country().geonameId().intValue());
+            assertEquals(100, response.location().accuracyRadius().intValue());
+            assertFalse(response.traits().isLegitimateProxy());
+            assertEquals(ipAddress.getHostAddress(), response.traits().ipAddress());
+            assertEquals("81.2.69.192/28", response.traits().network().toString());
 
             CityResponse tryResponse = reader.tryCity(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
 
             // This IP has is_anycast
             response = reader.city(InetAddress.getByName("214.1.1.0"));
-            assertTrue(response.getTraits().isAnycast());
+            assertTrue(response.traits().isAnycast());
 
             // Test that the methods can be called on DB without
             // an exception
@@ -317,9 +317,9 @@ public class DatabaseReaderTest {
 
             ConnectionTypeResponse response = reader.connectionType(ipAddress);
 
-            assertEquals(ConnectionType.CELLULAR, response.getConnectionType());
-            assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
-            assertEquals("1.0.1.0/24", response.getNetwork().toString());
+            assertEquals(ConnectionType.CELLULAR, response.connectionType());
+            assertEquals(ipAddress.getHostAddress(), response.ipAddress());
+            assertEquals("1.0.1.0/24", response.network().toString());
 
             ConnectionTypeResponse tryResponse = reader.tryConnectionType(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
@@ -334,18 +334,18 @@ public class DatabaseReaderTest {
             InetAddress ipAddress = InetAddress.getByName("74.209.24.0");
 
             CountryResponse response = reader.country(ipAddress);
-            assertEquals("NA", response.getContinent().getCode());
-            assertEquals(6252001, response.getCountry().getGeoNameId().intValue());
-            assertEquals(6252001, response.getRegisteredCountry().getGeoNameId().intValue());
-            assertEquals(ipAddress.getHostAddress(), response.getTraits().getIpAddress());
-            assertEquals("74.209.16.0/20", response.getTraits().getNetwork().toString());
+            assertEquals("NA", response.continent().code());
+            assertEquals(6252001, response.country().geonameId().intValue());
+            assertEquals(6252001, response.registeredCountry().geonameId().intValue());
+            assertEquals(ipAddress.getHostAddress(), response.traits().ipAddress());
+            assertEquals("74.209.16.0/20", response.traits().network().toString());
 
             CountryResponse tryResponse = reader.tryCountry(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
 
             // This IP has is_anycast
             response = reader.country(InetAddress.getByName("214.1.1.0"));
-            assertTrue(response.getTraits().isAnycast());
+            assertTrue(response.traits().isAnycast());
         }
     }
 
@@ -356,9 +356,9 @@ public class DatabaseReaderTest {
         ) {
             InetAddress ipAddress = InetAddress.getByName("1.2.0.0");
             DomainResponse response = reader.domain(ipAddress);
-            assertEquals("maxmind.com", response.getDomain());
-            assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
-            assertEquals("1.2.0.0/16", response.getNetwork().toString());
+            assertEquals("maxmind.com", response.domain());
+            assertEquals(ipAddress.getHostAddress(), response.ipAddress());
+            assertEquals("1.2.0.0/16", response.network().toString());
 
             DomainResponse tryResponse = reader.tryDomain(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
@@ -373,26 +373,26 @@ public class DatabaseReaderTest {
             InetAddress ipAddress = InetAddress.getByName("74.209.24.0");
 
             EnterpriseResponse response = reader.enterprise(ipAddress);
-            assertEquals(11, response.getCity().getConfidence().intValue());
-            assertEquals(99, response.getCountry().getConfidence().intValue());
-            assertEquals(6252001, response.getCountry().getGeoNameId().intValue());
-            assertEquals(27, response.getLocation().getAccuracyRadius().intValue());
-            assertEquals(ConnectionType.CABLE_DSL, response.getTraits().getConnectionType());
-            assertTrue(response.getTraits().isLegitimateProxy());
-            assertEquals(ipAddress.getHostAddress(), response.getTraits().getIpAddress());
-            assertEquals("74.209.16.0/20", response.getTraits().getNetwork().toString());
+            assertEquals(11, response.city().confidence().intValue());
+            assertEquals(99, response.country().confidence().intValue());
+            assertEquals(6252001, response.country().geonameId().intValue());
+            assertEquals(27, response.location().accuracyRadius().intValue());
+            assertEquals(ConnectionType.CABLE_DSL, response.traits().connectionType());
+            assertTrue(response.traits().isLegitimateProxy());
+            assertEquals(ipAddress.getHostAddress(), response.traits().ipAddress());
+            assertEquals("74.209.16.0/20", response.traits().network().toString());
 
             EnterpriseResponse tryResponse = reader.tryEnterprise(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
 
             ipAddress = InetAddress.getByName("149.101.100.0");
             response = reader.enterprise(ipAddress);
-            assertEquals("310", response.getTraits().getMobileCountryCode());
-            assertEquals("004", response.getTraits().getMobileNetworkCode());
+            assertEquals("310", response.traits().mobileCountryCode());
+            assertEquals("004", response.traits().mobileNetworkCode());
 
             // This IP has is_anycast
             response = reader.enterprise(InetAddress.getByName("214.1.1.0"));
-            assertTrue(response.getTraits().isAnycast());
+            assertTrue(response.traits().isAnycast());
 
             // Test that the city and country methods can be called without
             // an exception
@@ -408,22 +408,22 @@ public class DatabaseReaderTest {
         ) {
             InetAddress ipAddress = InetAddress.getByName("1.128.0.0");
             IspResponse response = reader.isp(ipAddress);
-            assertEquals(1221, response.getAutonomousSystemNumber().intValue());
+            assertEquals(1221, response.autonomousSystemNumber().intValue());
             assertEquals("Telstra Pty Ltd",
-                response.getAutonomousSystemOrganization());
-            assertEquals("Telstra Internet", response.getIsp());
-            assertEquals("Telstra Internet", response.getOrganization());
+                response.autonomousSystemOrganization());
+            assertEquals("Telstra Internet", response.isp());
+            assertEquals("Telstra Internet", response.organization());
 
-            assertEquals(ipAddress.getHostAddress(), response.getIpAddress());
-            assertEquals("1.128.0.0/11", response.getNetwork().toString());
+            assertEquals(ipAddress.getHostAddress(), response.ipAddress());
+            assertEquals("1.128.0.0/11", response.network().toString());
 
             IspResponse tryResponse = reader.tryIsp(ipAddress).get();
             assertEquals(response.toJson(), tryResponse.toJson());
 
             ipAddress = InetAddress.getByName("149.101.100.0");
             response = reader.isp(ipAddress);
-            assertEquals("310", response.getMobileCountryCode());
-            assertEquals("004", response.getMobileNetworkCode());
+            assertEquals("310", response.mobileCountryCode());
+            assertEquals("004", response.mobileNetworkCode());
         }
     }
 

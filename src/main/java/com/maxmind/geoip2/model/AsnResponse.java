@@ -8,45 +8,43 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.maxmind.db.MaxMindDbConstructor;
 import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
+import com.maxmind.geoip2.JsonSerializable;
 import com.maxmind.geoip2.NetworkDeserializer;
 
 /**
  * This class provides the GeoLite2 ASN model.
+ *
+ * @param autonomousSystemNumber The autonomous system number associated with the IP address.
+ * @param autonomousSystemOrganization The organization associated with the registered autonomous
+ *                                     system number for the IP address.
+ * @param ipAddress The IP address that the data in the model is for.
+ * @param network The network associated with the record. In particular, this is the largest
+ *                network where all the fields besides IP address have the same value.
  */
-public class AsnResponse extends AbstractResponse {
+public record AsnResponse(
+    @JsonProperty("autonomous_system_number")
+    @MaxMindDbParameter(name = "autonomous_system_number")
+    Long autonomousSystemNumber,
 
-    private final Long autonomousSystemNumber;
-    private final String autonomousSystemOrganization;
-    private final String ipAddress;
-    private final Network network;
+    @JsonProperty("autonomous_system_organization")
+    @MaxMindDbParameter(name = "autonomous_system_organization")
+    String autonomousSystemOrganization,
+
+    @JsonProperty("ip_address")
+    @MaxMindDbParameter(name = "ip_address")
+    String ipAddress,
+
+    @JsonProperty("network")
+    @JsonDeserialize(using = NetworkDeserializer.class)
+    @MaxMindDbParameter(name = "network")
+    Network network
+) implements JsonSerializable {
 
     /**
-     * Constructs an instance of {@code AsnResponse} with the specified values for all fields.
-     *
-     * @param autonomousSystemNumber          the autonomous system number associated with the IP
-     * address
-     * @param autonomousSystemOrganization    the organization associated with the registered
-     * autonomous system number for the IP address
-     * @param ipAddress                       the IP address that the data in the model is for
-     * @param network                         the network associated with the record
+     * Canonical constructor.
      */
     @MaxMindDbConstructor
-    public AsnResponse(
-        @JsonProperty("autonomous_system_number")
-        @MaxMindDbParameter(name = "autonomous_system_number") Long autonomousSystemNumber,
-        @JsonProperty("autonomous_system_organization")
-        @MaxMindDbParameter(name = "autonomous_system_organization")
-        String autonomousSystemOrganization,
-        @JsonProperty("ip_address")
-        @MaxMindDbParameter(name = "ip_address") String ipAddress,
-        @JsonProperty("network")
-        @JsonDeserialize(using = NetworkDeserializer.class) @MaxMindDbParameter(name = "network")
-        Network network
-    ) {
-        this.autonomousSystemNumber = autonomousSystemNumber;
-        this.autonomousSystemOrganization = autonomousSystemOrganization;
-        this.ipAddress = ipAddress;
-        this.network = network;
+    public AsnResponse {
     }
 
     /**
@@ -62,8 +60,8 @@ public class AsnResponse extends AbstractResponse {
         Network network
     ) {
         this(
-            response.getAutonomousSystemNumber(),
-            response.getAutonomousSystemOrganization(),
+            response.autonomousSystemNumber(),
+            response.autonomousSystemOrganization(),
             ipAddress,
             network
         );
@@ -71,37 +69,47 @@ public class AsnResponse extends AbstractResponse {
 
     /**
      * @return The autonomous system number associated with the IP address.
+     * @deprecated Use {@link #autonomousSystemNumber()} instead. This method will be removed
+     *     in 6.0.0.
      */
+    @Deprecated(since = "5.0.0", forRemoval = true)
     @JsonProperty("autonomous_system_number")
     public Long getAutonomousSystemNumber() {
-        return this.autonomousSystemNumber;
+        return autonomousSystemNumber();
     }
 
     /**
      * @return The organization associated with the registered autonomous system
      * number for the IP address
+     * @deprecated Use {@link #autonomousSystemOrganization()} instead. This method will be
+     *     removed in 6.0.0.
      */
+    @Deprecated(since = "5.0.0", forRemoval = true)
     @JsonProperty("autonomous_system_organization")
     public String getAutonomousSystemOrganization() {
-        return this.autonomousSystemOrganization;
+        return autonomousSystemOrganization();
     }
 
     /**
      * @return The IP address that the data in the model is for.
+     * @deprecated Use {@link #ipAddress()} instead. This method will be removed in 6.0.0.
      */
+    @Deprecated(since = "5.0.0", forRemoval = true)
     @JsonProperty("ip_address")
     public String getIpAddress() {
-        return this.ipAddress;
+        return ipAddress();
     }
 
     /**
      * @return The network associated with the record. In particular, this is
      * the largest network where all the fields besides IP address have the
      * same value.
+     * @deprecated Use {@link #network()} instead. This method will be removed in 6.0.0.
      */
+    @Deprecated(since = "5.0.0", forRemoval = true)
     @JsonProperty
     @JsonSerialize(using = ToStringSerializer.class)
     public Network getNetwork() {
-        return this.network;
+        return network();
     }
 }

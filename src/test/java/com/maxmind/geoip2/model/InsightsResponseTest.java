@@ -64,7 +64,7 @@ public class InsightsResponseTest {
 
     @Test
     public void testSubdivisionsList() {
-        List<Subdivision> subdivisionsList = this.insights.getSubdivisions();
+        List<Subdivision> subdivisionsList = this.insights.subdivisions();
         assertNotNull(subdivisionsList, "city.getSubdivisionsList returns null");
         if (subdivisionsList.isEmpty()) {
             fail("subdivisionsList is empty");
@@ -72,18 +72,18 @@ public class InsightsResponseTest {
         Subdivision subdivision = subdivisionsList.get(0);
         assertEquals(
             Integer.valueOf(88),
-            subdivision.getConfidence(),
-            "subdivision.getConfidence() does not return 88"
+            subdivision.confidence(),
+            "subdivision.confidence() does not return 88"
         );
         assertEquals(
             574635,
-            subdivision.getGeoNameId().intValue(),
-            "subdivision.getGeoNameId() does not return 574635"
+            subdivision.geonameId().intValue(),
+            "subdivision.geonameId() does not return 574635"
         );
         assertEquals(
             "MN",
-            subdivision.getIsoCode(),
-            "subdivision.getCode() does not return MN"
+            subdivision.isoCode(),
+            "subdivision.code() does not return MN"
         );
     }
 
@@ -91,7 +91,7 @@ public class InsightsResponseTest {
     public void mostSpecificSubdivision() {
         assertEquals(
             "TT",
-            this.insights.getMostSpecificSubdivision().getIsoCode(),
+            this.insights.mostSpecificSubdivision().isoCode(),
             "Most specific subdivision returns last subdivision"
         );
     }
@@ -100,43 +100,42 @@ public class InsightsResponseTest {
     public void leastSpecificSubdivision() {
         assertEquals(
             "MN",
-            this.insights.getLeastSpecificSubdivision().getIsoCode(),
+            this.insights.leastSpecificSubdivision().isoCode(),
             "Most specific subdivision returns first subdivision"
         );
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testTraits() {
-        Traits traits = this.insights.getTraits();
+        Traits traits = this.insights.traits();
 
-        assertNotNull(traits, "city.getTraits() returns null");
+        assertNotNull(traits, "city.traits() returns null");
         assertEquals(
             Long.valueOf(1234),
-            traits.getAutonomousSystemNumber(),
-            "traits.getAutonomousSystemNumber() does not return 1234"
+            traits.autonomousSystemNumber(),
+            "traits.autonomousSystemNumber() does not return 1234"
         );
         assertEquals(
 
             "AS Organization",
-            traits.getAutonomousSystemOrganization(),
-            "traits.getAutonomousSystemOrganization() does not return AS Organization"
+            traits.autonomousSystemOrganization(),
+            "traits.autonomousSystemOrganization() does not return AS Organization"
         );
         assertEquals(
 
             ConnectionType.CABLE_DSL,
-            traits.getConnectionType(),
-            "traits.getConnectionType() does not return Cable/DSL"
+            traits.connectionType(),
+            "traits.connectionType() does not return Cable/DSL"
         );
         assertEquals(
             "example.com",
-            traits.getDomain(),
-            "traits.getDomain() does not return example.com"
+            traits.domain(),
+            "traits.domain() does not return example.com"
         );
         assertEquals(
             "1.2.3.4",
-            traits.getIpAddress(),
-            "traits.getIpAddress() does not return 1.2.3.4"
+            traits.ipAddress(),
+            "traits.ipAddress() does not return 1.2.3.4"
         );
         assertTrue(traits.isAnonymous(), "traits.isAnonymous() returns true");
         assertTrue(traits.isAnonymousVpn(), "traits.isAnonymousVpn() returns true");
@@ -146,83 +145,82 @@ public class InsightsResponseTest {
         assertTrue(traits.isTorExitNode(), "traits.isTorExitNode() returns true");
         assertEquals(
             "Comcast",
-            traits.getIsp(),
-            "traits.getIsp() does not return Comcast"
+            traits.isp(),
+            "traits.isp() does not return Comcast"
         );
         assertEquals(
             "Blorg",
-            traits.getOrganization(),
-            "traits.getOrganization() does not return Blorg"
+            traits.organization(),
+            "traits.organization() does not return Blorg"
         );
         assertEquals(
             "college",
-            traits.getUserType(),
-            "traits.getUserType() does not return userType"
+            traits.userType(),
+            "traits.userType() does not return userType"
         );
         assertEquals(
             Double.valueOf(1.3),
-            traits.getStaticIpScore(),
-            "traits.getStaticIpScore() does not return 1.3"
+            traits.staticIpScore(),
+            "traits.staticIpScore() does not return 1.3"
         );
         assertEquals(
             Integer.valueOf(2),
-            traits.getUserCount(),
-            "traits.getUserCount() does not return 2"
+            traits.userCount(),
+            "traits.userCount() does not return 2"
         );
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testLocation() {
 
-        Location location = this.insights.getLocation();
+        Location location = this.insights.location();
 
-        assertNotNull(location, "city.getLocation() returns null");
+        assertNotNull(location, "city.location() returns null");
 
         assertEquals(
             Integer.valueOf(24626),
-            location.getAverageIncome(),
-            "location.getAverageIncome() does not return 24626"
+            location.averageIncome(),
+            "location.averageIncome() does not return 24626"
         );
 
         assertEquals(
             Integer.valueOf(1500),
-            location.getAccuracyRadius(),
-            "location.getAccuracyRadius() does not return 1500"
+            location.accuracyRadius(),
+            "location.accuracyRadius() does not return 1500"
         );
 
-        double latitude = location.getLatitude();
+        double latitude = location.latitude();
         assertEquals(
             44.98,
             latitude,
             0.1,
-            "location.getLatitude() does not return 44.98"
+            "location.latitude() does not return 44.98"
         );
-        double longitude = location.getLongitude();
+        double longitude = location.longitude();
         assertEquals(
             93.2636,
             longitude,
             0.1,
-            "location.getLongitude() does not return 93.2636"
+            "location.longitude() does not return 93.2636"
         );
         assertEquals(
             Integer.valueOf(1341),
-            location.getPopulationDensity(),
-            "location.getPopulationDensity() does not return 1341"
+            location.populationDensity(),
+            "location.populationDensity() does not return 1341"
         );
         assertEquals(
             "America/Chicago",
-            location.getTimeZone(),
-            "location.getTimeZone() does not return America/Chicago"
+            location.timeZone(),
+            "location.timeZone() does not return America/Chicago"
         );
     }
 
     @Test
     public void testMaxMind() {
-        MaxMind maxmind = this.insights.getMaxMind();
+        MaxMind maxmind = this.insights.maxmind();
         assertEquals(
             11, maxmind
-                .getQueriesRemaining().intValue(),
+                .queriesRemaining().intValue(),
             "Correct number of queries remaining"
         );
     }
@@ -230,34 +228,34 @@ public class InsightsResponseTest {
     @Test
     public void testPostal() {
 
-        Postal postal = this.insights.getPostal();
+        Postal postal = this.insights.postal();
         assertEquals(
             "55401",
-            postal.getCode(),
-            "postal.getCode() does not return 55401"
+            postal.code(),
+            "postal.code() does not return 55401"
         );
         assertEquals(
             Integer.valueOf(33),
-            postal.getConfidence(),
-            "postal.getConfidence() does not return 33"
+            postal.confidence(),
+            "postal.confidence() does not return 33"
         );
     }
 
     @Test
     public void testRepresentedCountry() {
         assertNotNull(
-            this.insights.getRepresentedCountry(),
-            "city.getRepresentedCountry() returns null"
+            this.insights.representedCountry(),
+            "city.representedCountry() returns null"
         );
 
         assertEquals(
             "C<military>",
-            this.insights.getRepresentedCountry().getType(),
-            "city.getRepresentedCountry().getType() does not return C<military>"
+            this.insights.representedCountry().type(),
+            "city.representedCountry().type() does not return C<military>"
         );
         assertTrue(
-            this.insights.getRepresentedCountry().isInEuropeanUnion(),
-            "city.getRepresentedCountry().isInEuropeanUnion() does not return true"
+            this.insights.representedCountry().isInEuropeanUnion(),
+            "city.representedCountry().isInEuropeanUnion() does not return true"
         );
     }
 
@@ -276,11 +274,11 @@ public class InsightsResponseTest {
             InetAddress.getByName("1.1.1.2"));
 
         assertTrue(
-            insights.getCountry().isInEuropeanUnion(),
+            insights.country().isInEuropeanUnion(),
             "getCountry().isInEuropeanUnion() does not return true"
         );
         assertTrue(
-            insights.getRegisteredCountry().isInEuropeanUnion(),
+            insights.registeredCountry().isInEuropeanUnion(),
             "getRegisteredCountry().() isInEuropeanUnion = does not return true"
         );
     }

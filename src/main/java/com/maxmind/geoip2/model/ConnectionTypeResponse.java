@@ -10,12 +10,31 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.maxmind.db.MaxMindDbConstructor;
 import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
+import com.maxmind.geoip2.JsonSerializable;
 import com.maxmind.geoip2.NetworkDeserializer;
 
 /**
  * This class provides the GeoIP2 Connection-Type model.
+ *
+ * @param connectionType The connection type of the IP address.
+ * @param ipAddress The IP address that the data in the model is for.
+ * @param network The network associated with the record. In particular, this is the largest
+ *                network where all the fields besides IP address have the same value.
  */
-public class ConnectionTypeResponse extends AbstractResponse {
+public record ConnectionTypeResponse(
+    @JsonProperty("connection_type")
+    @MaxMindDbParameter(name = "connection_type")
+    ConnectionType connectionType,
+
+    @JsonProperty("ip_address")
+    @MaxMindDbParameter(name = "ip_address")
+    String ipAddress,
+
+    @JsonProperty("network")
+    @JsonDeserialize(using = NetworkDeserializer.class)
+    @MaxMindDbParameter(name = "network")
+    Network network
+) implements JsonSerializable {
 
     /**
      * The enumerated values that connection-type may take.
@@ -66,34 +85,13 @@ public class ConnectionTypeResponse extends AbstractResponse {
         }
     }
 
-    private final ConnectionType connectionType;
-    private final String ipAddress;
-    private final Network network;
-
     /**
-     * Constructs an instance of {@code ConnectionTypeResponse}.
+     * Constructs an instance of {@code ConnectionTypeResponse} from MaxMind database
+     * with String-to-enum conversion.
      *
-     * @param connectionType The connection type of the IP address.
+     * @param connectionType The connection type of the IP address as a string.
      * @param ipAddress The IP address that the data in the model is for.
      * @param network The network associated with the record.
-     */
-    public ConnectionTypeResponse(
-        @JsonProperty("connection_type") ConnectionType connectionType,
-        @JsonProperty("ip_address") String ipAddress,
-        @JsonProperty("network")
-        @JsonDeserialize(using = NetworkDeserializer.class) Network network
-    ) {
-        this.connectionType = connectionType;
-        this.ipAddress = ipAddress;
-        this.network = network;
-    }
-
-    /**
-     * Constructs an instance of {@code ConnectionTypeResponse}.
-     *
-     * @param connectionType The connection type of the IP address.
-     * @param ipAddress The IP address that the data in the model is for.
-     * @param network The network associated with the record.   
      */
     @MaxMindDbConstructor
     public ConnectionTypeResponse(
@@ -113,7 +111,7 @@ public class ConnectionTypeResponse extends AbstractResponse {
      *
      * @param response The {@code ConnectionTypeResponse} object to copy.
      * @param ipAddress The IP address that the data in the model is for.
-     * @param network The network associated with the record. 
+     * @param network The network associated with the record.
      */
     public ConnectionTypeResponse(
         ConnectionTypeResponse response,
@@ -121,7 +119,7 @@ public class ConnectionTypeResponse extends AbstractResponse {
         Network network
     ) {
         this(
-            response.getConnectionType(),
+            response.connectionType(),
             ipAddress,
             network
         );
@@ -129,28 +127,34 @@ public class ConnectionTypeResponse extends AbstractResponse {
 
     /**
      * @return The connection type of the IP address.
+     * @deprecated Use {@link #connectionType()} instead. This method will be removed in 6.0.0.
      */
+    @Deprecated(since = "5.0.0", forRemoval = true)
     @JsonProperty("connection_type")
     public ConnectionType getConnectionType() {
-        return this.connectionType;
+        return connectionType();
     }
 
     /**
      * @return The IP address that the data in the model is for.
+     * @deprecated Use {@link #ipAddress()} instead. This method will be removed in 6.0.0.
      */
+    @Deprecated(since = "5.0.0", forRemoval = true)
     @JsonProperty("ip_address")
     public String getIpAddress() {
-        return this.ipAddress;
+        return ipAddress();
     }
 
     /**
      * @return The network associated with the record. In particular, this is
      * the largest network where all the fields besides IP address have the
      * same value.
+     * @deprecated Use {@link #network()} instead. This method will be removed in 6.0.0.
      */
+    @Deprecated(since = "5.0.0", forRemoval = true)
     @JsonProperty
     @JsonSerialize(using = ToStringSerializer.class)
     public Network getNetwork() {
-        return this.network;
+        return network();
     }
 }

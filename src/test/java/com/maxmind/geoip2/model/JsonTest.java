@@ -329,7 +329,7 @@ public class JsonTest {
         testRoundTrip(IspResponse.class, json);
     }
 
-    protected <T extends AbstractResponse> void testRoundTrip
+    protected <T extends com.maxmind.geoip2.JsonSerializable> void testRoundTrip
         (Class<T> cls, String json)
         throws IOException {
         JsonMapper mapper = JsonMapper.builder()

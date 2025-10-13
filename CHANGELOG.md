@@ -4,6 +4,18 @@ CHANGELOG
 5.0.0
 ------------------
 
+* **BREAKING:** All model and record classes have been converted to Java records.
+  This provides a more modern, immutable data model with automatic implementations
+  of `equals()`, `hashCode()`, and `toString()`. The abstract classes
+  `AbstractRecord`, `AbstractNamedRecord`, `AbstractResponse`,
+  `AbstractCountryResponse`, `AbstractCityResponse`, and `IpBaseResponse` have
+  been removed. Record components can be accessed using the new accessor methods
+  (e.g., `city()`, `country()`, `location()`). The traditional getter methods
+  (e.g., `getCity()`, `getCountry()`, `getLocation()`) are still available but
+  have been deprecated and will be removed in version 6.0.0.
+* **BREAKING:** `RepresentedCountry` is now a separate record type instead of
+  extending `Country`. It shares the same fields as `Country` but adds a `type`
+  field.
 * The deprecation notices for IP Risk database support have been removed.
   IP Risk database support will continue to be maintained.
 * **BREAKING:** The deprecated `WebServiceClient.Builder` methods
