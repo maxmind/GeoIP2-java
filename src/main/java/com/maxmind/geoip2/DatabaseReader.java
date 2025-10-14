@@ -115,7 +115,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     private int getDatabaseType() {
-        String databaseType = this.metadata().getDatabaseType();
+        String databaseType = this.metadata().databaseType();
         int type = 0;
         if (databaseType.contains("GeoIP2-Anonymous-IP")) {
             type |= DatabaseType.ANONYMOUS_IP.type;
@@ -255,15 +255,15 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             String caller = Thread.currentThread().getStackTrace()[3]
                 .getMethodName();
             throw new UnsupportedOperationException(
-                "Invalid attempt to open a " + metadata().getDatabaseType()
+                "Invalid attempt to open a " + metadata().databaseType()
                     + " database using the " + caller + " method");
         }
 
         DatabaseRecord<T> record = reader.getRecord(ipAddress, cls);
 
-        T o = record.getData();
+        T o = record.data();
 
-        return new LookupResult<>(o, ipAddress.getHostAddress(), record.getNetwork());
+        return new LookupResult<>(o, ipAddress.getHostAddress(), record.network());
     }
 
     /**

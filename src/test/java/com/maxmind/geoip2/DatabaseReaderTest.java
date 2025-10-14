@@ -132,7 +132,7 @@ public class DatabaseReaderTest {
     public void metadata() throws IOException {
         DatabaseReader reader = new DatabaseReader.Builder(this.geoipFile)
             .fileMode(Reader.FileMode.MEMORY).build();
-        assertEquals("GeoIP2-City", reader.metadata().getDatabaseType());
+        assertEquals("GeoIP2-City", reader.metadata().databaseType());
     }
 
     @Test
