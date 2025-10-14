@@ -93,35 +93,35 @@ public record Traits(
     String ipAddress,
 
     @JsonProperty("is_anonymous")
-    @MaxMindDbParameter(name = "is_anonymous")
+    @MaxMindDbParameter(name = "is_anonymous", useDefault = true)
     boolean isAnonymous,
 
     @JsonProperty("is_anonymous_vpn")
-    @MaxMindDbParameter(name = "is_anonymous_vpn")
+    @MaxMindDbParameter(name = "is_anonymous_vpn", useDefault = true)
     boolean isAnonymousVpn,
 
     @JsonProperty("is_anycast")
-    @MaxMindDbParameter(name = "is_anycast")
+    @MaxMindDbParameter(name = "is_anycast", useDefault = true)
     boolean isAnycast,
 
     @JsonProperty("is_hosting_provider")
-    @MaxMindDbParameter(name = "is_hosting_provider")
+    @MaxMindDbParameter(name = "is_hosting_provider", useDefault = true)
     boolean isHostingProvider,
 
     @JsonProperty("is_legitimate_proxy")
-    @MaxMindDbParameter(name = "is_legitimate_proxy")
+    @MaxMindDbParameter(name = "is_legitimate_proxy", useDefault = true)
     boolean isLegitimateProxy,
 
     @JsonProperty("is_public_proxy")
-    @MaxMindDbParameter(name = "is_public_proxy")
+    @MaxMindDbParameter(name = "is_public_proxy", useDefault = true)
     boolean isPublicProxy,
 
     @JsonProperty("is_residential_proxy")
-    @MaxMindDbParameter(name = "is_residential_proxy")
+    @MaxMindDbParameter(name = "is_residential_proxy", useDefault = true)
     boolean isResidentialProxy,
 
     @JsonProperty("is_tor_exit_node")
-    @MaxMindDbParameter(name = "is_tor_exit_node")
+    @MaxMindDbParameter(name = "is_tor_exit_node", useDefault = true)
     boolean isTorExitNode,
 
     @JsonProperty("isp")
@@ -160,16 +160,10 @@ public record Traits(
 ) implements JsonSerializable {
 
     /**
-     * Compact canonical constructor.
-     */
-    public Traits {
-    }
-
-    /**
      * Constructs an instance of {@code Traits}.
      */
     public Traits() {
-        this(null, null, null, null,
+        this(null, null, (ConnectionType) null, null,
             null, false, false, false, false,
             false, false, false, false, null,
             null, null, null, null, null, null, null);
@@ -182,18 +176,18 @@ public record Traits(
      * @param network   the network
      */
     public Traits(String ipAddress, Network network) {
-        this(null, null, null, null,
+        this(null, null, (ConnectionType) null, null,
             ipAddress, false, false, false, false,
             false, false, false, false, null,
             null, null, network, null, null, null, null);
     }
 
     /**
-     * Constructs an instance of {@code Traits}.
+     * Constructs an instance of {@code Traits} from MaxMind database with type conversions.
      *
      * @param autonomousSystemNumber the autonomous system number
      * @param autonomousSystemOrganization the autonomous system organization
-     * @param connectionType the connection type
+     * @param connectionType the connection type as a string
      * @param domain the domain
      * @param ipAddress the IP address
      * @param isAnonymous the anonymous flag
@@ -221,14 +215,22 @@ public record Traits(
         @MaxMindDbParameter(name = "connection_type") String connectionType,
         @MaxMindDbParameter(name = "domain") String domain,
         @MaxMindDbParameter(name = "ip_address") String ipAddress,
-        @MaxMindDbParameter(name = "is_anonymous") Boolean isAnonymous,
-        @MaxMindDbParameter(name = "is_anonymous_vpn") Boolean isAnonymousVpn,
-        @MaxMindDbParameter(name = "is_anycast") Boolean isAnycast,
-        @MaxMindDbParameter(name = "is_hosting_provider") Boolean isHostingProvider,
-        @MaxMindDbParameter(name = "is_legitimate_proxy") Boolean isLegitimateProxy,
-        @MaxMindDbParameter(name = "is_public_proxy") Boolean isPublicProxy,
-        @MaxMindDbParameter(name = "is_residential_proxy") Boolean isResidentialProxy,
-        @MaxMindDbParameter(name = "is_tor_exit_node") Boolean isTorExitNode,
+        @MaxMindDbParameter(name = "is_anonymous", useDefault = true)
+        boolean isAnonymous,
+        @MaxMindDbParameter(name = "is_anonymous_vpn", useDefault = true)
+        boolean isAnonymousVpn,
+        @MaxMindDbParameter(name = "is_anycast", useDefault = true)
+        boolean isAnycast,
+        @MaxMindDbParameter(name = "is_hosting_provider", useDefault = true)
+        boolean isHostingProvider,
+        @MaxMindDbParameter(name = "is_legitimate_proxy", useDefault = true)
+        boolean isLegitimateProxy,
+        @MaxMindDbParameter(name = "is_public_proxy", useDefault = true)
+        boolean isPublicProxy,
+        @MaxMindDbParameter(name = "is_residential_proxy", useDefault = true)
+        boolean isResidentialProxy,
+        @MaxMindDbParameter(name = "is_tor_exit_node", useDefault = true)
+        boolean isTorExitNode,
         @MaxMindDbParameter(name = "isp") String isp,
         @MaxMindDbParameter(name = "mobile_country_code") String mobileCountryCode,
         @MaxMindDbParameter(name = "mobile_network_code") String mobileNetworkCode,
@@ -244,14 +246,14 @@ public record Traits(
             ConnectionType.fromString(connectionType),
             domain,
             ipAddress,
-            isAnonymous != null ? isAnonymous : false,
-            isAnonymousVpn != null ? isAnonymousVpn : false,
-            isAnycast != null ? isAnycast : false,
-            isHostingProvider != null ? isHostingProvider : false,
-            isLegitimateProxy != null ? isLegitimateProxy : false,
-            isPublicProxy != null ? isPublicProxy : false,
-            isResidentialProxy != null ? isResidentialProxy : false,
-            isTorExitNode != null ? isTorExitNode : false,
+            isAnonymous,
+            isAnonymousVpn,
+            isAnycast,
+            isHostingProvider,
+            isLegitimateProxy,
+            isPublicProxy,
+            isResidentialProxy,
+            isTorExitNode,
             isp,
             mobileCountryCode,
             mobileNetworkCode,

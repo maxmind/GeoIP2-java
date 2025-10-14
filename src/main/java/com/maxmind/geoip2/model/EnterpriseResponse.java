@@ -3,7 +3,6 @@ package com.maxmind.geoip2.model;
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.maxmind.db.MaxMindDbConstructor;
 import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.JsonSerializable;
@@ -91,7 +90,6 @@ public record EnterpriseResponse(
     /**
      * Compact canonical constructor that sets defaults for null values.
      */
-    @MaxMindDbConstructor
     public EnterpriseResponse {
         city = city != null ? city : new City();
         continent = continent != null ? continent : new Continent();

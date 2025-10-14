@@ -1,7 +1,6 @@
 package com.maxmind.geoip2.record;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.maxmind.db.MaxMindDbConstructor;
 import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.geoip2.JsonSerializable;
 
@@ -56,13 +55,6 @@ public record Location(
     @MaxMindDbParameter(name = "time_zone")
     String timeZone
 ) implements JsonSerializable {
-
-    /**
-     * Compact canonical constructor.
-     */
-    @MaxMindDbConstructor
-    public Location {
-    }
 
     /**
      * Constructs a {@code Location} record with {@code null} values for all the fields.

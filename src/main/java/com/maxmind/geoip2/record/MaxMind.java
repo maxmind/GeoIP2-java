@@ -1,7 +1,6 @@
 package com.maxmind.geoip2.record;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.maxmind.db.MaxMindDbConstructor;
 import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.geoip2.JsonSerializable;
 
@@ -18,13 +17,6 @@ public record MaxMind(
     @MaxMindDbParameter(name = "queries_remaining")
     Integer queriesRemaining
 ) implements JsonSerializable {
-
-    /**
-     * Compact canonical constructor.
-     */
-    @MaxMindDbConstructor
-    public MaxMind {
-    }
 
     /**
      * Constructs a {@code MaxMind} record.

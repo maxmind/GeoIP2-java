@@ -1,7 +1,6 @@
 package com.maxmind.geoip2.record;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.maxmind.db.MaxMindDbConstructor;
 import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.geoip2.JsonSerializable;
 
@@ -26,13 +25,6 @@ public record Postal(
     @MaxMindDbParameter(name = "confidence")
     Integer confidence
 ) implements JsonSerializable {
-
-    /**
-     * Compact canonical constructor.
-     */
-    @MaxMindDbConstructor
-    public Postal {
-    }
 
     /**
      * Constructs a {@code Postal} record.

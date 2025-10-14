@@ -41,27 +41,27 @@ public record AnonymousPlusResponse(
     String ipAddress,
 
     @JsonProperty("is_anonymous")
-    @MaxMindDbParameter(name = "is_anonymous")
+    @MaxMindDbParameter(name = "is_anonymous", useDefault = true)
     boolean isAnonymous,
 
     @JsonProperty("is_anonymous_vpn")
-    @MaxMindDbParameter(name = "is_anonymous_vpn")
+    @MaxMindDbParameter(name = "is_anonymous_vpn", useDefault = true)
     boolean isAnonymousVpn,
 
     @JsonProperty("is_hosting_provider")
-    @MaxMindDbParameter(name = "is_hosting_provider")
+    @MaxMindDbParameter(name = "is_hosting_provider", useDefault = true)
     boolean isHostingProvider,
 
     @JsonProperty("is_public_proxy")
-    @MaxMindDbParameter(name = "is_public_proxy")
+    @MaxMindDbParameter(name = "is_public_proxy", useDefault = true)
     boolean isPublicProxy,
 
     @JsonProperty("is_residential_proxy")
-    @MaxMindDbParameter(name = "is_residential_proxy")
+    @MaxMindDbParameter(name = "is_residential_proxy", useDefault = true)
     boolean isResidentialProxy,
 
     @JsonProperty("is_tor_exit_node")
-    @MaxMindDbParameter(name = "is_tor_exit_node")
+    @MaxMindDbParameter(name = "is_tor_exit_node", useDefault = true)
     boolean isTorExitNode,
 
     @JsonProperty("network")
@@ -83,10 +83,9 @@ public record AnonymousPlusResponse(
 ) implements JsonSerializable {
 
     /**
-     * Constructs an instance of {@code AnonymousPlusResponse} with nullable boolean fields
-     * and date parsing from MaxMind database.
+     * Constructs an instance of {@code AnonymousPlusResponse} with date parsing
+     * from MaxMind database.
      *
-     * @param anonymizerConfidence confidence that the network is a VPN.
      * @param ipAddress            the IP address being checked
      * @param isAnonymous          whether the IP address belongs to any sort of anonymous network
      * @param isAnonymousVpn       whether the IP address belongs to an anonymous VPN system
@@ -95,31 +94,38 @@ public record AnonymousPlusResponse(
      * @param isResidentialProxy   whether the IP address belongs to a residential proxy system
      * @param isTorExitNode        whether the IP address is a Tor exit node
      * @param network              the network associated with the record
+     * @param anonymizerConfidence confidence that the network is a VPN.
      * @param networkLastSeen      the last sighting of the network.
      * @param providerName         the name of the VPN provider.
      */
     @MaxMindDbConstructor
     public AnonymousPlusResponse(
-        @MaxMindDbParameter(name = "anonymizer_confidence") Integer anonymizerConfidence,
         @MaxMindDbParameter(name = "ip_address") String ipAddress,
-        @MaxMindDbParameter(name = "is_anonymous") Boolean isAnonymous,
-        @MaxMindDbParameter(name = "is_anonymous_vpn") Boolean isAnonymousVpn,
-        @MaxMindDbParameter(name = "is_hosting_provider") Boolean isHostingProvider,
-        @MaxMindDbParameter(name = "is_public_proxy") Boolean isPublicProxy,
-        @MaxMindDbParameter(name = "is_residential_proxy") Boolean isResidentialProxy,
-        @MaxMindDbParameter(name = "is_tor_exit_node") Boolean isTorExitNode,
+        @MaxMindDbParameter(name = "is_anonymous", useDefault = true)
+        boolean isAnonymous,
+        @MaxMindDbParameter(name = "is_anonymous_vpn", useDefault = true)
+        boolean isAnonymousVpn,
+        @MaxMindDbParameter(name = "is_hosting_provider", useDefault = true)
+        boolean isHostingProvider,
+        @MaxMindDbParameter(name = "is_public_proxy", useDefault = true)
+        boolean isPublicProxy,
+        @MaxMindDbParameter(name = "is_residential_proxy", useDefault = true)
+        boolean isResidentialProxy,
+        @MaxMindDbParameter(name = "is_tor_exit_node", useDefault = true)
+        boolean isTorExitNode,
         @MaxMindDbParameter(name = "network") Network network,
+        @MaxMindDbParameter(name = "anonymizer_confidence") Integer anonymizerConfidence,
         @MaxMindDbParameter(name = "network_last_seen") String networkLastSeen,
         @MaxMindDbParameter(name = "provider_name") String providerName
     ) {
         this(
             ipAddress,
-            isAnonymous != null ? isAnonymous : false,
-            isAnonymousVpn != null ? isAnonymousVpn : false,
-            isHostingProvider != null ? isHostingProvider : false,
-            isPublicProxy != null ? isPublicProxy : false,
-            isResidentialProxy != null ? isResidentialProxy : false,
-            isTorExitNode != null ? isTorExitNode : false,
+            isAnonymous,
+            isAnonymousVpn,
+            isHostingProvider,
+            isPublicProxy,
+            isResidentialProxy,
+            isTorExitNode,
             network,
             anonymizerConfidence,
             networkLastSeen != null ? LocalDate.parse(networkLastSeen) : null,

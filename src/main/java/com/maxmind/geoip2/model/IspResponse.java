@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.maxmind.db.MaxMindDbConstructor;
 import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.JsonSerializable;
@@ -65,13 +64,6 @@ public record IspResponse(
     @MaxMindDbParameter(name = "network")
     Network network
 ) implements JsonSerializable {
-
-    /**
-     * Canonical constructor.
-     */
-    @MaxMindDbConstructor
-    public IspResponse {
-    }
 
     /**
      * Constructs an instance of {@code IspResponse}.

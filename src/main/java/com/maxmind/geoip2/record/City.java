@@ -2,7 +2,6 @@ package com.maxmind.geoip2.record;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.maxmind.db.MaxMindDbConstructor;
 import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.geoip2.NamedRecord;
 import java.util.ArrayList;
@@ -47,7 +46,6 @@ public record City(
     /**
      * Compact canonical constructor that ensures immutability and handles null values.
      */
-    @MaxMindDbConstructor
     public City {
         locales = locales != null ? List.copyOf(locales) : List.of();
         names = names != null ? Map.copyOf(names) : Map.of();

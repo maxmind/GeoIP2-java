@@ -2,7 +2,6 @@ package com.maxmind.geoip2.record;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.maxmind.db.MaxMindDbConstructor;
 import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.geoip2.NamedRecord;
 import java.util.List;
@@ -42,7 +41,7 @@ public record Country(
     Long geonameId,
 
     @JsonProperty("is_in_european_union")
-    @MaxMindDbParameter(name = "is_in_european_union")
+    @MaxMindDbParameter(name = "is_in_european_union", useDefault = true)
     boolean isInEuropeanUnion,
 
     @JsonProperty("iso_code")
@@ -60,40 +59,6 @@ public record Country(
     public Country {
         locales = locales != null ? List.copyOf(locales) : List.of();
         names = names != null ? Map.copyOf(names) : Map.of();
-    }
-
-    /**
-     * Constructs an instance of {@code Country}.
-     *
-     * @param locales The locales to use.
-     * @param confidence This is a value from 0-100 indicating MaxMind's
-     * confidence that the country is correct.
-     * @param geonameId This is a GeoName ID for the country.
-     * @param isInEuropeanUnion This is true if the country is a member state of
-     * the European Union.
-     * @param isoCode This is a string up to three characters long contain the
-     * country code.
-     * @param names This is a map from locale codes to the names for the country
-     * in that locale.
-     */
-    @MaxMindDbConstructor
-    public Country(
-        @JacksonInject("locales") @MaxMindDbParameter(name = "locales") List<String> locales,
-        @JsonProperty("confidence") @MaxMindDbParameter(name = "confidence") Integer confidence,
-        @JsonProperty("geoname_id") @MaxMindDbParameter(name = "geoname_id") Long geonameId,
-        @JsonProperty("is_in_european_union") @MaxMindDbParameter(name = "is_in_european_union")
-        Boolean isInEuropeanUnion,
-        @JsonProperty("iso_code") @MaxMindDbParameter(name = "iso_code") String isoCode,
-        @JsonProperty("names") @MaxMindDbParameter(name = "names") Map<String, String> names
-    ) {
-        this(
-            locales,
-            confidence,
-            geonameId,
-            isInEuropeanUnion != null ? isInEuropeanUnion : false,
-            isoCode,
-            names
-        );
     }
 
     /**
