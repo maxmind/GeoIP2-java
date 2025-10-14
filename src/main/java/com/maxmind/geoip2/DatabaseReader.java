@@ -115,7 +115,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     private int getDatabaseType() {
-        String databaseType = this.getMetadata().getDatabaseType();
+        String databaseType = this.metadata().getDatabaseType();
         int type = 0;
         if (databaseType.contains("GeoIP2-Anonymous-IP")) {
             type |= DatabaseType.ANONYMOUS_IP.type;
@@ -255,7 +255,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             String caller = Thread.currentThread().getStackTrace()[3]
                 .getMethodName();
             throw new UnsupportedOperationException(
-                "Invalid attempt to open a " + getMetadata().getDatabaseType()
+                "Invalid attempt to open a " + metadata().getDatabaseType()
                     + " database using the " + caller + " method");
         }
 
@@ -735,7 +735,16 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     /**
      * @return the metadata for the open MaxMind DB file.
      */
-    public Metadata getMetadata() {
+    public Metadata metadata() {
         return this.reader.getMetadata();
+    }
+
+    /**
+     * @return the metadata for the open MaxMind DB file.
+     * @deprecated Use {@link #metadata()} instead. This method will be removed in 6.0.0.
+     */
+    @Deprecated(since = "5.0.0", forRemoval = true)
+    public Metadata getMetadata() {
+        return metadata();
     }
 }

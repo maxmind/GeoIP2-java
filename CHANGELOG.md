@@ -37,6 +37,11 @@ CHANGELOG
 * **BREAKING:** Removed no longer necessary `JacksonInject` annotations for
   `ip_address`, `network`, and `traits` from several classes. The
   `JsonInjector` class was removed.
+* Public getter methods in non-record classes (e.g., `DatabaseReader`,
+  exception classes) have been renamed to follow the same naming convention as
+  records (e.g., `metadata()` instead of `getMetadata()`). The old getter
+  methods are still available but have been deprecated and will be removed in
+  version 6.0.0.
 
 4.4.0 (2025-08-28)
 ------------------

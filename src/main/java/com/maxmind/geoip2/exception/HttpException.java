@@ -39,15 +39,33 @@ public final class HttpException extends IOException {
     /**
      * @return the HTTP status of the query that caused the exception.
      */
-    public int getHttpStatus() {
+    public int httpStatus() {
         return this.httpStatus;
+    }
+
+    /**
+     * @return the HTTP status of the query that caused the exception.
+     * @deprecated Use {@link #httpStatus()} instead. This method will be removed in 6.0.0.
+     */
+    @Deprecated(since = "5.0.0", forRemoval = true)
+    public int getHttpStatus() {
+        return httpStatus();
     }
 
     /**
      * @return the URI queried.
      */
-    public URI getUri() {
+    public URI uri() {
         return this.uri;
+    }
+
+    /**
+     * @return the URI queried.
+     * @deprecated Use {@link #uri()} instead. This method will be removed in 6.0.0.
+     */
+    @Deprecated(since = "5.0.0", forRemoval = true)
+    public URI getUri() {
+        return uri();
     }
 
 
