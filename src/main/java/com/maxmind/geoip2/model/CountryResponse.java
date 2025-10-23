@@ -73,14 +73,10 @@ public record CountryResponse(
      * Constructs an instance of {@code CountryResponse} with the specified parameters.
      *
      * @param response the response
-     * @param ipAddress the IP address that the data in the model is for.
-     * @param network the network associated with the record.
      * @param locales the locales
      */
     public CountryResponse(
         CountryResponse response,
-        String ipAddress,
-        Network network,
         List<String> locales
     ) {
         this(
@@ -89,7 +85,7 @@ public record CountryResponse(
             response.maxmind(),
             new Country(response.registeredCountry(), locales),
             new RepresentedCountry(response.representedCountry(), locales),
-            new Traits(response.traits(), ipAddress, network)
+            response.traits()
         );
     }
 

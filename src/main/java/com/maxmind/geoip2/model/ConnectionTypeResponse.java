@@ -7,7 +7,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.maxmind.db.MaxMindDbConstructor;
+import com.maxmind.db.MaxMindDbCreator;
+import com.maxmind.db.MaxMindDbIpAddress;
+import com.maxmind.db.MaxMindDbNetwork;
 import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.JsonSerializable;
@@ -27,12 +29,12 @@ public record ConnectionTypeResponse(
     ConnectionType connectionType,
 
     @JsonProperty("ip_address")
-    @MaxMindDbParameter(name = "ip_address")
+    @MaxMindDbIpAddress
     String ipAddress,
 
     @JsonProperty("network")
     @JsonDeserialize(using = NetworkDeserializer.class)
-    @MaxMindDbParameter(name = "network")
+    @MaxMindDbNetwork
     Network network
 ) implements JsonSerializable {
 
@@ -69,6 +71,7 @@ public record ConnectionTypeResponse(
          * @param s The string to create the instance from.
          */
         @JsonCreator
+        @MaxMindDbCreator
         public static ConnectionType fromString(String s) {
             if (s == null) {
                 return null;
@@ -83,46 +86,6 @@ public record ConnectionTypeResponse(
                 default -> null;
             };
         }
-    }
-
-    /**
-     * Constructs an instance of {@code ConnectionTypeResponse} from MaxMind database
-     * with String-to-enum conversion.
-     *
-     * @param connectionType The connection type of the IP address as a string.
-     * @param ipAddress The IP address that the data in the model is for.
-     * @param network The network associated with the record.
-     */
-    @MaxMindDbConstructor
-    public ConnectionTypeResponse(
-        @MaxMindDbParameter(name = "connection_type") String connectionType,
-        @MaxMindDbParameter(name = "ip_address") String ipAddress,
-        @MaxMindDbParameter(name = "network") Network network
-    ) {
-        this(
-            ConnectionType.fromString(connectionType),
-            ipAddress,
-            network
-        );
-    }
-
-    /**
-     * Constructs an instance of {@code ConnectionTypeResponse}.
-     *
-     * @param response The {@code ConnectionTypeResponse} object to copy.
-     * @param ipAddress The IP address that the data in the model is for.
-     * @param network The network associated with the record.
-     */
-    public ConnectionTypeResponse(
-        ConnectionTypeResponse response,
-        String ipAddress,
-        Network network
-    ) {
-        this(
-            response.connectionType(),
-            ipAddress,
-            network
-        );
     }
 
     /**

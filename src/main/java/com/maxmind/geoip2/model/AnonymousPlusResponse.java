@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.maxmind.db.MaxMindDbConstructor;
+import com.maxmind.db.MaxMindDbIpAddress;
+import com.maxmind.db.MaxMindDbNetwork;
 import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.JsonSerializable;
@@ -37,7 +39,7 @@ import java.time.LocalDate;
  */
 public record AnonymousPlusResponse(
     @JsonProperty("ip_address")
-    @MaxMindDbParameter(name = "ip_address")
+    @MaxMindDbIpAddress
     String ipAddress,
 
     @JsonProperty("is_anonymous")
@@ -66,7 +68,7 @@ public record AnonymousPlusResponse(
 
     @JsonProperty("network")
     @JsonDeserialize(using = NetworkDeserializer.class)
-    @MaxMindDbParameter(name = "network")
+    @MaxMindDbNetwork
     Network network,
 
     @JsonProperty("anonymizer_confidence")
@@ -100,7 +102,7 @@ public record AnonymousPlusResponse(
      */
     @MaxMindDbConstructor
     public AnonymousPlusResponse(
-        @MaxMindDbParameter(name = "ip_address") String ipAddress,
+        @MaxMindDbIpAddress String ipAddress,
         @MaxMindDbParameter(name = "is_anonymous", useDefault = true)
         boolean isAnonymous,
         @MaxMindDbParameter(name = "is_anonymous_vpn", useDefault = true)
@@ -113,7 +115,7 @@ public record AnonymousPlusResponse(
         boolean isResidentialProxy,
         @MaxMindDbParameter(name = "is_tor_exit_node", useDefault = true)
         boolean isTorExitNode,
-        @MaxMindDbParameter(name = "network") Network network,
+        @MaxMindDbNetwork Network network,
         @MaxMindDbParameter(name = "anonymizer_confidence") Integer anonymizerConfidence,
         @MaxMindDbParameter(name = "network_last_seen") String networkLastSeen,
         @MaxMindDbParameter(name = "provider_name") String providerName
@@ -130,34 +132,6 @@ public record AnonymousPlusResponse(
             anonymizerConfidence,
             networkLastSeen != null ? LocalDate.parse(networkLastSeen) : null,
             providerName
-        );
-    }
-
-    /**
-     * Constructs an instance of {@code AnonymousPlusResponse} from the values in the
-     * response and the specified IP address and network.
-     *
-     * @param response  the response to copy
-     * @param ipAddress the IP address being checked
-     * @param network   the network associated with the record
-     */
-    public AnonymousPlusResponse(
-        AnonymousPlusResponse response,
-        String ipAddress,
-        Network network
-    ) {
-        this(
-            ipAddress,
-            response.isAnonymous(),
-            response.isAnonymousVpn(),
-            response.isHostingProvider(),
-            response.isPublicProxy(),
-            response.isResidentialProxy(),
-            response.isTorExitNode(),
-            network,
-            response.anonymizerConfidence(),
-            response.networkLastSeen(),
-            response.providerName()
         );
     }
 

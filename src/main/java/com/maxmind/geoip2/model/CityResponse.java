@@ -108,14 +108,10 @@ public record CityResponse(
      * Constructs an instance of {@code CityResponse} with the specified parameters.
      *
      * @param response the response
-     * @param ipAddress the IP address that the data in the model is for.
-     * @param network the network associated with the record.
      * @param locales the locales
      */
     public CityResponse(
         CityResponse response,
-        String ipAddress,
-        Network network,
         List<String> locales
     ) {
         this(
@@ -128,7 +124,7 @@ public record CityResponse(
             new Country(response.registeredCountry(), locales),
             new RepresentedCountry(response.representedCountry(), locales),
             mapSubdivisions(response.subdivisions(), locales),
-            new Traits(response.traits(), ipAddress, network)
+            response.traits()
         );
     }
 

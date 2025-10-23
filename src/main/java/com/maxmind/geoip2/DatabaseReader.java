@@ -317,8 +317,6 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         return Optional.of(
             new CountryResponse(
                 response,
-                result.ipAddress(),
-                result.network(),
                 locales
             )
         );
@@ -354,12 +352,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             return Optional.empty();
         }
         return Optional.of(
-            new CityResponse(
-                response,
-                result.ipAddress(),
-                result.network(),
-                locales
-            )
+            new CityResponse(response, locales)
         );
     }
 
@@ -400,13 +393,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         if (response == null) {
             return Optional.empty();
         }
-        return Optional.of(
-            new AnonymousIpResponse(
-                response,
-                result.ipAddress(),
-                result.network()
-            )
-        );
+        return Optional.of(response);
     }
 
     /**
@@ -447,13 +434,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         if (response == null) {
             return Optional.empty();
         }
-        return Optional.of(
-            new AnonymousPlusResponse(
-                response,
-                result.ipAddress(),
-                result.network()
-            )
-        );
+        return Optional.of(response);
     }
 
 
@@ -493,13 +474,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         if (response == null) {
             return Optional.empty();
         }
-        return Optional.of(
-            new IpRiskResponse(
-                response,
-                result.ipAddress(),
-                result.network()
-            )
-        );
+        return Optional.of(response);
     }
 
     /**
@@ -538,13 +513,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         if (response == null) {
             return Optional.empty();
         }
-        return Optional.of(
-            new AsnResponse(
-                response,
-                result.ipAddress(),
-                result.network()
-            )
-        );
+        return Optional.of(response);
     }
 
     /**
@@ -584,13 +553,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         if (response == null) {
             return Optional.empty();
         }
-        return Optional.of(
-            new ConnectionTypeResponse(
-                response,
-                result.ipAddress(),
-                result.network()
-            )
-        );
+        return Optional.of(response);
     }
 
     /**
@@ -630,13 +593,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         if (response == null) {
             return Optional.empty();
         }
-        return Optional.of(
-            new DomainResponse(
-                response,
-                result.ipAddress(),
-                result.network()
-            )
-        );
+        return Optional.of(response);
     }
 
     /**
@@ -677,12 +634,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
             return Optional.empty();
         }
         return Optional.of(
-            new EnterpriseResponse(
-                response,
-                result.ipAddress(),
-                result.network(),
-                locales
-            )
+            new EnterpriseResponse(response, locales)
         );
     }
 
@@ -723,13 +675,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         if (response == null) {
             return Optional.empty();
         }
-        return Optional.of(
-            new IspResponse(
-                response,
-                result.ipAddress(),
-                result.network()
-            )
-        );
+        return Optional.of(response);
     }
 
     /**

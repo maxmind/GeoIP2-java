@@ -108,14 +108,10 @@ public record EnterpriseResponse(
      * Constructs an instance of {@code EnterpriseResponse} with only required parameters.
      *
      * @param response the response
-     * @param ipAddress the IP address that the data in the model is for.
-     * @param network the network associated with the record.
      * @param locales the locales
      */
     public EnterpriseResponse(
         EnterpriseResponse response,
-        String ipAddress,
-        Network network,
         List<String> locales
     ) {
         this(
@@ -128,7 +124,7 @@ public record EnterpriseResponse(
             new Country(response.registeredCountry(), locales),
             new RepresentedCountry(response.representedCountry(), locales),
             mapSubdivisions(response.subdivisions(), locales),
-            new Traits(response.traits(), ipAddress, network)
+            response.traits()
         );
     }
 

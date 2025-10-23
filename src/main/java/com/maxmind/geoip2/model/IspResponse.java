@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.maxmind.db.MaxMindDbIpAddress;
+import com.maxmind.db.MaxMindDbNetwork;
 import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.JsonSerializable;
@@ -40,7 +42,7 @@ public record IspResponse(
     String autonomousSystemOrganization,
 
     @JsonProperty("ip_address")
-    @MaxMindDbParameter(name = "ip_address")
+    @MaxMindDbIpAddress
     String ipAddress,
 
     @JsonProperty("isp")
@@ -61,33 +63,9 @@ public record IspResponse(
 
     @JsonProperty("network")
     @JsonDeserialize(using = NetworkDeserializer.class)
-    @MaxMindDbParameter(name = "network")
+    @MaxMindDbNetwork
     Network network
 ) implements JsonSerializable {
-
-    /**
-     * Constructs an instance of {@code IspResponse}.
-     *
-     * @param response The {@code AsnResponse} object to copy.
-     * @param ipAddress The IP address that the data in the model is for.
-     * @param network The network associated with the record.
-     */
-    public IspResponse(
-        IspResponse response,
-        String ipAddress,
-        Network network
-    ) {
-        this(
-            response.autonomousSystemNumber(),
-            response.autonomousSystemOrganization(),
-            ipAddress,
-            response.isp(),
-            response.mobileCountryCode(),
-            response.mobileNetworkCode(),
-            response.organization(),
-            network
-        );
-    }
 
     /**
      * @return The autonomous system number associated with the IP address.

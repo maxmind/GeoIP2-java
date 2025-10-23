@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.maxmind.db.MaxMindDbConstructor;
+import com.maxmind.db.MaxMindDbIpAddress;
+import com.maxmind.db.MaxMindDbNetwork;
 import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.JsonSerializable;
@@ -89,7 +90,7 @@ public record Traits(
     String domain,
 
     @JsonProperty("ip_address")
-    @MaxMindDbParameter(name = "ip_address")
+    @MaxMindDbIpAddress
     String ipAddress,
 
     @JsonProperty("is_anonymous")
@@ -139,7 +140,7 @@ public record Traits(
     @JsonProperty("network")
     @JsonDeserialize(using = NetworkDeserializer.class)
     @JsonSerialize(using = ToStringSerializer.class)
-    @MaxMindDbParameter(name = "network")
+    @MaxMindDbNetwork
     Network network,
 
     @JsonProperty("organization")
@@ -167,139 +168,6 @@ public record Traits(
             null, false, false, false, false,
             false, false, false, false, null,
             null, null, null, null, null, null, null);
-    }
-
-    /**
-     * Constructs an instance of {@code Traits}.
-     *
-     * @param ipAddress the IP address
-     * @param network   the network
-     */
-    public Traits(String ipAddress, Network network) {
-        this(null, null, (ConnectionType) null, null,
-            ipAddress, false, false, false, false,
-            false, false, false, false, null,
-            null, null, network, null, null, null, null);
-    }
-
-    /**
-     * Constructs an instance of {@code Traits} from MaxMind database with type conversions.
-     *
-     * @param autonomousSystemNumber the autonomous system number
-     * @param autonomousSystemOrganization the autonomous system organization
-     * @param connectionType the connection type as a string
-     * @param domain the domain
-     * @param ipAddress the IP address
-     * @param isAnonymous the anonymous flag
-     * @param isAnonymousVpn the anonymous VPN flag
-     * @param isAnycast the anycast flag
-     * @param isHostingProvider the hosting provider flag
-     * @param isLegitimateProxy the legitimate proxy flag
-     * @param isPublicProxy the public proxy flag
-     * @param isResidentialProxy the residential proxy flag
-     * @param isTorExitNode the Tor exit node flag
-     * @param isp the ISP
-     * @param mobileCountryCode the mobile country code
-     * @param mobileNetworkCode the mobile network code
-     * @param network the network
-     * @param organization the organization
-     * @param userType the user type
-     * @param userCount the user count
-     * @param staticIpScore the static IP score
-     */
-    @MaxMindDbConstructor
-    public Traits(
-        @MaxMindDbParameter(name = "autonomous_system_number") Long autonomousSystemNumber,
-        @MaxMindDbParameter(name = "autonomous_system_organization")
-        String autonomousSystemOrganization,
-        @MaxMindDbParameter(name = "connection_type") String connectionType,
-        @MaxMindDbParameter(name = "domain") String domain,
-        @MaxMindDbParameter(name = "ip_address") String ipAddress,
-        @MaxMindDbParameter(name = "is_anonymous", useDefault = true)
-        boolean isAnonymous,
-        @MaxMindDbParameter(name = "is_anonymous_vpn", useDefault = true)
-        boolean isAnonymousVpn,
-        @MaxMindDbParameter(name = "is_anycast", useDefault = true)
-        boolean isAnycast,
-        @MaxMindDbParameter(name = "is_hosting_provider", useDefault = true)
-        boolean isHostingProvider,
-        @MaxMindDbParameter(name = "is_legitimate_proxy", useDefault = true)
-        boolean isLegitimateProxy,
-        @MaxMindDbParameter(name = "is_public_proxy", useDefault = true)
-        boolean isPublicProxy,
-        @MaxMindDbParameter(name = "is_residential_proxy", useDefault = true)
-        boolean isResidentialProxy,
-        @MaxMindDbParameter(name = "is_tor_exit_node", useDefault = true)
-        boolean isTorExitNode,
-        @MaxMindDbParameter(name = "isp") String isp,
-        @MaxMindDbParameter(name = "mobile_country_code") String mobileCountryCode,
-        @MaxMindDbParameter(name = "mobile_network_code") String mobileNetworkCode,
-        @MaxMindDbParameter(name = "network") Network network,
-        @MaxMindDbParameter(name = "organization") String organization,
-        @MaxMindDbParameter(name = "user_type") String userType,
-        @MaxMindDbParameter(name = "user_count") Integer userCount,
-        @MaxMindDbParameter(name = "static_ip_score") Double staticIpScore
-    ) {
-        this(
-            autonomousSystemNumber,
-            autonomousSystemOrganization,
-            ConnectionType.fromString(connectionType),
-            domain,
-            ipAddress,
-            isAnonymous,
-            isAnonymousVpn,
-            isAnycast,
-            isHostingProvider,
-            isLegitimateProxy,
-            isPublicProxy,
-            isResidentialProxy,
-            isTorExitNode,
-            isp,
-            mobileCountryCode,
-            mobileNetworkCode,
-            network,
-            organization,
-            userType,
-            userCount,
-            staticIpScore
-        );
-    }
-
-    /**
-     * Constructs an instance of {@code Traits}.
-     *
-     * @param traits the traits
-     * @param ipAddress the IP address
-     * @param network the network
-     */
-    public Traits(
-        Traits traits,
-        String ipAddress,
-        Network network
-    ) {
-        this(
-            traits.autonomousSystemNumber(),
-            traits.autonomousSystemOrganization(),
-            traits.connectionType(),
-            traits.domain(),
-            ipAddress,
-            traits.isAnonymous(),
-            traits.isAnonymousVpn(),
-            traits.isAnycast(),
-            traits.isHostingProvider(),
-            traits.isLegitimateProxy(),
-            traits.isPublicProxy(),
-            traits.isResidentialProxy(),
-            traits.isTorExitNode(),
-            traits.isp(),
-            traits.mobileCountryCode(),
-            traits.mobileNetworkCode(),
-            network,
-            traits.organization(),
-            traits.userType(),
-            traits.userCount(),
-            traits.staticIpScore()
-        );
     }
 
     /**

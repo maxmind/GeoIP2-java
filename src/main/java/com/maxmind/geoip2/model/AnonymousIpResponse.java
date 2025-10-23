@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.maxmind.db.MaxMindDbIpAddress;
+import com.maxmind.db.MaxMindDbNetwork;
 import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.JsonSerializable;
@@ -29,7 +31,7 @@ import com.maxmind.geoip2.NetworkDeserializer;
  */
 public record AnonymousIpResponse(
     @JsonProperty("ip_address")
-    @MaxMindDbParameter(name = "ip_address")
+    @MaxMindDbIpAddress
     String ipAddress,
 
     @JsonProperty("is_anonymous")
@@ -58,34 +60,9 @@ public record AnonymousIpResponse(
 
     @JsonProperty("network")
     @JsonDeserialize(using = NetworkDeserializer.class)
-    @MaxMindDbParameter(name = "network")
+    @MaxMindDbNetwork
     Network network
 ) implements JsonSerializable {
-
-    /**
-     * Constructs an instance of {@code AnonymousIpResponse} from the values in the passed
-     * response and the specified IP address and network.
-     *
-     * @param response the response to copy
-     * @param ipAddress the IP address being checked
-     * @param network   the network associated with the record
-     */
-    public AnonymousIpResponse(
-        AnonymousIpResponse response,
-        String ipAddress,
-        Network network
-    ) {
-        this(
-            ipAddress,
-            response.isAnonymous(),
-            response.isAnonymousVpn(),
-            response.isHostingProvider(),
-            response.isPublicProxy(),
-            response.isResidentialProxy(),
-            response.isTorExitNode(),
-            network
-        );
-    }
 
     /**
      * @return The IP address that the data in the model is for.
