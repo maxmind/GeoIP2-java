@@ -11,6 +11,7 @@ import com.maxmind.db.Network;
 import com.maxmind.geoip2.JsonSerializable;
 import com.maxmind.geoip2.NetworkDeserializer;
 import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
+import java.net.InetAddress;
 
 /**
  * Contains data for the traits record associated with an IP address.
@@ -91,7 +92,7 @@ public record Traits(
 
     @JsonProperty("ip_address")
     @MaxMindDbIpAddress
-    String ipAddress,
+    InetAddress ipAddress,
 
     @JsonProperty("is_anonymous")
     @MaxMindDbParameter(name = "is_anonymous", useDefault = true)
@@ -261,7 +262,7 @@ public record Traits(
     @Deprecated(since = "5.0.0", forRemoval = true)
     @JsonProperty("ip_address")
     public String getIpAddress() {
-        return ipAddress();
+        return ipAddress().getHostAddress();
     }
 
     /**

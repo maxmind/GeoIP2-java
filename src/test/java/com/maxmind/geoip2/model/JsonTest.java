@@ -334,6 +334,7 @@ public class JsonTest {
         throws IOException {
         JsonMapper mapper = JsonMapper.builder()
             .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+            .addModule(new com.maxmind.geoip2.InetAddressModule())
             .build();
         InjectableValues inject = new InjectableValues.Std().addValue(
             "locales", Collections.singletonList("en"));

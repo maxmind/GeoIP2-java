@@ -151,7 +151,7 @@ public class CountryResponseTest {
 
         assertEquals(
             "1.2.3.4",
-            this.country.traits().ipAddress(),
+            this.country.traits().ipAddress().getHostAddress(),
             "country.traits().getIpAddress does not return 1.2.3.4"
         );
 

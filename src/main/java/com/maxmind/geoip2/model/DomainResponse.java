@@ -11,6 +11,7 @@ import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.JsonSerializable;
 import com.maxmind.geoip2.NetworkDeserializer;
+import java.net.InetAddress;
 
 /**
  * This class provides the GeoIP2 Domain model.
@@ -28,7 +29,7 @@ public record DomainResponse(
 
     @JsonProperty("ip_address")
     @MaxMindDbIpAddress
-    String ipAddress,
+    InetAddress ipAddress,
 
     @JsonProperty("network")
     @JsonDeserialize(using = NetworkDeserializer.class)
@@ -54,7 +55,7 @@ public record DomainResponse(
     @Deprecated(since = "5.0.0", forRemoval = true)
     @JsonProperty("ip_address")
     public String getIpAddress() {
-        return ipAddress();
+        return ipAddress().getHostAddress();
     }
 
     /**

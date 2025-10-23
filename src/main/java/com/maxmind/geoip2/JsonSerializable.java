@@ -21,6 +21,7 @@ public interface JsonSerializable {
         JsonMapper mapper = JsonMapper.builder()
             .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
             .addModule(new JavaTimeModule())
+            .addModule(new InetAddressModule())
             .serializationInclusion(JsonInclude.Include.NON_NULL)
             .serializationInclusion(JsonInclude.Include.NON_EMPTY)
             .build();

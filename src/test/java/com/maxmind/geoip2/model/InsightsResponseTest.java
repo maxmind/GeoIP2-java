@@ -134,7 +134,7 @@ public class InsightsResponseTest {
         );
         assertEquals(
             "1.2.3.4",
-            traits.ipAddress(),
+            traits.ipAddress().getHostAddress(),
             "traits.ipAddress() does not return 1.2.3.4"
         );
         assertTrue(traits.isAnonymous(), "traits.isAnonymous() returns true");

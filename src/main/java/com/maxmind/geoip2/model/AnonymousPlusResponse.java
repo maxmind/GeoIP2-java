@@ -12,6 +12,7 @@ import com.maxmind.db.MaxMindDbParameter;
 import com.maxmind.db.Network;
 import com.maxmind.geoip2.JsonSerializable;
 import com.maxmind.geoip2.NetworkDeserializer;
+import java.net.InetAddress;
 import java.time.LocalDate;
 
 /**
@@ -40,7 +41,7 @@ import java.time.LocalDate;
 public record AnonymousPlusResponse(
     @JsonProperty("ip_address")
     @MaxMindDbIpAddress
-    String ipAddress,
+    InetAddress ipAddress,
 
     @JsonProperty("is_anonymous")
     @MaxMindDbParameter(name = "is_anonymous", useDefault = true)
@@ -102,7 +103,7 @@ public record AnonymousPlusResponse(
      */
     @MaxMindDbConstructor
     public AnonymousPlusResponse(
-        @MaxMindDbIpAddress String ipAddress,
+        @MaxMindDbIpAddress InetAddress ipAddress,
         @MaxMindDbParameter(name = "is_anonymous", useDefault = true)
         boolean isAnonymous,
         @MaxMindDbParameter(name = "is_anonymous_vpn", useDefault = true)
@@ -142,7 +143,7 @@ public record AnonymousPlusResponse(
     @Deprecated(since = "5.0.0", forRemoval = true)
     @JsonProperty("ip_address")
     public String getIpAddress() {
-        return ipAddress();
+        return ipAddress().getHostAddress();
     }
 
     /**

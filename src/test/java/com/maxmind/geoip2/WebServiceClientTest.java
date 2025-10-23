@@ -135,7 +135,7 @@ public class WebServiceClientTest {
         assertNull(traits.autonomousSystemOrganization());
         assertNull(traits.connectionType());
         assertNull(traits.domain());
-        assertEquals("1.2.3.13", traits.ipAddress());
+        assertEquals("1.2.3.13", traits.ipAddress().getHostAddress());
         assertEquals("1.2.3.0/24", traits.network().toString());
         assertNull(traits.isp());
         assertNull(traits.organization());
@@ -179,7 +179,7 @@ public class WebServiceClientTest {
         WebServiceClient client = createSuccessClient("insights", "me",
             "{\"traits\":{\"ip_address\":\"24.24.24.24\"}}");
         assertEquals("24.24.24.24",
-            client.insights().traits().ipAddress());
+            client.insights().traits().ipAddress().getHostAddress());
     }
 
     @Test
@@ -187,7 +187,7 @@ public class WebServiceClientTest {
         WebServiceClient client = createSuccessClient("city", "me",
             "{\"traits\":{\"ip_address\":\"24.24.24.24\"}}");
         assertEquals("24.24.24.24",
-            client.city().traits().ipAddress());
+            client.city().traits().ipAddress().getHostAddress());
     }
 
     @Test
@@ -195,7 +195,7 @@ public class WebServiceClientTest {
         WebServiceClient client = createSuccessClient("country", "me",
             "{\"traits\":{\"ip_address\":\"24.24.24.24\"}}");
         assertEquals("24.24.24.24",
-            client.country().traits().ipAddress());
+            client.country().traits().ipAddress().getHostAddress());
     }
 
     @Test
