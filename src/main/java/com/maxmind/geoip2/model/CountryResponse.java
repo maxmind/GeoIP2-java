@@ -1,9 +1,7 @@
 package com.maxmind.geoip2.model;
 
-import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maxmind.db.MaxMindDbParameter;
-import com.maxmind.db.Network;
 import com.maxmind.geoip2.JsonSerializable;
 import com.maxmind.geoip2.record.Continent;
 import com.maxmind.geoip2.record.Country;
