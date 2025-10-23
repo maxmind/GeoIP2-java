@@ -26,7 +26,7 @@ public record MaxMind(
     }
 
     /**
-     * @return The number of remaining queried in your account for the current
+     * @return The number of remaining queries in your account for the current
      * web service. This returns {@code null} when called on a database.
      * @deprecated Use {@link #queriesRemaining()} instead. This method will be removed in 6.0.0.
      */
