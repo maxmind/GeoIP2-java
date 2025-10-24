@@ -445,22 +445,16 @@ public class WebServiceClient implements WebServiceProvider {
         }
 
         switch (code) {
-            case "IP_ADDRESS_NOT_FOUND":
-            case "IP_ADDRESS_RESERVED":
+            case "IP_ADDRESS_NOT_FOUND", "IP_ADDRESS_RESERVED" ->
                 throw new AddressNotFoundException(error);
-            case "ACCOUNT_ID_REQUIRED":
-            case "ACCOUNT_ID_UNKNOWN":
-            case "AUTHORIZATION_INVALID":
-            case "LICENSE_KEY_REQUIRED":
-            case "USER_ID_REQUIRED":
-            case "USER_ID_UNKNOWN":
+            case "ACCOUNT_ID_REQUIRED", "ACCOUNT_ID_UNKNOWN", "AUTHORIZATION_INVALID",
+                 "LICENSE_KEY_REQUIRED", "USER_ID_REQUIRED", "USER_ID_UNKNOWN" ->
                 throw new AuthenticationException(error);
-            case "INSUFFICIENT_FUNDS":
-            case "OUT_OF_QUERIES":
+            case "INSUFFICIENT_FUNDS", "OUT_OF_QUERIES" ->
                 throw new OutOfQueriesException(error);
-            case "PERMISSION_REQUIRED":
+            case "PERMISSION_REQUIRED" ->
                 throw new PermissionRequiredException(error);
-            default:
+            default ->
                 // These should be fairly rare
                 throw new InvalidRequestException(error, code, uri);
         }
