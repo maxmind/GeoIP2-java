@@ -33,7 +33,7 @@ public final class NetworkDeserializer extends StdDeserializer<Network> {
     public Network deserialize(JsonParser jsonparser, DeserializationContext context)
             throws IOException {
 
-        final String cidr = jsonparser.getValueAsString();
+        final var cidr = jsonparser.getValueAsString();
         if (cidr == null || cidr.isBlank()) {
             return null;
         }
@@ -41,13 +41,13 @@ public final class NetworkDeserializer extends StdDeserializer<Network> {
     }
 
     private static Network parseCidr(String cidr) throws IOException {
-        final String[] parts = cidr.split("/", 2);
+        final var parts = cidr.split("/", 2);
         if (parts.length != 2) {
             throw new IllegalArgumentException("Invalid CIDR format: " + cidr);
         }
 
-        final String addrPart = parts[0];
-        final String prefixPart = parts[1];
+        final var addrPart = parts[0];
+        final var prefixPart = parts[1];
 
         final InetAddress address;
         try {
@@ -56,20 +56,23 @@ public final class NetworkDeserializer extends StdDeserializer<Network> {
             throw new IOException("Unknown host in CIDR: " + cidr, e);
         }
 
-        final int prefixLength;
-        try {
-            prefixLength = Integer.parseInt(prefixPart);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(
-                    "Invalid prefix length in CIDR: " + cidr, e);
-        }
+        final var prefixLength = parsePrefixLength(prefixPart, cidr);
 
-        final int maxPrefix = (address.getAddress().length == 4) ? 32 : 128;
+        final var maxPrefix = (address.getAddress().length == 4) ? 32 : 128;
         if (prefixLength < 0 || prefixLength > maxPrefix) {
             throw new IllegalArgumentException(
                     "Prefix length out of range (0-" + maxPrefix + ") for CIDR: " + cidr);
         }
 
         return new Network(address, prefixLength);
+    }
+
+    private static int parsePrefixLength(String prefixPart, String cidr) {
+        try {
+            return Integer.parseInt(prefixPart);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(
+                    "Invalid prefix length in CIDR: " + cidr, e);
+        }
     }
 }

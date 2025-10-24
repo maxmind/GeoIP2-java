@@ -356,9 +356,9 @@ public class WebServiceClient implements WebServiceProvider {
 
     private <T> T responseFor(String path, InetAddress ipAddress, Class<T> cls)
         throws IOException, GeoIp2Exception {
-        URI uri = createUri(path, ipAddress);
+        var uri = createUri(path, ipAddress);
 
-        HttpRequest request = HttpRequest.newBuilder()
+        var request = HttpRequest.newBuilder()
             .uri(uri)
             .timeout(this.requestTimeout)
             .header("Accept", "application/json")
@@ -366,24 +366,23 @@ public class WebServiceClient implements WebServiceProvider {
             .header("User-Agent", this.userAgent)
             .GET()
             .build();
-        HttpResponse<InputStream> response = null;
         try {
-            response = this.httpClient
+            var response = this.httpClient
                 .send(request, HttpResponse.BodyHandlers.ofInputStream());
-            return handleResponse(response, cls);
-        } catch (InterruptedException e) {
-            throw new GeoIp2Exception("Interrupted sending request", e);
-        } finally {
-            if (response != null) {
+            try {
+                return handleResponse(response, cls);
+            } finally {
                 response.body().close();
             }
+        } catch (InterruptedException e) {
+            throw new GeoIp2Exception("Interrupted sending request", e);
         }
     }
 
     private <T> T handleResponse(HttpResponse<InputStream> response, Class<T> cls)
         throws GeoIp2Exception, IOException {
-        int status = response.statusCode();
-        URI uri = response.uri();
+        var status = response.statusCode();
+        var uri = response.uri();
 
         if (status >= 400 && status < 500) {
             this.handle4xxStatus(response);
@@ -397,7 +396,7 @@ public class WebServiceClient implements WebServiceProvider {
                 + status + ") for " + uri, status, uri);
         }
 
-        InjectableValues inject = new InjectableValues.Std()
+        var inject = new InjectableValues.Std()
             .addValue("locales", locales);
 
         try {
@@ -410,20 +409,17 @@ public class WebServiceClient implements WebServiceProvider {
 
     private void handle4xxStatus(HttpResponse<InputStream> response)
         throws GeoIp2Exception, IOException {
-        int status = response.statusCode();
-        URI uri = response.uri();
+        var status = response.statusCode();
+        var uri = response.uri();
 
-        String body;
-        try (InputStream bodyStream = response.body()) {
-            body = new String(bodyStream.readAllBytes(), StandardCharsets.UTF_8);
-            if (body.equals("")) {
-                throw new HttpException("Received a " + status + " error for "
-                    + uri + " with no body", status, uri);
-            }
+        final var body = readBody(response);
+        if (body.equals("")) {
+            throw new HttpException("Received a " + status + " error for "
+                + uri + " with no body", status, uri);
         }
 
         try {
-            Map<String, String> content = mapper.readValue(body,
+            var content = mapper.readValue(body,
                 new TypeReference<HashMap<String, String>>() {
                 });
             handleErrorWithJsonBody(content, body, status, uri);
@@ -439,8 +435,8 @@ public class WebServiceClient implements WebServiceProvider {
     private static void handleErrorWithJsonBody(Map<String, String> content,
                                                 String body, int status, URI uri)
         throws GeoIp2Exception, HttpException {
-        String error = content.get("error");
-        String code = content.get("code");
+        var error = content.get("error");
+        var code = content.get("code");
 
         if (error == null || code == null) {
             throw new HttpException(
@@ -471,7 +467,7 @@ public class WebServiceClient implements WebServiceProvider {
     }
 
     private URI createUri(String service, InetAddress ipAddress) throws GeoIp2Exception {
-        String path = "/geoip/v2.1/" + service + "/"
+        var path = "/geoip/v2.1/" + service + "/"
             + (ipAddress == null ? "me" : ipAddress.getHostAddress());
         try {
             return new URI(
@@ -489,7 +485,7 @@ public class WebServiceClient implements WebServiceProvider {
     }
 
     private void exhaustBody(HttpResponse<InputStream> response) throws HttpException {
-        try (InputStream body = response.body()) {
+        try (var body = response.body()) {
             // Make sure we read the stream until the end so that
             // the connection can be reused.
             while (body.read() != -1) {
@@ -500,6 +496,11 @@ public class WebServiceClient implements WebServiceProvider {
         }
     }
 
+    private static String readBody(HttpResponse<InputStream> response) throws IOException {
+        try (var bodyStream = response.body()) {
+            return new String(bodyStream.readAllBytes(), StandardCharsets.UTF_8);
+        }
+    }
 
     @Override
     public String toString() {

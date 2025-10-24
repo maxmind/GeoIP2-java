@@ -21,7 +21,7 @@ public class InetAddressDeserializer extends StdDeserializer<InetAddress> {
     @Override
     public InetAddress deserialize(JsonParser p, DeserializationContext ctxt)
         throws IOException {
-        String value = p.getValueAsString();
+        var value = p.getValueAsString();
         if (value == null || value.isEmpty()) {
             return null;
         }

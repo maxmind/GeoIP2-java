@@ -37,7 +37,7 @@ public interface NamedRecord extends JsonSerializable {
      */
     @JsonIgnore
     default String name() {
-        for (String lang : locales()) {
+        for (var lang : locales()) {
             if (names().containsKey(lang)) {
                 return names().get(lang);
             }

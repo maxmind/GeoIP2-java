@@ -130,8 +130,8 @@ public record CityResponse(
         List<Subdivision> subdivisions,
         List<String> locales
     ) {
-        ArrayList<Subdivision> subdivisions2 = new ArrayList<>(subdivisions.size());
-        for (Subdivision subdivision : subdivisions) {
+        var subdivisions2 = new ArrayList<Subdivision>(subdivisions.size());
+        for (var subdivision : subdivisions) {
             subdivisions2.add(new Subdivision(subdivision, locales));
         }
         return subdivisions2;

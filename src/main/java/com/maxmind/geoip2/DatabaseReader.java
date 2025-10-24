@@ -115,8 +115,8 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     private int getDatabaseType() {
-        String databaseType = this.metadata().databaseType();
-        int type = 0;
+        var databaseType = this.metadata().databaseType();
+        var type = 0;
         if (databaseType.contains("GeoIP2-Anonymous-IP")) {
             type |= DatabaseType.ANONYMOUS_IP.type;
         }
@@ -258,9 +258,9 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
                     + " database using the " + caller + " method");
         }
 
-        DatabaseRecord<T> record = reader.getRecord(ipAddress, cls);
+        var record = reader.getRecord(ipAddress, cls);
 
-        T o = record.data();
+        var o = record.data();
 
         return new LookupResult<>(o, ipAddress.getHostAddress(), record.network());
     }
@@ -281,8 +281,8 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         DatabaseType expectedType,
         String caller
     ) throws IOException {
-        LookupResult<T> result = this.get(ipAddress, cls, expectedType, caller);
-        T response = result.model();
+        var result = this.get(ipAddress, cls, expectedType, caller);
+        var response = result.model();
         if (response == null) {
             return Optional.empty();
         }
@@ -311,7 +311,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public CountryResponse country(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
-        Optional<CountryResponse> r = tryCountry(ipAddress);
+        var r = tryCountry(ipAddress);
         if (r.isEmpty()) {
             throw new AddressNotFoundException("The address "
                 + ipAddress.getHostAddress() + " is not in the database.");
@@ -322,7 +322,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public Optional<CountryResponse> tryCountry(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
-        Optional<CountryResponse> response = getResponse(
+        var response = getResponse(
             ipAddress,
             CountryResponse.class,
             DatabaseType.COUNTRY,
@@ -334,7 +334,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public CityResponse city(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
-        Optional<CityResponse> r = tryCity(ipAddress);
+        var r = tryCity(ipAddress);
         if (r.isEmpty()) {
             throw new AddressNotFoundException("The address "
                 + ipAddress.getHostAddress() + " is not in the database.");
@@ -345,7 +345,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public Optional<CityResponse> tryCity(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
-        Optional<CityResponse> response = getResponse(
+        var response = getResponse(
             ipAddress,
             CityResponse.class,
             DatabaseType.CITY,
@@ -365,7 +365,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public AnonymousIpResponse anonymousIp(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
-        Optional<AnonymousIpResponse> r = tryAnonymousIp(ipAddress);
+        var r = tryAnonymousIp(ipAddress);
         if (r.isEmpty()) {
             throw new AddressNotFoundException("The address "
                 + ipAddress.getHostAddress() + " is not in the database.");
@@ -395,7 +395,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public AnonymousPlusResponse anonymousPlus(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
-        Optional<AnonymousPlusResponse> r = tryAnonymousPlus(ipAddress);
+        var r = tryAnonymousPlus(ipAddress);
         if (r.isEmpty()) {
             throw new AddressNotFoundException("The address "
                 + ipAddress.getHostAddress() + " is not in the database.");
@@ -427,7 +427,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public IpRiskResponse ipRisk(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
-        Optional<IpRiskResponse> r = tryIpRisk(ipAddress);
+        var r = tryIpRisk(ipAddress);
         if (r.isEmpty()) {
             throw new AddressNotFoundException("The address "
                 + ipAddress.getHostAddress() + " is not in the database.");
@@ -452,7 +452,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public AsnResponse asn(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
-        Optional<AsnResponse> r = tryAsn(ipAddress);
+        var r = tryAsn(ipAddress);
         if (r.isEmpty()) {
             throw new AddressNotFoundException("The address "
                 + ipAddress.getHostAddress() + " is not in the database.");
@@ -477,7 +477,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public ConnectionTypeResponse connectionType(InetAddress ipAddress)
         throws IOException, GeoIp2Exception {
-        Optional<ConnectionTypeResponse> r = tryConnectionType(ipAddress);
+        var r = tryConnectionType(ipAddress);
         if (r.isEmpty()) {
             throw new AddressNotFoundException("The address "
                 + ipAddress.getHostAddress() + " is not in the database.");
@@ -507,7 +507,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public DomainResponse domain(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
-        Optional<DomainResponse> r = tryDomain(ipAddress);
+        var r = tryDomain(ipAddress);
         if (r.isEmpty()) {
             throw new AddressNotFoundException("The address "
                 + ipAddress.getHostAddress() + " is not in the database.");
@@ -532,7 +532,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public EnterpriseResponse enterprise(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
-        Optional<EnterpriseResponse> r = tryEnterprise(ipAddress);
+        var r = tryEnterprise(ipAddress);
         if (r.isEmpty()) {
             throw new AddressNotFoundException("The address "
                 + ipAddress.getHostAddress() + " is not in the database.");
@@ -543,7 +543,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public Optional<EnterpriseResponse> tryEnterprise(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
-        Optional<EnterpriseResponse> response = getResponse(
+        var response = getResponse(
             ipAddress,
             EnterpriseResponse.class,
             DatabaseType.ENTERPRISE,
@@ -563,7 +563,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     @Override
     public IspResponse isp(InetAddress ipAddress) throws IOException,
         GeoIp2Exception {
-        Optional<IspResponse> r = tryIsp(ipAddress);
+        var r = tryIsp(ipAddress);
         if (r.isEmpty()) {
             throw new AddressNotFoundException("The address "
                 + ipAddress.getHostAddress() + " is not in the database.");
