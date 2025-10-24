@@ -413,7 +413,7 @@ public class WebServiceClient implements WebServiceProvider {
         var uri = response.uri();
 
         final var body = readBody(response);
-        if (body.equals("")) {
+        if (body.isEmpty()) {
             throw new HttpException("Received a " + status + " error for "
                 + uri + " with no body", status, uri);
         }
