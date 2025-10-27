@@ -55,17 +55,17 @@ public class CityResponseTest {
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
         assertEquals(
             "北美洲",
-            city.getContinent().getName(),
-            "country.getContinent().getName() does not return 北美洲"
+            city.continent().name(),
+            "country.continent().name() does not return 北美洲"
         );
         assertEquals(
             "美国",
-            city.getCountry().getName(),
-            "country.getCountry().getName() does not return 美国"
+            city.country().name(),
+            "country.country().name() does not return 美国"
         );
         assertEquals(
-            city.getCountry()
-                .getName(), city.getCountry().getName(),
+            city.country()
+                .name(), city.country().name(),
             "toString() returns getName()"
         );
     }
@@ -82,8 +82,8 @@ public class CityResponseTest {
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
         assertEquals(
             "объединяет государства",
-            city.getCountry().getName(),
-            "country.getCountry().getName() does not return объединяет государства"
+            city.country().name(),
+            "country.country().name() does not return объединяет государства"
         );
 
     }
@@ -99,7 +99,7 @@ public class CityResponseTest {
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
         assertEquals(
             "North America",
-            city.getContinent().getName(),
+            city.continent().name(),
             "en is returned when pt is missing"
         );
 
@@ -116,7 +116,7 @@ public class CityResponseTest {
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
 
         assertNull(
-            city.getContinent().getName(),
+            city.continent().name(),
             "null is returned when locale is not available"
         );
     }
@@ -132,7 +132,7 @@ public class CityResponseTest {
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
         assertEquals(
             "North America",
-            city.getContinent().getName(),
+            city.continent().name(),
             "en is returned when no locales are specified"
         );
 
@@ -148,7 +148,7 @@ public class CityResponseTest {
             .locales(Collections.singletonList("en")).build();
 
         CityResponse city = client.city(InetAddress.getByName("1.1.1.2"));
-        assertNotNull(city.getCity());
-        assertNull(city.getCity().getName(), "null is returned when names object is missing");
+        assertNotNull(city.city());
+        assertNull(city.city().name(), "null is returned when names object is missing");
     }
 }

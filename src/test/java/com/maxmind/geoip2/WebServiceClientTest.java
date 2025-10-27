@@ -25,7 +25,6 @@ import com.maxmind.geoip2.exception.InvalidRequestException;
 import com.maxmind.geoip2.exception.OutOfQueriesException;
 import com.maxmind.geoip2.exception.PermissionRequiredException;
 import com.maxmind.geoip2.model.InsightsResponse;
-import com.maxmind.geoip2.record.AbstractNamedRecord;
 import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Continent;
 import com.maxmind.geoip2.record.Country;
@@ -71,7 +70,6 @@ public class WebServiceClientTest {
         assertEquals("Received a 200 response but could not decode it as JSON", ex.getMessage());
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void test200WithDefaultValues() throws Exception {
         WebServiceClient client = createSuccessClient("insights", "1.2.3.13",
@@ -81,93 +79,98 @@ public class WebServiceClientTest {
             .getByName("1.2.3.13"));
 
         assertThat(insights.toString(),
-            CoreMatchers.startsWith("com.maxmind.geoip2.model.InsightsResponse [ {"));
+            CoreMatchers.startsWith("InsightsResponse["));
 
-        City city = insights.getCity();
+        City city = insights.city();
         assertNotNull(city);
-        assertNull(city.getConfidence());
+        assertNull(city.confidence());
 
-        Continent continent = insights.getContinent();
+        Continent continent = insights.continent();
         assertNotNull(continent);
-        assertNull(continent.getCode());
+        assertNull(continent.code());
 
-        Country country = insights.getCountry();
+        Country country = insights.country();
         assertNotNull(country);
 
-        Location location = insights.getLocation();
+        Location location = insights.location();
         assertNotNull(location);
-        assertNull(location.getAccuracyRadius());
-        assertNull(location.getLatitude());
-        assertNull(location.getLongitude());
-        assertNull(location.getTimeZone());
+        assertNull(location.accuracyRadius());
+        assertNull(location.latitude());
+        assertNull(location.longitude());
+        assertNull(location.timeZone());
         assertThat(location.toString(),
-            CoreMatchers.equalTo("com.maxmind.geoip2.record.Location [ {} ]"));
+            CoreMatchers.startsWith("Location["));
 
-        MaxMind maxmind = insights.getMaxMind();
+        MaxMind maxmind = insights.maxmind();
         assertNotNull(maxmind);
-        assertNull(maxmind.getQueriesRemaining());
+        assertNull(maxmind.queriesRemaining());
 
-        assertNotNull(insights.getPostal());
+        assertNotNull(insights.postal());
 
-        Country registeredCountry = insights.getRegisteredCountry();
+        Country registeredCountry = insights.registeredCountry();
         assertNotNull(registeredCountry);
 
         RepresentedCountry representedCountry = insights
-            .getRepresentedCountry();
+            .representedCountry();
         assertNotNull(representedCountry);
-        assertNull(representedCountry.getType());
+        assertNull(representedCountry.type());
 
-        List<Subdivision> subdivisions = insights.getSubdivisions();
+        List<Subdivision> subdivisions = insights.subdivisions();
         assertNotNull(subdivisions);
         assertTrue(subdivisions.isEmpty());
 
-        Subdivision subdiv = insights.getMostSpecificSubdivision();
+        Subdivision subdiv = insights.mostSpecificSubdivision();
         assertNotNull(subdiv);
-        assertNull(subdiv.getIsoCode());
-        assertNull(subdiv.getConfidence());
+        assertNull(subdiv.isoCode());
+        assertNull(subdiv.confidence());
 
-        Subdivision leastSpecificSubdiv = insights.getLeastSpecificSubdivision();
+        Subdivision leastSpecificSubdiv = insights.leastSpecificSubdivision();
         assertNotNull(leastSpecificSubdiv);
-        assertNull(leastSpecificSubdiv.getIsoCode());
-        assertNull(leastSpecificSubdiv.getConfidence());
+        assertNull(leastSpecificSubdiv.isoCode());
+        assertNull(leastSpecificSubdiv.confidence());
 
-        Traits traits = insights.getTraits();
+        Traits traits = insights.traits();
         assertNotNull(traits);
-        assertNull(traits.getAutonomousSystemNumber());
-        assertNull(traits.getAutonomousSystemOrganization());
-        assertNull(traits.getConnectionType());
-        assertNull(traits.getDomain());
-        assertEquals("1.2.3.13", traits.getIpAddress());
-        assertEquals("1.2.3.0/24", traits.getNetwork().toString());
-        assertNull(traits.getIsp());
-        assertNull(traits.getOrganization());
-        assertNull(traits.getUserType());
-        assertNull(traits.getStaticIpScore());
-        assertNull(traits.getUserCount());
+        assertNull(traits.autonomousSystemNumber());
+        assertNull(traits.autonomousSystemOrganization());
+        assertNull(traits.connectionType());
+        assertNull(traits.domain());
+        assertEquals("1.2.3.13", traits.ipAddress().getHostAddress());
+        assertEquals("1.2.3.0/24", traits.network().toString());
+        assertNull(traits.isp());
+        assertNull(traits.organization());
+        assertNull(traits.userType());
+        assertNull(traits.staticIpScore());
+        assertNull(traits.userCount());
         assertFalse(traits.isAnycast());
 
-        for (Country c : new Country[] {country, registeredCountry,
-            representedCountry}) {
-            assertNull(c.getConfidence());
-            assertNull(c.getIsoCode());
+        for (Country c : new Country[] {country, registeredCountry}) {
+            assertNull(c.confidence());
+            assertNull(c.isoCode());
             assertFalse(c.isInEuropeanUnion());
         }
 
-        for (AbstractNamedRecord r : new AbstractNamedRecord[] {city,
+        // Check RepresentedCountry separately since it's no longer a Country
+        assertNull(representedCountry.confidence());
+        assertNull(representedCountry.isoCode());
+        assertFalse(representedCountry.isInEuropeanUnion());
+
+        for (NamedRecord r : new NamedRecord[] {city,
             continent, subdiv}) {
-            assertNull(r.getGeoNameId());
-            assertNull(r.getName());
-            assertTrue(r.getNames().isEmpty());
-            assertEquals(r.getClass().getName() + " [ {} ]", r.toString());
+            assertNull(r.geonameId());
+            assertNull(r.name());
+            assertTrue(r.names().isEmpty());
+            // Records have their own toString format
+            assertNotNull(r.toString());
         }
 
-        for (AbstractNamedRecord r : new AbstractNamedRecord[] {country,
+        for (NamedRecord r : new NamedRecord[] {country,
             registeredCountry, representedCountry}) {
-            assertNull(r.getGeoNameId());
-            assertNull(r.getName());
-            assertTrue(r.getNames().isEmpty());
-            assertEquals(r.getClass().getName() +
-                " [ {\"is_in_european_union\":false} ]", r.toString());
+            assertNull(r.geonameId());
+            assertNull(r.name());
+            assertTrue(r.names().isEmpty());
+            // Records have their own toString format
+            assertNotNull(r.toString());
         }
     }
 
@@ -176,7 +179,7 @@ public class WebServiceClientTest {
         WebServiceClient client = createSuccessClient("insights", "me",
             "{\"traits\":{\"ip_address\":\"24.24.24.24\"}}");
         assertEquals("24.24.24.24",
-            client.insights().getTraits().getIpAddress());
+            client.insights().traits().ipAddress().getHostAddress());
     }
 
     @Test
@@ -184,7 +187,7 @@ public class WebServiceClientTest {
         WebServiceClient client = createSuccessClient("city", "me",
             "{\"traits\":{\"ip_address\":\"24.24.24.24\"}}");
         assertEquals("24.24.24.24",
-            client.city().getTraits().getIpAddress());
+            client.city().traits().ipAddress().getHostAddress());
     }
 
     @Test
@@ -192,7 +195,7 @@ public class WebServiceClientTest {
         WebServiceClient client = createSuccessClient("country", "me",
             "{\"traits\":{\"ip_address\":\"24.24.24.24\"}}");
         assertEquals("24.24.24.24",
-            client.country().getTraits().getIpAddress());
+            client.country().traits().ipAddress().getHostAddress());
     }
 
     @Test

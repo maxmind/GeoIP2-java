@@ -4,7 +4,12 @@ package com.maxmind.geoip2.exception;
  * This class represents a generic GeoIP2 error. All other exceptions thrown by
  * the GeoIP2 API subclass this exception
  */
-public class GeoIp2Exception extends Exception {
+public sealed class GeoIp2Exception extends Exception
+    permits AddressNotFoundException,
+            AuthenticationException,
+            InvalidRequestException,
+            OutOfQueriesException,
+            PermissionRequiredException {
 
 
     /**

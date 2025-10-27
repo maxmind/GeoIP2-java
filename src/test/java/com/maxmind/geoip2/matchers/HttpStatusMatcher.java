@@ -19,7 +19,7 @@ public class HttpStatusMatcher extends TypeSafeMatcher<HttpException> {
 
     @Override
     protected boolean matchesSafely(final HttpException exception) {
-        this.foundStatusCode = exception.getHttpStatus();
+        this.foundStatusCode = exception.httpStatus();
         return this.foundStatusCode == this.expectedStatusCode;
     }
 

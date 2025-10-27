@@ -23,8 +23,8 @@ final class NetworkDeserializerTest {
     }
     private static void assertNetwork(Network n, String addr, int prefix) throws Exception {
         assertNotNull(n);
-        assertEquals(InetAddress.getByName(addr), n.getNetworkAddress());
-        assertEquals(prefix, n.getPrefixLength());
+        assertEquals(InetAddress.getByName(addr), n.networkAddress());
+        assertEquals(prefix, n.prefixLength());
     }
 
     @Test
