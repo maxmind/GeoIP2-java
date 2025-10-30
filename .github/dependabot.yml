@@ -1,17 +1,21 @@
 version: 2
 updates:
-- package-ecosystem: maven
-  directory: "/"
-  schedule:
-    interval: daily
-    time: "14:00"
-  open-pull-requests-limit: 10
-  groups:
-    jackson:
-      patterns:
-        - "com.fasterxml.jackson*"
-- package-ecosystem: "github-actions"
-  directory: "/"
-  schedule:
-    interval: daily
-    time: "14:00"
+  - package-ecosystem: maven
+    directory: /
+    schedule:
+      interval: daily
+      time: '14:00'
+    open-pull-requests-limit: 10
+    groups:
+      jackson:
+        patterns:
+          - com.fasterxml.jackson*
+    cooldown:
+      default-days: 4
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
+      time: '14:00'
+    cooldown:
+      default-days: 4
