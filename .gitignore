@@ -6,6 +6,7 @@
 *.ear
 *.sw?
 *.classpath
+.claude
 .gh-pages
 .idea
 .pmd
