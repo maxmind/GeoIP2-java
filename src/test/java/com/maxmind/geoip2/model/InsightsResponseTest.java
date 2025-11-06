@@ -15,6 +15,7 @@ import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import com.maxmind.geoip2.WebServiceClient;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
+import com.maxmind.geoip2.record.Anonymizer;
 import com.maxmind.geoip2.record.Location;
 import com.maxmind.geoip2.record.MaxMind;
 import com.maxmind.geoip2.record.Postal;
@@ -23,6 +24,7 @@ import com.maxmind.geoip2.record.Traits;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -167,6 +169,42 @@ public class InsightsResponseTest {
             Integer.valueOf(2),
             traits.userCount(),
             "traits.userCount() does not return 2"
+        );
+        assertEquals(
+            Double.valueOf(0.01),
+            traits.ipRiskSnapshot(),
+            "traits.ipRiskSnapshot() does not return 0.01"
+        );
+    }
+
+    @Test
+    public void testAnonymizer() {
+        Anonymizer anonymizer = this.insights.anonymizer();
+
+        assertNotNull(anonymizer, "insights.anonymizer() returns null");
+        assertEquals(
+            Integer.valueOf(99),
+            anonymizer.confidence(),
+            "anonymizer.confidence() does not return 99"
+        );
+        assertTrue(anonymizer.isAnonymous(), "anonymizer.isAnonymous() returns true");
+        assertTrue(anonymizer.isAnonymousVpn(), "anonymizer.isAnonymousVpn() returns true");
+        assertTrue(anonymizer.isHostingProvider(), "anonymizer.isHostingProvider() returns true");
+        assertTrue(anonymizer.isPublicProxy(), "anonymizer.isPublicProxy() returns true");
+        assertTrue(
+            anonymizer.isResidentialProxy(),
+            "anonymizer.isResidentialProxy() returns true"
+        );
+        assertTrue(anonymizer.isTorExitNode(), "anonymizer.isTorExitNode() returns true");
+        assertEquals(
+            LocalDate.parse("2024-12-31"),
+            anonymizer.networkLastSeen(),
+            "anonymizer.networkLastSeen() does not return 2024-12-31"
+        );
+        assertEquals(
+            "NordVPN",
+            anonymizer.providerName(),
+            "anonymizer.providerName() does not return NordVPN"
         );
     }
 

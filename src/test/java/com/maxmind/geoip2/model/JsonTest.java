@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.fasterxml.jackson.databind.InjectableValues;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.jr.ob.JSON;
 import java.io.IOException;
@@ -46,9 +47,21 @@ public class JsonTest {
             .put("network", "1.2.3.0/24")
             .put("organization", "Blorg")
             .put("user_type", "college")
+            .put("ip_risk_snapshot", 0.01)
             // This is here just to simplify the testing. We expect the
             // difference
             .put("is_legitimate_proxy", false)
+            .end()
+            .startObjectField("anonymizer")
+            .put("confidence", 99)
+            .put("is_anonymous", true)
+            .put("is_anonymous_vpn", true)
+            .put("is_hosting_provider", true)
+            .put("is_public_proxy", true)
+            .put("is_residential_proxy", true)
+            .put("is_tor_exit_node", true)
+            .put("network_last_seen", "2024-12-31")
+            .put("provider_name", "NordVPN")
             .end()
             .startObjectField("country")
             .startObjectField("names")
@@ -334,6 +347,8 @@ public class JsonTest {
         throws IOException {
         JsonMapper mapper = JsonMapper.builder()
             .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .addModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule())
             .addModule(new com.maxmind.geoip2.InetAddressModule())
             .build();
         InjectableValues inject = new InjectableValues.Std().addValue(

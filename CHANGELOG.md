@@ -18,6 +18,20 @@ CHANGELOG
   field.
 * The deprecation notices for IP Risk database support have been removed.
   IP Risk database support will continue to be maintained.
+* A new `Anonymizer` record has been added to the `InsightsResponse` model. This
+  record consolidates anonymizer information including VPN confidence scores,
+  network last seen dates, and provider names. It includes the following fields:
+  `confidence`, `isAnonymous`, `isAnonymousVpn`, `isHostingProvider`,
+  `isPublicProxy`, `isResidentialProxy`, `isTorExitNode`, `networkLastSeen`, and
+  `providerName`.
+* A new `ipRiskSnapshot` field has been added to the `Traits` record. This field
+  provides a static risk score (ranging from 0.01 to 99) associated with the IP
+  address. This is available from the GeoIP2 Precision Insights web service.
+* The anonymous IP flags in the `Traits` record (`isAnonymous`, `isAnonymousVpn`,
+  `isHostingProvider`, `isPublicProxy`, `isResidentialProxy`, and `isTorExitNode`)
+  have been deprecated in favor of using the new `Anonymizer` record in the
+  `InsightsResponse`. These fields will continue to work but will be removed in
+  version 6.0.0.
 * **BREAKING:** The deprecated `WebServiceClient.Builder` methods
   `connectTimeout(int)`, `readTimeout(int)`, and `proxy(Proxy)` have been
   removed. Use `connectTimeout(Duration)`, `requestTimeout(Duration)`, and
