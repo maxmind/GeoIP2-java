@@ -2,6 +2,7 @@ package com.maxmind.geoip2;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.IOException;
@@ -20,6 +21,7 @@ public interface JsonSerializable {
     default String toJson() throws IOException {
         JsonMapper mapper = JsonMapper.builder()
             .disable(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)
+            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
             .addModule(new JavaTimeModule())
             .addModule(new InetAddressModule())
             .serializationInclusion(JsonInclude.Include.NON_NULL)

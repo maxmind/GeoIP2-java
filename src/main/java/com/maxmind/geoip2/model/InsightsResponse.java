@@ -3,6 +3,7 @@ package com.maxmind.geoip2.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maxmind.geoip2.JsonSerializable;
+import com.maxmind.geoip2.record.Anonymizer;
 import com.maxmind.geoip2.record.City;
 import com.maxmind.geoip2.record.Continent;
 import com.maxmind.geoip2.record.Country;
@@ -19,6 +20,9 @@ import java.util.List;
  * This class provides a model for the data returned by the Insights web
  * service.
  *
+ * @param anonymizer Anonymizer record for the requested IP address. This contains information
+ *                   about whether the IP address belongs to an anonymizing network such as a VPN,
+ *                   proxy, or Tor exit node.
  * @param city City record for the requested IP address.
  * @param continent Continent record for the requested IP address.
  * @param country Country record for the requested IP address. This object represents the country
@@ -43,6 +47,9 @@ import java.util.List;
  * Services</a>
  */
 public record InsightsResponse(
+    @JsonProperty("anonymizer")
+    Anonymizer anonymizer,
+
     @JsonProperty("city")
     City city,
 
@@ -78,6 +85,7 @@ public record InsightsResponse(
      * Compact canonical constructor that sets defaults for null values.
      */
     public InsightsResponse {
+        anonymizer = anonymizer != null ? anonymizer : new Anonymizer();
         city = city != null ? city : new City();
         continent = continent != null ? continent : new Continent();
         country = country != null ? country : new Country();

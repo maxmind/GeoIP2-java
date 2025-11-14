@@ -37,14 +37,33 @@ import java.net.InetAddress;
  *                  address for the system the code is running on. If the system is behind a
  *                  NAT, this may differ from the IP address locally assigned to it.
  * @param isAnonymous This is true if the IP address belongs to any sort of anonymous network.
+ *                    This field is deprecated. Please use the anonymizer object from the
+ *                    Insights response.
  * @param isAnonymousVpn This is true if the IP address belongs to an anonymous VPN system.
+ *                       This field is deprecated. Please use the anonymizer object from the
+ *                       Insights response.
  * @param isAnycast This is true if the IP address is an anycast address.
  * @param isHostingProvider This is true if the IP address belongs to a hosting provider.
+ *                          This field is deprecated. Please use the anonymizer object from the
+ *                          Insights response.
  * @param isLegitimateProxy This is true if the IP address belongs to a legitimate proxy.
  * @param isPublicProxy This is true if the IP address belongs to a public proxy.
+ *                      This field is deprecated. Please use the anonymizer object from the
+ *                      Insights response.
  * @param isResidentialProxy This is true if the IP address is on a suspected anonymizing network
  *                           and belongs to a residential ISP.
+ *                           This field is deprecated. Please use the anonymizer object from the
+ *                           Insights response.
  * @param isTorExitNode This is true if the IP address is a Tor exit node.
+ *                      This field is deprecated. Please use the anonymizer object from the
+ *                      Insights response.
+ * @param ipRiskSnapshot The risk associated with the IP address. The value ranges from 0.01 to
+ *                       99, with a higher score indicating a higher risk. The IP risk score
+ *                       provided in GeoIP products and services is more static than the IP risk
+ *                       score provided in minFraud and is not responsive to traffic on your
+ *                       network. If you need realtime IP risk scoring based on behavioral signals
+ *                       on your own network, please use minFraud. This is only available from the
+ *                       Insights web service.
  * @param isp The name of the ISP associated with the IP address. This is only available from
  *            the City Plus and Insights web services and the Enterprise database.
  * @param mobileCountryCode The <a href="https://en.wikipedia.org/wiki/Mobile_country_code">
@@ -94,10 +113,12 @@ public record Traits(
     @MaxMindDbIpAddress
     InetAddress ipAddress,
 
+    @Deprecated(since = "5.0.0", forRemoval = true)
     @JsonProperty("is_anonymous")
     @MaxMindDbParameter(name = "is_anonymous", useDefault = true)
     boolean isAnonymous,
 
+    @Deprecated(since = "5.0.0", forRemoval = true)
     @JsonProperty("is_anonymous_vpn")
     @MaxMindDbParameter(name = "is_anonymous_vpn", useDefault = true)
     boolean isAnonymousVpn,
@@ -106,6 +127,7 @@ public record Traits(
     @MaxMindDbParameter(name = "is_anycast", useDefault = true)
     boolean isAnycast,
 
+    @Deprecated(since = "5.0.0", forRemoval = true)
     @JsonProperty("is_hosting_provider")
     @MaxMindDbParameter(name = "is_hosting_provider", useDefault = true)
     boolean isHostingProvider,
@@ -114,17 +136,24 @@ public record Traits(
     @MaxMindDbParameter(name = "is_legitimate_proxy", useDefault = true)
     boolean isLegitimateProxy,
 
+    @Deprecated(since = "5.0.0", forRemoval = true)
     @JsonProperty("is_public_proxy")
     @MaxMindDbParameter(name = "is_public_proxy", useDefault = true)
     boolean isPublicProxy,
 
+    @Deprecated(since = "5.0.0", forRemoval = true)
     @JsonProperty("is_residential_proxy")
     @MaxMindDbParameter(name = "is_residential_proxy", useDefault = true)
     boolean isResidentialProxy,
 
+    @Deprecated(since = "5.0.0", forRemoval = true)
     @JsonProperty("is_tor_exit_node")
     @MaxMindDbParameter(name = "is_tor_exit_node", useDefault = true)
     boolean isTorExitNode,
+
+    @JsonProperty("ip_risk_snapshot")
+    @MaxMindDbParameter(name = "ip_risk_snapshot")
+    Double ipRiskSnapshot,
 
     @JsonProperty("isp")
     @MaxMindDbParameter(name = "isp")
@@ -168,7 +197,7 @@ public record Traits(
         this(null, null, (ConnectionType) null, null,
             null, false, false, false, false,
             false, false, false, false, null,
-            null, null, null, null, null, null, null);
+            null, null, null, null, null, null, null, null);
     }
 
     /**
