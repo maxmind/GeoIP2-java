@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-5.0.0
+5.0.0 (2025-11-20)
 ------------------
 
 * **BREAKING:** All model and record classes have been converted to Java records.
