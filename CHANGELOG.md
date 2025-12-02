@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+5.0.1 (2025-12-02)
+------------------
+
+* Updated `maxmind-db` dependency to 4.0.1. This makes `DecodedValue` public
+  again, allowing custom `NodeCache` implementations to be created. GitHub
+  #636.
+
 5.0.0 (2025-11-20)
 ------------------
 
