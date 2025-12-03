@@ -6,26 +6,26 @@ set -eu -o pipefail
 # before making any changes to the repository
 
 check_command() {
-    if ! command -v "$1" &> /dev/null; then
+    if ! command -v "$1" &>/dev/null; then
         echo "Error: $1 is not installed or not in PATH"
         exit 1
     fi
 }
 
 # Verify gh CLI is authenticated
-if ! gh auth status &> /dev/null; then
+if ! gh auth status &>/dev/null; then
     echo "Error: gh CLI is not authenticated. Run 'gh auth login' first."
     exit 1
 fi
 
 # Verify we can access this repository via gh
-if ! gh repo view --json name &> /dev/null; then
+if ! gh repo view --json name &>/dev/null; then
     echo "Error: Cannot access repository via gh. Check your authentication and repository access."
     exit 1
 fi
 
 # Verify git can connect to the remote (catches SSH key issues, etc.)
-if ! git ls-remote origin &> /dev/null; then
+if ! git ls-remote origin &>/dev/null; then
     echo "Error: Cannot connect to git remote. Check your git credentials/SSH keys."
     exit 1
 fi
@@ -62,15 +62,15 @@ regex='
 '
 
 if [[ ! $changelog =~ $regex ]]; then
-      echo "Could not find date line in change log!"
-      exit 1
+    echo "Could not find date line in change log!"
+    exit 1
 fi
 
 version="${BASH_REMATCH[1]}"
 date="${BASH_REMATCH[2]}"
 notes="$(echo "${BASH_REMATCH[3]}" | sed -n -e '/^[0-9]\+\.[0-9]\+\.[0-9]\+/,$!p')"
 
-if [[ "$date" !=  $(date +"%Y-%m-%d") ]]; then
+if [[ "$date" != "$(date +"%Y-%m-%d")" ]]; then
     echo "$date is not today!"
     exit 1
 fi
@@ -119,7 +119,7 @@ if [ "$should_continue" != "y" ]; then
 fi
 
 page=.gh-pages/index.md
-cat <<EOF > $page
+cat <<EOF >$page
 ---
 layout: default
 title: MaxMind GeoIP2 Java API
@@ -134,7 +134,7 @@ mvn versions:set -DnewVersion="$version"
 perl -pi -e "s/(?<=<version>)[^<]*/$version/" README.md
 perl -pi -e "s/(?<=com\.maxmind\.geoip2\:geoip2\:)\d+\.\d+\.\d+([\w\-]+)?/$version/" README.md
 
-cat README.md >> $page
+cat README.md >>$page
 
 git diff
 
