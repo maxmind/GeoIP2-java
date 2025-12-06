@@ -19,6 +19,7 @@ import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
 import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.model.DomainResponse;
 import com.maxmind.geoip2.model.EnterpriseResponse;
+import com.maxmind.geoip2.model.IpRiskResponse;
 import com.maxmind.geoip2.model.IspResponse;
 import java.io.File;
 import java.io.IOException;
@@ -424,6 +425,48 @@ public class DatabaseReaderTest {
             response = reader.isp(ipAddress);
             assertEquals("310", response.mobileCountryCode());
             assertEquals("004", response.mobileNetworkCode());
+        }
+    }
+
+    @Test
+    public void testIpRisk() throws Exception {
+        try (DatabaseReader reader = new DatabaseReader.Builder(
+            this.getFile("GeoIP2-IP-Risk-Test.mmdb")).build()
+        ) {
+            InetAddress ipAddress = InetAddress.getByName("214.2.3.0");
+            IpRiskResponse response = reader.ipRisk(ipAddress);
+            assertEquals(25.0, response.ipRisk());
+            assertTrue(response.isAnonymous());
+            assertTrue(response.isAnonymousVpn());
+            assertFalse(response.isHostingProvider());
+            assertFalse(response.isPublicProxy());
+            assertFalse(response.isResidentialProxy());
+            assertFalse(response.isTorExitNode());
+            assertEquals(ipAddress.getHostAddress(), response.ipAddress().getHostAddress());
+            assertEquals("214.2.3.0/30", response.network().toString());
+
+            IpRiskResponse tryResponse = reader.tryIpRisk(ipAddress).get();
+            assertEquals(response.toJson(), tryResponse.toJson());
+        }
+    }
+
+    @Test
+    public void testIpRiskWithoutIpRiskField() throws Exception {
+        // Test that records without ip_risk field default to 0.0.
+        // A value of 0.0 indicates that the risk score was not set in the database.
+        try (DatabaseReader reader = new DatabaseReader.Builder(
+            this.getFile("GeoIP2-IP-Risk-Test.mmdb")).build()
+        ) {
+            InetAddress ipAddress = InetAddress.getByName("11.1.2.3");
+            IpRiskResponse response = reader.ipRisk(ipAddress);
+            assertEquals(0.0, response.ipRisk());
+            assertTrue(response.isAnonymous());
+            assertFalse(response.isAnonymousVpn());
+            assertFalse(response.isHostingProvider());
+            assertTrue(response.isPublicProxy());
+            assertFalse(response.isResidentialProxy());
+            assertFalse(response.isTorExitNode());
+            assertEquals(ipAddress.getHostAddress(), response.ipAddress().getHostAddress());
         }
     }
 

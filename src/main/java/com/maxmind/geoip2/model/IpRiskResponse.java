@@ -28,8 +28,14 @@ import java.net.InetAddress;
  * @param isTorExitNode Whether the IP address is a Tor exit node.
  * @param network The network associated with the record. In particular, this is the largest
  *                network where all the fields besides IP address have the same value.
- * @param ipRisk The IP risk of a model.
+ * @param ipRisk The IP risk score for the IP address. A value of 0.0 indicates that the
+ *               risk score was not set in the database. This is a limitation of primitive
+ *               types in Java - the value cannot be null. In a future major version, this
+ *               field may be changed to a nullable {@code Double} to distinguish between
+ *               "no data" and "zero risk".
  */
+// TODO: In the next major version (6.0.0), consider changing ipRisk to Double
+// to allow null values, distinguishing "no data" from "zero risk".
 public record IpRiskResponse(
     @JsonProperty("ip_address")
     @MaxMindDbIpAddress
@@ -65,7 +71,7 @@ public record IpRiskResponse(
     Network network,
 
     @JsonProperty("ip_risk")
-    @MaxMindDbParameter(name = "ip_risk")
+    @MaxMindDbParameter(name = "ip_risk", useDefault = true)
     double ipRisk
 ) implements JsonSerializable {
 

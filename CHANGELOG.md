@@ -1,6 +1,16 @@
 CHANGELOG
 =========
 
+5.0.2 (unreleased)
+------------------
+
+* Fixed an issue where decoding `IpRiskResponse` from the IP Risk database would
+  fail when the `ip_risk` field was not present in the database record. The
+  `ipRisk` field now defaults to 0.0 when not present. A value of 0.0 indicates
+  that the risk score was not set in the database. In a future major release,
+  this field may be changed to a nullable `Double` to better distinguish between
+  "no data" and "zero risk". Reported by Fabrice Bacchella. GitHub #644.
+
 5.0.1 (2025-12-02)
 ------------------
 
