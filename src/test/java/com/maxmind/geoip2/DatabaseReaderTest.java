@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.maxmind.db.Networks;
 import com.maxmind.db.Reader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
@@ -27,6 +28,8 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -474,5 +477,79 @@ public class DatabaseReaderTest {
         URL resource = DatabaseReaderTest.class
             .getResource("/maxmind-db/test-data/" + filename);
         return new File(resource.toURI());
+    }
+
+    /**
+     * Tests that all records in each test database can be deserialized.
+     * This test iterates over every network in the database and performs
+     * a lookup to ensure no deserialization errors occur.
+     *
+     * <p>Based on the reproduction test from GitHub issue #644.
+     * https://github.com/maxmind/GeoIP2-java/issues/644
+     */
+    @Test
+    public void testAllRecordsDeserialize() throws Exception {
+        var testDataDir = Paths.get(
+            getClass().getResource("/maxmind-db/test-data").toURI()
+        );
+
+        try (var stream = Files.newDirectoryStream(testDataDir, "*.mmdb")) {
+            for (var dbPath : stream) {
+                var filename = dbPath.getFileName().toString();
+
+                if (shouldSkipDatabase(filename)) {
+                    continue;
+                }
+
+                try (var reader = new Reader(dbPath.toFile());
+                     var dbReader = new DatabaseReader.Builder(dbPath.toFile()).build()) {
+
+                    var dbType = reader.getMetadata().databaseType();
+                    var networks = reader.networks(Object.class);
+
+                    while (networks.hasNext()) {
+                        var ip = networks.next().network().networkAddress();
+                        lookupByDatabaseType(dbReader, dbType, ip);
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean shouldSkipDatabase(String filename) {
+        // Skip internal test databases and those without model classes in GeoIP2-java
+        return filename.startsWith("MaxMind-DB-")
+            || filename.contains("Broken")
+            || filename.contains("Invalid")
+            || filename.contains("DensityIncome")
+            || filename.contains("User-Count")
+            || filename.contains("Static-IP-Score");
+    }
+
+    private void lookupByDatabaseType(DatabaseReader reader, String dbType, InetAddress ip)
+        throws IOException, GeoIp2Exception {
+        if (dbType.contains("City")) {
+            reader.city(ip);
+        } else if (dbType.contains("Country")) {
+            reader.country(ip);
+        } else if (dbType.contains("Enterprise")) {
+            reader.enterprise(ip);
+        } else if (dbType.equals("GeoIP-Anonymous-Plus")) {
+            reader.anonymousPlus(ip);
+        } else if (dbType.equals("GeoIP2-Anonymous-IP")) {
+            reader.anonymousIp(ip);
+        } else if (dbType.equals("GeoIP2-ISP")) {
+            reader.isp(ip);
+        } else if (dbType.equals("GeoIP2-IP-Risk")) {
+            reader.ipRisk(ip);
+        } else if (dbType.equals("GeoIP2-Domain")) {
+            reader.domain(ip);
+        } else if (dbType.equals("GeoLite2-ASN")) {
+            reader.asn(ip);
+        } else if (dbType.equals("GeoIP2-Connection-Type")) {
+            reader.connectionType(ip);
+        } else {
+            throw new IllegalArgumentException("Unknown database type: " + dbType);
+        }
     }
 }
