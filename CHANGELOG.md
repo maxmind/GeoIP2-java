@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-5.0.2 (unreleased)
+5.0.2 (2025-12-08)
 ------------------
 
 * Fixed an issue where decoding `IpRiskResponse` from the IP Risk database would
