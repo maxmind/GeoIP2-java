@@ -11,11 +11,11 @@ updates:
         patterns:
           - com.fasterxml.jackson*
     cooldown:
-      default-days: 4
+      default-days: 7
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: daily
       time: '14:00'
     cooldown:
-      default-days: 4
+      default-days: 7
