@@ -64,6 +64,13 @@ import java.net.InetAddress;
  *                       network. If you need realtime IP risk scoring based on behavioral signals
  *                       on your own network, please use minFraud. This is only available from the
  *                       Insights web service.
+ *                       <p>
+ *                       We do not provide an IP risk snapshot for low-risk networks. If this
+ *                       field is not populated, we either do not have signals for the network
+ *                       or the signals we have show that the network is low-risk. If you would
+ *                       like to get signals for low-risk networks, please use the minFraud web
+ *                       services.
+ *                       </p>
  * @param isp The name of the ISP associated with the IP address. This is only available from
  *            the City Plus and Insights web services and the Enterprise database.
  * @param mobileCountryCode The <a href="https://en.wikipedia.org/wiki/Mobile_country_code">
