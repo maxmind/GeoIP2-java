@@ -97,10 +97,10 @@ InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 // Do the lookup
 CountryResponse response = client.country(ipAddress);
 
-Country country = response.getCountry();
-System.out.println(country.getIsoCode());            // 'US'
-System.out.println(country.getName());               // 'United States'
-System.out.println(country.getNames().get("zh-CN")); // '美国'
+Country country = response.country();
+System.out.println(country.isoCode());            // 'US'
+System.out.println(country.name());               // 'United States'
+System.out.println(country.names().get("zh-CN")); // '美国'
 ```
 
 ### City Plus Service ###
@@ -126,24 +126,24 @@ InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 // Do the lookup
 CityResponse response = client.city(ipAddress);
 
-Country country = response.getCountry();
-System.out.println(country.getIsoCode());            // 'US'
-System.out.println(country.getName());               // 'United States'
-System.out.println(country.getNames().get("zh-CN")); // '美国'
+Country country = response.country();
+System.out.println(country.isoCode());            // 'US'
+System.out.println(country.name());               // 'United States'
+System.out.println(country.names().get("zh-CN")); // '美国'
 
-Subdivision subdivision = response.getMostSpecificSubdivision();
-System.out.println(subdivision.getName());       // 'Minnesota'
-System.out.println(subdivision.getIsoCode());    // 'MN'
+Subdivision subdivision = response.mostSpecificSubdivision();
+System.out.println(subdivision.name());       // 'Minnesota'
+System.out.println(subdivision.isoCode());    // 'MN'
 
-City city = response.getCity();
-System.out.println(city.getName());       // 'Minneapolis'
+City city = response.city();
+System.out.println(city.name());       // 'Minneapolis'
 
-Postal postal = response.getPostal();
-System.out.println(postal.getCode());       // '55455'
+Postal postal = response.postal();
+System.out.println(postal.code());       // '55455'
 
-Location location = response.getLocation();
-System.out.println(location.getLatitude());        // 44.9733
-System.out.println(location.getLongitude());       // -93.2323
+Location location = response.location();
+System.out.println(location.latitude());        // 44.9733
+System.out.println(location.longitude());       // -93.2323
 ```
 
 ### Insights Service ###
@@ -167,32 +167,32 @@ InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 // Do the lookup
 InsightsResponse response = client.insights(ipAddress);
 
-Country country = response.getCountry();
-System.out.println(country.getIsoCode());            // 'US'
-System.out.println(country.getName());               // 'United States'
-System.out.println(country.getNames().get("zh-CN")); // '美国'
-System.out.println(country.getConfidence());         // 99
+Country country = response.country();
+System.out.println(country.isoCode());            // 'US'
+System.out.println(country.name());               // 'United States'
+System.out.println(country.names().get("zh-CN")); // '美国'
+System.out.println(country.confidence());         // 99
 
-Subdivision subdivision = response.getMostSpecificSubdivision();
-System.out.println(subdivision.getName());       // 'Minnesota'
-System.out.println(subdivision.getIsoCode());    // 'MN'
-System.out.println(subdivision.getConfidence()); // 90
+Subdivision subdivision = response.mostSpecificSubdivision();
+System.out.println(subdivision.name());       // 'Minnesota'
+System.out.println(subdivision.isoCode());    // 'MN'
+System.out.println(subdivision.confidence()); // 90
 
-City city = response.getCity();
-System.out.println(city.getName());       // 'Minneapolis'
-System.out.println(city.getConfidence()); // 50
+City city = response.city();
+System.out.println(city.name());       // 'Minneapolis'
+System.out.println(city.confidence()); // 50
 
-Postal postal = response.getPostal();
-System.out.println(postal.getCode());       // '55455'
-System.out.println(postal.getConfidence()); // 40
+Postal postal = response.postal();
+System.out.println(postal.code());       // '55455'
+System.out.println(postal.confidence()); // 40
 
-Location location = response.getLocation();
-System.out.println(location.getLatitude());        // 44.9733
-System.out.println(location.getLongitude());       // -93.2323
-System.out.println(location.getAccuracyRadius());  // 3
-System.out.println(location.getTimeZone());        // 'America/Chicago'
+Location location = response.location();
+System.out.println(location.latitude());        // 44.9733
+System.out.println(location.longitude());       // -93.2323
+System.out.println(location.accuracyRadius());  // 3
+System.out.println(location.timeZone());        // 'America/Chicago'
 
-System.out.println(response.getTraits().getUserType()); // 'college'
+System.out.println(response.traits().userType()); // 'college'
 ```
 
 ## Database Usage ##
@@ -264,24 +264,24 @@ InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 // "country".
 CityResponse response = reader.city(ipAddress);
 
-Country country = response.getCountry();
-System.out.println(country.getIsoCode());            // 'US'
-System.out.println(country.getName());               // 'United States'
-System.out.println(country.getNames().get("zh-CN")); // '美国'
+Country country = response.country();
+System.out.println(country.isoCode());            // 'US'
+System.out.println(country.name());               // 'United States'
+System.out.println(country.names().get("zh-CN")); // '美国'
 
-Subdivision subdivision = response.getMostSpecificSubdivision();
-System.out.println(subdivision.getName());    // 'Minnesota'
-System.out.println(subdivision.getIsoCode()); // 'MN'
+Subdivision subdivision = response.mostSpecificSubdivision();
+System.out.println(subdivision.name());    // 'Minnesota'
+System.out.println(subdivision.isoCode()); // 'MN'
 
-City city = response.getCity();
-System.out.println(city.getName()); // 'Minneapolis'
+City city = response.city();
+System.out.println(city.name()); // 'Minneapolis'
 
-Postal postal = response.getPostal();
-System.out.println(postal.getCode()); // '55455'
+Postal postal = response.postal();
+System.out.println(postal.code()); // '55455'
 
-Location location = response.getLocation();
-System.out.println(location.getLatitude());  // 44.9733
-System.out.println(location.getLongitude()); // -93.2323
+Location location = response.location();
+System.out.println(location.latitude());  // 44.9733
+System.out.println(location.longitude()); // -93.2323
 ```
 
 ### Anonymous IP ###
@@ -302,7 +302,7 @@ try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
     System.out.println(response.isHostingProvider()); // false
     System.out.println(response.isPublicProxy()); // false
     System.out.println(response.isResidentialProxy()); // false
-    System.out.println(response.isTorExitNode()); //true
+    System.out.println(response.isTorExitNode()); // true
 }
 ```
 
@@ -317,17 +317,17 @@ File database = new File("/path/to/GeoIP-Anonymous-Plus.mmdb");
 try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
     InetAddress ipAddress = InetAddress.getByName("85.25.43.84");
 
-    AnonymousIpResponse response = reader.anonymousPlus(ipAddress);
+    AnonymousPlusResponse response = reader.anonymousPlus(ipAddress);
 
-    System.out.println(response.getAnonymizerConfidence()); // 30
+    System.out.println(response.anonymizerConfidence()); // 30
     System.out.println(response.isAnonymous()); // true
     System.out.println(response.isAnonymousVpn()); // false
     System.out.println(response.isHostingProvider()); // false
     System.out.println(response.isPublicProxy()); // false
     System.out.println(response.isResidentialProxy()); // false
     System.out.println(response.isTorExitNode()); // true
-    System.out.println(response.getNetworkLastSeen()); // "2025-04-14"
-    System.out.println(response.getProviderName()); // "FooBar VPN"
+    System.out.println(response.networkLastSeen()); // "2025-04-14"
+    System.out.println(response.providerName()); // "FooBar VPN"
 }
 ```
 
@@ -345,8 +345,8 @@ try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
 
     AsnResponse response = reader.asn(ipAddress);
 
-    System.out.println(response.getAutonomousSystemNumber());       // 217
-    System.out.println(response.getAutonomousSystemOrganization()); // 'University of Minnesota'
+    System.out.println(response.autonomousSystemNumber());       // 217
+    System.out.println(response.autonomousSystemOrganization()); // 'University of Minnesota'
 }
 ```
 
@@ -364,8 +364,8 @@ InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
 ConnectionTypeResponse response = reader.connectionType(ipAddress);
 
-// getConnectionType() returns a ConnectionType enum
-ConnectionType type = response.getConnectionType();
+// connectionType() returns a ConnectionType enum
+ConnectionType type = response.connectionType();
 
 System.out.println(type); // 'Corporate'
 ```
@@ -384,7 +384,7 @@ InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
 DomainResponse response = reader.domain(ipAddress);
 
-System.out.println(response.getDomain()); // 'umn.edu'
+System.out.println(response.domain()); // 'umn.edu'
 ```
 
 ### Enterprise ###
@@ -401,29 +401,29 @@ try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
     //  Use the enterprise(ip) method to do a lookup in the Enterprise database
     EnterpriseResponse response = reader.enterprise(ipAddress);
 
-    Country country = response.getCountry();
-    System.out.println(country.getIsoCode());            // 'US'
-    System.out.println(country.getName());               // 'United States'
-    System.out.println(country.getNames().get("zh-CN")); // '美国'
-    System.out.println(country.getConfidence());         // 99
+    Country country = response.country();
+    System.out.println(country.isoCode());            // 'US'
+    System.out.println(country.name());               // 'United States'
+    System.out.println(country.names().get("zh-CN")); // '美国'
+    System.out.println(country.confidence());         // 99
 
-    Subdivision subdivision = response.getMostSpecificSubdivision();
-    System.out.println(subdivision.getName());           // 'Minnesota'
-    System.out.println(subdivision.getIsoCode());        // 'MN'
-    System.out.println(subdivision.getConfidence());     // 77
+    Subdivision subdivision = response.mostSpecificSubdivision();
+    System.out.println(subdivision.name());           // 'Minnesota'
+    System.out.println(subdivision.isoCode());        // 'MN'
+    System.out.println(subdivision.confidence());     // 77
 
-    City city = response.getCity();
-    System.out.println(city.getName());       // 'Minneapolis'
-    System.out.println(city.getConfidence()); // 11
+    City city = response.city();
+    System.out.println(city.name());       // 'Minneapolis'
+    System.out.println(city.confidence()); // 11
 
-    Postal postal = response.getPostal();
-    System.out.println(postal.getCode()); // '55455'
-    System.out.println(postal.getConfidence()); // 5
+    Postal postal = response.postal();
+    System.out.println(postal.code()); // '55455'
+    System.out.println(postal.confidence()); // 5
 
-    Location location = response.getLocation();
-    System.out.println(location.getLatitude());  // 44.9733
-    System.out.println(location.getLongitude()); // -93.2323
-    System.out.println(location.getAccuracyRadius()); // 50
+    Location location = response.location();
+    System.out.println(location.latitude());  // 44.9733
+    System.out.println(location.longitude()); // -93.2323
+    System.out.println(location.accuracyRadius()); // 50
 }
 ```
 
@@ -441,10 +441,10 @@ InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
 IspResponse response = reader.isp(ipAddress);
 
-System.out.println(response.getAutonomousSystemNumber());       // 217
-System.out.println(response.getAutonomousSystemOrganization()); // 'University of Minnesota'
-System.out.println(response.getIsp());                          // 'University of Minnesota'
-System.out.println(response.getOrganization());                 // 'University of Minnesota'
+System.out.println(response.autonomousSystemNumber());       // 217
+System.out.println(response.autonomousSystemOrganization()); // 'University of Minnesota'
+System.out.println(response.isp());                          // 'University of Minnesota'
+System.out.println(response.organization());                 // 'University of Minnesota'
 ```
 
 ## Exceptions ##
@@ -469,17 +469,17 @@ the above exceptions.
 
 ## Values to use for Database or Map Keys ##
 
-**We strongly discourage you from using a value from any `getNames` method as
+**We strongly discourage you from using a value from any `names()` method as
 a key in a database or map.**
 
 These names may change between releases. Instead we recommend using one of the
 following:
 
-* `com.maxmind.geoip2.record.City` - `City.getGeoNameId`
-* `com.maxmind.geoip2.record.Continent` - `Continent.getCode` or `Continent.getGeoNameId`
-* `com.maxmind.geoip2.record.Country` and `com.maxmind.geoip2.record.RepresentedCountry` - `Country.getIsoCode`
-  or `Country.getGeoNameId`
-* `com.maxmind.geoip2.record.Subdivision` - `Subdivision.getIsoCode` or `Subdivision.getGeoNameId`
+* `com.maxmind.geoip2.record.City` - `City.geonameId`
+* `com.maxmind.geoip2.record.Continent` - `Continent.code` or `Continent.geonameId`
+* `com.maxmind.geoip2.record.Country` and `com.maxmind.geoip2.record.RepresentedCountry` - `Country.isoCode`
+  or `Country.geonameId`
+* `com.maxmind.geoip2.record.Subdivision` - `Subdivision.isoCode` or `Subdivision.geonameId`
 
 ## Multi-Threaded Use ##
 
@@ -501,7 +501,7 @@ documentation](https://dev.maxmind.com/geoip/docs/web-services?lang=en) for
 details on what data each web service may return.
 
 The only piece of data which is always returned is the `ip_address`
-available at `lookup.getTraits().getIpAddress()`.
+available at `lookup.traits().ipAddress()`.
 
 ## Integration with GeoNames ##
 
@@ -511,7 +511,7 @@ populated places. They offer both free and paid premium data. Each
 feature is uniquely identified by a `geonameId`, which is an integer.
 
 Many of the records returned by the GeoIP2 web services and databases
-include a `getGeoNameId()` method. This is the ID of a geographical
+include a `geonameId()` method. This is the ID of a geographical
 feature (city, region, country, etc.) in the GeoNames database.
 
 Some of the data that MaxMind provides is also sourced from GeoNames. We
