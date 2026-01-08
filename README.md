@@ -256,32 +256,32 @@ File database = new File("/path/to/GeoIP2-City.mmdb");
 
 // This creates the DatabaseReader object. To improve performance, reuse
 // the object across lookups. The object is thread-safe.
-DatabaseReader reader = new DatabaseReader.Builder(database).build();
+try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
+    InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
-InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
+    // Replace "city" with the appropriate method for your database, e.g.,
+    // "country".
+    CityResponse response = reader.city(ipAddress);
 
-// Replace "city" with the appropriate method for your database, e.g.,
-// "country".
-CityResponse response = reader.city(ipAddress);
+    Country country = response.country();
+    System.out.println(country.isoCode());            // 'US'
+    System.out.println(country.name());               // 'United States'
+    System.out.println(country.names().get("zh-CN")); // '美国'
 
-Country country = response.country();
-System.out.println(country.isoCode());            // 'US'
-System.out.println(country.name());               // 'United States'
-System.out.println(country.names().get("zh-CN")); // '美国'
+    Subdivision subdivision = response.mostSpecificSubdivision();
+    System.out.println(subdivision.name());    // 'Minnesota'
+    System.out.println(subdivision.isoCode()); // 'MN'
 
-Subdivision subdivision = response.mostSpecificSubdivision();
-System.out.println(subdivision.name());    // 'Minnesota'
-System.out.println(subdivision.isoCode()); // 'MN'
+    City city = response.city();
+    System.out.println(city.name()); // 'Minneapolis'
 
-City city = response.city();
-System.out.println(city.name()); // 'Minneapolis'
+    Postal postal = response.postal();
+    System.out.println(postal.code()); // '55455'
 
-Postal postal = response.postal();
-System.out.println(postal.code()); // '55455'
-
-Location location = response.location();
-System.out.println(location.latitude());  // 44.9733
-System.out.println(location.longitude()); // -93.2323
+    Location location = response.location();
+    System.out.println(location.latitude());  // 44.9733
+    System.out.println(location.longitude()); // -93.2323
+}
 ```
 
 ### Anonymous IP ###
@@ -358,16 +358,16 @@ File database = new File("/path/to/GeoIP2-Connection-Type.mmdb");
 
 // This creates the DatabaseReader object. To improve performance, reuse
 // the object across lookups. The object is thread-safe.
-DatabaseReader reader = new DatabaseReader.Builder(database).build();
+try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
+    InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
-InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
+    ConnectionTypeResponse response = reader.connectionType(ipAddress);
 
-ConnectionTypeResponse response = reader.connectionType(ipAddress);
+    // connectionType() returns a ConnectionType enum
+    ConnectionType type = response.connectionType();
 
-// connectionType() returns a ConnectionType enum
-ConnectionType type = response.connectionType();
-
-System.out.println(type); // 'Corporate'
+    System.out.println(type); // 'Corporate'
+}
 ```
 
 ### Domain ###
@@ -378,13 +378,13 @@ File database = new File("/path/to/GeoIP2-Domain.mmdb");
 
 // This creates the DatabaseReader object. To improve performance, reuse
 // the object across lookups. The object is thread-safe.
-DatabaseReader reader = new DatabaseReader.Builder(database).build();
+try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
+    InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
-InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
+    DomainResponse response = reader.domain(ipAddress);
 
-DomainResponse response = reader.domain(ipAddress);
-
-System.out.println(response.domain()); // 'umn.edu'
+    System.out.println(response.domain()); // 'umn.edu'
+}
 ```
 
 ### Enterprise ###
@@ -435,16 +435,16 @@ File database = new File("/path/to/GeoIP2-ISP.mmdb");
 
 // This creates the DatabaseReader object. To improve performance, reuse
 // the object across lookups. The object is thread-safe.
-DatabaseReader reader = new DatabaseReader.Builder(database).build();
+try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
+    InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
 
-InetAddress ipAddress = InetAddress.getByName("128.101.101.101");
+    IspResponse response = reader.isp(ipAddress);
 
-IspResponse response = reader.isp(ipAddress);
-
-System.out.println(response.autonomousSystemNumber());       // 217
-System.out.println(response.autonomousSystemOrganization()); // 'University of Minnesota'
-System.out.println(response.isp());                          // 'University of Minnesota'
-System.out.println(response.organization());                 // 'University of Minnesota'
+    System.out.println(response.autonomousSystemNumber());       // 217
+    System.out.println(response.autonomousSystemOrganization()); // 'University of Minnesota'
+    System.out.println(response.isp());                          // 'University of Minnesota'
+    System.out.println(response.organization());                 // 'University of Minnesota'
+}
 ```
 
 ## Exceptions ##
