@@ -547,7 +547,7 @@ to the client API, please
 
 ## Requirements  ##
 
-MaxMind has tested this API with Java 11 and above.
+MaxMind has tested this API with Java 17 and above.
 
 ## Contributing ##
 
