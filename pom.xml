@@ -212,8 +212,6 @@
                 <version>3.14.1</version>
                 <configuration>
                     <release>17</release>
-                    <source>17</source>
-                    <target>11</target>
                 </configuration>
             </plugin>
             <plugin>
