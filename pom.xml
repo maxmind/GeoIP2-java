@@ -102,6 +102,8 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Baseline version for API compatibility checking. Update after each release. -->
+        <japicmp.baselineVersion>5.0.2</japicmp.baselineVersion>
     </properties>
     <build>
         <plugins>
@@ -300,6 +302,67 @@
                             <executable>git</executable>
                             <commandlineArgs>submodule update --init --recursive</commandlineArgs>
                         </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>api-compat</id>
+            <build>
+                <plugins>
+                    <!-- Download baseline JAR directly from Maven Central for API comparison -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>download-baseline</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <mkdir dir="${project.build.directory}/japicmp"/>
+                                        <get src="https://repo1.maven.org/maven2/com/maxmind/geoip2/geoip2/${japicmp.baselineVersion}/geoip2-${japicmp.baselineVersion}.jar"
+                                             dest="${project.build.directory}/japicmp/baseline.jar"
+                                             skipexisting="false"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.github.siom79.japicmp</groupId>
+                        <artifactId>japicmp-maven-plugin</artifactId>
+                        <version>0.25.1</version>
+                        <configuration>
+                            <oldVersion>
+                                <file>
+                                    <path>${project.build.directory}/japicmp/baseline.jar</path>
+                                </file>
+                            </oldVersion>
+                            <newVersion>
+                                <file>
+                                    <path>${project.build.directory}/${project.artifactId}-${project.version}.jar</path>
+                                </file>
+                            </newVersion>
+                            <parameter>
+                                <accessModifier>public</accessModifier>
+                                <breakBuildOnBinaryIncompatibleModifications>true</breakBuildOnBinaryIncompatibleModifications>
+                                <onlyBinaryIncompatible>false</onlyBinaryIncompatible>
+                                <onlyModified>true</onlyModified>
+                            </parameter>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>cmp</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>

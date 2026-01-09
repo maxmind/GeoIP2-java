@@ -1,0 +1,20 @@
+name: API Compatibility Check
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  api-compat:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          submodules: true
+          persist-credentials: false
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e # v5.1.0
+        with:
+          distribution: zulu
+          java-version: 17
+          cache: maven
+      - name: Check API Compatibility
+        run: mvn verify -P api-compat -DskipTests -Dgpg.skip=true

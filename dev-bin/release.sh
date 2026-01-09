@@ -134,6 +134,9 @@ mvn versions:set -DnewVersion="$version"
 perl -pi -e "s/(?<=<version>)[^<]*/$version/" README.md
 perl -pi -e "s/(?<=com\.maxmind\.geoip2\:geoip2\:)\d+\.\d+\.\d+([\w\-]+)?/$version/" README.md
 
+# Update japicmp.baselineVersion for API compatibility checking
+perl -pi -e "s/(<japicmp\.baselineVersion>)[^<]*(<\/japicmp\.baselineVersion>)/\${1}$version\${2}/" pom.xml
+
 cat README.md >>$page
 
 git diff
