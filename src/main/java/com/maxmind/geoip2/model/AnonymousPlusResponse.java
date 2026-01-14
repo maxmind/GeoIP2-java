@@ -136,16 +136,6 @@ public record AnonymousPlusResponse(
     }
 
     /**
-     * @return The IP address that the data in the model is for.
-     * @deprecated Use {@link #ipAddress()} instead. This method will be removed in 6.0.0.
-     */
-    @Deprecated(since = "5.0.0", forRemoval = true)
-    @JsonProperty("ip_address")
-    public String getIpAddress() {
-        return ipAddress().getHostAddress();
-    }
-
-    /**
      * @return The network associated with the record. In particular, this is
      * the largest network where all the fields besides IP address have the
      * same value.
