@@ -1,14 +1,13 @@
 package com.maxmind.geoip2;
 
+import com.maxmind.db.Network;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.JsonParser;
 import tools.jackson.databind.DatabindException;
 import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.deser.std.StdDeserializer;
-import com.maxmind.db.Network;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 /**
  * This class provides a deserializer for the Network class.

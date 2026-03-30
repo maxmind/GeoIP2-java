@@ -1,10 +1,10 @@
 package com.maxmind.geoip2;
 
+import java.net.InetAddress;
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.JsonGenerator;
 import tools.jackson.databind.SerializationContext;
 import tools.jackson.databind.ser.std.StdSerializer;
-import java.net.InetAddress;
 
 /**
  * Serializes InetAddress to its host address string representation.

@@ -1,12 +1,12 @@
 package com.maxmind.geoip2;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.JsonParser;
 import tools.jackson.databind.DatabindException;
 import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.deser.std.StdDeserializer;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 /**
  * Deserializes a string to an InetAddress.

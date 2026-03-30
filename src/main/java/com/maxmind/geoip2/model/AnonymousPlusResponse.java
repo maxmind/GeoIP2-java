@@ -1,9 +1,6 @@
 package com.maxmind.geoip2.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import tools.jackson.databind.annotation.JsonDeserialize;
-import tools.jackson.databind.annotation.JsonSerialize;
-import tools.jackson.databind.ser.std.ToStringSerializer;
 import com.maxmind.db.MaxMindDbConstructor;
 import com.maxmind.db.MaxMindDbIpAddress;
 import com.maxmind.db.MaxMindDbNetwork;
@@ -13,6 +10,9 @@ import com.maxmind.geoip2.JsonSerializable;
 import com.maxmind.geoip2.NetworkDeserializer;
 import java.net.InetAddress;
 import java.time.LocalDate;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.ser.std.ToStringSerializer;
 
 /**
  * This class provides the GeoIP Anonymous Plus model.
