@@ -1,11 +1,11 @@
 package com.maxmind.geoip2;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.json.JsonFactory;
 import com.maxmind.db.Network;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.net.InetAddress;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 final class NetworkDeserializerTest {
 
 
-    private static Network parse(String jsonString) throws IOException {
+    private static Network parse(String jsonString) {
         var deserializer = new NetworkDeserializer();
         JsonFactory jf = new JsonFactory();
         try (JsonParser p = jf.createParser(jsonString)) {
@@ -41,20 +41,20 @@ final class NetworkDeserializerTest {
 
     @Test
     void rejectsWhitespaceInCidr() {
-        assertThrows(IOException.class, () -> parse("\"  10.0.0.0/8  \""));
+        assertThrows(JacksonException.class, () -> parse("\"  10.0.0.0/8  \""));
     }
 
 
 
 
     @Test
-    void returnsNullOnJsonNull() throws Exception {
+    void returnsNullOnJsonNull() {
         Network actual = parse("null");
         assertNull(actual);
     }
 
     @Test
-    void returnsNullOnBlankString() throws Exception {
+    void returnsNullOnBlankString() {
         Network actual = parse("\"   \"");
         assertNull(actual);
     }
@@ -83,7 +83,7 @@ final class NetworkDeserializerTest {
 
     @Test
     void wrapsUnknownHostInIOException() {
-        IOException ex = assertThrows(IOException.class, () -> parse("\"999.999.999.999/24\""));
+        JacksonException ex = assertThrows(JacksonException.class, () -> parse("\"999.999.999.999/24\""));
         assertNotNull(ex.getCause());
     }
 }

@@ -1,7 +1,7 @@
 package com.maxmind.geoip2;
 
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.net.InetAddress;
+import tools.jackson.databind.module.SimpleModule;
 
 /**
  * Jackson module for InetAddress serialization and deserialization.

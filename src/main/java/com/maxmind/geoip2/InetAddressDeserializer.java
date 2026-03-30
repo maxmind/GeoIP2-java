@@ -1,11 +1,12 @@
 package com.maxmind.geoip2;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DatabindException;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.deser.std.StdDeserializer;
 
 /**
  * Deserializes a string to an InetAddress.
@@ -20,7 +21,7 @@ public class InetAddressDeserializer extends StdDeserializer<InetAddress> {
 
     @Override
     public InetAddress deserialize(JsonParser p, DeserializationContext ctxt)
-        throws IOException {
+        throws JacksonException {
         var value = p.getValueAsString();
         if (value == null || value.isEmpty()) {
             return null;
@@ -28,7 +29,7 @@ public class InetAddressDeserializer extends StdDeserializer<InetAddress> {
         try {
             return InetAddress.getByName(value);
         } catch (UnknownHostException e) {
-            throw new IOException("Invalid IP address: " + value, e);
+            throw DatabindException.from(p, "Invalid IP address: " + value, e);
         }
     }
 }
