@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+5.0.3 (unreleased)
+------------------
+
+* Added `WebServiceClient.Builder.maxRetries(int)` to configure transport-failure
+  retry behavior. Defaults to 1 (one retry on connection reset, broken pipe,
+  or connect timeout). Set to 0 to disable. Request-phase timeouts and HTTP
+  4xx/5xx responses are never retried.
+
 5.0.2 (2025-12-08)
 ------------------
 
