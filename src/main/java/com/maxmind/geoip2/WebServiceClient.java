@@ -20,20 +20,26 @@ import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.model.InsightsResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InterruptedIOException;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ProxySelector;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.UnknownHostException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.net.http.HttpTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.net.ssl.SSLHandshakeException;
+import javax.net.ssl.SSLPeerUnverifiedException;
 
 /**
  * <p>
@@ -112,6 +118,7 @@ public class WebServiceClient implements WebServiceProvider {
     private final boolean useHttps;
     private final int port;
     private final Duration requestTimeout;
+    private final int maxRetries;
     private final String userAgent = "GeoIP2/"
         + getClass().getPackage().getImplementationVersion()
         + " (Java/" + System.getProperty("java.version") + ")";
@@ -125,6 +132,7 @@ public class WebServiceClient implements WebServiceProvider {
         this.port = builder.port;
         this.useHttps = builder.useHttps;
         this.locales = builder.locales;
+        this.maxRetries = builder.maxRetries;
 
         // HttpClient supports basic auth, but it will only send it after the
         // server responds with an unauthorized. As such, we just make the
@@ -182,6 +190,7 @@ public class WebServiceClient implements WebServiceProvider {
         List<String> locales = List.of("en");
         private ProxySelector proxy = null;
         private HttpClient httpClient = null;
+        private int maxRetries = 1;
 
         /**
          * @param accountId  Your MaxMind account ID.
@@ -197,6 +206,7 @@ public class WebServiceClient implements WebServiceProvider {
          * @param val Timeout duration to establish a connection to the
          *            web service. The default is 3 seconds.
          * @return Builder object
+         * @apiNote See {@link #maxRetries(int)} for how this timeout interacts with retries.
          */
         public Builder connectTimeout(Duration val) {
             this.connectTimeout = val;
@@ -251,6 +261,7 @@ public class WebServiceClient implements WebServiceProvider {
         /**
          * @param val Request timeout duration. The default is 20 seconds.
          * @return Builder object
+         * @apiNote See {@link #maxRetries(int)} for how this timeout interacts with retries.
          */
         public Builder requestTimeout(Duration val) {
             this.requestTimeout = val;
@@ -271,10 +282,35 @@ public class WebServiceClient implements WebServiceProvider {
          * @param val the custom HttpClient to use for requests. When providing a
          *            custom HttpClient, you cannot also set connectTimeout or proxy
          *            parameters as these should be configured on the provided client.
+         *            <p>
+         *            The SDK applies its own transport-failure retry on top of any
+         *            supplied client; customers can disable it via
+         *            {@link #maxRetries(int)} with {@code .maxRetries(0)}.
          * @return Builder object
          */
         public Builder httpClient(HttpClient val) {
             this.httpClient = val;
+            return this;
+        }
+
+        /**
+         * @param val Maximum number of retries on transport-level failures
+         *            (connection reset, broken pipe, EOF, ...).
+         *            Applies uniformly to all endpoints. Defaults to 1.
+         *            Set to 0 to disable.
+         * @return Builder.
+         * @throws IllegalArgumentException if {@code val} is negative.
+         * @apiNote Retries fire only on transient transport failures.
+         *     Timeouts and other non-transient errors are not retried — see
+         *     the README for the complete list. When all attempts fail,
+         *     the prior {@code IOException}s are attached via
+         *     {@link Throwable#getSuppressed()} for debugging.
+         */
+        public Builder maxRetries(int val) {
+            if (val < 0) {
+                throw new IllegalArgumentException("maxRetries must not be negative");
+            }
+            maxRetries = val;
             return this;
         }
 
@@ -371,8 +407,7 @@ public class WebServiceClient implements WebServiceProvider {
             .GET()
             .build();
         try {
-            var response = this.httpClient
-                .send(request, HttpResponse.BodyHandlers.ofInputStream());
+            var response = sendWithRetry(request);
             try {
                 return handleResponse(response, cls);
             } finally {
@@ -381,6 +416,68 @@ public class WebServiceClient implements WebServiceProvider {
         } catch (InterruptedException e) {
             throw new GeoIp2Exception("Interrupted sending request", e);
         }
+    }
+
+    private HttpResponse<InputStream> sendWithRetry(HttpRequest request)
+        throws IOException, InterruptedException {
+        int attempts = 0;
+        IOException prior = null;
+        while (true) {
+            try {
+                return httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
+            } catch (IOException e) {
+                // Attach the immediate predecessor so the suppressed chain
+                // carries the full retry history (each link is the previous
+                // attempt's failure; walk via Throwable#getSuppressed).
+                if (prior != null) {
+                    e.addSuppressed(prior);
+                }
+                if (!isRetriableTransportFailure(e) || attempts >= maxRetries) {
+                    throw e;
+                }
+                prior = e;
+                attempts++;
+            }
+        }
+    }
+
+    private static boolean isRetriableTransportFailure(IOException e) {
+        if (Thread.currentThread().isInterrupted()) {
+            return false;
+        }
+        // Both connect-phase and request-phase timeouts are customer-set
+        // budgets that retrying would silently extend.
+        // HttpConnectTimeoutException extends HttpTimeoutException, so this
+        // single check covers both.
+        if (e instanceof HttpTimeoutException) {
+            return false;
+        }
+        // The thread was interrupted during I/O; honor the cancellation.
+        if (e instanceof InterruptedIOException) {
+            return false;
+        }
+        // The four exclusions below are *occasionally* transient (DNS hiccup,
+        // TCP RST race during cert rotation, brief LB outage), but treating
+        // them as deterministic is a deliberate product decision: retrying
+        // would mask config bugs behind 2x latency, and the customer-visible
+        // cost of one extra failed call on a true transient is small.
+        if (e instanceof UnknownHostException) {
+            return false;
+        }
+        if (e instanceof ConnectException) {
+            return false;
+        }
+        if (e instanceof SSLHandshakeException) {
+            return false;
+        }
+        if (e instanceof SSLPeerUnverifiedException) {
+            return false;
+        }
+        // Everything else from httpClient.send() is a transport failure
+        // (connection reset, broken pipe, EOF, closed channel, ...).
+        // HTTP 4xx and 5xx responses do not reach this predicate -- they come
+        // back as HttpResponse objects rather than IOExceptions.
+        return true;
     }
 
     private <T> T handleResponse(HttpResponse<InputStream> response, Class<T> cls)
