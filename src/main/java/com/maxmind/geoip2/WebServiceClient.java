@@ -20,14 +20,17 @@ import com.maxmind.geoip2.model.CountryResponse;
 import com.maxmind.geoip2.model.InsightsResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ProxySelector;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
+import java.net.http.HttpConnectTimeoutException;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.net.http.HttpTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Base64;
@@ -112,6 +115,7 @@ public class WebServiceClient implements WebServiceProvider {
     private final boolean useHttps;
     private final int port;
     private final Duration requestTimeout;
+    private final int maxRetries;
     private final String userAgent = "GeoIP2/"
         + getClass().getPackage().getImplementationVersion()
         + " (Java/" + System.getProperty("java.version") + ")";
@@ -125,6 +129,7 @@ public class WebServiceClient implements WebServiceProvider {
         this.port = builder.port;
         this.useHttps = builder.useHttps;
         this.locales = builder.locales;
+        this.maxRetries = builder.maxRetries;
 
         // HttpClient supports basic auth, but it will only send it after the
         // server responds with an unauthorized. As such, we just make the
@@ -182,6 +187,7 @@ public class WebServiceClient implements WebServiceProvider {
         List<String> locales = List.of("en");
         private ProxySelector proxy = null;
         private HttpClient httpClient = null;
+        private int maxRetries = 1;
 
         /**
          * @param accountId  Your MaxMind account ID.
@@ -196,6 +202,12 @@ public class WebServiceClient implements WebServiceProvider {
         /**
          * @param val Timeout duration to establish a connection to the
          *            web service. The default is 3 seconds.
+         *            <p>
+         *            When {@code maxRetries > 0}, one API call may incur up to
+         *            {@code (maxRetries + 1)} connection attempts, each subject to
+         *            {@code connectTimeout} and {@code requestTimeout}. Worst-case
+         *            wall-clock duration is roughly
+         *            {@code (maxRetries + 1) x (connectTimeout + requestTimeout)}.
          * @return Builder object
          */
         public Builder connectTimeout(Duration val) {
@@ -250,6 +262,12 @@ public class WebServiceClient implements WebServiceProvider {
 
         /**
          * @param val Request timeout duration. The default is 20 seconds.
+         *            <p>
+         *            When {@code maxRetries > 0}, one API call may incur up to
+         *            {@code (maxRetries + 1)} connection attempts, each subject to
+         *            {@code connectTimeout} and {@code requestTimeout}. Worst-case
+         *            wall-clock duration is roughly
+         *            {@code (maxRetries + 1) x (connectTimeout + requestTimeout)}.
          * @return Builder object
          */
         public Builder requestTimeout(Duration val) {
@@ -271,10 +289,30 @@ public class WebServiceClient implements WebServiceProvider {
          * @param val the custom HttpClient to use for requests. When providing a
          *            custom HttpClient, you cannot also set connectTimeout or proxy
          *            parameters as these should be configured on the provided client.
+         *            <p>
+         *            The SDK applies its own transport-failure retry on top of any
+         *            supplied client; customers can disable it via
+         *            {@link #maxRetries(int)} with {@code .maxRetries(0)}.
          * @return Builder object
          */
         public Builder httpClient(HttpClient val) {
             this.httpClient = val;
+            return this;
+        }
+
+        /**
+         * @param val Maximum number of retries on transport-level failures
+         *            (connection reset, broken pipe, connect timeout, ...).
+         *            Applies uniformly to all endpoints. Defaults to 1.
+         *            Set to 0 to disable.
+         * @return Builder.
+         * @throws IllegalArgumentException if {@code val} is negative.
+         */
+        public Builder maxRetries(int val) {
+            if (val < 0) {
+                throw new IllegalArgumentException("maxRetries must not be negative");
+            }
+            maxRetries = val;
             return this;
         }
 
@@ -371,16 +409,66 @@ public class WebServiceClient implements WebServiceProvider {
             .GET()
             .build();
         try {
-            var response = this.httpClient
-                .send(request, HttpResponse.BodyHandlers.ofInputStream());
+            var response = sendWithRetry(request);
             try {
                 return handleResponse(response, cls);
             } finally {
                 response.body().close();
             }
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             throw new GeoIp2Exception("Interrupted sending request", e);
         }
+    }
+
+    private HttpResponse<InputStream> sendWithRetry(HttpRequest request)
+        throws IOException, InterruptedException {
+        IOException lastException = null;
+        int attempts = maxRetries + 1;
+        for (int i = 0; i < attempts; i++) {
+            try {
+                return httpClient.send(request, HttpResponse.BodyHandlers.ofInputStream());
+            } catch (IOException e) {
+                if (!isRetriableTransportFailure(e) || i == attempts - 1) {
+                    throw e;
+                }
+                lastException = e;
+            }
+        }
+        // Unreachable: loop either returns or throws.
+        throw lastException;
+    }
+
+    private static boolean isRetriableTransportFailure(IOException e) {
+        if (Thread.currentThread().isInterrupted()) {
+            return false;
+        }
+        // Walk the cause chain: the JDK HttpClient wraps the underlying transport
+        // failure in different ways depending on the protocol path. Over HTTP/1.1
+        // a "Connection reset" surfaces as a SocketException; over HTTP/2 (e.g.
+        // a SETTINGS-frame write failure) it may surface as a plain IOException
+        // with the same message. Match by message regardless of class to handle
+        // both, while keeping the type checks for connect-phase timeouts and
+        // request-phase timeouts (which must NEVER be retried).
+        Throwable t = e;
+        while (t != null) {
+            if (t instanceof HttpConnectTimeoutException) {
+                return true; // subclass of HttpTimeoutException - must be checked first
+            }
+            if (t instanceof HttpTimeoutException) {
+                return false; // request-phase timeout: NOT retriable
+            }
+            if (t instanceof ConnectException) {
+                return true;
+            }
+            String msg = t.getMessage();
+            if (msg != null
+                && (msg.contains("Connection reset") || msg.contains("Broken pipe"))) {
+                return true;
+            }
+            t = t.getCause();
+        }
+        return false;
     }
 
     private <T> T handleResponse(HttpResponse<InputStream> response, Class<T> cls)
