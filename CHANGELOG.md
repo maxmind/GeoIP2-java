@@ -1,6 +1,16 @@
 CHANGELOG
 =========
 
+5.0.3 (unreleased)
+------------------
+
+* Added `WebServiceClient.Builder.maxRetries(int)` to bound transport-failure
+  retries (default 1; set 0 to disable). See the README for retry semantics.
+  **Behavior change:** previously, transient transport failures (connection
+  reset, broken pipe, etc.) surfaced to callers immediately. They are now
+  retried once by default; pass `.maxRetries(0)` to restore the prior
+  behavior.
+
 5.0.2 (2025-12-08)
 ------------------
 
