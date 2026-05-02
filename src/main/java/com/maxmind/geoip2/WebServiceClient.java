@@ -24,7 +24,6 @@ import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ProxySelector;
-import java.net.SocketException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -444,9 +443,13 @@ public class WebServiceClient implements WebServiceProvider {
         if (Thread.currentThread().isInterrupted()) {
             return false;
         }
-        // Walk the cause chain: the JDK HttpClient often wraps the underlying
-        // transport failure (e.g. SocketException "Connection reset") in a
-        // generic IOException ("HTTP/1.1 header parser received no bytes").
+        // Walk the cause chain: the JDK HttpClient wraps the underlying transport
+        // failure in different ways depending on the protocol path. Over HTTP/1.1
+        // a "Connection reset" surfaces as a SocketException; over HTTP/2 (e.g.
+        // a SETTINGS-frame write failure) it may surface as a plain IOException
+        // with the same message. Match by message regardless of class to handle
+        // both, while keeping the type checks for connect-phase timeouts and
+        // request-phase timeouts (which must NEVER be retried).
         Throwable t = e;
         while (t != null) {
             if (t instanceof HttpConnectTimeoutException) {
@@ -458,10 +461,10 @@ public class WebServiceClient implements WebServiceProvider {
             if (t instanceof ConnectException) {
                 return true;
             }
-            if (t instanceof SocketException) {
-                String msg = t.getMessage();
-                return msg != null
-                    && (msg.contains("Connection reset") || msg.contains("Broken pipe"));
+            String msg = t.getMessage();
+            if (msg != null
+                && (msg.contains("Connection reset") || msg.contains("Broken pipe"))) {
+                return true;
             }
             t = t.getCause();
         }
