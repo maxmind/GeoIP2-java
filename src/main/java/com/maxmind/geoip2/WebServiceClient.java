@@ -414,6 +414,7 @@ public class WebServiceClient implements WebServiceProvider {
                 response.body().close();
             }
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             throw new GeoIp2Exception("Interrupted sending request", e);
         }
     }
