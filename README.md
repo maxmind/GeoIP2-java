@@ -72,6 +72,46 @@ are not created for each request.
 See the [API documentation](https://maxmind.github.io/GeoIP2-java/) for
 more details.
 
+### Connection pooling and transport retries ###
+
+`WebServiceClient` reuses pooled HTTP connections for performance. Idle
+connections can be silently closed by load balancers or other
+intermediaries; when the next request reuses such a half-closed connection,
+the JDK reports the failure as a `Connection reset`, `Broken pipe`, or
+similar transport error.
+
+To smooth over these intermittent failures, the SDK retries once by
+default. Most transport-level `IOException`s are retried; the SDK does
+**not** retry:
+
+* **Timeouts** (`HttpTimeoutException`, including connect-phase timeouts).
+  The SDK honors the timeouts you configure rather than extending them.
+* **Cancellation** (`InterruptedIOException`, or any interrupt observed
+  before the request runs).
+* **Typically deterministic failures** — `UnknownHostException`,
+  `ConnectException`, `SSLHandshakeException`, `SSLPeerUnverifiedException`.
+  Retrying these would just delay surfacing a config bug.
+
+HTTP 4xx and 5xx responses are surfaced through the existing exception
+hierarchy and are never retried. Request bodies are replayable, so retried
+requests are byte-identical to the original.
+
+You can change the retry budget via the builder:
+
+```java
+WebServiceClient client = new WebServiceClient.Builder(42, "license_key")
+    .maxRetries(2) // up to two retries (three total attempts)
+    .build();
+```
+
+Set `.maxRetries(0)` to disable the retry entirely. Negative values throw
+`IllegalArgumentException`.
+
+If you frequently see `Connection reset` errors, you can also reduce the
+JDK's keep-alive timeout via the system property
+`jdk.httpclient.keepalive.timeout` (in seconds) to evict pooled connections
+before any intermediary does so.
+
 ## Web Service Example ##
 
 ### Country Service ###
