@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-5.0.3 (unreleased)
+5.1.0 (unreleased)
 ------------------
 
 * Added `WebServiceClient.Builder.maxRetries(int)` to bound transport-failure
