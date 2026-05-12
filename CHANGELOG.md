@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-5.1.0 (unreleased)
+5.1.0 (2026-05-12)
 ------------------
 
 * Updated `maxmind-db` dependency to 4.1.0. This release fixes an issue with
