@@ -4,6 +4,9 @@ CHANGELOG
 5.1.0 (unreleased)
 ------------------
 
+* Updated `maxmind-db` dependency to 4.1.0. This release fixes an issue with
+  unbounded off-heap memory growth when using `FileMode.MEMORY` and a latent
+  short-read bug when loading databases larger than 2GB into memory.
 * Added `WebServiceClient.Builder.maxRetries(int)` to bound transport-failure
   retries (default 1; set 0 to disable). See the README for retry semantics.
   **Behavior change:** previously, transient transport failures (connection
