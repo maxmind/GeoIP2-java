@@ -7,8 +7,17 @@ disable_backends = [
 ]
 
 [tools]
+hugo = "latest"
 java = "latest"
 maven = "latest"
+
+[tasks.build-docs]
+description = "Build the docs site with Hugo"
+run = "hugo --source docs --minify"
+
+[tasks.serve-docs]
+description = "Serve the docs site locally with Hugo dev server"
+run = "hugo server --source docs"
 
 [hooks]
 enter = "mise install --quiet --locked"

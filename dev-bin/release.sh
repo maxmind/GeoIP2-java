@@ -118,17 +118,6 @@ if [ "$should_continue" != "y" ]; then
     exit 1
 fi
 
-page=.gh-pages/index.md
-cat <<EOF >$page
----
-layout: default
-title: MaxMind GeoIP2 Java API
-language: java
-version: $tag
----
-
-EOF
-
 mvn versions:set -DnewVersion="$version"
 
 perl -pi -e "s/(?<=<version>)[^<]*/$version/" README.md
@@ -136,8 +125,6 @@ perl -pi -e "s/(?<=com\.maxmind\.geoip2\:geoip2\:)\d+\.\d+\.\d+([\w\-]+)?/$versi
 
 # Update japicmp.baselineVersion for API compatibility checking
 perl -pi -e "s/(<japicmp\.baselineVersion>)[^<]*(<\/japicmp\.baselineVersion>)/\${1}$version\${2}/" pom.xml
-
-cat README.md >>$page
 
 git diff
 
