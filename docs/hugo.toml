@@ -1,0 +1,14 @@
+baseURL = "https://maxmind.github.io/GeoIP2-java/"
+title = "GeoIP2 Java API"
+disableKinds = ["taxonomy"]
+
+[[cascade]]
+  layout = "default"
+
+[markup.highlight]
+  noClasses = true
+  style = "github"
+
+[[module.mounts]]
+  source = "../README.md"
+  target = "content/_index.md"
