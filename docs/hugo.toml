@@ -1,5 +1,5 @@
 title = "GeoIP2 Java API"
-disableKinds = ["taxonomy"]
+disableKinds = ["taxonomy", "term", "RSS"]
 
 [[cascade]]
   layout = "default"
