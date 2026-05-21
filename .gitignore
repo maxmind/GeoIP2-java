@@ -9,6 +9,8 @@
 .claude
 .gh-pages
 .idea
+docs/.hugo_build.lock
+docs/public/
 .pmd
 .project
 .settings
