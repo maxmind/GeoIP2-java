@@ -5,7 +5,7 @@
     <artifactId>geoip2</artifactId>
     <version>5.1.0</version>
     <packaging>jar</packaging>
-    <name>MaxMind GeoIP2 API</name>
+    <name>MaxMind GeoIP API</name>
     <description>GeoIP webservice client and database reader</description>
     <url>https://dev.maxmind.com/geoip?lang=en</url>
     <licenses>
