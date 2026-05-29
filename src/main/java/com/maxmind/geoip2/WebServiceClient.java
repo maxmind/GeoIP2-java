@@ -43,7 +43,7 @@ import javax.net.ssl.SSLPeerUnverifiedException;
 
 /**
  * <p>
- * The {@code WebServiceClient} class provides a client API for all the GeoIP2
+ * The {@code WebServiceClient} class provides a client API for all the GeoIP
  * web services. The services are Country, City Plus, and Insights. Each
  * service returns a different set of data about an IP address, with Country
  * returning the least data and Insights the most.
@@ -66,9 +66,9 @@ import javax.net.ssl.SSLPeerUnverifiedException;
  * To use the web service API, you must create a new {@code WebServiceClient}
  * using the {@code WebServiceClient.Builder}. You must provide the
  * {@code Builder} constructor your MaxMind {@code accountId} and
- * {@code licenseKey}. To use the GeoLite2 web services instead of GeoIP2, set
+ * {@code licenseKey}. To use the GeoLite web services instead of GeoIP, set
  * the {@code host} method on the builder to {@code geolite.info}. To use the
- * Sandbox GeoIP2 web services instead of the production GeoIP2 web services,
+ * Sandbox GeoIP web services instead of the production GeoIP web services,
  * set the {@code host} method on the builder to {@code sandbox.maxmind.com}.
  * You may also set a {@code timeout} or set the {@code locales} fallback order
  * using the methods on the {@code Builder}. After you have created the {@code
@@ -91,7 +91,7 @@ import javax.net.ssl.SSLPeerUnverifiedException;
  * <h2>Exceptions</h2>
  * <p>
  * For details on the possible errors returned by the web service itself, see <a
- * href="https://dev.maxmind.com/geoip/docs/web-services?lang=en">the GeoIP2 web
+ * href="https://dev.maxmind.com/geoip/docs/web-services?lang=en">the GeoIP web
  * service documentation</a>.
  * </p>
  * <p>
@@ -226,9 +226,9 @@ public class WebServiceClient implements WebServiceProvider {
 
         /**
          * @param val The host to use. Set this to {@code geolite.info} to use the
-         *            GeoLite2 web services instead of the GeoIP2 web services.
+         *            GeoLite web services instead of the GeoIP web services.
          *            Set this to {@code sandbox.maxmind.com} to use the Sandbox
-         *            GeoIP2 web services instead of the production GeoIP2 web
+         *            GeoIP web services instead of the production GeoIP web
          *            services. The sandbox allows you to experiment with the
          *            API without affecting your production data.
          * @return Builder object

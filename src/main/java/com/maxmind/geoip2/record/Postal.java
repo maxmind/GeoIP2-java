@@ -14,7 +14,7 @@ import com.maxmind.geoip2.JsonSerializable;
  *             code.
  * @param confidence A value from 0-100 indicating MaxMind's confidence that the postal
  *                   code is correct. This attribute is only available from the Insights
- *                   web service and the GeoIP2 Enterprise database.
+ *                   web service and the GeoIP Enterprise database.
  */
 public record Postal(
     @JsonProperty("code")
@@ -47,7 +47,7 @@ public record Postal(
     /**
      * @return A value from 0-100 indicating MaxMind's confidence that the
      * postal code is correct. This attribute is only available from the
-     * Insights web service and the GeoIP2 Enterprise database.
+     * Insights web service and the GeoIP Enterprise database.
      * @deprecated Use {@link #confidence()} instead. This method will be removed in 6.0.0.
      */
     @Deprecated(since = "5.0.0", forRemoval = true)

@@ -16,7 +16,7 @@ import java.net.InetAddress;
 import java.util.Optional;
 
 /**
- * Interface for GeoIP2 database providers.
+ * Interface for GeoIP database providers.
  */
 public interface DatabaseProvider extends GeoIp2Provider {
 
@@ -39,7 +39,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
         GeoIp2Exception;
 
     /**
-     * Look up an IP address in a GeoIP2 Anonymous IP.
+     * Look up an IP address in a GeoIP Anonymous IP.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return a AnonymousIpResponse for the requested IP address.
@@ -50,7 +50,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
         GeoIp2Exception;
 
     /**
-     * Look up an IP address in a GeoIP2 Anonymous IP.
+     * Look up an IP address in a GeoIP Anonymous IP.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return a AnonymousIpResponse for the requested IP address or empty if it is not in the DB.
@@ -61,7 +61,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
         GeoIp2Exception;
 
     /**
-     * Look up an IP address in a GeoIP2 Anonymous Plus.
+     * Look up an IP address in a GeoIP Anonymous Plus.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return a AnonymousPlusResponse for the requested IP address.
@@ -72,7 +72,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
         GeoIp2Exception;
 
     /**
-     * Look up an IP address in a GeoIP2 Anonymous Plus.
+     * Look up an IP address in a GeoIP Anonymous Plus.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return a AnonymousPlusResponse for the requested IP address or empty if it is not in the DB.
@@ -83,7 +83,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
         GeoIp2Exception;
 
     /**
-     * Look up an IP address in a GeoIP2 IP Risk database.
+     * Look up an IP address in a GeoIP IP Risk database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return an IpRiskResponse for the requested IP address.
@@ -94,7 +94,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
         GeoIp2Exception;
 
     /**
-     * Look up an IP address in a GeoIP2 IP Risk database.
+     * Look up an IP address in a GeoIP IP Risk database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return an IPRiskResponse for the requested IP address or empty if it is not in the DB.
@@ -105,7 +105,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
         GeoIp2Exception;
 
     /**
-     * Look up an IP address in a GeoLite2 ASN database.
+     * Look up an IP address in a GeoLite ASN database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return an IspResponse for the requested IP address.
@@ -116,7 +116,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
         GeoIp2Exception;
 
     /**
-     * Look up an IP address in a GeoLite2 ASN database.
+     * Look up an IP address in a GeoLite ASN database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return an IspResponse for the requested IP address or empty if it is not in the DB.
@@ -127,7 +127,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
         GeoIp2Exception;
 
     /**
-     * Look up an IP address in a GeoIP2 Connection Type database.
+     * Look up an IP address in a GeoIP Connection Type database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return a ConnectTypeResponse for the requested IP address.
@@ -138,7 +138,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
         throws IOException, GeoIp2Exception;
 
     /**
-     * Look up an IP address in a GeoIP2 Connection Type database.
+     * Look up an IP address in a GeoIP Connection Type database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return a ConnectTypeResponse for the requested IP address or empty if it is not in the DB.
@@ -149,7 +149,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
         throws IOException, GeoIp2Exception;
 
     /**
-     * Look up an IP address in a GeoIP2 Domain database.
+     * Look up an IP address in a GeoIP Domain database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return a DomainResponse for the requested IP address.
@@ -160,7 +160,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
         GeoIp2Exception;
 
     /**
-     * Look up an IP address in a GeoIP2 Domain database.
+     * Look up an IP address in a GeoIP Domain database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return a DomainResponse for the requested IP address or empty if it is not in the DB.
@@ -171,7 +171,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
         GeoIp2Exception;
 
     /**
-     * Look up an IP address in a GeoIP2 Enterprise database.
+     * Look up an IP address in a GeoIP Enterprise database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return an EnterpriseResponse for the requested IP address.
@@ -182,7 +182,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
         GeoIp2Exception;
 
     /**
-     * Look up an IP address in a GeoIP2 Enterprise database.
+     * Look up an IP address in a GeoIP Enterprise database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return an EnterpriseResponse for the requested IP address or empty if it is not in the DB.
@@ -193,7 +193,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
         GeoIp2Exception;
 
     /**
-     * Look up an IP address in a GeoIP2 ISP database.
+     * Look up an IP address in a GeoIP ISP database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return an IspResponse for the requested IP address.
@@ -204,7 +204,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
         GeoIp2Exception;
 
     /**
-     * Look up an IP address in a GeoIP2 ISP database.
+     * Look up an IP address in a GeoIP ISP database.
      *
      * @param ipAddress IPv4 or IPv6 address to look up or empty if it is not in the DB.
      * @return an IspResponse for the requested IP address.

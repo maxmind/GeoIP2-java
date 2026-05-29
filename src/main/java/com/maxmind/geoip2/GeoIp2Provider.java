@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 /**
- * Interface for GeoIP2 providers.
+ * Interface for GeoIP providers.
  */
 public interface GeoIp2Provider {
 

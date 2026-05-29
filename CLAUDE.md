@@ -1,12 +1,12 @@
-# CLAUDE.md - GeoIP2 Java API
+# CLAUDE.md - GeoIP Java API
 
 This document contains guidance for Claude (and other AI assistants) when working with the GeoIP2-java codebase. It captures architectural patterns, conventions, and lessons learned to help maintain consistency and quality.
 
 ## Project Overview
 
 **GeoIP2-java** is MaxMind's official Java client library for:
-- **GeoIP2/GeoLite2 Web Services**: Country, City, and Insights endpoints
-- **GeoIP2/GeoLite2 Databases**: Local MMDB file reading for various database types (City, Country, ASN, Anonymous IP, ISP, etc.)
+- **GeoIP/GeoLite Web Services**: Country, City Plus, and Insights endpoints
+- **GeoIP/GeoLite Databases**: Local MMDB file reading for various database types (City, Country, ASN, Anonymous IP, ISP, etc.)
 
 The library provides both web service clients and database readers that return strongly-typed model objects containing geographic, ISP, anonymizer, and other IP-related data.
 
@@ -397,7 +397,7 @@ public interface JsonSerializable {
 ## Additional Resources
 
 - [API Documentation](https://maxmind.github.io/GeoIP2-java/)
-- [GeoIP2 Web Services Docs](https://dev.maxmind.com/geoip/docs/web-services)
+- [GeoIP Web Services Docs](https://dev.maxmind.com/geoip/docs/web-services)
 - [MaxMind DB Format](https://maxmind.github.io/MaxMind-DB/)
 - GitHub Issues: https://github.com/maxmind/GeoIP2-java/issues
 

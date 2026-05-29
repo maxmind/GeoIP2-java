@@ -9,12 +9,12 @@ import java.time.LocalDate;
  * Contains data for the anonymizer record associated with an IP address.
  * </p>
  * <p>
- * This record is returned by the GeoIP2 Insights web service.
+ * This record is returned by the GeoIP Insights web service.
  * </p>
  *
  * @param confidence A score ranging from 1 to 99 that is our percent confidence that the
  *                   network is currently part of an actively used VPN service. This is only
- *                   available from the GeoIP2 Insights web service.
+ *                   available from the GeoIP Insights web service.
  * @param isAnonymous Whether the IP address belongs to any sort of anonymous network.
  * @param isAnonymousVpn Whether the IP address is registered to an anonymous VPN provider. If a
  *                       VPN provider does not register subnets under names associated with them,
@@ -26,10 +26,10 @@ import java.time.LocalDate;
  *                           belongs to a residential ISP.
  * @param isTorExitNode Whether the IP address is a Tor exit node.
  * @param networkLastSeen The last day that the network was sighted in our analysis of anonymized
- *                        networks. This is only available from the GeoIP2 Insights web
+ *                        networks. This is only available from the GeoIP Insights web
  *                        service.
  * @param providerName The name of the VPN provider (e.g., NordVPN, SurfShark, etc.) associated
- *                     with the network. This is only available from the GeoIP2 Insights
+ *                     with the network. This is only available from the GeoIP Insights
  *                     web service.
  */
 public record Anonymizer(

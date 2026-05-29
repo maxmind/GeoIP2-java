@@ -1,4 +1,4 @@
-title = "GeoIP2 Java API"
+title = "GeoIP Java API"
 disableKinds = ["taxonomy", "term", "RSS"]
 
 [[cascade]]

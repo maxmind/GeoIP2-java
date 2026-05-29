@@ -15,7 +15,7 @@ public interface JsonSerializable {
 
     /**
      * @return JSON representation of this object. The structure is the same as
-     * the JSON provided by the GeoIP2 web service.
+     * the JSON provided by the GeoIP web service.
      * @throws IOException if there is an error serializing the object to JSON.
      */
     default String toJson() throws IOException {

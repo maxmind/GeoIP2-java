@@ -16,7 +16,7 @@ import com.maxmind.geoip2.NetworkDeserializer;
 import java.net.InetAddress;
 
 /**
- * This class provides the GeoIP2 Connection-Type model.
+ * This class provides the GeoIP Connection-Type model.
  *
  * @param connectionType The connection type of the IP address.
  * @param ipAddress The IP address that the data in the model is for.

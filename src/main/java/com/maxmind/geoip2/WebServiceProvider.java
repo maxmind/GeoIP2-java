@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 /**
- * Interface for GeoIP2 web service providers.
+ * Interface for GeoIP web service providers.
  */
 public interface WebServiceProvider extends GeoIp2Provider {
     /**
