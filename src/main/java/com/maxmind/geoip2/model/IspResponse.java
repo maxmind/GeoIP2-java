@@ -22,12 +22,12 @@ import java.net.InetAddress;
  * @param isp The name of the ISP associated with the IP address.
  * @param mobileCountryCode The <a href="https://en.wikipedia.org/wiki/Mobile_country_code">
  *                          mobile country code (MCC)</a> associated with the IP address and ISP.
- *                          This property is available from the City and Insights web services and
- *                          the GeoIP Enterprise database.
+ *                          This property is available from the City Plus and Insights web
+ *                          services and the GeoIP Enterprise database.
  * @param mobileNetworkCode The <a href="https://en.wikipedia.org/wiki/Mobile_country_code">
  *                          mobile network code (MNC)</a> associated with the IP address and ISP.
- *                          This property is available from the City and Insights web services and
- *                          the GeoIP Enterprise database.
+ *                          This property is available from the City Plus and Insights web
+ *                          services and the GeoIP Enterprise database.
  * @param organization The name of the organization associated with the IP address.
  * @param network The network associated with the record. In particular, this is the largest
  *                network where all the fields besides IP address have the same value.
@@ -112,7 +112,7 @@ public record IspResponse(
     /**
      * @return The <a href="https://en.wikipedia.org/wiki/Mobile_country_code">
      * mobile country code (MCC)</a> associated with the IP address and ISP.
-     * This property is available from the City and Insights web services and
+     * This property is available from the City Plus and Insights web services and
      * the GeoIP Enterprise database.
      * @deprecated Use {@link #mobileCountryCode()} instead. This method will be removed in 6.0.0.
      */
@@ -125,7 +125,7 @@ public record IspResponse(
     /**
      * @return The <a href="https://en.wikipedia.org/wiki/Mobile_country_code">
      * mobile network code (MNC)</a> associated with the IP address and ISP.
-     * This property is available from the City and Insights web services and
+     * This property is available from the City Plus and Insights web services and
      * the GeoIP Enterprise database.
      * @deprecated Use {@link #mobileNetworkCode()} instead. This method will be removed in 6.0.0.
      */
