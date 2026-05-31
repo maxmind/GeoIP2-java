@@ -1,8 +1,8 @@
 package com.maxmind.geoip2.exception;
 
 /**
- * This class represents a generic GeoIP2 error. All other exceptions thrown by
- * the GeoIP2 API subclass this exception
+ * This class represents a generic GeoIP error. All other exceptions thrown by
+ * the GeoIP API subclass this exception
  */
 public sealed class GeoIp2Exception extends Exception
     permits AddressNotFoundException,

@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * <p>
- * This class provides a model for the data returned by the GeoIP2 Enterprise
+ * This class provides a model for the data returned by the GeoIP Enterprise
  * database
  * </p>
  *

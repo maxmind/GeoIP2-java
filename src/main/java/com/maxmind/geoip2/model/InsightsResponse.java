@@ -43,7 +43,7 @@ import java.util.List;
  *                     to most specific (smallest). If the response did not contain any
  *                     subdivisions, this is an empty list.
  * @param traits Record for the traits of the requested IP address.
- * @see <a href="https://dev.maxmind.com/geoip/docs/web-services?lang=en">GeoIP2 Web
+ * @see <a href="https://dev.maxmind.com/geoip/docs/web-services?lang=en">GeoIP Web
  * Services</a>
  */
 public record InsightsResponse(

@@ -19,7 +19,7 @@ import java.util.Map;
  * @param locales The locales to use for retrieving localized names.
  * @param confidence A value from 0-100 indicating MaxMind's confidence that the city
  *                   is correct. This attribute is only available from the Insights
- *                   web service and the GeoIP2 Enterprise database.
+ *                   web service and the GeoIP Enterprise database.
  * @param geonameId The GeoName ID for the city.
  * @param names A {@link Map} from locale codes to the name in that locale.
  */
@@ -77,7 +77,7 @@ public record City(
     /**
      * @return A value from 0-100 indicating MaxMind's confidence that the city
      * is correct. This attribute is only available from the Insights
-     * web service and the GeoIP2 Enterprise database.
+     * web service and the GeoIP Enterprise database.
      * @deprecated Use {@link #confidence()} instead. This method will be removed in 6.0.0.
      */
     @Deprecated(since = "5.0.0", forRemoval = true)

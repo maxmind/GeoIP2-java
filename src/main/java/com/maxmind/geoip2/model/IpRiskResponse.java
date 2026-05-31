@@ -13,7 +13,7 @@ import com.maxmind.geoip2.NetworkDeserializer;
 import java.net.InetAddress;
 
 /**
- * This class provides the GeoIP2 IP Risk model.
+ * This class provides the GeoIP IP Risk model.
  *
  * @param ipAddress The IP address that the data in the model is for.
  * @param isAnonymous Whether the IP address belongs to any sort of anonymous network.

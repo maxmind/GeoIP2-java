@@ -29,14 +29,14 @@ import java.util.Optional;
 
 /**
  * <p>
- * The class {@code DatabaseReader} provides a reader for the GeoIP2 database
+ * The class {@code DatabaseReader} provides a reader for the GeoIP database
  * format.
  * </p>
  * <h2>Usage</h2>
  * <p>
  * To use the database API, you must create a new {@code DatabaseReader} using
  * the {@code DatabaseReader.Builder}. You must provide the {@code Builder}
- * constructor either an {@code InputStream} or {@code File} for your GeoIP2
+ * constructor either an {@code InputStream} or {@code File} for your GeoIP
  * database. You may also specify the {@code fileMode} and the {@code locales}
  * fallback order using the methods on the {@code Builder} object.
  * </p>
@@ -54,7 +54,7 @@ import java.util.Optional;
  * </p>
  * <p>
  * If the lookup succeeds, the method call will return a response class for
- * the GeoIP2 lookup. The class in turn contains multiple record classes,
+ * the GeoIP lookup. The class in turn contains multiple record classes,
  * each of which represents part of the data returned by the database.
  * </p>
  * <p>
@@ -158,7 +158,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     /**
      * <p>
      * Constructs a Builder for the {@code DatabaseReader}. The file passed to
-     * it must be a valid GeoIP2 database file.
+     * it must be a valid GeoIP database file.
      * </p>
      * <p>
      * {@code Builder} creates instances of {@code DatabaseReader}
@@ -177,7 +177,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         NodeCache cache = NoCache.getInstance();
 
         /**
-         * @param stream the stream containing the GeoIP2 database to use.
+         * @param stream the stream containing the GeoIP database to use.
          */
         public Builder(InputStream stream) {
             this.stream = stream;
@@ -185,7 +185,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         }
 
         /**
-         * @param database the GeoIP2 database file to use.
+         * @param database the GeoIP database file to use.
          */
         public Builder(File database) {
             this.database = database;
@@ -212,7 +212,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         }
 
         /**
-         * @param val The file mode used to open the GeoIP2 database
+         * @param val The file mode used to open the GeoIP database
          * @return Builder object
          * @throws java.lang.IllegalArgumentException if you initialized the Builder with a URL,
          *                                            which uses {@link FileMode#MEMORY}, but you
@@ -349,7 +349,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     /**
-     * Look up an IP address in a GeoIP2 Anonymous IP.
+     * Look up an IP address in a GeoIP Anonymous IP.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return a AnonymousIpResponse for the requested IP address.
@@ -376,7 +376,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     /**
-     * Look up an IP address in a GeoIP2 Anonymous Plus.
+     * Look up an IP address in a GeoIP Anonymous Plus.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return a AnonymousPlusResponse for the requested IP address.
@@ -405,7 +405,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
 
 
     /**
-     * Look up an IP address in a GeoIP2 IP Risk database.
+     * Look up an IP address in a GeoIP IP Risk database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return a IPRiskResponse for the requested IP address.
@@ -427,7 +427,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     /**
-     * Look up an IP address in a GeoLite2 ASN database.
+     * Look up an IP address in a GeoLite ASN database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return an AsnResponse for the requested IP address.
@@ -449,7 +449,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     /**
-     * Look up an IP address in a GeoIP2 Connection Type database.
+     * Look up an IP address in a GeoIP Connection Type database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return a ConnectTypeResponse for the requested IP address.
@@ -476,7 +476,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     /**
-     * Look up an IP address in a GeoIP2 Domain database.
+     * Look up an IP address in a GeoIP Domain database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return a DomainResponse for the requested IP address.
@@ -498,7 +498,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     /**
-     * Look up an IP address in a GeoIP2 Enterprise database.
+     * Look up an IP address in a GeoIP Enterprise database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return an EnterpriseResponse for the requested IP address.
@@ -526,7 +526,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
     }
 
     /**
-     * Look up an IP address in a GeoIP2 ISP database.
+     * Look up an IP address in a GeoIP ISP database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
      * @return an IspResponse for the requested IP address.

@@ -1,8 +1,8 @@
-# GeoIP2 Java API #
+# GeoIP Java API #
 
 ## Description ##
 
-This distribution provides an API for the GeoIP2 and GeoLite2 [web
+This distribution provides an API for the GeoIP and GeoLite [web
 services](https://dev.maxmind.com/geoip/docs/web-services?lang=en) and
 [databases](https://dev.maxmind.com/geoip/docs/databases?lang=en).
 
@@ -43,16 +43,16 @@ file and its dependencies in your classpath. Download the JAR files from the
 ## IP Geolocation Usage ##
 
 IP geolocation is inherently imprecise. Locations are often near the center of
-the population. Any location provided by a GeoIP2 database or web service
+the population. Any location provided by a GeoIP database or web service
 should not be used to identify a particular address or household.
 
 ## Web Service Usage ##
 
 To use the web service API, you must create a new `WebServiceClient` using the
 `WebServiceClient.Builder`. You must provide the `Builder` constructor your
-MaxMind `accountId` and `licenseKey`. To use the GeoLite2 web services instead
-of GeoIP2, set the `host` method on the builder to `geolite.info`. To use
-the Sandbox GeoIP2 web services instead of the production GeoIP2 web
+MaxMind `accountId` and `licenseKey`. To use the GeoLite web services instead
+of GeoIP, set the `host` method on the builder to `geolite.info`. To use
+the Sandbox GeoIP web services instead of the production GeoIP web
 services, set the `host` method on the builder to `sandbox.maxmind.com`.
 You may also set a `timeout` or set the `locales` fallback order using the
 methods on the `Builder`. After you have created the `WebServiceClient`,
@@ -122,10 +122,10 @@ before any intermediary does so.
 // connections alive for future requests.
 //
 // Replace "42" with your account ID and "license_key" with your license key.
-// To use the GeoLite2 web service instead of the GeoIP2 web service, call the
+// To use the GeoLite web service instead of the GeoIP web service, call the
 // host method on the builder with "geolite.info", e.g.
 // new WebServiceClient.Builder(42, "license_key").host("geolite.info").build()
-// To use the Sandbox GeoIP2 web service instead of the production GeoIP2
+// To use the Sandbox GeoIP web service instead of the production GeoIP
 // web service, call the host method on the builder with
 // "sandbox.maxmind.com", e.g.
 // new WebServiceClient.Builder(42, "license_key").host("sandbox.maxmind.com").build()
@@ -151,10 +151,10 @@ System.out.println(country.names().get("zh-CN")); // '美国'
 // connections alive for future requests.
 //
 // Replace "42" with your account ID and "license_key" with your license key.
-// To use the GeoLite2 web service instead of the GeoIP2 web service, call the
+// To use the GeoLite web service instead of the GeoIP web service, call the
 // host method on the builder with "geolite.info", e.g.
 // new WebServiceClient.Builder(42, "license_key").host("geolite.info").build()
-// To use the Sandbox GeoIP2 web service instead of the production GeoIP2
+// To use the Sandbox GeoIP web service instead of the production GeoIP
 // web service, call the host method on the builder with
 // "sandbox.maxmind.com", e.g.
 // new WebServiceClient.Builder(42, "license_key").host("sandbox.maxmind.com").build()
@@ -194,8 +194,8 @@ System.out.println(location.longitude());       // -93.2323
 // connections alive for future requests.
 //
 // Replace "42" with your account ID and "license_key" with your license key.
-// Please note that the GeoLite2 web service does not support Insights.
-// To use the Sandbox GeoIP2 web service instead of the production GeoIP2
+// Please note that the GeoLite web service does not support Insights.
+// To use the Sandbox GeoIP web service instead of the production GeoIP
 // web service, call the host method on the builder with
 // "sandbox.maxmind.com", e.g.
 // new WebServiceClient.Builder(42, "license_key").host("sandbox.maxmind.com").build()
@@ -239,7 +239,7 @@ System.out.println(response.traits().userType()); // 'college'
 
 To use the database API, you must create a new `DatabaseReader` using the
 `DatabaseReader.Builder`. You must provide the `Builder` constructor either an
-`InputStream` or `File` for your GeoIP2 database. You may also specify the
+`InputStream` or `File` for your GeoIP database. You may also specify the
 `fileMode` and the `locales` fallback order using the methods on the `Builder`
 object.
 
@@ -254,7 +254,7 @@ method will be slightly faster as they do not need to construct and throw
 an exception. These methods otherwise behave the same.
 
 If the lookup succeeds, the method call will return a response class for the
-GeoIP2 lookup. The class in turn contains multiple record classes, each of
+GeoIP lookup. The class in turn contains multiple record classes, each of
 which represents part of the data returned by the database.
 
 We recommend reusing the `DatabaseReader` object rather than creating a new
@@ -291,7 +291,7 @@ thrown when querying the database.
 ### City ###
 
 ```java
-// A File object pointing to your GeoIP2 or GeoLite2 database
+// A File object pointing to your GeoIP or GeoLite database
 File database = new File("/path/to/GeoIP2-City.mmdb");
 
 // This creates the DatabaseReader object. To improve performance, reuse
@@ -327,7 +327,7 @@ try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
 ### Anonymous IP ###
 
 ```java
-// A File object pointing to your GeoIP2 Anonymous IP database
+// A File object pointing to your GeoIP Anonymous IP database
 File database = new File("/path/to/GeoIP2-Anonymous-IP.mmdb");
 
 // This creates the DatabaseReader object. To improve performance, reuse
@@ -349,7 +349,7 @@ try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
 ### Anonymous Plus ###
 
 ```java
-// A File object pointing to your GeoIP2 Anonymous Plus database
+// A File object pointing to your GeoIP Anonymous Plus database
 File database = new File("/path/to/GeoIP-Anonymous-Plus.mmdb");
 
 // This creates the DatabaseReader object. To improve performance, reuse
@@ -374,7 +374,7 @@ try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
 ### ASN ###
 
 ```java
-// A File object pointing to your GeoLite2 ASN database
+// A File object pointing to your GeoLite ASN database
 File database = new File("/path/to/GeoLite2-ASN.mmdb");
 
 // This creates the DatabaseReader object. To improve performance, reuse
@@ -393,7 +393,7 @@ try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
 ### Connection-Type ###
 
 ```java
-// A File object pointing to your GeoIP2 Connection-Type database
+// A File object pointing to your GeoIP Connection-Type database
 File database = new File("/path/to/GeoIP2-Connection-Type.mmdb");
 
 // This creates the DatabaseReader object. To improve performance, reuse
@@ -413,7 +413,7 @@ try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
 ### Domain ###
 
 ```java
-// A File object pointing to your GeoIP2 Domain database
+// A File object pointing to your GeoIP Domain database
 File database = new File("/path/to/GeoIP2-Domain.mmdb");
 
 // This creates the DatabaseReader object. To improve performance, reuse
@@ -430,7 +430,7 @@ try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
 ### Enterprise ###
 
 ```java
-// A File object pointing to your GeoIP2 Enterprise database
+// A File object pointing to your GeoIP Enterprise database
 File database = new File("/path/to/GeoIP2-Enterprise.mmdb");
 
 // This creates the DatabaseReader object. To improve performance, reuse
@@ -470,7 +470,7 @@ try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
 ### ISP ###
 
 ```java
-// A File object pointing to your GeoIP2 ISP database
+// A File object pointing to your GeoIP ISP database
 File database = new File("/path/to/GeoIP2-ISP.mmdb");
 
 // This creates the DatabaseReader object. To improve performance, reuse
@@ -490,7 +490,7 @@ try (DatabaseReader reader = new DatabaseReader.Builder(database).build()) {
 ## Exceptions ##
 
 For details on the possible errors returned by the web service itself, [see
-the GeoIP2 web service
+the GeoIP web service
 documentation](https://dev.maxmind.com/geoip/docs/web-services?lang=en).
 
 If the web service returns an explicit error document, this is thrown as an
@@ -550,7 +550,7 @@ databases with data on geographical features around the world, including
 populated places. They offer both free and paid premium data. Each
 feature is uniquely identified by a `geonameId`, which is an integer.
 
-Many of the records returned by the GeoIP2 web services and databases
+Many of the records returned by the GeoIP web services and databases
 include a `geonameId()` method. This is the ID of a geographical
 feature (city, region, country, etc.) in the GeoNames database.
 
@@ -596,7 +596,7 @@ whenever possible.
 
 ## Versioning ##
 
-The GeoIP2 Java API uses [Semantic Versioning](https://semver.org/).
+The GeoIP Java API uses [Semantic Versioning](https://semver.org/).
 
 ## Copyright and License ##
 

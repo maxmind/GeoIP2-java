@@ -13,7 +13,7 @@ import com.maxmind.geoip2.NetworkDeserializer;
 import java.net.InetAddress;
 
 /**
- * This class provides the GeoIP2 Domain model.
+ * This class provides the GeoIP Domain model.
  *
  * @param domain The second level domain associated with the IP address. This will be something
  *               like "example.com" or "example.co.uk", not "foo.example.com".

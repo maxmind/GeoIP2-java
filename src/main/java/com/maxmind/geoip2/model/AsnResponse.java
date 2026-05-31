@@ -13,7 +13,7 @@ import com.maxmind.geoip2.NetworkDeserializer;
 import java.net.InetAddress;
 
 /**
- * This class provides the GeoLite2 ASN model.
+ * This class provides the GeoLite ASN model.
  *
  * @param autonomousSystemNumber The autonomous system number associated with the IP address.
  * @param autonomousSystemOrganization The organization associated with the registered autonomous
