@@ -91,7 +91,7 @@ import javax.net.ssl.SSLPeerUnverifiedException;
  * <h2>Exceptions</h2>
  * <p>
  * For details on the possible errors returned by the web service itself, see <a
- * href="https://dev.maxmind.com/geoip/docs/web-services?lang=en">the GeoIP web
+ * href="https://dev.maxmind.com/geoip/docs/web-services/?lang=en">the GeoIP web
  * service documentation</a>.
  * </p>
  * <p>
