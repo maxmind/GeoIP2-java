@@ -397,7 +397,7 @@ public interface JsonSerializable {
 ## Additional Resources
 
 - [API Documentation](https://maxmind.github.io/GeoIP2-java/)
-- [GeoIP Web Services Docs](https://dev.maxmind.com/geoip/docs/web-services)
+- [GeoIP Web Services Docs](https://dev.maxmind.com/geoip/docs/web-services/)
 - [MaxMind DB Format](https://maxmind.github.io/MaxMind-DB/)
 - GitHub Issues: https://github.com/maxmind/GeoIP2-java/issues
 

@@ -7,7 +7,7 @@
     <packaging>jar</packaging>
     <name>MaxMind GeoIP API</name>
     <description>GeoIP webservice client and database reader</description>
-    <url>https://dev.maxmind.com/geoip?lang=en</url>
+    <url>https://dev.maxmind.com/geoip/?lang=en</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -17,7 +17,7 @@
     </licenses>
     <organization>
         <name>MaxMind, Inc.</name>
-        <url>https://www.maxmind.com/</url>
+        <url>https://www.maxmind.com/en/home</url>
     </organization>
     <scm>
         <url>https://github.com/maxmind/GeoIP2-java</url>

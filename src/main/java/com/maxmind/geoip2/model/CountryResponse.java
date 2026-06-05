@@ -25,7 +25,7 @@ import java.util.List;
  *                           represented country is used for things like military bases. It is
  *                           only present when the represented country differs from the country.
  * @param traits Record for the traits of the requested IP address.
- * @see <a href="https://dev.maxmind.com/geoip/docs/web-services?lang=en">GeoIP Web
+ * @see <a href="https://dev.maxmind.com/geoip/docs/web-services/?lang=en">GeoIP Web
  * Services</a>
  */
 public record CountryResponse(
