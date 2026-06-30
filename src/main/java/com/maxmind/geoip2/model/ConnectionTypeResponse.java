@@ -66,7 +66,7 @@ public record ConnectionTypeResponse(
         }
 
         /**
-         * Creates an instance of {@code ConnectionTypeResponse} from a string.
+         * Creates an instance of {@code ConnectionType} from a string.
          *
          * @param s The string to create the instance from.
          */

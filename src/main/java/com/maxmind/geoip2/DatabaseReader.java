@@ -214,9 +214,9 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
         /**
          * @param val The file mode used to open the GeoIP database
          * @return Builder object
-         * @throws java.lang.IllegalArgumentException if you initialized the Builder with a URL,
-         *                                            which uses {@link FileMode#MEMORY}, but you
-         *                                            provided a different FileMode to this method.
+         * @throws java.lang.IllegalArgumentException if you initialized the Builder
+         *     with an InputStream, which uses {@link FileMode#MEMORY}, but you
+         *     provided a different FileMode to this method.
          */
         public Builder fileMode(FileMode val) {
             if (this.stream != null && FileMode.MEMORY != val) {
@@ -295,10 +295,12 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * </p>
      * <p>
      * If you are using {@code FileMode.MEMORY_MAPPED}, this will
-     * <em>not</em> unmap the underlying file due to a limitation in Java's
-     * {@code MappedByteBuffer}. It will however set the reference to
-     * the buffer to {@code null}, allowing the garbage collector to
-     * collect it.
+     * release this reader's reference to the mapped buffer, allowing the
+     * garbage collector to collect it when no other references remain. Java
+     * does not provide a supported way to unmap a
+     * {@code MappedByteBuffer} immediately. On Windows, this means the
+     * database file may remain unavailable for rename, replacement, or
+     * deletion until the mapped buffer is garbage collected.
      * </p>
      *
      * @throws IOException if an I/O error occurs.
@@ -352,7 +354,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * Look up an IP address in a GeoIP Anonymous IP.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @return a AnonymousIpResponse for the requested IP address.
+     * @return an AnonymousIpResponse for the requested IP address.
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
      */
@@ -379,7 +381,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * Look up an IP address in a GeoIP Anonymous Plus.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @return a AnonymousPlusResponse for the requested IP address.
+     * @return an AnonymousPlusResponse for the requested IP address.
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
      */
@@ -408,7 +410,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * Look up an IP address in a GeoIP IP Risk database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @return a IPRiskResponse for the requested IP address.
+     * @return an IpRiskResponse for the requested IP address.
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
      */
@@ -452,7 +454,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * Look up an IP address in a GeoIP Connection Type database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @return a ConnectTypeResponse for the requested IP address.
+     * @return a ConnectionTypeResponse for the requested IP address.
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
      */

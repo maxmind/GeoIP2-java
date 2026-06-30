@@ -385,7 +385,7 @@ public class WebServiceClient implements WebServiceProvider {
 
     /**
      * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @return An Insight model for the requested IP address.
+     * @return An Insights model for the requested IP address.
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
      */
