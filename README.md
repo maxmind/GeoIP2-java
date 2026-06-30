@@ -286,6 +286,24 @@ Maven, you must
 Failure to do so will result in `InvalidDatabaseException` exceptions being
 thrown when querying the database.
 
+### File Lock on Windows ###
+
+By default, the `DatabaseReader` uses the `MEMORY_MAPPED` file mode, which
+memory maps the database file. On Windows, a live memory mapping may prevent
+the file from being renamed, replaced, or deleted. This is not a Java
+`FileLock`, but it can have similar effects when updating a database file in
+place.
+
+Closing the `DatabaseReader` releases its reference to the mapped buffer, but
+Java does not provide a supported way to unmap the underlying
+`MappedByteBuffer` immediately. The mapping remains valid until the buffer
+becomes unreachable and is garbage collected.
+
+To avoid this behavior, configure the `Builder` with `FileMode.MEMORY`. If you
+must use `MEMORY_MAPPED`, close and dereference the `DatabaseReader` before
+replacing the file. You may call `System.gc()` to encourage earlier cleanup,
+but garbage collection is not guaranteed to run immediately.
+
 ## Database Example ##
 
 ### City ###

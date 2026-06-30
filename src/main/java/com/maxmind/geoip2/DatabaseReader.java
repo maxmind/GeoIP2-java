@@ -295,10 +295,12 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * </p>
      * <p>
      * If you are using {@code FileMode.MEMORY_MAPPED}, this will
-     * <em>not</em> unmap the underlying file due to a limitation in Java's
-     * {@code MappedByteBuffer}. It will however set the reference to
-     * the buffer to {@code null}, allowing the garbage collector to
-     * collect it.
+     * release this reader's reference to the mapped buffer, allowing the
+     * garbage collector to collect it when no other references remain. Java
+     * does not provide a supported way to unmap a
+     * {@code MappedByteBuffer} immediately. On Windows, this means the
+     * database file may remain unavailable for rename, replacement, or
+     * deletion until the mapped buffer is garbage collected.
      * </p>
      *
      * @throws IOException if an I/O error occurs.
