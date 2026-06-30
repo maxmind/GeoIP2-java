@@ -3,12 +3,13 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: ["main"]
+  pull_request:
   workflow_dispatch:
 
 permissions: {}
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -31,7 +32,11 @@ jobs:
           HUGO_BASEURL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
         run: mise run build-docs
 
+      # Only publish from pushes to main. On pull requests the steps above
+      # still run (building the docs and exercising `mise install --locked`),
+      # so a broken lockfile or docs build is caught before merge.
       - name: Push rendered site to gh-pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
