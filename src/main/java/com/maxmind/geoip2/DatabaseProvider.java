@@ -97,7 +97,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * Look up an IP address in a GeoIP IP Risk database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @return an IPRiskResponse for the requested IP address or empty if it is not in the DB.
+     * @return an IpRiskResponse for the requested IP address or empty if it is not in the DB.
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
@@ -108,7 +108,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * Look up an IP address in a GeoLite ASN database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @return an IspResponse for the requested IP address.
+     * @return an AsnResponse for the requested IP address.
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
@@ -119,7 +119,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * Look up an IP address in a GeoLite ASN database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @return an IspResponse for the requested IP address or empty if it is not in the DB.
+     * @return an AsnResponse for the requested IP address or empty if it is not in the DB.
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
@@ -130,7 +130,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * Look up an IP address in a GeoIP Connection Type database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @return a ConnectTypeResponse for the requested IP address.
+     * @return a ConnectionTypeResponse for the requested IP address.
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
@@ -141,7 +141,8 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * Look up an IP address in a GeoIP Connection Type database.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @return a ConnectTypeResponse for the requested IP address or empty if it is not in the DB.
+     * @return a ConnectionTypeResponse for the requested IP address or empty if it
+     *     is not in the DB.
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
@@ -206,7 +207,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
     /**
      * Look up an IP address in a GeoIP ISP database.
      *
-     * @param ipAddress IPv4 or IPv6 address to look up or empty if it is not in the DB.
+     * @param ipAddress IPv4 or IPv6 address to look up.
      * @return an IspResponse for the requested IP address.
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
