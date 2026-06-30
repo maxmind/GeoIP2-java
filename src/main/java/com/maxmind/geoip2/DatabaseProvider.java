@@ -209,7 +209,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * Look up an IP address in a GeoIP ISP database.
      *
      * @param ipAddress IPv4 or IPv6 address to look up.
-     * @return an IspResponse for the requested IP address.
+     * @return an IspResponse for the requested IP address or empty if it is not in the DB.
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
