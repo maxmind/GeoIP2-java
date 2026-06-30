@@ -354,7 +354,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * Look up an IP address in a GeoIP Anonymous IP.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @return a AnonymousIpResponse for the requested IP address.
+     * @return an AnonymousIpResponse for the requested IP address.
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
      */
@@ -381,7 +381,7 @@ public class DatabaseReader implements DatabaseProvider, Closeable {
      * Look up an IP address in a GeoIP Anonymous Plus.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @return a AnonymousPlusResponse for the requested IP address.
+     * @return an AnonymousPlusResponse for the requested IP address.
      * @throws GeoIp2Exception if there is an error looking up the IP
      * @throws IOException     if there is an IO error
      */

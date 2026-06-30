@@ -21,7 +21,7 @@ public final class NetworkDeserializer extends StdDeserializer<Network> {
     }
 
     /**
-     * Constructs a @{code NetworkDeserializer} object.
+     * Constructs a {@code NetworkDeserializer} object.
      *
      * @param vc a class
      */

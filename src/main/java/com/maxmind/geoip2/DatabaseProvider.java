@@ -42,7 +42,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * Look up an IP address in a GeoIP Anonymous IP.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @return a AnonymousIpResponse for the requested IP address.
+     * @return an AnonymousIpResponse for the requested IP address.
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
@@ -53,7 +53,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * Look up an IP address in a GeoIP Anonymous IP.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @return a AnonymousIpResponse for the requested IP address or empty if it is not in the DB.
+     * @return an AnonymousIpResponse for the requested IP address or empty if it is not in the DB.
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
@@ -64,7 +64,7 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * Look up an IP address in a GeoIP Anonymous Plus.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @return a AnonymousPlusResponse for the requested IP address.
+     * @return an AnonymousPlusResponse for the requested IP address.
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
@@ -75,7 +75,8 @@ public interface DatabaseProvider extends GeoIp2Provider {
      * Look up an IP address in a GeoIP Anonymous Plus.
      *
      * @param ipAddress IPv4 or IPv6 address to lookup.
-     * @return a AnonymousPlusResponse for the requested IP address or empty if it is not in the DB.
+     * @return an AnonymousPlusResponse for the requested IP address or empty if it
+     *     is not in the DB.
      * @throws com.maxmind.geoip2.exception.GeoIp2Exception if there is an error looking up the IP
      * @throws java.io.IOException                          if there is an IO error
      */
