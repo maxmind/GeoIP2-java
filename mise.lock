@@ -39,6 +39,26 @@ backend = "core:java"
 [tools.java.options]
 shorthand_vendor = "openjdk"
 
+[tools.java."platforms.linux-arm64"]
+checksum = "sha256:12a3649b2f4a0c9f6491d220bdd04b4fff07cae502b435aaff46eac0e36f4df1"
+url = "https://download.java.net/java/GA/jdk26.0.1/458fda22e4c54d5ba572ab8d2b22eb83/8/GPL/openjdk-26.0.1_linux-aarch64_bin.tar.gz"
+
+[tools.java."platforms.linux-x64"]
+checksum = "sha256:2f2802d57b5fc414f1ddf6648ba12cc9a6454cf67b32ac95407c018f2e6ab0b0"
+url = "https://download.java.net/java/GA/jdk26.0.1/458fda22e4c54d5ba572ab8d2b22eb83/8/GPL/openjdk-26.0.1_linux-x64_bin.tar.gz"
+
+[tools.java."platforms.macos-arm64"]
+checksum = "sha256:b2d57405194a312ed4ec6ec08e83b314d3fd2e425e895d704ec5ef8ea6059e17"
+url = "https://download.java.net/java/GA/jdk26.0.1/458fda22e4c54d5ba572ab8d2b22eb83/8/GPL/openjdk-26.0.1_macos-aarch64_bin.tar.gz"
+
+[tools.java."platforms.macos-x64"]
+checksum = "sha256:e52bc05aefe4991329a6a103c9b42ae4b9b77240a9f9d3d12f6a7365db1ae16a"
+url = "https://download.java.net/java/GA/jdk26.0.1/458fda22e4c54d5ba572ab8d2b22eb83/8/GPL/openjdk-26.0.1_macos-x64_bin.tar.gz"
+
+[tools.java."platforms.windows-x64"]
+checksum = "sha256:b381d30647aed9ff440abed5ab61af01d8578c290cd407c57e064ebc4b0151be"
+url = "https://download.java.net/java/GA/jdk26.0.1/458fda22e4c54d5ba572ab8d2b22eb83/8/GPL/openjdk-26.0.1_windows-x64_bin.zip"
+
 [[tools.lychee]]
 version = "0.24.2"
 backend = "aqua:lycheeverse/lychee"
