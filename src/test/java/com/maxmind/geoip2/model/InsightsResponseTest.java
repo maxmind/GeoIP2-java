@@ -16,6 +16,7 @@ import com.maxmind.geoip2.WebServiceClient;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.ConnectionTypeResponse.ConnectionType;
 import com.maxmind.geoip2.record.Anonymizer;
+import com.maxmind.geoip2.record.AnonymizerFeed;
 import com.maxmind.geoip2.record.Location;
 import com.maxmind.geoip2.record.MaxMind;
 import com.maxmind.geoip2.record.Postal;
@@ -205,6 +206,25 @@ public class InsightsResponseTest {
             "NordVPN",
             anonymizer.providerName(),
             "anonymizer.providerName() does not return NordVPN"
+        );
+
+        AnonymizerFeed residential = anonymizer.residential();
+
+        assertNotNull(residential, "anonymizer.residential() returns null");
+        assertEquals(
+            Integer.valueOf(82),
+            residential.confidence(),
+            "anonymizer.residential().confidence() does not return 82"
+        );
+        assertEquals(
+            LocalDate.parse("2026-05-11"),
+            residential.networkLastSeen(),
+            "anonymizer.residential().networkLastSeen() does not return 2026-05-11"
+        );
+        assertEquals(
+            "quickshift",
+            residential.providerName(),
+            "anonymizer.residential().providerName() does not return quickshift"
         );
     }
 
