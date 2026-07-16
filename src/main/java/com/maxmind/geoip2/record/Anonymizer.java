@@ -76,7 +76,8 @@ public record Anonymizer(
 
     /**
      * Constructs an {@code Anonymizer} record with {@code null} values for all the nullable
-     * fields and {@code false} for all boolean fields.
+     * fields and {@code false} for all boolean fields. The {@code residential} field defaults
+     * to an empty {@code AnonymizerFeed} rather than {@code null}.
      */
     public Anonymizer() {
         this(null, false, false, false, false, false, false, null, null, null);
