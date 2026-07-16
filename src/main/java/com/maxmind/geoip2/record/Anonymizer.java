@@ -31,6 +31,9 @@ import java.time.LocalDate;
  * @param providerName The name of the VPN provider (e.g., NordVPN, SurfShark, etc.) associated
  *                     with the network. This is only available from the GeoIP Insights
  *                     web service.
+ * @param residential Residential proxy data for the network. This may be populated even when
+ *                    none of the other fields on this record are set. This is only available
+ *                    from the GeoIP Insights web service.
  */
 public record Anonymizer(
     @JsonProperty("confidence")
@@ -58,14 +61,69 @@ public record Anonymizer(
     LocalDate networkLastSeen,
 
     @JsonProperty("provider_name")
-    String providerName
+    String providerName,
+
+    @JsonProperty("residential")
+    AnonymizerFeed residential
 ) implements JsonSerializable {
 
     /**
+     * Compact canonical constructor that sets a default for a null {@code residential} value.
+     */
+    public Anonymizer {
+        residential = residential != null ? residential : new AnonymizerFeed();
+    }
+
+    /**
      * Constructs an {@code Anonymizer} record with {@code null} values for all the nullable
-     * fields and {@code false} for all boolean fields.
+     * fields and {@code false} for all boolean fields. The {@code residential} field defaults
+     * to an empty {@code AnonymizerFeed} rather than {@code null}.
      */
     public Anonymizer() {
-        this(null, false, false, false, false, false, false, null, null);
+        this(null, false, false, false, false, false, false, null, null, null);
+    }
+
+    /**
+     * Constructs an {@code Anonymizer} record without the {@code residential} field.
+     *
+     * @param confidence the confidence that the network is an actively used VPN service
+     * @param isAnonymous whether the IP address belongs to any sort of anonymous network
+     * @param isAnonymousVpn whether the IP address is registered to an anonymous VPN provider
+     * @param isHostingProvider whether the IP address belongs to a hosting or VPN provider
+     * @param isPublicProxy whether the IP address belongs to a public proxy
+     * @param isResidentialProxy whether the IP address is on a suspected anonymizing network
+     *                           and belongs to a residential ISP
+     * @param isTorExitNode whether the IP address is a Tor exit node
+     * @param networkLastSeen the last day that the network was sighted in our analysis of
+     *                        anonymized networks
+     * @param providerName the name of the VPN provider associated with the network
+     * @deprecated Use the canonical constructor that also accepts the {@code residential}
+     *             field. This constructor is provided for backward compatibility and will be
+     *             removed in version 6.0.0.
+     */
+    @Deprecated(since = "5.2.0", forRemoval = true)
+    public Anonymizer(
+        Integer confidence,
+        boolean isAnonymous,
+        boolean isAnonymousVpn,
+        boolean isHostingProvider,
+        boolean isPublicProxy,
+        boolean isResidentialProxy,
+        boolean isTorExitNode,
+        LocalDate networkLastSeen,
+        String providerName
+    ) {
+        this(
+            confidence,
+            isAnonymous,
+            isAnonymousVpn,
+            isHostingProvider,
+            isPublicProxy,
+            isResidentialProxy,
+            isTorExitNode,
+            networkLastSeen,
+            providerName,
+            null
+        );
     }
 }

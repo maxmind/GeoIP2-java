@@ -110,6 +110,11 @@
     "is_residential_proxy": true,
     "is_tor_exit_node": true,
     "network_last_seen": "2024-12-31",
-    "provider_name": "NordVPN"
+    "provider_name": "NordVPN",
+    "residential": {
+      "confidence": 82,
+      "network_last_seen": "2026-05-11",
+      "provider_name": "quickshift"
+    }
   }
 }
