@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.maxmind.geoip2</groupId>
     <artifactId>geoip2</artifactId>
-    <version>5.1.0</version>
+    <version>5.2.0</version>
     <packaging>jar</packaging>
     <name>MaxMind GeoIP API</name>
     <description>GeoIP webservice client and database reader</description>
@@ -58,17 +58,17 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.22.0</version>
+            <version>2.22.1</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.22.0</version>
+            <version>2.22.1</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.22.0</version>
+            <version>2.22.1</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -84,7 +84,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.jr</groupId>
             <artifactId>jackson-jr-objects</artifactId>
-            <version>2.22.0</version>
+            <version>2.22.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -103,7 +103,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Baseline version for API compatibility checking. Update after each release. -->
-        <japicmp.baselineVersion>5.1.0</japicmp.baselineVersion>
+        <japicmp.baselineVersion>5.2.0</japicmp.baselineVersion>
     </properties>
     <build>
         <plugins>
