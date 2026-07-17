@@ -1,17 +1,17 @@
-<!doctype html><html lang=en><head><meta name=generator content="Hugo 0.163.3"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>GeoIP Java API</title><link rel=stylesheet href=/GeoIP2-java/css/main.281d4a083c59f78015bdb60748317bf7d39ad62d8c9c6cead28bce0cc0794b5e.css integrity="sha256-KB1KCDxZ94AVvbYHSDF799Oa1i2MnGzq0ovODMB5S14=" crossorigin=anonymous></head><body><nav class=page-nav><a href=/GeoIP2-java/ class=active aria-current=page>Overview</a>
+<!doctype html><html lang=en><head><meta name=generator content="Hugo 0.164.0"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>GeoIP Java API</title><link rel=stylesheet href=/GeoIP2-java/css/main.281d4a083c59f78015bdb60748317bf7d39ad62d8c9c6cead28bce0cc0794b5e.css integrity="sha256-KB1KCDxZ94AVvbYHSDF799Oa1i2MnGzq0ovODMB5S14=" crossorigin=anonymous></head><body><nav class=page-nav><a href=/GeoIP2-java/ class=active aria-current=page>Overview</a>
 <a href=/GeoIP2-java/doc/latest/>API documentation</a></nav><main><h1 id=geoip-java-api>GeoIP Java API<a class=heading-anchor href=#geoip-java-api aria-label="Link to GeoIP Java API">#</a></h1><h2 id=description>Description<a class=heading-anchor href=#description aria-label="Link to Description">#</a></h2><p>This distribution provides an API for the GeoIP and GeoLite <a href="https://dev.maxmind.com/geoip/docs/web-services/?lang=en">web
 services</a> and
 <a href="https://dev.maxmind.com/geoip/docs/databases/?lang=en">databases</a>.</p><h2 id=installation>Installation<a class=heading-anchor href=#installation aria-label="Link to Installation">#</a></h2><h3 id=maven>Maven<a class=heading-anchor href=#maven aria-label="Link to Maven">#</a></h3><p>We recommend installing this package with <a href=https://maven.apache.org/>Maven</a>.
 To do this, add the dependency to your pom.xml:</p><div class=highlight><pre tabindex=0 style=background-color:#f7f7f7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-xml data-lang=xml><span style=display:flex><span>    <span style=color:#0550ae>&lt;dependency&gt;</span>
 </span></span><span style=display:flex><span>        <span style=color:#0550ae>&lt;groupId&gt;</span>com.maxmind.geoip2<span style=color:#0550ae>&lt;/groupId&gt;</span>
 </span></span><span style=display:flex><span>        <span style=color:#0550ae>&lt;artifactId&gt;</span>geoip2<span style=color:#0550ae>&lt;/artifactId&gt;</span>
-</span></span><span style=display:flex><span>        <span style=color:#0550ae>&lt;version&gt;</span>5.1.0<span style=color:#0550ae>&lt;/version&gt;</span>
+</span></span><span style=display:flex><span>        <span style=color:#0550ae>&lt;version&gt;</span>5.2.0<span style=color:#0550ae>&lt;/version&gt;</span>
 </span></span><span style=display:flex><span>    <span style=color:#0550ae>&lt;/dependency&gt;</span>
 </span></span></code></pre></div><h3 id=gradle>Gradle<a class=heading-anchor href=#gradle aria-label="Link to Gradle">#</a></h3><p>Add the following to your <code>build.gradle</code> file:</p><pre tabindex=0><code>repositories {
     mavenCentral()
 }
 dependencies {
-    implementation &#39;com.maxmind.geoip2:geoip2:5.1.0&#39;
+    implementation &#39;com.maxmind.geoip2:geoip2:5.2.0&#39;
 }
 </code></pre><h3 id=jar-files>JAR Files<a class=heading-anchor href=#jar-files aria-label="Link to JAR Files">#</a></h3><p>If you are unable to use Maven or Gradle, you may include the <code>geoip2.jar</code>
 file and its dependencies in your classpath. Download the JAR files from the
