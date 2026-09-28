@@ -524,7 +524,8 @@ public class DatabaseReaderTest {
             || filename.contains("DensityIncome")
             || filename.contains("User-Count")
             || filename.contains("Static-IP-Score")
-            || filename.contains("Residential-Proxy");
+            || filename.contains("Residential-Proxy")
+            || filename.contains("Regions");
     }
 
     private void lookupByDatabaseType(DatabaseReader reader, String dbType, InetAddress ip)
