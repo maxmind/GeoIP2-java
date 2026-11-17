@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-5.3.0
+5.3.0 (2026-11-17)
 ------------------
 
 * Updated the `maxmind-db` dependency to 4.2.0. It limits the work and memory
