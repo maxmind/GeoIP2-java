@@ -1,6 +1,22 @@
 CHANGELOG
 =========
 
+5.3.0 (2026-11-17)
+------------------
+
+* Updated the `maxmind-db` dependency to 4.2.0. It limits the work and memory
+  of each record or metadata decode (GHSA-hj94-g986-h9r7). Opening a database
+  or looking up an IP address now throws `InvalidDatabaseException` if a
+  decode exceeds a limit. It also rejects pointers that target pointers,
+  integers wider than their type, and malformed UTF-8 strings. MaxMind
+  databases are well within the limits, but a custom database that worked
+  before may now fail. See the
+  [maxmind-db upgrading notes](https://github.com/maxmind/MaxMind-DB-Reader-java/blob/v4.2.0/UPGRADING.md).
+  This version also fixes decoding of data pointers at offsets of 2 GiB or
+  more and decodes faster.
+* Updated Jackson to 2.23.0. Jackson 2.22.1, which 5.2.0 uses, has known
+  security advisories. Jackson 2.22.3 and later fix them.
+
 5.2.0 (2026-07-16)
 ------------------
 
