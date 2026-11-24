@@ -120,7 +120,7 @@
                     <configuration>
                       <rules>
                         <requireMavenVersion>
-                          <version>3.7.0</version>
+                          <version>3.9.0</version>
                         </requireMavenVersion>
                       </rules>
                     </configuration>
@@ -280,7 +280,7 @@
                         -->
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
-                        <version>3.6.4</version>
+                        <version>3.7.0</version>
                         <executions>
                             <execution>
                                 <phase>initialize</phase>
